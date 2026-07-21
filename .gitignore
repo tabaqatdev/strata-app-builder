@@ -1,0 +1,18 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+*.log
+.env
+.env.local
+coverage/
+# Never commit provider keys or server secrets
+**/llm_keys.json
+**/.session_key
+
+# All internal/business material — strategy specs, private solution recipes, client presentations. Never published.
+.private/
+
+# Claude Code personal/local artifacts (never publish)
+.claude/settings.local.json
+.claude/worktrees/

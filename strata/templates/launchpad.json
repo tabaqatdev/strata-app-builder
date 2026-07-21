@@ -1,0 +1,216 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'launchpad' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "launchpad",
+    "name": "Launchpad",
+    "category": "map-centric",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "Full-bleed map with a floating icon dock; every tool opens as a floating card. Zero docked panels."
+  },
+  "theme": {
+    "mode": "dark",
+    "colors": {
+      "primary": "#0ea5e9"
+    },
+    "variables": {
+      "--strata-app-bg": "#0b1220"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "section",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "map",
+              "id": "map",
+              "props": {
+                "layerIds": [
+                  "dc-wards",
+                  "dc-parcels",
+                  "dc-bike-routes",
+                  "dc-crashes",
+                  "dc-affordable-housing"
+                ],
+                "controls": {
+                  "navigation": true,
+                  "geolocate": true,
+                  "position": "top-right"
+                }
+              }
+            }
+          },
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "measure",
+                  "id": "measure"
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "draw",
+                  "id": "sketch"
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "coordinates"
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "search"
+                }
+              }
+            ],
+            "mode": "flow",
+            "style": {
+              "position": "absolute",
+              "top": "12px",
+              "left": "12px",
+              "gap": "8px",
+              "zIndex": "5"
+            }
+          },
+          {
+            "kind": "row",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "controller",
+                  "id": "dock"
+                }
+              }
+            ],
+            "mode": "flow",
+            "style": {
+              "position": "absolute",
+              "bottom": "18px",
+              "left": "50%",
+              "transform": "translateX(-50%)",
+              "zIndex": "6"
+            }
+          },
+          {
+            "kind": "window",
+            "children": [
+              {
+                "kind": "column",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "legend"
+                    }
+                  }
+                ],
+                "style": {
+                  "padding": "8px"
+                }
+              }
+            ],
+            "id": "legendWin",
+            "title": "Legend",
+            "modal": false,
+            "open": false
+          },
+          {
+            "kind": "window",
+            "children": [
+              {
+                "kind": "column",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "layer-panel",
+                      "id": "layers"
+                    }
+                  }
+                ],
+                "style": {
+                  "padding": "8px"
+                }
+              }
+            ],
+            "id": "layersWin",
+            "title": "Layers",
+            "modal": false,
+            "open": false
+          },
+          {
+            "kind": "window",
+            "children": [
+              {
+                "kind": "column",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "basemap"
+                    }
+                  }
+                ],
+                "style": {
+                  "padding": "8px"
+                }
+              }
+            ],
+            "id": "basemapWin",
+            "title": "Basemap",
+            "modal": false,
+            "open": false
+          }
+        ],
+        "mode": "fixed",
+        "style": {
+          "flex": "1 1 0%",
+          "minWidth": 0,
+          "minHeight": 0,
+          "height": "100%"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "dock",
+      "trigger": "buttonClick",
+      "to": "legendWin",
+      "action": "showHide"
+    },
+    {
+      "from": "dock",
+      "trigger": "buttonClick",
+      "to": "layersWin",
+      "action": "showHide"
+    },
+    {
+      "from": "sketch",
+      "trigger": "sketchComplete",
+      "to": "map",
+      "action": "selectByGeometry"
+    },
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    }
+  ]
+}

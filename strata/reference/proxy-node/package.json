@@ -1,0 +1,14 @@
+{
+  "name": "strata-proxy-node",
+  "version": "1.0.0",
+  "description": "strata-app-builder CORS/proxy reference — Node (built-in http + global fetch)",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js"
+  }
+}

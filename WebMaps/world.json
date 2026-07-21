@@ -1,0 +1,5111 @@
+{
+  "version": "1.0",
+  "spatialReference": {
+    "wkid": 4326,
+    "latestWkid": 4326
+  },
+  "initialState": {
+    "viewpoint": {
+      "targetGeometry": {
+        "xmin": -175,
+        "ymin": -56,
+        "xmax": 190,
+        "ymax": 80,
+        "spatialReference": {
+          "wkid": 4326
+        }
+      }
+    }
+  },
+  "baseMap": {
+    "title": "OpenStreetMap",
+    "baseMapLayers": [
+      {
+        "id": "osm",
+        "layerType": "WebTiledLayer",
+        "templateUrl": "https://tile.openstreetmap.org/{level}/{col}/{row}.png",
+        "copyright": "© OpenStreetMap contributors"
+      }
+    ]
+  },
+  "operationalLayers": [
+    {
+      "id": "world-countries",
+      "title": "World Countries",
+      "url": "https://services2.arcgis.com/ZQ4jTQn6k7VPXEwO/ArcGIS/rest/services/World_Countries/FeatureServer/0/0",
+      "layerType": "ArcGISFeatureLayer",
+      "source": {
+        "kind": "arcgis-feature",
+        "url": "https://services2.arcgis.com/ZQ4jTQn6k7VPXEwO/ArcGIS/rest/services/World_Countries/FeatureServer/0/0"
+      },
+      "visibility": true,
+      "opacity": 1.0,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "uniqueValue",
+            "field1": "COUNTRYAFF",
+            "field2": null,
+            "field3": null,
+            "fieldDelimiter": ", ",
+            "defaultSymbol": {
+              "type": "esriSFS",
+              "style": "esriSFSSolid",
+              "color": [
+                205,
+                232,
+                238,
+                51
+              ],
+              "outline": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  63,
+                  192,
+                  217,
+                  255
+                ],
+                "width": 0.75
+              }
+            },
+            "defaultLabel": "Other",
+            "uniqueValueInfos": [
+              {
+                "value": "Afghanistan",
+                "label": "Afghanistan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    210,
+                    220,
+                    239,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      70,
+                      123,
+                      216,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Albania",
+                "label": "Albania",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    200,
+                    231,
+                    204,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      64,
+                      204,
+                      80,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Algeria",
+                "label": "Algeria",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    234,
+                    214,
+                    209,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      203,
+                      103,
+                      76,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Andorra",
+                "label": "Andorra",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    189,
+                    217,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      200,
+                      53,
+                      163,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Angola",
+                "label": "Angola",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    185,
+                    202,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      43,
+                      107,
+                      209,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Antigua and Barbuda",
+                "label": "Antigua and Barbuda",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    217,
+                    199,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      137,
+                      56,
+                      214,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Argentina",
+                "label": "Argentina",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    209,
+                    235,
+                    209,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      76,
+                      206,
+                      75,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Armenia",
+                "label": "Armenia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    202,
+                    190,
+                    227,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      102,
+                      53,
+                      201,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Australia",
+                "label": "Australia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    225,
+                    210,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      207,
+                      151,
+                      76,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Austria",
+                "label": "Austria",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    184,
+                    216,
+                    227,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      48,
+                      162,
+                      200,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Azerbaijan",
+                "label": "Azerbaijan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    188,
+                    185,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      57,
+                      48,
+                      202,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Bahamas",
+                "label": "Bahamas",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    188,
+                    231,
+                    208,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      45,
+                      211,
+                      122,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Bahrain",
+                "label": "Bahrain",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    202,
+                    231,
+                    191,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      95,
+                      209,
+                      49,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Bangladesh",
+                "label": "Bangladesh",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    200,
+                    202,
+                    234,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      61,
+                      70,
+                      211,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Barbados",
+                "label": "Barbados",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    211,
+                    236,
+                    200,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      106,
+                      215,
+                      57,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Belarus",
+                "label": "Belarus",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    218,
+                    236,
+                    202,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      134,
+                      215,
+                      59,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Belgium",
+                "label": "Belgium",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    221,
+                    208,
+                    237,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      133,
+                      70,
+                      213,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Belize",
+                "label": "Belize",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    193,
+                    213,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      57,
+                      139,
+                      201,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Benin",
+                "label": "Benin",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    204,
+                    236,
+                    215,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      65,
+                      211,
+                      114,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Bhutan",
+                "label": "Bhutan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    236,
+                    207,
+                    236,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      211,
+                      69,
+                      211,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Bolivia, Plurinational State of",
+                "label": "Bolivia, Plurinational State of",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    231,
+                    214,
+                    204,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      199,
+                      121,
+                      72,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Bosnia and Herzegovina",
+                "label": "Bosnia and Herzegovina",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    205,
+                    231,
+                    223,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      74,
+                      199,
+                      162,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Botswana",
+                "label": "Botswana",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    226,
+                    238,
+                    208,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      155,
+                      216,
+                      67,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Brazil",
+                "label": "Brazil",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    231,
+                    236,
+                    206,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      186,
+                      211,
+                      67,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Brunei Darussalam",
+                "label": "Brunei Darussalam",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    237,
+                    210,
+                    206,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      214,
+                      84,
+                      65,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Bulgaria",
+                "label": "Bulgaria",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    229,
+                    218,
+                    185,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      206,
+                      164,
+                      46,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Burkina Faso",
+                "label": "Burkina Faso",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    218,
+                    236,
+                    201,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      134,
+                      214,
+                      60,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Burundi",
+                "label": "Burundi",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    199,
+                    227,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      202,
+                      64,
+                      188,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Cabo Verde",
+                "label": "Cabo Verde",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    189,
+                    197,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      209,
+                      47,
+                      81,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Cambodia",
+                "label": "Cambodia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    206,
+                    187,
+                    229,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      120,
+                      48,
+                      205,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Cameroon",
+                "label": "Cameroon",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    205,
+                    209,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      69,
+                      86,
+                      208,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Canada",
+                "label": "Canada",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    232,
+                    208,
+                    206,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      201,
+                      85,
+                      74,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Central African Republic",
+                "label": "Central African Republic",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    188,
+                    232,
+                    193,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      42,
+                      214,
+                      62,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Chad",
+                "label": "Chad",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    225,
+                    236,
+                    207,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      159,
+                      211,
+                      68,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Chile",
+                "label": "Chile",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    233,
+                    209,
+                    207,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      204,
+                      85,
+                      73,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "China",
+                "label": "China",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    236,
+                    212,
+                    202,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      213,
+                      104,
+                      62,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Colombia",
+                "label": "Colombia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    185,
+                    185,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      203,
+                      47,
+                      47,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Comoros",
+                "label": "Comoros",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    224,
+                    190,
+                    205,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      193,
+                      58,
+                      116,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Congo",
+                "label": "Congo",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    194,
+                    198,
+                    231,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      55,
+                      73,
+                      206,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Congo, The Democratic Republic of the",
+                "label": "Congo, The Democratic Republic of the",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    229,
+                    235,
+                    195,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      190,
+                      216,
+                      51,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Costa Rica",
+                "label": "Costa Rica",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    219,
+                    204,
+                    233,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      137,
+                      68,
+                      206,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Côte d'Ivoire",
+                "label": "Côte d'Ivoire",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    236,
+                    214,
+                    206,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      210,
+                      105,
+                      69,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Croatia",
+                "label": "Croatia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    239,
+                    207,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      164,
+                      217,
+                      65,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Cuba",
+                "label": "Cuba",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    193,
+                    219,
+                    227,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      58,
+                      165,
+                      199,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Cyprus",
+                "label": "Cyprus",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    226,
+                    205,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      209,
+                      168,
+                      68,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Czechia",
+                "label": "Czechia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    225,
+                    196,
+                    232,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      181,
+                      57,
+                      207,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Denmark",
+                "label": "Denmark",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    198,
+                    236,
+                    201,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      54,
+                      216,
+                      66,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Djibouti",
+                "label": "Djibouti",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    234,
+                    192,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      193,
+                      215,
+                      48,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Dominica",
+                "label": "Dominica",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    233,
+                    210,
+                    213,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      201,
+                      78,
+                      94,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Dominican Republic",
+                "label": "Dominican Republic",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    234,
+                    207,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      203,
+                      71,
+                      207,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Ecuador",
+                "label": "Ecuador",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    191,
+                    201,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      203,
+                      53,
+                      96,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Egypt",
+                "label": "Egypt",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    189,
+                    227,
+                    212,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      53,
+                      201,
+                      140,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "El Salvador",
+                "label": "El Salvador",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    239,
+                    208,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      218,
+                      66,
+                      197,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Equatorial Guinea",
+                "label": "Equatorial Guinea",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    183,
+                    215,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      41,
+                      154,
+                      209,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Eritrea",
+                "label": "Eritrea",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    223,
+                    195,
+                    185,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      191,
+                      89,
+                      55,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Estonia",
+                "label": "Estonia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    190,
+                    221,
+                    224,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      58,
+                      180,
+                      192,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Eswatini",
+                "label": "Eswatini",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    224,
+                    223,
+                    189,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      193,
+                      187,
+                      57,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Ethiopia",
+                "label": "Ethiopia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    185,
+                    198,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      44,
+                      89,
+                      208,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Fiji",
+                "label": "Fiji",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    201,
+                    237,
+                    222,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      59,
+                      216,
+                      150,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Finland",
+                "label": "Finland",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    211,
+                    228,
+                    181,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      146,
+                      202,
+                      44,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "France",
+                "label": "France",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    197,
+                    195,
+                    225,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      71,
+                      62,
+                      195,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Gabon",
+                "label": "Gabon",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    207,
+                    238,
+                    234,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      67,
+                      214,
+                      198,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Gambia",
+                "label": "Gambia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    214,
+                    186,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      152,
+                      47,
+                      204,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Georgia",
+                "label": "Georgia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    194,
+                    205,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      57,
+                      106,
+                      202,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Germany",
+                "label": "Germany",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    192,
+                    199,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      202,
+                      54,
+                      85,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Ghana",
+                "label": "Ghana",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    211,
+                    237,
+                    210,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      80,
+                      210,
+                      73,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Greece",
+                "label": "Greece",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    209,
+                    231,
+                    197,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      108,
+                      206,
+                      60,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Grenada",
+                "label": "Grenada",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    236,
+                    210,
+                    223,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      208,
+                      75,
+                      139,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Guatemala",
+                "label": "Guatemala",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    200,
+                    196,
+                    234,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      70,
+                      54,
+                      213,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Guinea",
+                "label": "Guinea",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    189,
+                    233,
+                    216,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      44,
+                      215,
+                      148,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Guinea-Bissau",
+                "label": "Guinea-Bissau",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    234,
+                    196,
+                    219,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      212,
+                      54,
+                      151,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Guyana",
+                "label": "Guyana",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    226,
+                    190,
+                    190,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      198,
+                      55,
+                      55,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Haiti",
+                "label": "Haiti",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    189,
+                    185,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      56,
+                      43,
+                      209,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Holy See (Vatican City State)",
+                "label": "Holy See (Vatican City State)",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    208,
+                    218,
+                    238,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      67,
+                      117,
+                      215,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Honduras",
+                "label": "Honduras",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    187,
+                    231,
+                    216,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      43,
+                      212,
+                      153,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Hungary",
+                "label": "Hungary",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    183,
+                    217,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      207,
+                      43,
+                      163,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Iceland",
+                "label": "Iceland",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    236,
+                    204,
+                    222,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      213,
+                      64,
+                      147,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "India",
+                "label": "India",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    238,
+                    210,
+                    238,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      213,
+                      71,
+                      213,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Indonesia",
+                "label": "Indonesia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    211,
+                    225,
+                    190,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      141,
+                      196,
+                      56,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Iran, Islamic Republic of",
+                "label": "Iran, Islamic Republic of",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    207,
+                    209,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      208,
+                      70,
+                      82,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Iraq",
+                "label": "Iraq",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    237,
+                    211,
+                    233,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      210,
+                      75,
+                      187,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Ireland",
+                "label": "Ireland",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    206,
+                    217,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      208,
+                      70,
+                      124,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Israel",
+                "label": "Israel",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    231,
+                    225,
+                    191,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      208,
+                      185,
+                      50,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Italy",
+                "label": "Italy",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    209,
+                    203,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      90,
+                      64,
+                      211,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Jamaica",
+                "label": "Jamaica",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    188,
+                    186,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      210,
+                      52,
+                      44,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Japan",
+                "label": "Japan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    191,
+                    225,
+                    209,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      58,
+                      195,
+                      130,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Jordan",
+                "label": "Jordan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    229,
+                    203,
+                    233,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      188,
+                      67,
+                      206,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Kazakhstan",
+                "label": "Kazakhstan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    188,
+                    198,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      201,
+                      51,
+                      90,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Kenya",
+                "label": "Kenya",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    195,
+                    234,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      195,
+                      52,
+                      214,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Kiribati",
+                "label": "Kiribati",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    187,
+                    206,
+                    223,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      57,
+                      128,
+                      190,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Korea, Democratic People's Republic of",
+                "label": "Korea, Democratic People's Republic of",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    210,
+                    227,
+                    192,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      132,
+                      199,
+                      56,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Korea, Republic of",
+                "label": "Korea, Republic of",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    189,
+                    193,
+                    227,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      54,
+                      70,
+                      199,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Kuwait",
+                "label": "Kuwait",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    190,
+                    199,
+                    232,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      47,
+                      81,
+                      212,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Kyrgyzstan",
+                "label": "Kyrgyzstan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    207,
+                    210,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      208,
+                      71,
+                      83,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Lao People's Democratic Republic",
+                "label": "Lao People's Democratic Republic",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    195,
+                    230,
+                    189,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      71,
+                      209,
+                      47,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Latvia",
+                "label": "Latvia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    237,
+                    209,
+                    212,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      210,
+                      72,
+                      88,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Lebanon",
+                "label": "Lebanon",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    226,
+                    198,
+                    236,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      176,
+                      55,
+                      216,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Lesotho",
+                "label": "Lesotho",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    188,
+                    225,
+                    229,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      47,
+                      189,
+                      207,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Liberia",
+                "label": "Liberia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    187,
+                    213,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      200,
+                      51,
+                      148,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Libya",
+                "label": "Libya",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    218,
+                    234,
+                    209,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      124,
+                      204,
+                      76,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Liechtenstein",
+                "label": "Liechtenstein",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    189,
+                    223,
+                    201,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      59,
+                      191,
+                      105,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Lithuania",
+                "label": "Lithuania",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    231,
+                    213,
+                    193,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      209,
+                      132,
+                      53,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Luxembourg",
+                "label": "Luxembourg",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    203,
+                    235,
+                    237,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      60,
+                      209,
+                      216,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Madagascar",
+                "label": "Madagascar",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    194,
+                    225,
+                    198,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      62,
+                      194,
+                      77,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Malawi",
+                "label": "Malawi",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    208,
+                    237,
+                    210,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      69,
+                      212,
+                      78,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Malaysia",
+                "label": "Malaysia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    237,
+                    232,
+                    204,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      217,
+                      190,
+                      62,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Maldives",
+                "label": "Maldives",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    229,
+                    196,
+                    213,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      201,
+                      60,
+                      136,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Mali",
+                "label": "Mali",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    214,
+                    215,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      202,
+                      83,
+                      90,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Malta",
+                "label": "Malta",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    238,
+                    210,
+                    220,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      214,
+                      71,
+                      122,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Marshall Islands",
+                "label": "Marshall Islands",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    183,
+                    183,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      202,
+                      47,
+                      46,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Mauritania",
+                "label": "Mauritania",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    199,
+                    236,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      56,
+                      215,
+                      182,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Mauritius",
+                "label": "Mauritius",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    233,
+                    221,
+                    210,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      201,
+                      137,
+                      79,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Mexico",
+                "label": "Mexico",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    231,
+                    188,
+                    197,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      212,
+                      45,
+                      78,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Micronesia, Federated States of",
+                "label": "Micronesia, Federated States of",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    234,
+                    206,
+                    229,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      207,
+                      70,
+                      180,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Moldova, Republic of",
+                "label": "Moldova, Republic of",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    188,
+                    227,
+                    206,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      52,
+                      201,
+                      121,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Monaco",
+                "label": "Monaco",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    224,
+                    193,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      183,
+                      57,
+                      201,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Mongolia",
+                "label": "Mongolia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    237,
+                    210,
+                    202,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      217,
+                      94,
+                      59,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Montenegro",
+                "label": "Montenegro",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    231,
+                    209,
+                    204,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      199,
+                      97,
+                      73,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Morocco",
+                "label": "Morocco",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    198,
+                    183,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      204,
+                      97,
+                      45,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Mozambique",
+                "label": "Mozambique",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    189,
+                    191,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      47,
+                      56,
+                      209,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Myanmar",
+                "label": "Myanmar",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    184,
+                    217,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      208,
+                      43,
+                      162,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Namibia",
+                "label": "Namibia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    203,
+                    228,
+                    184,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      113,
+                      203,
+                      46,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Nauru",
+                "label": "Nauru",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    199,
+                    236,
+                    232,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      55,
+                      216,
+                      198,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Nepal",
+                "label": "Nepal",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    214,
+                    198,
+                    229,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      135,
+                      65,
+                      199,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Netherlands",
+                "label": "Netherlands",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    189,
+                    180,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      207,
+                      69,
+                      40,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "New Zealand",
+                "label": "New Zealand",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    202,
+                    234,
+                    200,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      69,
+                      209,
+                      62,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Nicaragua",
+                "label": "Nicaragua",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    224,
+                    235,
+                    211,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      149,
+                      203,
+                      79,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Niger",
+                "label": "Niger",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    216,
+                    235,
+                    202,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      128,
+                      211,
+                      62,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Nigeria",
+                "label": "Nigeria",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    223,
+                    233,
+                    204,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      157,
+                      204,
+                      70,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "North Macedonia",
+                "label": "North Macedonia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    237,
+                    206,
+                    219,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      213,
+                      66,
+                      129,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Norway",
+                "label": "Norway",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    238,
+                    207,
+                    211,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      217,
+                      65,
+                      85,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Oman",
+                "label": "Oman",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    220,
+                    235,
+                    211,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      128,
+                      205,
+                      78,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Pakistan",
+                "label": "Pakistan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    224,
+                    189,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      200,
+                      187,
+                      52,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Palau",
+                "label": "Palau",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    229,
+                    209,
+                    180,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      205,
+                      139,
+                      41,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Palestine, State of",
+                "label": "Palestine, State of",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    231,
+                    184,
+                    198,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      210,
+                      41,
+                      93,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Panama",
+                "label": "Panama",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    212,
+                    237,
+                    207,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      92,
+                      214,
+                      68,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Papua New Guinea",
+                "label": "Papua New Guinea",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    201,
+                    226,
+                    232,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      65,
+                      179,
+                      205,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Paraguay",
+                "label": "Paraguay",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    235,
+                    210,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      170,
+                      205,
+                      76,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Peru",
+                "label": "Peru",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    204,
+                    220,
+                    237,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      62,
+                      135,
+                      215,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Philippines",
+                "label": "Philippines",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    222,
+                    202,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      199,
+                      164,
+                      70,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Poland",
+                "label": "Poland",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    194,
+                    231,
+                    234,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      51,
+                      203,
+                      214,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Portugal",
+                "label": "Portugal",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    209,
+                    234,
+                    213,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      75,
+                      205,
+                      95,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Qatar",
+                "label": "Qatar",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    212,
+                    215,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      81,
+                      94,
+                      203,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Romania",
+                "label": "Romania",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    231,
+                    204,
+                    216,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      201,
+                      71,
+                      129,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Russian Federation",
+                "label": "Russian Federation",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    225,
+                    212,
+                    190,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      196,
+                      144,
+                      56,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Rwanda",
+                "label": "Rwanda",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    205,
+                    197,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      195,
+                      99,
+                      65,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Saint Kitts and Nevis",
+                "label": "Saint Kitts and Nevis",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    187,
+                    202,
+                    229,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      47,
+                      104,
+                      206,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Saint Lucia",
+                "label": "Saint Lucia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    212,
+                    224,
+                    234,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      81,
+                      148,
+                      202,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Saint Vincent and the Grenadines",
+                "label": "Saint Vincent and the Grenadines",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    201,
+                    231,
+                    212,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      67,
+                      202,
+                      116,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Samoa",
+                "label": "Samoa",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    237,
+                    228,
+                    207,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      213,
+                      168,
+                      67,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "San Marino",
+                "label": "San Marino",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    190,
+                    227,
+                    214,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      54,
+                      199,
+                      149,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "São Tomé and Príncipe",
+                "label": "São Tomé and Príncipe",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    185,
+                    228,
+                    183,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      54,
+                      202,
+                      45,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Saudi Arabia",
+                "label": "Saudi Arabia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    196,
+                    233,
+                    203,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      56,
+                      211,
+                      82,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Senegal",
+                "label": "Senegal",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    234,
+                    202,
+                    203,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      209,
+                      64,
+                      70,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Serbia",
+                "label": "Serbia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    204,
+                    228,
+                    196,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      98,
+                      199,
+                      62,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Seychelles",
+                "label": "Seychelles",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    198,
+                    231,
+                    194,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      69,
+                      207,
+                      55,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Sierra Leone",
+                "label": "Sierra Leone",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    205,
+                    208,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      67,
+                      82,
+                      210,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Singapore",
+                "label": "Singapore",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    221,
+                    205,
+                    236,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      141,
+                      66,
+                      211,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Slovakia",
+                "label": "Slovakia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    193,
+                    229,
+                    220,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      55,
+                      204,
+                      166,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Slovenia",
+                "label": "Slovenia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    192,
+                    189,
+                    223,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      73,
+                      59,
+                      189,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Solomon Islands",
+                "label": "Solomon Islands",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    195,
+                    198,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      197,
+                      62,
+                      74,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Somalia",
+                "label": "Somalia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    201,
+                    224,
+                    187,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      107,
+                      191,
+                      56,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "South Africa",
+                "label": "South Africa",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    193,
+                    225,
+                    222,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      60,
+                      195,
+                      182,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "South Sudan",
+                "label": "South Sudan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    195,
+                    200,
+                    234,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      53,
+                      73,
+                      213,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Spain",
+                "label": "Spain",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    237,
+                    205,
+                    220,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      215,
+                      64,
+                      134,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Sri Lanka",
+                "label": "Sri Lanka",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    186,
+                    224,
+                    204,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      55,
+                      191,
+                      119,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Sudan",
+                "label": "Sudan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    222,
+                    229,
+                    189,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      178,
+                      206,
+                      49,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Suriname",
+                "label": "Suriname",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    213,
+                    228,
+                    195,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      136,
+                      201,
+                      59,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Sweden",
+                "label": "Sweden",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    234,
+                    227,
+                    211,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      202,
+                      165,
+                      80,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Switzerland",
+                "label": "Switzerland",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    231,
+                    206,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      183,
+                      199,
+                      74,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Syrian Arab Republic",
+                "label": "Syrian Arab Republic",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    202,
+                    236,
+                    229,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      61,
+                      214,
+                      181,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Tajikistan",
+                "label": "Tajikistan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    193,
+                    194,
+                    226,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      59,
+                      64,
+                      197,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Tanzania, United Republic of",
+                "label": "Tanzania, United Republic of",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    198,
+                    232,
+                    195,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      67,
+                      209,
+                      55,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Thailand",
+                "label": "Thailand",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    201,
+                    204,
+                    233,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      64,
+                      77,
+                      206,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Timor-Leste",
+                "label": "Timor-Leste",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    204,
+                    225,
+                    238,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      62,
+                      157,
+                      216,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Togo",
+                "label": "Togo",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    208,
+                    226,
+                    236,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      70,
+                      159,
+                      211,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Tonga",
+                "label": "Tonga",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    210,
+                    197,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      116,
+                      60,
+                      203,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Trinidad and Tobago",
+                "label": "Trinidad and Tobago",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    218,
+                    233,
+                    205,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      134,
+                      206,
+                      69,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Tunisia",
+                "label": "Tunisia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    231,
+                    186,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      212,
+                      42,
+                      208,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Turkiye",
+                "label": "Turkiye",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    199,
+                    235,
+                    236,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      55,
+                      210,
+                      217,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Turkmenistan",
+                "label": "Turkmenistan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    202,
+                    234,
+                    196,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      78,
+                      212,
+                      55,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Tuvalu",
+                "label": "Tuvalu",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    204,
+                    233,
+                    207,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      70,
+                      204,
+                      85,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Uganda",
+                "label": "Uganda",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    211,
+                    216,
+                    237,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      73,
+                      101,
+                      212,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Ukraine",
+                "label": "Ukraine",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    208,
+                    237,
+                    232,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      69,
+                      213,
+                      186,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "United Arab Emirates",
+                "label": "United Arab Emirates",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    194,
+                    230,
+                    221,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      56,
+                      205,
+                      169,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "United Kingdom",
+                "label": "United Kingdom",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    204,
+                    184,
+                    229,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      117,
+                      45,
+                      204,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "United States",
+                "label": "United States",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    190,
+                    190,
+                    223,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      61,
+                      60,
+                      190,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Uruguay",
+                "label": "Uruguay",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    190,
+                    202,
+                    231,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      48,
+                      96,
+                      210,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Uzbekistan",
+                "label": "Uzbekistan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    194,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      204,
+                      56,
+                      205,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Vanuatu",
+                "label": "Vanuatu",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    207,
+                    235,
+                    218,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      72,
+                      207,
+                      125,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Venezuela, Bolivarian Republic of",
+                "label": "Venezuela, Bolivarian Republic of",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    202,
+                    228,
+                    231,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      68,
+                      191,
+                      201,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Viet Nam",
+                "label": "Viet Nam",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    203,
+                    234,
+                    225,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      67,
+                      207,
+                      167,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Yemen",
+                "label": "Yemen",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    220,
+                    202,
+                    233,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      148,
+                      64,
+                      208,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Zambia",
+                "label": "Zambia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    181,
+                    192,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      199,
+                      46,
+                      80,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              },
+              {
+                "value": "Zimbabwe",
+                "label": "Zimbabwe",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    234,
+                    208,
+                    238,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      197,
+                      69,
+                      215,
+                      255
+                    ],
+                    "width": 0.75
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "{COUNTRYAFF}",
+        "fieldInfos": [
+          {
+            "fieldName": "COUNTRYAFF",
+            "label": "Country",
+            "visible": true,
+            "isEditable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "world-cities",
+      "title": "World Cities",
+      "url": "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Cities/FeatureServer/0",
+      "layerType": "ArcGISFeatureLayer",
+      "source": {
+        "kind": "arcgis-feature",
+        "url": "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Cities/FeatureServer/0"
+      },
+      "visibility": true,
+      "opacity": 1.0,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple",
+            "symbol": {
+              "type": "esriSMS",
+              "style": "esriSMSCircle",
+              "color": [
+                26,
+                167,
+                166,
+                255
+              ],
+              "size": 5,
+              "outline": {
+                "color": [
+                  255,
+                  255,
+                  255,
+                  255
+                ],
+                "width": 1
+              }
+            }
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "{CITY_NAME}",
+        "fieldInfos": [
+          {
+            "fieldName": "CITY_NAME",
+            "label": "City",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "CNTRY_NAME",
+            "label": "Country",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "ADMIN_NAME",
+            "label": "Admin area",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "POP",
+            "label": "Population",
+            "visible": true,
+            "isEditable": false,
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            }
+          },
+          {
+            "fieldName": "STATUS",
+            "label": "Status",
+            "visible": true,
+            "isEditable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "world-airports",
+      "title": "Airports",
+      "layerType": "GeoJSON",
+      "source": {
+        "kind": "geojson",
+        "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_airports.geojson"
+      },
+      "visibility": true,
+      "opacity": 1.0,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple",
+            "symbol": {
+              "type": "esriSMS",
+              "style": "esriSMSSquare",
+              "color": [
+                232,
+                138,
+                42,
+                255
+              ],
+              "size": 5,
+              "outline": {
+                "color": [
+                  255,
+                  255,
+                  255,
+                  255
+                ],
+                "width": 1
+              }
+            }
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "{name}",
+        "fieldInfos": [
+          {
+            "fieldName": "name",
+            "label": "Airport",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "iata_code",
+            "label": "IATA",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "type",
+            "label": "Type",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "location",
+            "label": "Location",
+            "visible": true,
+            "isEditable": false
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,386 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'reveal' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "reveal",
+    "name": "Reveal",
+    "category": "dashboard",
+    "webmap": "dc",
+    "tier": "advanced",
+    "blurb": "One dashboard, several faces: views navigation swaps whole dashboard states over the same data."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#9333ea",
+      "secondary": "#22d3ee"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "views",
+        "views": [
+          {
+            "id": "overview",
+            "title": "Overview",
+            "content": {
+              "kind": "row",
+              "children": [
+                {
+                  "kind": "section",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "map",
+                        "id": "map",
+                        "props": {
+                          "layerIds": [
+                            "dc-wards",
+                            "dc-crashes"
+                          ],
+                          "controls": {
+                            "navigation": true,
+                            "scale": true,
+                            "position": "top-right"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "mode": "fixed",
+                  "style": {
+                    "flex": "1 1 0%",
+                    "minWidth": 0,
+                    "minHeight": 0,
+                    "height": "100%"
+                  }
+                },
+                {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "kpi",
+                        "props": {
+                          "label": "Crashes",
+                          "stat": "count"
+                        },
+                        "dataSource": {
+                          "layerId": "dc-crashes"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "chart",
+                        "id": "c1",
+                        "props": {
+                          "kind": "pie",
+                          "category": "WARD",
+                          "title": "Share by ward"
+                        },
+                        "dataSource": {
+                          "layerId": "dc-crashes"
+                        }
+                      }
+                    }
+                  ],
+                  "gap": 12,
+                  "style": {
+                    "flex": "0 0 340px",
+                    "padding": "12px",
+                    "overflow": "auto"
+                  }
+                }
+              ],
+              "style": {
+                "height": "100%"
+              }
+            },
+            "mapState": {
+              "viewpoint": {
+                "center": [
+                  -77.02,
+                  38.9
+                ],
+                "zoom": 11
+              }
+            }
+          },
+          {
+            "id": "wards",
+            "title": "By ward",
+            "content": {
+              "kind": "row",
+              "children": [
+                {
+                  "kind": "section",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "map",
+                        "id": "map",
+                        "props": {
+                          "layerIds": [
+                            "dc-wards"
+                          ],
+                          "controls": {
+                            "navigation": true,
+                            "scale": true,
+                            "position": "top-right"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "mode": "fixed",
+                  "style": {
+                    "flex": "1 1 0%",
+                    "minWidth": 0,
+                    "minHeight": 0,
+                    "height": "100%"
+                  }
+                },
+                {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "chart",
+                        "id": "c2",
+                        "props": {
+                          "kind": "bar",
+                          "category": "NAMELSAD",
+                          "value": "DP03_0062E",
+                          "title": "Median income by ward"
+                        },
+                        "dataSource": {
+                          "layerId": "dc-wards"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "table",
+                        "id": "t2",
+                        "dataSource": {
+                          "layerId": "dc-wards"
+                        }
+                      }
+                    }
+                  ],
+                  "gap": 12,
+                  "style": {
+                    "flex": "0 0 380px",
+                    "padding": "12px",
+                    "overflow": "auto"
+                  }
+                }
+              ],
+              "style": {
+                "height": "100%"
+              }
+            },
+            "mapState": {
+              "viewpoint": {
+                "center": [
+                  -77.02,
+                  38.9
+                ],
+                "zoom": 11
+              },
+              "activeLayers": [
+                "dc-wards"
+              ]
+            }
+          },
+          {
+            "id": "time",
+            "title": "Over time",
+            "content": {
+              "kind": "column",
+              "children": [
+                {
+                  "kind": "section",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "map",
+                        "id": "map",
+                        "props": {
+                          "layerIds": [
+                            "dc-crashes"
+                          ],
+                          "controls": {
+                            "navigation": true,
+                            "scale": true,
+                            "position": "top-right"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "mode": "fixed",
+                  "style": {
+                    "flex": "1 1 0%",
+                    "minHeight": 0
+                  }
+                },
+                {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "date-filter",
+                        "id": "ts",
+                        "props": {
+                          "play": true,
+                          "mode": "window"
+                        },
+                        "dataSource": {
+                          "layerId": "dc-crashes",
+                          "fields": [
+                            "REPORTDATE"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "chart",
+                        "props": {
+                          "kind": "line",
+                          "category": "REPORTDATE",
+                          "title": "Crashes over time"
+                        },
+                        "dataSource": {
+                          "layerId": "dc-crashes"
+                        }
+                      }
+                    }
+                  ],
+                  "gap": 8,
+                  "style": {
+                    "flex": "0 0 200px",
+                    "padding": "10px"
+                  }
+                }
+              ],
+              "style": {
+                "height": "100%"
+              }
+            }
+          }
+        ],
+        "nav": "tabs",
+        "animate": "fade"
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Reveal",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "views that swap dashboards",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "c2",
+      "trigger": "categorySelect",
+      "to": "map",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-wards"
+      }
+    },
+    {
+      "from": "t2",
+      "trigger": "rowSelect",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "layerId": "dc-wards"
+      }
+    },
+    {
+      "from": "ts",
+      "trigger": "filterChange",
+      "to": "map",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    }
+  ]
+}

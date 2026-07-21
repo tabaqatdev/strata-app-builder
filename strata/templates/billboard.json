@@ -1,0 +1,150 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'billboard' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/md.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "billboard",
+    "name": "Billboard",
+    "category": "map-centric",
+    "webmap": "md",
+    "tier": "simple",
+    "blurb": "A bold banner headline over a full-bleed map — announcement-style."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#b91c1c",
+      "secondary": "#f59e0b"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "section",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "map",
+              "id": "map",
+              "props": {
+                "layerIds": [
+                  "md-counties",
+                  "md-hospitals",
+                  "md-fire-stations"
+                ],
+                "controls": {
+                  "navigation": true,
+                  "scale": true,
+                  "position": "top-right"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "legend",
+              "props": {
+                "mode": "floating"
+              }
+            }
+          }
+        ],
+        "mode": "fixed",
+        "style": {
+          "flex": "1 1 0%",
+          "minWidth": 0,
+          "minHeight": 0,
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Maryland Emergency Services",
+                    "as": "h2"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Hospitals · fire stations · county boundaries — one statewide picture.",
+                    "style": {
+                      "opacity": "0.75"
+                    }
+                  }
+                }
+              }
+            ],
+            "gap": 2
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "button",
+              "id": "explore",
+              "props": {
+                "label": "Explore the map ↓",
+                "variant": "primary"
+              }
+            }
+          }
+        ],
+        "gap": 16,
+        "style": {
+          "alignItems": "center",
+          "padding": "18px 22px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "explore",
+      "trigger": "buttonClick",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "viewpoint": {
+          "center": [
+            -77.2,
+            39.0
+          ],
+          "zoom": 8
+        }
+      }
+    },
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@strata/data-management",
+  "version": "0.1.0",
+  "description": "Convert (File GDB / Shapefile / GeoJSON both flavors -> GeoParquet) and publish datasets to the Strata Serve server: datasource block + metadata bundle + restart.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "strata-data": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@strata/schema": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

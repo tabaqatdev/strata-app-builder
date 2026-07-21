@@ -1,0 +1,136 @@
+{
+  "version": "1.0",
+  "authoringApp": "StrataMapViewer",
+  "authoringAppVersion": "0.1.0",
+  "spatialReference": { "wkid": 4326, "latestWkid": 4326 },
+  "initialState": {
+    "viewpoint": {
+      "targetGeometry": {
+        "xmin": -79.55, "ymin": 37.88, "xmax": -74.98, "ymax": 39.75,
+        "spatialReference": { "wkid": 4326 }
+      }
+    }
+  },
+  "strata:notes": {
+    "title": "Maryland — Strata WebMap",
+    "summary": "A regional base WebMap for the DMV/Maryland area. The standard ESRI members render in any Web-Map client; the strata:extensions section carries the server registry, a multi-format source catalog (incl. COG/GeoParquet/PMTiles/etc.), and per-app configuration for the showcase and solution apps.",
+    "region": "Maryland + Washington DC",
+    "sources": ".private/data_sources_md.md · data_sources_national.md"
+  },
+  "baseMap": {
+    "title": "OpenStreetMap",
+    "baseMapLayers": [
+      { "id": "osm", "layerType": "WebTiledLayer", "templateUrl": "https://tile.openstreetmap.org/{level}/{col}/{row}.png", "copyright": "© OpenStreetMap contributors" }
+    ]
+  },
+  "operationalLayers": [
+    {
+      "id": "md-counties",
+      "title": "Maryland County Boundaries",
+      "url": "https://mdgeodata.md.gov/imap/rest/services/Boundaries/MD_PoliticalBoundaries/FeatureServer/1",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://mdgeodata.md.gov/imap/rest/services/Boundaries/MD_PoliticalBoundaries/FeatureServer/1" },
+      "visibility": true,
+      "opacity": 1,
+      "attribution": "Maryland iMap · MD DoIT / MD GIO",
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple",
+            "symbol": { "type": "esriSFS", "style": "esriSFSSolid", "color": [120, 170, 210, 40], "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [70, 110, 150, 220], "width": 1 } }
+          }
+        }
+      }
+    },
+    {
+      "id": "md-hospitals",
+      "title": "Hospitals",
+      "url": "https://mdgeodata.md.gov/imap/rest/services/Health/MD_Hospitals/FeatureServer/0",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://mdgeodata.md.gov/imap/rest/services/Health/MD_Hospitals/FeatureServer/0" },
+      "visibility": true,
+      "opacity": 1,
+      "attribution": "Maryland iMap · MDH",
+      "layerDefinition": {
+        "drawingInfo": { "renderer": { "type": "simple", "symbol": { "type": "esriSMS", "style": "esriSMSCircle", "color": [220, 60, 60, 230], "size": 8, "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [255, 255, 255, 220], "width": 0.75 } } } }
+      }
+    },
+    {
+      "id": "md-fire-stations",
+      "title": "Fire Stations",
+      "url": "https://mdgeodata.md.gov/imap/rest/services/PublicSafety/MD_Fire/FeatureServer/0",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://mdgeodata.md.gov/imap/rest/services/PublicSafety/MD_Fire/FeatureServer/0" },
+      "visibility": true,
+      "opacity": 1,
+      "attribution": "Maryland iMap · MIEMSS",
+      "layerDefinition": {
+        "drawingInfo": { "renderer": { "type": "simple", "symbol": { "type": "esriSMS", "style": "esriSMSSquare", "color": [240, 140, 50, 235], "size": 7, "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [255, 255, 255, 220], "width": 0.75 } } } }
+      }
+    }
+  ],
+  "bookmarks": [
+    { "name": "Maryland", "extent": { "xmin": -79.55, "ymin": 37.88, "xmax": -74.98, "ymax": 39.75, "spatialReference": { "wkid": 4326 } } },
+    { "name": "Baltimore", "extent": { "xmin": -76.75, "ymin": 39.20, "xmax": -76.45, "ymax": 39.40, "spatialReference": { "wkid": 4326 } } },
+    { "name": "Washington DC metro", "extent": { "xmin": -77.20, "ymin": 38.79, "xmax": -76.85, "ymax": 39.05, "spatialReference": { "wkid": 4326 } } }
+  ],
+
+  "strata:extensions": {
+    "schemaVersion": "1.0",
+    "profile": "maryland",
+    "title": "Maryland — Strata WebMap",
+    "description": "Server registry + multi-format catalog + app config for the DMV/Maryland region. ESRI ignores this member; Strata apps read it.",
+
+    "servers": [
+      { "id": "md-imap", "title": "Maryland iMap (authoritative statewide)", "kind": "arcgis-server", "url": "https://mdgeodata.md.gov/imap/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["authoritative", "statewide"], "solutions": ["showcase", "emergency-response", "banking"] },
+      { "id": "dc-octo", "title": "Washington DC GIS (OCTO)", "kind": "arcgis-server", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["dmv", "municipal"], "solutions": ["showcase", "emergency-response"] },
+      { "id": "md-mde", "title": "MD Dept. of the Environment (MDE)", "kind": "arcgis-server", "url": "https://mdewin64.mde.state.md.us/arcgis/rest/services/", "cors": false, "auth": { "type": "none" }, "tags": ["environment", "dam-safety"], "solutions": ["emergency-response"] },
+      { "id": "baltimore-city", "title": "Baltimore City Enterprise GIS", "kind": "arcgis-server", "url": "https://gis.baltimorecity.gov/egis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["municipal"], "solutions": ["showcase"] },
+      { "id": "montgomery-county", "title": "Montgomery County GIS", "kind": "arcgis-server", "url": "https://gis2.montgomerycountymd.gov/arcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["county"], "solutions": ["showcase"] },
+      { "id": "census-tigerweb", "title": "US Census TIGERweb (tracts/counties/ZCTAs)", "kind": "arcgis-server", "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["national", "demographics"], "solutions": ["banking"] },
+      { "id": "fema-nfhl", "title": "FEMA National Flood Hazard Layer", "kind": "arcgis-server", "url": "https://hazards.fema.gov/arcgis/rest/services/", "cors": false, "auth": { "type": "none" }, "tags": ["national", "flood", "proxy-required"], "solutions": ["emergency-response", "banking"] },
+      { "id": "nifc-wfigs", "title": "NIFC / WFIGS wildfire (national, hosted)", "kind": "arcgis-hosted", "url": "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["national", "wildfire"], "solutions": ["emergency-response"] }
+    ],
+
+    "catalog": [
+      { "id": "md-floodplain", "title": "Maryland Floodplain", "format": "arcgis-feature", "url": "https://mdgeodata.md.gov/imap/rest/services/Hydrology/MD_Floodplain/FeatureServer/0", "geometry": "polygon", "category": "hazard", "live": false, "coreRenderable": true, "access": { "cors": true, "requiresKey": false }, "solutions": ["emergency-response", "banking"] },
+      { "id": "md-ems", "title": "EMS Stations", "format": "arcgis-feature", "url": "https://mdgeodata.md.gov/imap/rest/services/PublicSafety/MD_EMS/FeatureServer/0", "geometry": "point", "category": "infrastructure", "coreRenderable": true, "solutions": ["emergency-response"] },
+      { "id": "md-police", "title": "Police Stations", "format": "arcgis-feature", "url": "https://mdgeodata.md.gov/imap/rest/services/PublicSafety/MD_Police/FeatureServer/0", "geometry": "point", "category": "infrastructure", "coreRenderable": true, "solutions": ["emergency-response"] },
+      { "id": "md-psap", "title": "911 PSAPs", "format": "arcgis-feature", "url": "https://mdgeodata.md.gov/imap/rest/services/PublicSafety/MD_PublicSafetyAnsweringPoints/FeatureServer/0", "geometry": "point", "category": "infrastructure", "coreRenderable": true, "solutions": ["emergency-response"] },
+      { "id": "md-schools", "title": "Education Facilities", "format": "arcgis-feature", "url": "https://mdgeodata.md.gov/imap/rest/services/Education/MD_EducationFacilities/FeatureServer/0", "geometry": "point", "category": "infrastructure", "coreRenderable": true, "solutions": ["emergency-response", "showcase"] },
+      { "id": "md-acs", "title": "American Community Survey (MD)", "format": "arcgis-feature", "url": "https://mdgeodata.md.gov/imap/rest/services/Demographics/MD_AmericanCommunitySurvey/FeatureServer/0", "geometry": "polygon", "category": "demographics", "coreRenderable": true, "solutions": ["banking"] },
+      { "id": "md-census-tracts", "title": "Census Statistical Boundaries (tracts)", "format": "arcgis-feature", "url": "https://mdgeodata.md.gov/imap/rest/services/Boundaries/MD_CensusStatisticalBoundaries/FeatureServer/0", "geometry": "polygon", "category": "boundaries", "coreRenderable": true, "solutions": ["banking"] },
+      { "id": "md-local-business", "title": "Local Businesses", "format": "arcgis-feature", "url": "https://mdgeodata.md.gov/imap/rest/services/BusinessEconomy/MD_LocalBusinesses/FeatureServer/0", "geometry": "point", "category": "banking", "coreRenderable": true, "solutions": ["banking"] },
+
+      { "id": "nws-alerts-md", "title": "NWS active weather alerts (MD)", "format": "json", "url": "https://api.weather.gov/alerts/active?area=MD", "geometry": "polygon", "category": "weather", "live": true, "refreshSeconds": 300, "coreRenderable": false, "access": { "cors": true, "requiresKey": false, "notes": "GeoJSON via api.weather.gov; load as geojson layer" }, "solutions": ["emergency-response"] },
+      { "id": "nws-river-gauges", "title": "NWS river gauges (flood category)", "format": "mapserver", "url": "https://mapservices.weather.noaa.gov/eventdriven/rest/services/water/riv_gauges/MapServer/0", "geometry": "point", "category": "weather", "live": true, "refreshSeconds": 900, "coreRenderable": true, "access": { "cors": true }, "solutions": ["emergency-response"] },
+      { "id": "usgs-quakes", "title": "USGS earthquakes (past week)", "format": "geojson", "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", "geometry": "point", "category": "hazard", "live": true, "refreshSeconds": 300, "coreRenderable": true, "access": { "cors": true }, "solutions": ["emergency-response", "banking"] },
+      { "id": "fema-nfhl-flood", "title": "FEMA NFHL flood hazard zones", "format": "mapserver", "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28", "geometry": "polygon", "category": "hazard", "live": false, "coreRenderable": true, "access": { "cors": false, "requiresKey": false, "notes": "Non-CORS + slow — read via dev-proxy or server-side" }, "solutions": ["emergency-response", "banking"] },
+      { "id": "fdic-branches-md", "title": "FDIC bank branches (MD)", "format": "json", "url": "https://banks.data.fdic.gov/api/locations?filters=STALP:MD&limit=2000", "geometry": "point", "category": "banking", "live": false, "coreRenderable": false, "access": { "cors": true, "notes": "JSON API — map lat/lon to points" }, "solutions": ["banking"] },
+
+      { "id": "usgs-3dep-cog", "title": "USGS 3DEP elevation (COG)", "format": "cog", "url": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer", "geometry": "raster", "category": "elevation", "coreRenderable": true, "access": { "cors": true, "notes": "Dynamic ImageServer; staged COGs at prd-tnm.s3.amazonaws.com" }, "solutions": ["showcase", "emergency-response"] },
+      { "id": "overture-buildings-md", "title": "Overture buildings (GeoParquet)", "format": "geoparquet", "url": "s3://overturemaps-us-west-2/release/latest/theme=buildings/", "geometry": "polygon", "category": "base", "coreRenderable": false, "access": { "cors": false, "notes": "Forward ref — query via DuckDB/overturemaps CLI, bbox-clip to MD, or publish to Strata Serve" }, "solutions": ["showcase"] },
+      { "id": "ms-buildings-md", "title": "Microsoft US Building Footprints — Maryland", "format": "geoparquet", "url": "https://minedbuildings.z5.web.core.windows.net/legacy/usbuildings-v2/Maryland.geojson.zip", "geometry": "polygon", "category": "base", "coreRenderable": false, "access": { "cors": false, "notes": "Forward ref — convert to GeoParquet/FlatGeobuf and tile" }, "solutions": ["showcase"] },
+      { "id": "pmtiles-basemap", "title": "OSM basemap (PMTiles, offline/edge)", "format": "pmtiles", "url": "", "geometry": "vector-tile", "category": "base", "coreRenderable": false, "access": { "notes": "Forward ref — a PMTiles archive for offline/edge deployments; not yet a core LayerSourceKind" }, "solutions": ["emergency-response"] }
+    ],
+
+    "apps": {
+      "showcase": {
+        "defaultLayers": ["md-counties", "md-hospitals", "md-fire-stations"],
+        "notes": "Boots with counties + facilities; the browse component adds more from servers[] / catalog[]."
+      },
+      "emergency-response": {
+        "hazardLayers": ["md-floodplain", "fema-nfhl-flood", "nws-alerts-md", "usgs-quakes", "nws-river-gauges"],
+        "facilityLayers": ["md-hospitals", "md-fire-stations", "md-ems", "md-police", "md-psap", "md-schools"],
+        "populationLayer": "md-acs",
+        "refreshSeconds": 300
+      },
+      "banking": {
+        "collateralHazards": ["md-floodplain", "fema-nfhl-flood"],
+        "demographicsLayer": "md-acs",
+        "boundaryLayer": "md-census-tracts",
+        "branchesSource": "fdic-branches-md"
+      }
+    }
+  }
+}

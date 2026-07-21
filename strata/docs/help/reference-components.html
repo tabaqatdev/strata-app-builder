@@ -1,0 +1,398 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Components &amp; widgets · strata-app-builder help</title><style>
+:root{--navy:#0c2b38;--navy2:#123c4d;--teal:#1ba7a6;--teal600:#178f8e;--teal50:#e9f7f7;
+--ink:#12303c;--slate:#5b6b76;--slate400:#94a3b8;--line:#e4ebee;--panel:#f6f9fa;--white:#fff;
+--code-bg:#f4f7f8;--font:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+--mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--white);line-height:1.6}
+a{color:var(--teal600);text-decoration:none}
+a:hover{text-decoration:underline}
+/* top bar */
+.top{position:sticky;top:0;z-index:20;height:58px;display:flex;align-items:center;gap:14px;
+padding:0 20px;background:var(--navy);color:#fff}
+.top .mk{width:26px;height:26px}
+.top .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.01em}
+.top .brand b{color:#fff}.top .brand span{color:var(--teal);font-weight:700}
+.top .brand small{color:#9fc7cd;font-weight:600;margin-left:6px;font-size:.8rem;letter-spacing:.04em}
+.top .spacer{flex:1}
+.top .home{color:#cfe6e6;font-size:.9rem}
+.filter{display:flex;align-items:center}
+.filter input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;
+border-radius:8px;padding:.4rem .7rem;font-size:.85rem;width:190px;outline:none}
+.filter input::placeholder{color:#9fc7cd}
+/* layout */
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1200px;margin:0 auto}
+nav.side{border-right:1px solid var(--line);padding:22px 14px 60px;height:calc(100vh - 58px);
+position:sticky;top:58px;overflow:auto}
+nav.side .grp{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+color:var(--slate400);margin:18px 10px 6px}
+nav.side a{display:block;padding:.4rem .7rem;border-radius:8px;color:var(--ink);font-size:.92rem;font-weight:500}
+nav.side a:hover{background:var(--panel);text-decoration:none}
+nav.side a.active{background:var(--teal50);color:var(--teal600);font-weight:700}
+/* content */
+main{padding:34px 44px 80px;min-width:0;max-width:860px}
+main .crumb{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal600);font-weight:800}
+main h1{font-size:2.15rem;line-height:1.15;color:var(--navy);letter-spacing:-.02em;margin:.2rem 0 .2rem}
+main .lede{color:var(--slate);font-size:1.05rem;margin:0 0 1.4rem}
+main h2{font-size:1.5rem;color:var(--navy);margin:2rem 0 .6rem;padding-top:.4rem;border-top:1px solid var(--line)}
+main h3{font-size:1.16rem;color:var(--navy2);margin:1.4rem 0 .4rem}
+main h4{font-size:1rem;color:var(--navy2);margin:1.1rem 0 .3rem}
+main p,main li{color:#243b45}
+main code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);color:#0a3a44;
+padding:.12em .38em;border-radius:5px}
+main pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+overflow:auto}
+main pre code{background:none;padding:0;color:#123}
+main table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem;display:block;overflow:auto}
+main th,main td{border:1px solid var(--line);padding:.5rem .7rem;text-align:left;vertical-align:top}
+main thead th{background:var(--panel);color:var(--navy);font-size:.82rem;letter-spacing:.02em}
+main blockquote{margin:1.1rem 0;padding:.7rem 1rem;background:var(--teal50);border-radius:0 10px 10px 0;
+border-left:4px solid var(--teal);color:#134}
+main blockquote p{margin:.3rem 0}
+main hr{border:none;border-top:1px solid var(--line);margin:2rem 0}
+main ul,main ol{padding-left:1.3rem}main li{margin:.25rem 0}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:3rem;border-top:1px solid var(--line);padding-top:1.2rem}
+.pager a{flex:1;padding:.8rem 1rem;border:1px solid var(--line);border-radius:12px;font-weight:600}
+.pager a:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.pager a.next{text-align:right}
+.pager small{display:block;color:var(--slate400);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;padding:22px 44px;max-width:860px}
+/* landing */
+.hero{background:linear-gradient(135deg,var(--navy),#164a5c);color:#fff;border-radius:18px;padding:40px 40px}
+.hero h1{color:#fff;font-size:2.4rem;margin:.4rem 0 .5rem;letter-spacing:-.02em}
+.hero p{color:#cfe6e6;font-size:1.1rem;max-width:44ch;margin:0}
+.hero .mk{width:34px;height:34px;vertical-align:middle}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:block;color:inherit}
+.card:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.card b{color:var(--navy);font-size:1.02rem}
+.card p{color:var(--slate);font-size:.9rem;margin:.3rem 0 0}
+.sec-h{font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal600);margin:26px 0 4px}
+.menu-btn{display:none}
+@media(max-width:860px){
+ .wrap{grid-template-columns:1fr}
+ nav.side{position:fixed;left:0;top:58px;bottom:0;width:280px;background:#fff;transform:translateX(-100%);
+ transition:.2s;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+ nav.side.open{transform:none}
+ .menu-btn{display:inline-flex}.filter{display:none}
+ main{padding:24px 20px 60px}.cards{grid-template-columns:1fr}.hero{padding:28px 22px}
+}
+</style></head><body><header class="top"><button class="menu-btn" onclick="document.getElementById('side').classList.toggle('open')" aria-label="Menu" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer">☰</button><a class="brand" href="index.html"><svg class="mk" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="6" y="7" width="20" height="4.2" rx="2.1" fill="#0c2b38"/><rect x="4" y="14" width="24" height="4.2" rx="2.1" fill="#1ba7a6"/><rect x="8" y="21" width="16" height="4.2" rx="2.1" fill="#5cc7c5"/></svg><b>tabaqat</b><span>· Strata</span><small>HELP &amp; DOCS</small></a><div class="spacer"></div><div class="filter"><input id="q" type="search" placeholder="Filter topics…" oninput="filterNav(this.value)"></div><a class="home" href="index.html">Home</a></header><div class="wrap"><nav class="side" id="side">
+<div class="grp">Start here</div>
+<a class="nav-link" data-title="overview" href="README.html">Overview</a>
+<a class="nav-link" data-title="getting started" href="getting-started.html">Getting started</a>
+<a class="nav-link" data-title="faq" href="faq.html">FAQ</a>
+<div class="grp">Guide</div>
+<a class="nav-link" data-title="repository anatomy" href="guide-anatomy.html">Repository anatomy</a>
+<a class="nav-link" data-title="sample map templates" href="guide-map-templates.html">Sample map templates</a>
+<a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
+<a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
+<a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<div class="grp">How-to</div>
+<a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
+<a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
+<a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
+<a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
+<a class="nav-link" data-title="using recipes" href="how-to-using-recipes.html">Using recipes</a>
+<div class="grp">Reference</div>
+<a class="nav-link active" data-title="components &amp; widgets" href="reference-components.html">Components &amp; widgets</a>
+<a class="nav-link" data-title="human language reference" href="reference-human-language.html">Human Language Reference</a>
+<a class="nav-link" data-title="command reference" href="reference-commands.html">Command reference</a>
+<a class="nav-link" data-title="troubleshooting" href="troubleshooting.html">Troubleshooting</a>
+</nav><main><div class="crumb">Reference</div><h1>Components &amp; widgets</h1><p class="lede">Purpose and scope of every package, panel, widget, and skill.</p><p>strata-app-builder is layered: <strong>packages</strong> (the code), <strong>map controls + panels + widgets</strong> (the UI you compose),
+<strong>skills</strong> (how Claude authors each thing), and <strong>commands</strong> (what you type). This page is the map of all of
+it — the <em>purpose and scope</em> of every piece and <em>how they work together</em>. For the exact phrase to ask for
+each one, see the <strong><a href="reference-human-language.html">Human Language Reference</a></strong>; for the full command list, see
+<a href="reference-commands.html">Command reference</a>.</p>
+<hr />
+<h2 id="the-big-picture-how-a-request-flows">The big picture (how a request flows)</h2>
+<pre><code>You describe a map/app  ─▶  a /command or /recipe  ─▶  Claude follows a skill
+        │                                                     │
+        ▼                                                     ▼
+   layers.json (the map spec, ESRI Web Map JSON)      AppLayout JSON (the app)
+        │                                                     │
+        ▼                                                     ▼
+   &lt;StrataMap&gt; renders it on MapLibre              &lt;StrataApp&gt; renders the widget tree
+        │              ▲                                       │
+        │              │  the store (@strata/state)           │  the ActionBus (@strata/actions)
+        └──────────────┴───────────── cross-drive ────────────┘   + output data sources
+</code></pre>
+<p>Two JSON documents drive everything: <strong><code>layers.json</code></strong> (the map — layers, basemap, symbology, popups) and the
+<strong><code>AppLayout</code></strong> (the app — pages, containers, widgets, and the <code>connections</code> that wire them). They are
+separate; the app <em>references</em> the map. Two runtime buses keep it all in sync: the <strong>store</strong> (map/layer
+state) and the <strong>action bus</strong> (cross-widget interactivity, the WIF).</p>
+<hr />
+<h2 id="packages-stratapackages-the-code-and-its-scope">Packages (<code>strata/packages/*</code>) — the code, and its scope</h2>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Purpose</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>@strata/schema</code></strong></td>
+<td>The contract</td>
+<td>Types + JSON Schema for <code>layers.json</code>, the <code>AppLayout</code> (containers, <code>ViewsNode</code>, <code>Connection</code>), and the catalog record. Everything else conforms to this.</td>
+</tr>
+<tr>
+<td><strong><code>@strata/state</code></strong></td>
+<td>The map/app store</td>
+<td>Zustand store: layers, selection, view, basemap, active layer, interaction mode, undo/redo, and <strong><code>setDefinition</code></strong> (in-place server-side filter). Round-trips <code>layers.json</code>.</td>
+</tr>
+<tr>
+<td><strong><code>@strata/actions</code></strong></td>
+<td>The interactivity bus (WIF)</td>
+<td><code>ActionBus</code> (triggers → actions), <code>wireConnections</code> + <code>defaultDispatchers</code> (drive <code>AppLayout.connections</code>), <code>OutputRegistry</code> (a widget publishes records others consume), and the <code>DataAction</code> registry.</td>
+</tr>
+<tr>
+<td><strong><code>@strata/arcade</code></strong></td>
+<td>Arcade-subset evaluator</td>
+<td>Transpiles the common ~80% of ESRI Arcade to a <strong>MapLibre expression</strong> (renderers) or a <strong>computed scalar</strong> (popups). Anything outside the subset warns and falls back.</td>
+</tr>
+<tr>
+<td><strong><code>@strata/theme</code></strong></td>
+<td>The visual system</td>
+<td>Colorblind-safe <strong>categorical / sequential / diverging</strong> ramps (light+dark) and named <strong>theme presets</strong> (light/dark/hazard/muted). Symbology, charts, and app themes all draw from here.</td>
+</tr>
+<tr>
+<td><strong><code>@strata/core-map</code></strong></td>
+<td>The map + UI engine</td>
+<td>React + MapLibre: the style/popup compilers, ArcGIS/GeoJSON/tile/WMS/<strong>ImageServer/COG</strong> loaders, <code>&lt;StrataMap&gt;</code>, all controls, all panels, all widgets, and the <code>&lt;StrataApp&gt;</code> layout engine.</td>
+</tr>
+<tr>
+<td><strong><code>@strata/i18n</code></strong></td>
+<td>Bilingual UI</td>
+<td>Dependency-free EN/AR dictionary + <code>{var}</code> interpolation + RTL direction.</td>
+</tr>
+<tr>
+<td><strong><code>@strata/processing</code></strong></td>
+<td>Spatial analysis</td>
+<td>Turf-backed pure ops: buffer/dissolve/clip/nearest/within/spatial-join, plus overlay (union/difference/intersect/voronoi/hull), <strong>aggregate</strong> (dissolve-with-stats), <strong>hexbin/hotspot</strong> (Getis-Ord Gi*), <strong>weighted-overlay</strong> (suitability), and <strong>dot-density</strong>.</td>
+</tr>
+<tr>
+<td><strong><code>@strata/plugins</code></strong></td>
+<td>The plugin spine</td>
+<td><code>StrataPlugin</code> + <code>StrataAppAPI</code> + <code>PluginManager</code> — runtime extensibility (project state, URL params).</td>
+</tr>
+<tr>
+<td><strong><code>@strata/plugin-search</code> / <code>-routing</code> / <code>-statusbar</code> / <code>-timeslider</code></strong></td>
+<td>First-party plugins</td>
+<td>Geocode search (Nominatim/Esri), directions (OSRM/Esri) <strong>+ isochrones</strong> (<code>fetchIsochrone</code>, Valhalla/ORS), status bar + scalebar, and the temporal slider.</td>
+</tr>
+<tr>
+<td><strong><code>@strata/feature-arcgis</code></strong></td>
+<td>Esri read/write adapter</td>
+<td>Lazy: query / statistics / related records / attachments (read on both backends) / <code>applyEdits</code> (writable ESRI only).</td>
+</tr>
+<tr>
+<td><strong><code>@strata/auth-arcgis</code></strong></td>
+<td>ESRI auth guard</td>
+<td><code>assertEsriBackend</code> throws for a <code>strata</code> backend (editing is ESRI-only).</td>
+</tr>
+<tr>
+<td><strong><code>@strata/data-management</code></strong></td>
+<td>Convert + publish</td>
+<td>Renders a catalog record into a Serve datasource block + metadata bundle.</td>
+</tr>
+<tr>
+<td><strong><code>@strata/export</code></strong></td>
+<td>Output</td>
+<td>Image (+high-DPI), <strong>composed PDF</strong> (legend/scalebar/north-arrow), <strong>atlas</strong> (map-series), <strong>feature report</strong>, <strong>share</strong> (deep-link + embed), web-map spec, and layer data (GeoJSON/CSV).</td>
+</tr>
+<tr>
+<td><strong><code>@strata/studio</code></strong></td>
+<td>Visual editor</td>
+<td>A pure <code>AppLayout</code> <strong>edit model</strong> (round-trips the JSON) + a <code>&lt;StrataStudio&gt;</code> preview/outline/inspector shell — tweak the result visually instead of re-prompting.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How they compose:</strong> <code>schema</code> defines the JSON → <code>state</code> holds it live → <code>core-map</code> renders it (pulling
+colors from <code>theme</code>, expressions from <code>arcade</code>, analysis from <code>processing</code>, imagery via the raster path) →
+<code>actions</code> wires widgets to each other → <code>export</code>/<code>studio</code> are the output/edit surfaces.</p>
+<hr />
+<h2 id="the-map-surface-controls-stratamap">The map surface &amp; controls (<code>&lt;StrataMap&gt;</code>)</h2>
+<p><code>&lt;StrataMap&gt;</code> renders <code>layers.json</code> on MapLibre and, when given a <code>store</code>, reflects live changes
+(visibility/opacity/order/basemap/highlight/<strong>filter</strong>). When also given a <code>bus</code>, it is a <strong>WIF sink</strong> —
+selections and flashes from other widgets light up on it. Controls layered on the canvas:</p>
+<ul>
+<li><strong>Navigation / Geolocate / Fullscreen / Scalebar / StatusBar</strong> — the standard map furniture. Set
+  <code>controls.position</code> (<code>top-left</code>/<code>top-right</code>/…) so the native cluster <strong>honors a docked/floating panel</strong>.</li>
+<li><strong>Legend</strong> — swatches from each layer's <code>drawingInfo</code>.</li>
+<li><strong>Measure</strong> (distance/area) and <strong>Sketch</strong> (point/line/polygon) — revert to <em>identify</em> when closed.</li>
+<li><strong>TimeSlider</strong> — play/pause a <code>definitionExpression</code> on a time field.</li>
+<li><strong>Identify → popup</strong> — a click enriches the top/active feature and shows its <code>popupInfo</code>.</li>
+<li><strong>Layer sources</strong> (<code>source.kind</code>): <code>arcgis-feature</code> · <code>arcgis-map</code> · <code>geojson</code> · <code>strata</code> · <code>tile</code> (XYZ) ·
+  <code>wms</code> · <code>imageserver</code> · <code>cog</code> (GeoTIFF) · <strong><code>vector-tile</code></strong> (native MVT + <code>sourceLayer</code>) · <strong><code>pmtiles</code></strong>
+  (offline/edge, optional <code>pmtiles</code> protocol). Bulk formats (geoparquet/flatgeobuf/zarr) reach the map via
+  <code>/convert</code> → Strata Serve. The registry serializes mutations, lazy-loads on visibility, clusters, and
+  highlights by OID.</li>
+</ul>
+<hr />
+<h2 id="panels-stratacore-mapreactpanels-dockedfloating-tools">Panels (<code>@strata/core-map/react/panels</code>) — docked/floating tools</h2>
+<p>All render inside a shared <strong><code>PanelShell</code></strong> (fixed or floating, with an Open/Remove menu). Add them with
+<code>/panel &lt;type&gt;</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Panel</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LayerPanel</strong></td>
+<td><strong>One-line rows</strong> (drag-reorder, visibility toggle) + a <code>⋯</code>/right-click <strong>context menu</strong>: Show table · Zoom · <strong>Filter…</strong> · <strong>Symbology…</strong> · <strong>Popup…</strong> · Rename · Show metadata · Remove. Add-from-URL header button.</td>
+</tr>
+<tr>
+<td><strong>BasemapPanel</strong></td>
+<td>Switch basemaps (genuine ESRI <code>BaseMap</code>), plus a <strong>Manage</strong> pill: add / remove / <strong>set-default</strong>, persisted to the map spec via <code>onLibraryChange</code>.</td>
+</tr>
+<tr>
+<td><strong>AttributeTablePanel</strong></td>
+<td>Sortable table: header filters, column show/hide, row→map select, <strong>CSV / TSV / JSON / GeoJSON export</strong>, <strong>server paging</strong>, auto <strong>row-windowing</strong>. Emits <code>rowSelect</code>.</td>
+</tr>
+<tr>
+<td><strong>ChartPanel</strong></td>
+<td>Bar/line/pie via <strong>ECharts</strong> (optional) or an SVG fallback; <strong>clicking a category cross-filters</strong> (emits <code>categorySelect</code>).</td>
+</tr>
+<tr>
+<td><strong>CartoPanel</strong></td>
+<td>CARTO-style layer list + cross-filter widgets (category/formula/histogram/time). Emits <code>categorySelect</code>.</td>
+</tr>
+<tr>
+<td><strong>FilterPanel</strong></td>
+<td>Interactive query builder → <code>definitionExpression</code> (emits <code>filterChange</code>).</td>
+</tr>
+<tr>
+<td><strong>DateFilter</strong></td>
+<td>Calendar single/range on a time field → time <code>definitionExpression</code>.</td>
+</tr>
+<tr>
+<td><strong>FeatureInfoPanel</strong></td>
+<td>Docked feature detail (the popup element model, pinned beside the map); consumes <code>featureSelect</code>.</td>
+</tr>
+<tr>
+<td><strong>DataActionMenu</strong></td>
+<td>Quick actions on a selection — Zoom/Flash/View-in-table/Export/Clear — dispatched through the bus.</td>
+</tr>
+<tr>
+<td><strong>EditPanel</strong></td>
+<td>Update/add/delete features — <strong>needs a writable + authenticated ESRI backend</strong>.</td>
+</tr>
+<tr>
+<td><strong>AttachmentViewer</strong></td>
+<td>Page through features and view image/video/PDF attachments (read-only, both backends).</td>
+</tr>
+<tr>
+<td><strong>SavedItemsPanel</strong></td>
+<td>One config-driven manager for any saved list (charts / tables / bookmarks) — add / open / rename / remove; pairs with <code>materializeChart</code>/<code>materializeTable</code> (re-run a saved descriptor live, "expression not snapshot").</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="layout-widgets-defaultwidgetregistry-the-applayout-building-blocks">Layout widgets (<code>defaultWidgetRegistry</code>) — the <code>AppLayout</code> building blocks</h2>
+<p><code>&lt;StrataApp&gt;</code> renders a tree of <strong>containers</strong> holding <strong>widgets</strong>. Containers: <code>row</code> · <code>column</code> · <code>grid</code> ·
+<code>section</code> · <code>card</code> · <strong><code>accordion</code></strong> · <strong><code>flow-row</code></strong> · <strong><code>splitter</code></strong> (resizable) · <strong><code>window</code></strong> (modal
+dialog) · <strong><code>panel</code></strong> (dockable/collapsible), plus a <strong><code>views</code></strong> node (tabs / slide stepper, each view
+carrying a saved <code>mapState</code>, with optional <code>autoPlay</code>) and an <code>animate</code>
+(<code>fade</code>/<code>slide</code>/<code>scroll-reveal</code>/<code>fly</code>/<code>zoom</code>/<code>rotate</code> + <code>animateOptions</code>). Pages also take <code>header</code>/<code>footer</code>
+regions and an app <code>splash</code>. Widgets (registry <code>type</code>), grouped by what they do:</p>
+<ul>
+<li><strong>Content / map / media</strong> — <code>map</code>, <code>text</code>, <code>image</code>, <code>embed</code> (iframe), <code>video</code>, <code>button</code>, <code>menu</code>, <code>divider</code>,
+  <code>card</code>, <code>list</code>/<code>gallery</code>.</li>
+<li><strong>Data viz</strong> — <code>kpi</code>, <code>gauge</code>, <code>sparkline</code>, <code>stacked-bar</code>, <code>chart</code>, <code>table</code>.</li>
+<li><strong>Map tools</strong> — <code>legend</code>, <code>layer-panel</code>, <code>basemap</code> (gallery), <code>carto</code>, <code>status-bar</code>, <code>filter</code>,
+  <code>date-filter</code>, <code>query</code>, <code>feature-info</code>, <code>data-actions</code>.</li>
+<li><strong>App chrome / interactivity</strong> — <code>theme-switch</code>, <code>lang-switch</code>, <code>share</code>, <code>bookmarks</code>, <code>swipe</code>,
+  <strong><code>controller</code></strong> (a tool dock that shows/hides panels), <code>placeholder</code> (design-time slot).</li>
+<li><strong>Analysis</strong> — <code>analysis</code> (a shell over the Turf ops), <code>near-me</code> (proximity), <code>add-data</code> (runtime layer
+  add → "explorer" apps), <code>weighted-overlay</code> (suitability sliders), <code>elevation</code> (drawn-line profile).</li>
+</ul>
+<p><strong>They work together through the WIF:</strong> every widget gets an <code>id</code>, the shared <code>bus</code>, and the <code>outputs</code>
+registry. An <code>AppLayout.connections</code> array declares <em>"when <code>from</code> emits <code>trigger</code>, run <code>action</code> on <code>to</code>"</em> —
+<code>&lt;StrataApp&gt;</code> wires the bus at mount, so a chart click filters the map + table, a category cross-filters
+every widget, a row zooms the map. Filters apply <strong>in place</strong> (<code>store.setDefinition</code>, no remount). See the
+<a href="reference-human-language.html#8-widget-interactivity-the-wif"><code>strata-interactivity</code></a> skill.</p>
+<hr />
+<h2 id="skills-claudeskills-how-claude-authors-each-thing">Skills (<code>.claude/skills/*</code>) — how Claude authors each thing</h2>
+<p>A skill is a cheatsheet + recipes + ESRI reference + traps that Claude loads for a task. Each maps to a
+surface above:</p>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Authors</th>
+<th>Pairs with</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>strata-map</strong></td>
+<td><code>layers.json</code> (the map spec) incl. raster (ImageServer/COG)</td>
+<td><code>/create-map</code>, <code>/add-data</code></td>
+</tr>
+<tr>
+<td><strong>strata-symbology</strong></td>
+<td>ESRI <code>drawingInfo</code> renderers (from <code>@strata/theme</code> palettes)</td>
+<td><code>/symbology</code></td>
+</tr>
+<tr>
+<td><strong>strata-popups</strong></td>
+<td>ESRI <code>popupInfo</code> (media/charts/attachments/related/Arcade)</td>
+<td><code>/popup</code></td>
+</tr>
+<tr>
+<td><strong>strata-charts</strong></td>
+<td>Charts (ECharts/SVG) + the depth table</td>
+<td><code>/panel chart</code>, <code>/app</code></td>
+</tr>
+<tr>
+<td><strong>strata-panels</strong></td>
+<td>Every docked/floating panel</td>
+<td><code>/panel</code></td>
+</tr>
+<tr>
+<td><strong>strata-interactivity</strong></td>
+<td>The WIF — <code>AppLayout.connections</code> + output data sources</td>
+<td><code>/app</code>, <code>/new-app</code>, <code>/panel</code></td>
+</tr>
+<tr>
+<td><strong>strata-layout</strong></td>
+<td>The <code>AppLayout</code> (templates, views/slides, containers, design widgets)</td>
+<td><code>/app</code>, <code>/new-app</code></td>
+</tr>
+<tr>
+<td><strong>strata-export</strong></td>
+<td>Composed PDF / report / atlas / share / data export</td>
+<td><code>/export</code></td>
+</tr>
+<tr>
+<td><strong>strata-data</strong></td>
+<td>Convert / publish / analyze</td>
+<td><code>/convert</code>, <code>/publish</code>, <code>/analyze</code></td>
+</tr>
+<tr>
+<td><strong>strata-brand</strong></td>
+<td>Tokens, theme presets, bilingual + the disclaimer footer</td>
+<td>all</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="commands-claudecommands-what-you-type">Commands (<code>.claude/commands/*</code>) — what you type</h2>
+<p>Onboarding (<code>/new-app</code>, <code>/guide</code>, <code>/help</code>, <code>/what-can-i-do</code>, <code>/recipe</code>), map authoring (<code>/create-map</code>,
+<code>/add-data</code>, <code>/symbology</code>, <code>/popup</code>, <code>/panel</code>, <code>/timeslider</code>, <code>/app</code>, <code>/edit</code>, <code>/attachments</code>, <code>/analyze</code>),
+data (<code>/convert</code>, <code>/publish</code>, <code>/update-metadata</code>), and <code>/export</code>. Full list with arguments:
+<a href="reference-commands.html">Command reference</a>.</p>
+<hr />
+<h2 id="see-also">See also</h2>
+<ul>
+<li><strong><a href="reference-human-language.html">Human Language Reference</a></strong> — the phrase to ask for each component (recipe fuel).</li>
+<li><strong><a href="guide-creating-components.html">Creating a new component/widget/plugin</a></strong> — prerequisites + the recipe.</li>
+<li><strong><a href="guide-anatomy.html">Repository anatomy</a></strong> — where every file lives.</li>
+</ul><div class="pager"><a class="prev" href="how-to-using-recipes.html"><small>Previous</small>Using recipes</a><a class="next" href="reference-human-language.html"><small>Next</small>Human Language Reference</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

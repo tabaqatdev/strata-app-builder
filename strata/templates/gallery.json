@@ -1,0 +1,219 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'gallery' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/md.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "gallery",
+    "name": "Gallery",
+    "category": "web-page",
+    "webmap": "md",
+    "tier": "simple",
+    "blurb": "A hero and a prominent card gallery linking to content, with an embedded map row."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#ca8a04",
+      "secondary": "#0e7490"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "scroll",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Maryland Atlas",
+                    "as": "h1"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Curated maps and datasets for the Old Line State — pick a card to dive in.",
+                    "style": {
+                      "opacity": "0.75"
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "search"
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "id": "flyBtn",
+                  "type": "button",
+                  "props": {
+                    "label": "Fly to Maryland ↓",
+                    "variant": "primary"
+                  }
+                }
+              }
+            ],
+            "gap": 8,
+            "animate": "fade",
+            "style": {
+              "padding": "48px 24px 24px",
+              "textAlign": "center"
+            }
+          },
+          {
+            "kind": "grid",
+            "columns": 3,
+            "gap": 14,
+            "animate": "scroll-reveal",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "Hospitals",
+                    "content": "Acute-care and specialty hospitals statewide."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "Fire stations",
+                    "content": "Every station, engine and ladder company."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "County boundaries",
+                    "content": "The 23 counties + Baltimore City."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "Response times",
+                    "content": "Coverage and drive-time analysis."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "Floodplains",
+                    "content": "FEMA flood zones and risk."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "Demographics",
+                    "content": "ACS population and income context."
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "md-counties",
+                      "md-hospitals",
+                      "md-fire-stations"
+                    ]
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "420px",
+              "borderRadius": "12px",
+              "overflow": "hidden",
+              "margin": "0 24px"
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Built on strata-app-builder — open basemaps, ESRI Web Map JSON, MapLibre rendering.",
+                "style": {
+                  "opacity": "0.6",
+                  "padding": "24px",
+                  "textAlign": "center"
+                }
+              }
+            }
+          }
+        ],
+        "gap": 20,
+        "animate": "scroll-reveal",
+        "style": {
+          "maxWidth": "1100px",
+          "margin": "0 auto",
+          "padding": "0 0 40px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "flyBtn",
+      "trigger": "buttonClick",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "viewpoint": {
+          "center": [
+            -77.2,
+            39.0
+          ],
+          "zoom": 7
+        }
+      }
+    },
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    }
+  ]
+}

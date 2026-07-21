@@ -1,0 +1,22 @@
+{
+  "name": "@strata/actions",
+  "version": "0.3.0",
+  "description": "A typed data-action bus (triggers -> actions) so strata-app-builder widgets and panels cross-drive each other, like Experience Builder's message framework and CARTO's widgets. Zero dependencies.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

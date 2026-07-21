@@ -1,0 +1,28 @@
+{
+  "name": "@strata/schema",
+  "version": "0.1.0",
+  "description": "The shared contract for strata-app-builder: the ESRI Web Map JSON-aligned layers.json and the canonical catalog record (JSON Schema + TypeScript types).",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./layers.schema.json": "./src/layers.schema.json",
+    "./catalog.schema.json": "./src/catalog.schema.json"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

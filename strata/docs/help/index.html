@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Help &amp; Docs · strata-app-builder help</title><style>
+:root{--navy:#0c2b38;--navy2:#123c4d;--teal:#1ba7a6;--teal600:#178f8e;--teal50:#e9f7f7;
+--ink:#12303c;--slate:#5b6b76;--slate400:#94a3b8;--line:#e4ebee;--panel:#f6f9fa;--white:#fff;
+--code-bg:#f4f7f8;--font:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+--mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--white);line-height:1.6}
+a{color:var(--teal600);text-decoration:none}
+a:hover{text-decoration:underline}
+/* top bar */
+.top{position:sticky;top:0;z-index:20;height:58px;display:flex;align-items:center;gap:14px;
+padding:0 20px;background:var(--navy);color:#fff}
+.top .mk{width:26px;height:26px}
+.top .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.01em}
+.top .brand b{color:#fff}.top .brand span{color:var(--teal);font-weight:700}
+.top .brand small{color:#9fc7cd;font-weight:600;margin-left:6px;font-size:.8rem;letter-spacing:.04em}
+.top .spacer{flex:1}
+.top .home{color:#cfe6e6;font-size:.9rem}
+.filter{display:flex;align-items:center}
+.filter input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;
+border-radius:8px;padding:.4rem .7rem;font-size:.85rem;width:190px;outline:none}
+.filter input::placeholder{color:#9fc7cd}
+/* layout */
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1200px;margin:0 auto}
+nav.side{border-right:1px solid var(--line);padding:22px 14px 60px;height:calc(100vh - 58px);
+position:sticky;top:58px;overflow:auto}
+nav.side .grp{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+color:var(--slate400);margin:18px 10px 6px}
+nav.side a{display:block;padding:.4rem .7rem;border-radius:8px;color:var(--ink);font-size:.92rem;font-weight:500}
+nav.side a:hover{background:var(--panel);text-decoration:none}
+nav.side a.active{background:var(--teal50);color:var(--teal600);font-weight:700}
+/* content */
+main{padding:34px 44px 80px;min-width:0;max-width:860px}
+main .crumb{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal600);font-weight:800}
+main h1{font-size:2.15rem;line-height:1.15;color:var(--navy);letter-spacing:-.02em;margin:.2rem 0 .2rem}
+main .lede{color:var(--slate);font-size:1.05rem;margin:0 0 1.4rem}
+main h2{font-size:1.5rem;color:var(--navy);margin:2rem 0 .6rem;padding-top:.4rem;border-top:1px solid var(--line)}
+main h3{font-size:1.16rem;color:var(--navy2);margin:1.4rem 0 .4rem}
+main h4{font-size:1rem;color:var(--navy2);margin:1.1rem 0 .3rem}
+main p,main li{color:#243b45}
+main code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);color:#0a3a44;
+padding:.12em .38em;border-radius:5px}
+main pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+overflow:auto}
+main pre code{background:none;padding:0;color:#123}
+main table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem;display:block;overflow:auto}
+main th,main td{border:1px solid var(--line);padding:.5rem .7rem;text-align:left;vertical-align:top}
+main thead th{background:var(--panel);color:var(--navy);font-size:.82rem;letter-spacing:.02em}
+main blockquote{margin:1.1rem 0;padding:.7rem 1rem;background:var(--teal50);border-radius:0 10px 10px 0;
+border-left:4px solid var(--teal);color:#134}
+main blockquote p{margin:.3rem 0}
+main hr{border:none;border-top:1px solid var(--line);margin:2rem 0}
+main ul,main ol{padding-left:1.3rem}main li{margin:.25rem 0}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:3rem;border-top:1px solid var(--line);padding-top:1.2rem}
+.pager a{flex:1;padding:.8rem 1rem;border:1px solid var(--line);border-radius:12px;font-weight:600}
+.pager a:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.pager a.next{text-align:right}
+.pager small{display:block;color:var(--slate400);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;padding:22px 44px;max-width:860px}
+/* landing */
+.hero{background:linear-gradient(135deg,var(--navy),#164a5c);color:#fff;border-radius:18px;padding:40px 40px}
+.hero h1{color:#fff;font-size:2.4rem;margin:.4rem 0 .5rem;letter-spacing:-.02em}
+.hero p{color:#cfe6e6;font-size:1.1rem;max-width:44ch;margin:0}
+.hero .mk{width:34px;height:34px;vertical-align:middle}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:block;color:inherit}
+.card:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.card b{color:var(--navy);font-size:1.02rem}
+.card p{color:var(--slate);font-size:.9rem;margin:.3rem 0 0}
+.sec-h{font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal600);margin:26px 0 4px}
+.menu-btn{display:none}
+@media(max-width:860px){
+ .wrap{grid-template-columns:1fr}
+ nav.side{position:fixed;left:0;top:58px;bottom:0;width:280px;background:#fff;transform:translateX(-100%);
+ transition:.2s;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+ nav.side.open{transform:none}
+ .menu-btn{display:inline-flex}.filter{display:none}
+ main{padding:24px 20px 60px}.cards{grid-template-columns:1fr}.hero{padding:28px 22px}
+}
+</style></head><body><header class="top"><button class="menu-btn" onclick="document.getElementById('side').classList.toggle('open')" aria-label="Menu" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer">☰</button><a class="brand" href="index.html"><svg class="mk" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="6" y="7" width="20" height="4.2" rx="2.1" fill="#0c2b38"/><rect x="4" y="14" width="24" height="4.2" rx="2.1" fill="#1ba7a6"/><rect x="8" y="21" width="16" height="4.2" rx="2.1" fill="#5cc7c5"/></svg><b>tabaqat</b><span>· Strata</span><small>HELP &amp; DOCS</small></a><div class="spacer"></div><div class="filter"><input id="q" type="search" placeholder="Filter topics…" oninput="filterNav(this.value)"></div><a class="home" href="index.html">Home</a></header><div class="wrap"><nav class="side" id="side">
+<div class="grp">Start here</div>
+<a class="nav-link" data-title="overview" href="README.html">Overview</a>
+<a class="nav-link" data-title="getting started" href="getting-started.html">Getting started</a>
+<a class="nav-link" data-title="faq" href="faq.html">FAQ</a>
+<div class="grp">Guide</div>
+<a class="nav-link" data-title="repository anatomy" href="guide-anatomy.html">Repository anatomy</a>
+<a class="nav-link" data-title="sample map templates" href="guide-map-templates.html">Sample map templates</a>
+<a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
+<a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
+<a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<div class="grp">How-to</div>
+<a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
+<a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
+<a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
+<a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
+<a class="nav-link" data-title="using recipes" href="how-to-using-recipes.html">Using recipes</a>
+<div class="grp">Reference</div>
+<a class="nav-link" data-title="components &amp; widgets" href="reference-components.html">Components &amp; widgets</a>
+<a class="nav-link" data-title="human language reference" href="reference-human-language.html">Human Language Reference</a>
+<a class="nav-link" data-title="command reference" href="reference-commands.html">Command reference</a>
+<a class="nav-link" data-title="troubleshooting" href="troubleshooting.html">Troubleshooting</a>
+</nav><main><div class="hero"><svg class="mk" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="6" y="7" width="20" height="4.2" rx="2.1" fill="#0c2b38"/><rect x="4" y="14" width="24" height="4.2" rx="2.1" fill="#1ba7a6"/><rect x="8" y="21" width="16" height="4.2" rx="2.1" fill="#5cc7c5"/></svg> <span style="font-weight:800;letter-spacing:.14em;font-size:.8rem;color:#7fd6d4">STRATA-CORE · HELP &amp; DOCS</span><h1>Build ArcGIS-compatible map apps — by describing them.</h1><p>Everything you need to go from an empty folder to a working, sovereign GIS app on Strata or an ArcGIS Server. Start with the guide, or jump to a task.</p></div>
+<div class="sec-h">Start here</div><div class="cards">
+<a class="card" href="README.html"><b>Overview</b><p>What strata-app-builder is, and where to go next.</p></a>
+<a class="card" href="getting-started.html"><b>Getting started</b><p>From install to your first working map — the on-ramp.</p></a>
+<a class="card" href="faq.html"><b>FAQ</b><p>The questions people actually ask.</p></a>
+</div>
+<div class="sec-h">Guide</div><div class="cards">
+<a class="card" href="guide-anatomy.html"><b>Repository anatomy</b><p>What every folder and package is.</p></a>
+<a class="card" href="guide-map-templates.html"><b>Sample map templates</b><p>The four starter maps first run drops onto your canvas.</p></a>
+<a class="card" href="guide-style-compiler.html"><b>The style compiler</b><p>How genuine ESRI drawingInfo becomes MapLibre paint.</p></a>
+<a class="card" href="guide-creating-components.html"><b>Creating components</b><p>Prerequisites + the recipe for a new widget, panel, plugin, or package.</p></a>
+<a class="card" href="guide-app-design.html"><b>Application design</b><p>Silhouette, layout, wiring, theme — how to design a distinct, alive app.</p></a>
+</div>
+<div class="sec-h">How-to</div><div class="cards">
+<a class="card" href="how-to-create-app-layouts.html"><b>Create an app layout</b><p>Full-page, in-scroll, split, and synced multi-map.</p></a>
+<a class="card" href="how-to-symbology.html"><b>Symbology</b><p>Style layers with simple / class-breaks / unique-value / heatmap.</p></a>
+<a class="card" href="how-to-publish-data.html"><b>Publish data</b><p>Convert to GeoParquet and publish to the Strata Serve server.</p></a>
+<a class="card" href="how-to-export-maps.html"><b>Export maps</b><p>Image, PDF, shareable web-map spec, and layer data.</p></a>
+<a class="card" href="how-to-cors-and-proxy.html"><b>CORS &amp; proxy</b><p>Blank layers are usually CORS — here&#x27;s the fix.</p></a>
+<a class="card" href="how-to-using-recipes.html"><b>Using recipes</b><p>Launch a recipe like an ArcGIS Instant App: wizard → build.</p></a>
+</div>
+<div class="sec-h">Reference</div><div class="cards">
+<a class="card" href="reference-components.html"><b>Components &amp; widgets</b><p>Purpose and scope of every package, panel, widget, and skill.</p></a>
+<a class="card" href="reference-human-language.html"><b>Human Language Reference</b><p>The phrase to ask for each component — recipe fuel.</p></a>
+<a class="card" href="reference-commands.html"><b>Command reference</b><p>Every .claude command, grouped.</p></a>
+<a class="card" href="troubleshooting.html"><b>Troubleshooting</b><p>Known traps and how to avoid them.</p></a>
+</div></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

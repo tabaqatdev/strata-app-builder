@@ -1,0 +1,127 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'scenic' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/md.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "scenic",
+    "name": "Scenic",
+    "category": "web-page",
+    "webmap": "md",
+    "tier": "trivial",
+    "blurb": "Full-bleed scenery: a dark cinematic shell where the map is the hero image."
+  },
+  "theme": {
+    "mode": "dark",
+    "colors": {
+      "primary": "#22c55e"
+    },
+    "variables": {
+      "--strata-app-bg": "#04120a"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "section",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "map",
+              "id": "map",
+              "props": {
+                "layerIds": [
+                  "md-counties",
+                  "md-hospitals",
+                  "md-fire-stations"
+                ],
+                "controls": {
+                  "navigation": true,
+                  "position": "bottom-right"
+                }
+              }
+            }
+          },
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "MARYLAND",
+                    "as": "h1"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "3 layers · 24 jurisdictions · one scenic view",
+                    "style": {
+                      "letterSpacing": "0.2em",
+                      "textTransform": "uppercase",
+                      "fontSize": "12px",
+                      "opacity": "0.8"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "flow",
+            "animate": "fade",
+            "style": {
+              "position": "absolute",
+              "top": "36px",
+              "left": "40px",
+              "zIndex": "5",
+              "pointerEvents": "none",
+              "textShadow": "0 2px 12px rgba(0,0,0,.6)"
+            }
+          },
+          {
+            "kind": "row",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "legend",
+                  "props": {
+                    "mode": "floating"
+                  }
+                }
+              }
+            ],
+            "mode": "flow",
+            "style": {
+              "position": "absolute",
+              "bottom": "24px",
+              "left": "24px",
+              "zIndex": "5"
+            }
+          }
+        ],
+        "mode": "fixed",
+        "style": {
+          "flex": "1 1 0%",
+          "minWidth": 0,
+          "minHeight": 0,
+          "height": "100%"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    }
+  ]
+}

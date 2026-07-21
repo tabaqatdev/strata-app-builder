@@ -1,0 +1,192 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'avatarboard' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "avatarboard",
+    "name": "Avatarboard",
+    "category": "grid",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "A big map pane with a profile rail: selected feature's card, details, and neighbors list."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#0d9488"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "splitter",
+        "children": [
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-affordable-housing",
+                      "dc-wards"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minWidth": 0,
+              "minHeight": 0,
+              "height": "100%"
+            }
+          },
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "feature-info",
+                  "id": "profile",
+                  "dataSource": {
+                    "layerId": "dc-affordable-housing"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "table",
+                  "id": "neighbors",
+                  "props": {
+                    "paging": true
+                  },
+                  "dataSource": {
+                    "layerId": "dc-affordable-housing"
+                  }
+                }
+              }
+            ],
+            "gap": 12,
+            "style": {
+              "padding": "12px",
+              "overflow": "auto",
+              "height": "100%"
+            }
+          }
+        ],
+        "sizes": [
+          66,
+          34
+        ],
+        "orientation": "h"
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Avatarboard",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "feature profile rail",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "profile",
+      "action": "viewInTable",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    },
+    {
+      "from": "neighbors",
+      "trigger": "rowSelect",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    },
+    {
+      "from": "neighbors",
+      "trigger": "rowSelect",
+      "to": "profile",
+      "action": "viewInTable",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    }
+  ]
+}

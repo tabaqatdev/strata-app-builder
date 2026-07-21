@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Edit",
+      "Write",
+      "WebSearch",
+      "WebFetch(domain:developers.arcgis.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(pnpm:*)",
+      "Bash(node:*)",
+      "Bash(npx:*)",
+      "Bash(ogr2ogr:*)",
+      "Bash(ogrinfo:*)",
+      "Bash(curl:*)",
+      "Bash(duckdb:*)"
+    ],
+    "deny": [
+      "Read(**/llm_keys.json)",
+      "Read(**/.session_key)"
+    ]
+  }
+}

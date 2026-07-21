@@ -1,0 +1,39 @@
+{
+  "name": "@strata/plugin-routing",
+  "version": "0.3.0",
+  "description": "Routing / directions / nearest-facility plugin for Strata. Ships a keyless public-OSRM provider, a haversine `nearest` helper, and an optional, lazy Esri routing provider. Draws the route as a GeoJSON layer via the app API.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@strata/plugins": "workspace:*",
+    "@strata/schema": "workspace:*"
+  },
+  "peerDependencies": {
+    "@esri/arcgis-rest-routing": "*",
+    "@esri/arcgis-rest-request": "*"
+  },
+  "peerDependenciesMeta": {
+    "@esri/arcgis-rest-routing": {
+      "optional": true
+    },
+    "@esri/arcgis-rest-request": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.14",
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

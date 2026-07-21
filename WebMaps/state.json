@@ -1,0 +1,1635 @@
+{
+  "version": "1.0",
+  "spatialReference": {
+    "wkid": 4326,
+    "latestWkid": 4326
+  },
+  "initialState": {
+    "viewpoint": {
+      "targetGeometry": {
+        "xmin": -124.6,
+        "ymin": 32.3,
+        "xmax": -114,
+        "ymax": 42.2,
+        "spatialReference": {
+          "wkid": 4326
+        }
+      }
+    }
+  },
+  "baseMap": {
+    "title": "OpenStreetMap",
+    "baseMapLayers": [
+      {
+        "id": "osm",
+        "layerType": "WebTiledLayer",
+        "templateUrl": "https://tile.openstreetmap.org/{level}/{col}/{row}.png",
+        "copyright": "© OpenStreetMap contributors"
+      }
+    ]
+  },
+  "operationalLayers": [
+    {
+      "id": "state-counties",
+      "title": "Counties — California",
+      "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/3",
+      "layerType": "ArcGISFeatureLayer",
+      "source": {
+        "kind": "arcgis-feature",
+        "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/3"
+      },
+      "visibility": true,
+      "opacity": 1.0,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "uniqueValue",
+            "field1": "name",
+            "field2": null,
+            "field3": null,
+            "fieldDelimiter": ", ",
+            "defaultSymbol": {
+              "type": "esriSFS",
+              "style": "esriSFSSolid",
+              "color": [
+                205,
+                232,
+                238,
+                51
+              ],
+              "outline": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  63,
+                  192,
+                  217,
+                  255
+                ],
+                "width": 1.5
+              }
+            },
+            "defaultLabel": "Other",
+            "uniqueValueInfos": [
+              {
+                "value": "Alameda",
+                "label": "Alameda",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    207,
+                    239,
+                    209,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      65,
+                      218,
+                      72,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Alpine",
+                "label": "Alpine",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    233,
+                    208,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      185,
+                      203,
+                      75,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Amador",
+                "label": "Amador",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    229,
+                    229,
+                    182,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      205,
+                      205,
+                      43,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Butte",
+                "label": "Butte",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    204,
+                    237,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      62,
+                      215,
+                      175,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Calaveras",
+                "label": "Calaveras",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    195,
+                    232,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      191,
+                      55,
+                      208,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Colusa",
+                "label": "Colusa",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    210,
+                    188,
+                    225,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      139,
+                      56,
+                      194,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Contra Costa",
+                "label": "Contra Costa",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    232,
+                    196,
+                    195,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      208,
+                      58,
+                      55,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Del Norte",
+                "label": "Del Norte",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    185,
+                    182,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      51,
+                      41,
+                      209,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "El Dorado",
+                "label": "El Dorado",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    199,
+                    186,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      209,
+                      91,
+                      44,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Fresno",
+                "label": "Fresno",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    198,
+                    232,
+                    204,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      61,
+                      206,
+                      85,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Glenn",
+                "label": "Glenn",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    206,
+                    231,
+                    226,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      75,
+                      199,
+                      176,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Humboldt",
+                "label": "Humboldt",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    213,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      201,
+                      83,
+                      175,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Imperial",
+                "label": "Imperial",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    225,
+                    193,
+                    206,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      194,
+                      61,
+                      117,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Inyo",
+                "label": "Inyo",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    229,
+                    189,
+                    191,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      205,
+                      50,
+                      54,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Kern",
+                "label": "Kern",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    233,
+                    206,
+                    195,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      213,
+                      101,
+                      52,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Kings",
+                "label": "Kings",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    229,
+                    200,
+                    196,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      202,
+                      79,
+                      60,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Lake",
+                "label": "Lake",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    201,
+                    232,
+                    198,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      74,
+                      207,
+                      60,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Lassen",
+                "label": "Lassen",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    210,
+                    198,
+                    229,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      117,
+                      64,
+                      200,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Los Angeles",
+                "label": "Los Angeles",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    214,
+                    205,
+                    231,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      118,
+                      73,
+                      199,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Madera",
+                "label": "Madera",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    236,
+                    227,
+                    204,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      212,
+                      173,
+                      64,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Marin",
+                "label": "Marin",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    204,
+                    233,
+                    236,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      64,
+                      199,
+                      213,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Mariposa",
+                "label": "Mariposa",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    236,
+                    225,
+                    199,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      217,
+                      169,
+                      55,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Mendocino",
+                "label": "Mendocino",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    223,
+                    234,
+                    207,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      149,
+                      206,
+                      73,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Merced",
+                "label": "Merced",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    187,
+                    225,
+                    220,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      53,
+                      196,
+                      175,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Modoc",
+                "label": "Modoc",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    232,
+                    206,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      208,
+                      193,
+                      69,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Mono",
+                "label": "Mono",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    187,
+                    191,
+                    226,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      52,
+                      66,
+                      198,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Monterey",
+                "label": "Monterey",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    204,
+                    231,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      185,
+                      71,
+                      200,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Napa",
+                "label": "Napa",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    213,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      174,
+                      81,
+                      204,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Nevada",
+                "label": "Nevada",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    209,
+                    219,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      207,
+                      74,
+                      122,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Orange",
+                "label": "Orange",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    187,
+                    214,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      202,
+                      49,
+                      150,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Placer",
+                "label": "Placer",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    234,
+                    221,
+                    211,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      202,
+                      130,
+                      81,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Plumas",
+                "label": "Plumas",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    212,
+                    196,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      128,
+                      60,
+                      204,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Riverside",
+                "label": "Riverside",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    215,
+                    235,
+                    212,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      95,
+                      203,
+                      81,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Sacramento",
+                "label": "Sacramento",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    231,
+                    213,
+                    185,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      211,
+                      144,
+                      42,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "San Benito",
+                "label": "San Benito",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    225,
+                    206,
+                    234,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      162,
+                      70,
+                      207,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "San Bernardino",
+                "label": "San Bernardino",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    197,
+                    198,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      53,
+                      60,
+                      215,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "San Diego",
+                "label": "San Diego",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    197,
+                    220,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      54,
+                      149,
+                      215,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "San Francisco",
+                "label": "San Francisco",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    205,
+                    216,
+                    237,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      64,
+                      115,
+                      215,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "San Joaquin",
+                "label": "San Joaquin",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    229,
+                    210,
+                    201,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      199,
+                      112,
+                      68,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "San Luis Obispo",
+                "label": "San Luis Obispo",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    202,
+                    230,
+                    226,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      70,
+                      199,
+                      179,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "San Mateo",
+                "label": "San Mateo",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    218,
+                    187,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      165,
+                      49,
+                      203,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Santa Barbara",
+                "label": "Santa Barbara",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    205,
+                    233,
+                    237,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      64,
+                      193,
+                      215,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Santa Clara",
+                "label": "Santa Clara",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    212,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      159,
+                      80,
+                      204,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Santa Cruz",
+                "label": "Santa Cruz",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    207,
+                    233,
+                    205,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      79,
+                      205,
+                      70,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Shasta",
+                "label": "Shasta",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    207,
+                    238,
+                    224,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      67,
+                      215,
+                      150,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Sierra",
+                "label": "Sierra",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    188,
+                    228,
+                    207,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      49,
+                      203,
+                      122,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Siskiyou",
+                "label": "Siskiyou",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    237,
+                    233,
+                    212,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      209,
+                      187,
+                      76,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Solano",
+                "label": "Solano",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    202,
+                    206,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      61,
+                      80,
+                      213,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Sonoma",
+                "label": "Sonoma",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    202,
+                    215,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      71,
+                      130,
+                      198,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Stanislaus",
+                "label": "Stanislaus",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    190,
+                    192,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      201,
+                      53,
+                      64,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Sutter",
+                "label": "Sutter",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    210,
+                    233,
+                    221,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      80,
+                      201,
+                      134,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Tehama",
+                "label": "Tehama",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    188,
+                    230,
+                    201,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      47,
+                      208,
+                      97,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Trinity",
+                "label": "Trinity",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    215,
+                    236,
+                    212,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      95,
+                      205,
+                      79,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Tulare",
+                "label": "Tulare",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    223,
+                    204,
+                    187,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      189,
+                      121,
+                      57,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Tuolumne",
+                "label": "Tuolumne",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    190,
+                    210,
+                    233,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      45,
+                      124,
+                      214,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Ventura",
+                "label": "Ventura",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    184,
+                    203,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      202,
+                      46,
+                      116,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Yolo",
+                "label": "Yolo",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    229,
+                    204,
+                    195,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      202,
+                      96,
+                      58,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Yuba",
+                "label": "Yuba",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    201,
+                    205,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      212,
+                      61,
+                      80,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "definitionExpression": "state_name = 'California'"
+      },
+      "popupInfo": {
+        "title": "{name} County",
+        "fieldInfos": [
+          {
+            "fieldName": "name",
+            "label": "County",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "state_name",
+            "label": "State",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "pop2000",
+            "label": "Population (2000)",
+            "visible": true,
+            "isEditable": false,
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            }
+          },
+          {
+            "fieldName": "pop00_sqmi",
+            "label": "People / sq mi",
+            "visible": true,
+            "isEditable": false,
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "state-cities",
+      "title": "Cities",
+      "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0",
+      "layerType": "ArcGISFeatureLayer",
+      "source": {
+        "kind": "arcgis-feature",
+        "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0"
+      },
+      "visibility": true,
+      "opacity": 1.0,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple",
+            "symbol": {
+              "type": "esriSMS",
+              "style": "esriSMSCircle",
+              "color": [
+                12,
+                43,
+                56,
+                255
+              ],
+              "size": 6,
+              "outline": {
+                "color": [
+                  255,
+                  255,
+                  255,
+                  255
+                ],
+                "width": 1
+              }
+            }
+          }
+        },
+        "definitionExpression": "st = 'CA'"
+      },
+      "popupInfo": {
+        "title": "{areaname}",
+        "fieldInfos": [
+          {
+            "fieldName": "areaname",
+            "label": "City",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "class",
+            "label": "Class",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "pop2000",
+            "label": "Population (2000)",
+            "visible": true,
+            "isEditable": false,
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

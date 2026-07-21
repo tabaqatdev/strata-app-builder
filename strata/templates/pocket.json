@@ -1,0 +1,79 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'pocket' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/md.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "pocket",
+    "name": "Pocket",
+    "category": "map-centric",
+    "webmap": "md",
+    "tier": "trivial",
+    "blurb": "The minimal embeddable map — no chrome, one floating legend. Iframe-ready."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#334155"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "section",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "map",
+              "id": "map",
+              "props": {
+                "layerIds": [
+                  "md-counties",
+                  "md-hospitals",
+                  "md-fire-stations"
+                ],
+                "controls": {
+                  "navigation": true,
+                  "scale": true,
+                  "position": "top-right"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "legend",
+              "props": {
+                "mode": "floating"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "search"
+            }
+          }
+        ],
+        "mode": "fixed",
+        "style": {
+          "flex": "1 1 0%",
+          "minWidth": 0,
+          "minHeight": 0,
+          "height": "100%"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    }
+  ]
+}

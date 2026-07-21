@@ -1,0 +1,257 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'introduction' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "introduction",
+    "name": "Introduction",
+    "category": "web-page",
+    "webmap": "dc",
+    "tier": "advanced",
+    "blurb": "A two-page onboarding: a welcome page introduces the data, a button opens the working map."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#2563eb"
+    }
+  },
+  "pages": [
+    {
+      "id": "welcome",
+      "title": "Welcome",
+      "type": "scroll",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Welcome to the District data explorer",
+                    "as": "h1"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Five open datasets — wards, parcels, bike routes, crashes, housing — one map. This page tells you what you're looking at; the next one puts you to work.",
+                    "style": {
+                      "fontSize": "16px",
+                      "opacity": "0.85"
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "button",
+                  "id": "start",
+                  "props": {
+                    "label": "Start exploring →",
+                    "variant": "primary"
+                  }
+                }
+              }
+            ],
+            "gap": 14,
+            "animate": "fade",
+            "style": {
+              "padding": "64px 24px 28px",
+              "textAlign": "center",
+              "maxWidth": "720px",
+              "margin": "0 auto"
+            }
+          },
+          {
+            "kind": "grid",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "Wards",
+                    "content": "Income & employment choropleth."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "Crashes",
+                    "content": "Time-enabled Q4-2024 points."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "Housing",
+                    "content": "Affordable-housing projects."
+                  }
+                }
+              }
+            ],
+            "columns": 3,
+            "gap": 14,
+            "animate": "scroll-reveal",
+            "style": {
+              "maxWidth": "900px",
+              "margin": "0 auto",
+              "padding": "0 24px 48px"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "explore",
+      "title": "Explore",
+      "type": "fixed",
+      "root": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "panel",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "layer-panel",
+                  "id": "layers"
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "legend"
+                }
+              }
+            ],
+            "dock": "left",
+            "width": 280,
+            "collapsible": true
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-wards",
+                      "dc-parcels",
+                      "dc-bike-routes",
+                      "dc-crashes",
+                      "dc-affordable-housing"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minWidth": 0,
+              "minHeight": 0,
+              "height": "100%"
+            }
+          }
+        ],
+        "mode": "fixed",
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "District data explorer",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "page-nav",
+              "props": {
+                "style": "tabs"
+              }
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "splash": {
+    "title": "District data explorer",
+    "body": "An introduction-style template: page 1 orients, page 2 works.",
+    "dismissible": true,
+    "once": true
+  },
+  "connections": [
+    {
+      "from": "start",
+      "trigger": "buttonClick",
+      "action": "navigate",
+      "options": {
+        "page": "explore"
+      }
+    },
+    {
+      "from": "layers",
+      "trigger": "filterChange",
+      "to": "map",
+      "action": "filter"
+    },
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "version": "1.0",
+  "authoringApp": "StrataMapViewer",
+  "authoringAppVersion": "0.1.0",
+  "spatialReference": { "wkid": 4326, "latestWkid": 4326 },
+  "initialState": {
+    "viewpoint": {
+      "targetGeometry": {
+        "xmin": -124.55, "ymin": 32.45, "xmax": -114.10, "ymax": 42.05,
+        "spatialReference": { "wkid": 4326 }
+      }
+    }
+  },
+  "strata:notes": {
+    "title": "California — Strata WebMap",
+    "summary": "A statewide base WebMap for California, wildfire/emergency-forward. The standard ESRI members render in any Web-Map client; strata:extensions carries the server registry, a multi-format source catalog (incl. COG/GeoParquet/PMTiles/etc.), and per-app config for the showcase, wildfire COP, and banking apps.",
+    "region": "California",
+    "sources": ".private/data_sources_ca.md · data_sources_national.md"
+  },
+  "baseMap": {
+    "title": "CARTO Positron",
+    "baseMapLayers": [
+      { "id": "carto-light", "layerType": "WebTiledLayer", "templateUrl": "https://a.basemaps.cartocdn.com/light_all/{level}/{col}/{row}.png", "copyright": "© OpenStreetMap contributors © CARTO" }
+    ]
+  },
+  "operationalLayers": [
+    {
+      "id": "ca-fhsz",
+      "title": "Fire Hazard Severity Zones (SRA)",
+      "url": "https://services.gis.ca.gov/arcgis/rest/services/Environment/Fire_Severity_Zones/MapServer/0",
+      "layerType": "ArcGISMapServiceLayer",
+      "source": { "kind": "arcgis-map", "url": "https://services.gis.ca.gov/arcgis/rest/services/Environment/Fire_Severity_Zones/MapServer/0" },
+      "visibility": true,
+      "opacity": 0.55,
+      "attribution": "CAL FIRE · California State Geoportal"
+    },
+    {
+      "id": "ca-fire-perimeters",
+      "title": "Active fire perimeters (NIFC/FIRIS)",
+      "url": "https://services1.arcgis.com/jUJYIo9tSA7EHvfZ/arcgis/rest/services/CA_Perimeters_NIFC_FIRIS_public_view/FeatureServer/0",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://services1.arcgis.com/jUJYIo9tSA7EHvfZ/arcgis/rest/services/CA_Perimeters_NIFC_FIRIS_public_view/FeatureServer/0" },
+      "visibility": true,
+      "opacity": 1,
+      "attribution": "CAL FIRE",
+      "layerDefinition": {
+        "drawingInfo": { "renderer": { "type": "simple", "symbol": { "type": "esriSFS", "style": "esriSFSSolid", "color": [227, 74, 51, 90], "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [153, 30, 20, 220], "width": 1.2 } } } }
+      }
+    },
+    {
+      "id": "ca-shelters",
+      "title": "Cal OES Shelters",
+      "url": "https://services.arcgis.com/BLN4oKB0N1YSgvY8/arcgis/rest/services/CalOESShelters3/FeatureServer/0",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://services.arcgis.com/BLN4oKB0N1YSgvY8/arcgis/rest/services/CalOESShelters3/FeatureServer/0" },
+      "visibility": true,
+      "opacity": 1,
+      "attribution": "Cal OES · CDSS",
+      "layerDefinition": {
+        "drawingInfo": { "renderer": { "type": "simple", "symbol": { "type": "esriSMS", "style": "esriSMSCircle", "color": [57, 217, 138, 235], "size": 8, "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [255, 255, 255, 220], "width": 0.75 } } } }
+      }
+    }
+  ],
+  "bookmarks": [
+    { "name": "California", "extent": { "xmin": -124.55, "ymin": 32.45, "xmax": -114.10, "ymax": 42.05, "spatialReference": { "wkid": 4326 } } },
+    { "name": "Bay Area", "extent": { "xmin": -122.75, "ymin": 37.35, "xmax": -121.75, "ymax": 38.10, "spatialReference": { "wkid": 4326 } } },
+    { "name": "Los Angeles", "extent": { "xmin": -118.70, "ymin": 33.70, "xmax": -117.85, "ymax": 34.35, "spatialReference": { "wkid": 4326 } } },
+    { "name": "Sierra Nevada", "extent": { "xmin": -121.20, "ymin": 38.20, "xmax": -119.60, "ymax": 39.60, "spatialReference": { "wkid": 4326 } } }
+  ],
+
+  "strata:extensions": {
+    "schemaVersion": "1.0",
+    "profile": "california",
+    "title": "California — Strata WebMap",
+    "description": "Server registry + multi-format catalog + app config for California (wildfire/emergency-forward). ESRI ignores this member; Strata apps read it.",
+
+    "servers": [
+      { "id": "ca-geoportal", "title": "California State Geoportal (CDT / GIO)", "kind": "arcgis-server", "url": "https://services.gis.ca.gov/arcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["authoritative", "statewide"], "solutions": ["showcase", "emergency-response", "banking"] },
+      { "id": "calfire-hosted", "title": "CAL FIRE (hosted org)", "kind": "arcgis-hosted", "url": "https://services1.arcgis.com/jUJYIo9tSA7EHvfZ/arcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["wildfire", "authoritative"], "solutions": ["emergency-response", "banking"] },
+      { "id": "caloes-hosted", "title": "Cal OES — Governor's Office of Emergency Services (hosted org)", "kind": "arcgis-hosted", "url": "https://services.arcgis.com/BLN4oKB0N1YSgvY8/arcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["emergency", "shelters", "evacuation"], "solutions": ["emergency-response"] },
+      { "id": "caltrans", "title": "Caltrans — Dept. of Transportation", "kind": "arcgis-server", "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["transportation", "roads"], "solutions": ["emergency-response"] },
+      { "id": "ca-dwr", "title": "California Dept. of Water Resources", "kind": "arcgis-server", "url": "https://gis.water.ca.gov/arcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["water", "flood"], "solutions": ["emergency-response"] },
+      { "id": "ca-conservation", "title": "CA Dept. of Conservation (CGS seismic/geology)", "kind": "arcgis-server", "url": "https://gis.conservation.ca.gov/server/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["seismic", "earthquake", "geology"], "solutions": ["emergency-response", "banking"] },
+      { "id": "calfire-frap", "title": "CAL FIRE FRAP (on-prem)", "kind": "arcgis-server", "url": "https://egis.fire.ca.gov/arcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["wildfire"], "solutions": ["emergency-response"] },
+      { "id": "census-tigerweb", "title": "US Census TIGERweb (tracts/counties/ZCTAs)", "kind": "arcgis-server", "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["national", "demographics"], "solutions": ["banking"] },
+      { "id": "fema-nfhl", "title": "FEMA National Flood Hazard Layer", "kind": "arcgis-server", "url": "https://hazards.fema.gov/arcgis/rest/services/", "cors": false, "auth": { "type": "none" }, "tags": ["national", "flood", "proxy-required"], "solutions": ["emergency-response", "banking"] },
+      { "id": "nifc-wfigs", "title": "NIFC / WFIGS wildfire (national, hosted)", "kind": "arcgis-hosted", "url": "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/", "cors": true, "auth": { "type": "none" }, "tags": ["national", "wildfire"], "solutions": ["emergency-response"] }
+    ],
+
+    "catalog": [
+      { "id": "ca-fire-last5", "title": "CA fire perimeters — last 5 years", "format": "arcgis-feature", "url": "https://services1.arcgis.com/jUJYIo9tSA7EHvfZ/arcgis/rest/services/California_Fire_Perimeters_last_5_years/FeatureServer/0", "geometry": "polygon", "category": "hazard", "coreRenderable": true, "access": { "cors": true }, "solutions": ["emergency-response", "banking"] },
+      { "id": "ca-evac-statewide", "title": "Statewide evacuation layer (Zonehaven)", "format": "arcgis-feature", "url": "https://services.arcgis.com/BLN4oKB0N1YSgvY8/arcgis/rest/services/Combined_Statewide_Evacuation_Layer_view/FeatureServer/0", "geometry": "polygon", "category": "hazard", "live": true, "refreshSeconds": 300, "coreRenderable": true, "access": { "cors": true }, "solutions": ["emergency-response"] },
+      { "id": "ca-floodplain-100", "title": "100-Year Floodplain (Cal OES)", "format": "arcgis-feature", "url": "https://services.arcgis.com/BLN4oKB0N1YSgvY8/arcgis/rest/services/100_Year_Floodplain/FeatureServer/0", "geometry": "polygon", "category": "hazard", "coreRenderable": true, "access": { "cors": true }, "solutions": ["emergency-response", "banking"] },
+      { "id": "ca-mutual-aid", "title": "Cal OES Fire Mutual Aid Regions", "format": "arcgis-feature", "url": "https://services.arcgis.com/BLN4oKB0N1YSgvY8/arcgis/rest/services/CalOES_Fire_Mutual_Aid_Regions_view/FeatureServer/0", "geometry": "polygon", "category": "boundaries", "coreRenderable": true, "solutions": ["emergency-response"] },
+      { "id": "ca-tsunami-evac", "title": "Tsunami Hazard Area (evacuate)", "format": "arcgis-feature", "url": "https://services.arcgis.com/BLN4oKB0N1YSgvY8/arcgis/rest/services/CA_Tsunami_Hazard_Area_Evacuate/FeatureServer/0", "geometry": "polygon", "category": "hazard", "coreRenderable": true, "solutions": ["emergency-response"] },
+      { "id": "ca-highways", "title": "State Highway Network (Caltrans)", "format": "arcgis-feature", "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/SHN_Lines/FeatureServer/0", "geometry": "line", "category": "infrastructure", "coreRenderable": true, "solutions": ["emergency-response"] },
+      { "id": "ca-cctv", "title": "Caltrans CCTV cameras", "format": "arcgis-feature", "url": "https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/CCTV/FeatureServer/0", "geometry": "point", "category": "infrastructure", "coreRenderable": true, "solutions": ["emergency-response"] },
+      { "id": "ca-seismic-hazard", "title": "CGS Earthquake Hazard Zones", "format": "arcgis-server", "url": "https://gis.conservation.ca.gov/server/rest/services/CGS_Earthquake_Hazard_Zones", "geometry": "polygon", "category": "hazard", "coreRenderable": true, "access": { "cors": true, "notes": "Folder — pick a sublayer (Seismic Hazard Zones / liquefaction)" }, "solutions": ["emergency-response", "banking"] },
+
+      { "id": "nws-alerts-ca", "title": "NWS active weather alerts (CA)", "format": "json", "url": "https://api.weather.gov/alerts/active?area=CA", "geometry": "polygon", "category": "weather", "live": true, "refreshSeconds": 300, "coreRenderable": false, "access": { "cors": true, "notes": "GeoJSON via api.weather.gov" }, "solutions": ["emergency-response"] },
+      { "id": "wfigs-incidents", "title": "WFIGS current wildfire incidents (national)", "format": "arcgis-feature", "url": "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/WFIGS_Incident_Locations_Current/FeatureServer/0", "geometry": "point", "category": "hazard", "live": true, "refreshSeconds": 300, "coreRenderable": true, "access": { "cors": true, "notes": "Filter POOState='US-CA'" }, "solutions": ["emergency-response"] },
+      { "id": "usgs-quakes", "title": "USGS earthquakes (past week)", "format": "geojson", "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", "geometry": "point", "category": "hazard", "live": true, "refreshSeconds": 300, "coreRenderable": true, "access": { "cors": true }, "solutions": ["emergency-response", "banking"] },
+      { "id": "fema-nfhl-flood", "title": "FEMA NFHL flood hazard zones", "format": "mapserver", "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28", "geometry": "polygon", "category": "hazard", "coreRenderable": true, "access": { "cors": false, "notes": "Non-CORS + slow — read via dev-proxy or server-side" }, "solutions": ["emergency-response", "banking"] },
+      { "id": "fdic-branches-ca", "title": "FDIC bank branches (CA)", "format": "json", "url": "https://banks.data.fdic.gov/api/locations?filters=STALP:CA&limit=5000", "geometry": "point", "category": "banking", "coreRenderable": false, "access": { "cors": true, "notes": "JSON API — map lat/lon to points" }, "solutions": ["banking"] },
+
+      { "id": "usgs-3dep-cog", "title": "USGS 3DEP elevation (COG)", "format": "cog", "url": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer", "geometry": "raster", "category": "elevation", "coreRenderable": true, "access": { "cors": true, "notes": "Dynamic ImageServer; staged COGs at prd-tnm.s3.amazonaws.com" }, "solutions": ["showcase", "emergency-response"] },
+      { "id": "naip-cog", "title": "NAIP aerial imagery (COG, AWS)", "format": "cog", "url": "s3://naip-visualization/", "geometry": "raster", "category": "imagery", "coreRenderable": true, "access": { "cors": false, "notes": "Requester-pays S3 COG; or via Planetary Computer STAC" }, "solutions": ["showcase"] },
+      { "id": "overture-buildings-ca", "title": "Overture buildings (GeoParquet)", "format": "geoparquet", "url": "s3://overturemaps-us-west-2/release/latest/theme=buildings/", "geometry": "polygon", "category": "base", "coreRenderable": false, "access": { "cors": false, "notes": "Forward ref — DuckDB/overturemaps CLI, bbox-clip to CA, or publish to Strata Serve" }, "solutions": ["showcase"] },
+      { "id": "sentinel2-zarr", "title": "Sentinel-2 data cube (Zarr)", "format": "zarr", "url": "", "geometry": "raster", "category": "imagery", "coreRenderable": false, "access": { "notes": "Forward ref — multidimensional COG/Zarr time-series for burn-severity / NDVI; not yet a core LayerSourceKind" }, "solutions": ["emergency-response"] },
+      { "id": "ca-parcels-fgb", "title": "Statewide parcels (FlatGeobuf)", "format": "flatgeobuf", "url": "", "geometry": "polygon", "category": "banking", "coreRenderable": false, "access": { "notes": "Forward ref — county parcels merged/streamed as FlatGeobuf for collateral siting" }, "solutions": ["banking"] },
+      { "id": "pmtiles-basemap", "title": "OSM basemap (PMTiles, offline/edge)", "format": "pmtiles", "url": "", "geometry": "vector-tile", "category": "base", "coreRenderable": false, "access": { "notes": "Forward ref — PMTiles archive for offline/edge EOC deployments" }, "solutions": ["emergency-response"] }
+    ],
+
+    "apps": {
+      "showcase": {
+        "defaultLayers": ["ca-fhsz", "ca-fire-perimeters", "ca-shelters"],
+        "notes": "Boots with wildfire hazard + active perimeters + shelters; browse component adds more from servers[] / catalog[]."
+      },
+      "emergency-response": {
+        "hazardLayers": ["ca-fire-perimeters", "ca-fire-last5", "ca-fhsz", "ca-floodplain-100", "wfigs-incidents", "nws-alerts-ca", "usgs-quakes", "ca-tsunami-evac"],
+        "facilityLayers": ["ca-shelters", "ca-cctv", "ca-highways"],
+        "evacuationLayers": ["ca-evac-statewide", "ca-tsunami-evac"],
+        "mutualAidLayer": "ca-mutual-aid",
+        "refreshSeconds": 300
+      },
+      "banking": {
+        "collateralHazards": ["ca-fhsz", "ca-floodplain-100", "fema-nfhl-flood", "ca-seismic-hazard"],
+        "demographicsServer": "census-tigerweb",
+        "branchesSource": "fdic-branches-ca"
+      }
+    }
+  }
+}

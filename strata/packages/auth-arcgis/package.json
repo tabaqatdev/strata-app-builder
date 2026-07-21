@@ -1,0 +1,30 @@
+{
+  "name": "@strata/auth-arcgis",
+  "version": "0.3.0",
+  "description": "Optional ArcGIS auth adapter over @esri/arcgis-rest-request. ESRI Enterprise/Online backends ONLY (Strata lacks portal auth today). Esri lib is an optional peer dep, loaded lazily.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "@esri/arcgis-rest-request": "*"
+  },
+  "peerDependenciesMeta": {
+    "@esri/arcgis-rest-request": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

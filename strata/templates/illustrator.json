@@ -1,0 +1,168 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'illustrator' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "illustrator",
+    "name": "Illustrator",
+    "category": "web-page",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "A media-rich article: prose, imagery, video, and inline maps flowing as one story."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#4338ca",
+      "secondary": "#f43f5e"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "scroll",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "How the District moves",
+                "as": "h1"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "An illustrated look at streets, safety, and housing — with live maps inline where a figure would be."
+              }
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-bike-routes"
+                    ]
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "340px",
+              "borderRadius": "10px",
+              "overflow": "hidden"
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Signed bike routes form the connective tissue of the city's active-transportation network. Where routes cross high-crash corridors, the case for protected lanes writes itself."
+              }
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-crashes",
+                      "dc-wards"
+                    ]
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "340px",
+              "borderRadius": "10px",
+              "overflow": "hidden"
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "video",
+              "props": {
+                "src": "https://www.youtube.com/embed/aircAruvnKk",
+                "title": "Why maps persuade"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Affordable-housing investment follows the same geography — the final map overlays projects on ward income."
+              }
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map3",
+                  "props": {
+                    "layerIds": [
+                      "dc-affordable-housing",
+                      "dc-wards"
+                    ]
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "340px",
+              "borderRadius": "10px",
+              "overflow": "hidden"
+            }
+          }
+        ],
+        "gap": 18,
+        "animate": "scroll-reveal",
+        "style": {
+          "maxWidth": "820px",
+          "margin": "0 auto",
+          "padding": "36px 24px 56px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "map3",
+      "trigger": "featureSelect",
+      "to": "map3",
+      "action": "flash"
+    },
+    {
+      "from": "map3",
+      "trigger": "featureSelect",
+      "to": "map3",
+      "action": "zoomTo"
+    }
+  ]
+}

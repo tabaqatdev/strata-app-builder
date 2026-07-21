@@ -1,0 +1,804 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Human Language Reference · strata-app-builder help</title><style>
+:root{--navy:#0c2b38;--navy2:#123c4d;--teal:#1ba7a6;--teal600:#178f8e;--teal50:#e9f7f7;
+--ink:#12303c;--slate:#5b6b76;--slate400:#94a3b8;--line:#e4ebee;--panel:#f6f9fa;--white:#fff;
+--code-bg:#f4f7f8;--font:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+--mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--white);line-height:1.6}
+a{color:var(--teal600);text-decoration:none}
+a:hover{text-decoration:underline}
+/* top bar */
+.top{position:sticky;top:0;z-index:20;height:58px;display:flex;align-items:center;gap:14px;
+padding:0 20px;background:var(--navy);color:#fff}
+.top .mk{width:26px;height:26px}
+.top .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.01em}
+.top .brand b{color:#fff}.top .brand span{color:var(--teal);font-weight:700}
+.top .brand small{color:#9fc7cd;font-weight:600;margin-left:6px;font-size:.8rem;letter-spacing:.04em}
+.top .spacer{flex:1}
+.top .home{color:#cfe6e6;font-size:.9rem}
+.filter{display:flex;align-items:center}
+.filter input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;
+border-radius:8px;padding:.4rem .7rem;font-size:.85rem;width:190px;outline:none}
+.filter input::placeholder{color:#9fc7cd}
+/* layout */
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1200px;margin:0 auto}
+nav.side{border-right:1px solid var(--line);padding:22px 14px 60px;height:calc(100vh - 58px);
+position:sticky;top:58px;overflow:auto}
+nav.side .grp{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+color:var(--slate400);margin:18px 10px 6px}
+nav.side a{display:block;padding:.4rem .7rem;border-radius:8px;color:var(--ink);font-size:.92rem;font-weight:500}
+nav.side a:hover{background:var(--panel);text-decoration:none}
+nav.side a.active{background:var(--teal50);color:var(--teal600);font-weight:700}
+/* content */
+main{padding:34px 44px 80px;min-width:0;max-width:860px}
+main .crumb{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal600);font-weight:800}
+main h1{font-size:2.15rem;line-height:1.15;color:var(--navy);letter-spacing:-.02em;margin:.2rem 0 .2rem}
+main .lede{color:var(--slate);font-size:1.05rem;margin:0 0 1.4rem}
+main h2{font-size:1.5rem;color:var(--navy);margin:2rem 0 .6rem;padding-top:.4rem;border-top:1px solid var(--line)}
+main h3{font-size:1.16rem;color:var(--navy2);margin:1.4rem 0 .4rem}
+main h4{font-size:1rem;color:var(--navy2);margin:1.1rem 0 .3rem}
+main p,main li{color:#243b45}
+main code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);color:#0a3a44;
+padding:.12em .38em;border-radius:5px}
+main pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+overflow:auto}
+main pre code{background:none;padding:0;color:#123}
+main table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem;display:block;overflow:auto}
+main th,main td{border:1px solid var(--line);padding:.5rem .7rem;text-align:left;vertical-align:top}
+main thead th{background:var(--panel);color:var(--navy);font-size:.82rem;letter-spacing:.02em}
+main blockquote{margin:1.1rem 0;padding:.7rem 1rem;background:var(--teal50);border-radius:0 10px 10px 0;
+border-left:4px solid var(--teal);color:#134}
+main blockquote p{margin:.3rem 0}
+main hr{border:none;border-top:1px solid var(--line);margin:2rem 0}
+main ul,main ol{padding-left:1.3rem}main li{margin:.25rem 0}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:3rem;border-top:1px solid var(--line);padding-top:1.2rem}
+.pager a{flex:1;padding:.8rem 1rem;border:1px solid var(--line);border-radius:12px;font-weight:600}
+.pager a:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.pager a.next{text-align:right}
+.pager small{display:block;color:var(--slate400);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;padding:22px 44px;max-width:860px}
+/* landing */
+.hero{background:linear-gradient(135deg,var(--navy),#164a5c);color:#fff;border-radius:18px;padding:40px 40px}
+.hero h1{color:#fff;font-size:2.4rem;margin:.4rem 0 .5rem;letter-spacing:-.02em}
+.hero p{color:#cfe6e6;font-size:1.1rem;max-width:44ch;margin:0}
+.hero .mk{width:34px;height:34px;vertical-align:middle}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:block;color:inherit}
+.card:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.card b{color:var(--navy);font-size:1.02rem}
+.card p{color:var(--slate);font-size:.9rem;margin:.3rem 0 0}
+.sec-h{font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal600);margin:26px 0 4px}
+.menu-btn{display:none}
+@media(max-width:860px){
+ .wrap{grid-template-columns:1fr}
+ nav.side{position:fixed;left:0;top:58px;bottom:0;width:280px;background:#fff;transform:translateX(-100%);
+ transition:.2s;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+ nav.side.open{transform:none}
+ .menu-btn{display:inline-flex}.filter{display:none}
+ main{padding:24px 20px 60px}.cards{grid-template-columns:1fr}.hero{padding:28px 22px}
+}
+</style></head><body><header class="top"><button class="menu-btn" onclick="document.getElementById('side').classList.toggle('open')" aria-label="Menu" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer">☰</button><a class="brand" href="index.html"><svg class="mk" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="6" y="7" width="20" height="4.2" rx="2.1" fill="#0c2b38"/><rect x="4" y="14" width="24" height="4.2" rx="2.1" fill="#1ba7a6"/><rect x="8" y="21" width="16" height="4.2" rx="2.1" fill="#5cc7c5"/></svg><b>tabaqat</b><span>· Strata</span><small>HELP &amp; DOCS</small></a><div class="spacer"></div><div class="filter"><input id="q" type="search" placeholder="Filter topics…" oninput="filterNav(this.value)"></div><a class="home" href="index.html">Home</a></header><div class="wrap"><nav class="side" id="side">
+<div class="grp">Start here</div>
+<a class="nav-link" data-title="overview" href="README.html">Overview</a>
+<a class="nav-link" data-title="getting started" href="getting-started.html">Getting started</a>
+<a class="nav-link" data-title="faq" href="faq.html">FAQ</a>
+<div class="grp">Guide</div>
+<a class="nav-link" data-title="repository anatomy" href="guide-anatomy.html">Repository anatomy</a>
+<a class="nav-link" data-title="sample map templates" href="guide-map-templates.html">Sample map templates</a>
+<a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
+<a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
+<a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<div class="grp">How-to</div>
+<a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
+<a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
+<a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
+<a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
+<a class="nav-link" data-title="using recipes" href="how-to-using-recipes.html">Using recipes</a>
+<div class="grp">Reference</div>
+<a class="nav-link" data-title="components &amp; widgets" href="reference-components.html">Components &amp; widgets</a>
+<a class="nav-link active" data-title="human language reference" href="reference-human-language.html">Human Language Reference</a>
+<a class="nav-link" data-title="command reference" href="reference-commands.html">Command reference</a>
+<a class="nav-link" data-title="troubleshooting" href="troubleshooting.html">Troubleshooting</a>
+</nav><main><div class="crumb">Reference</div><h1>Human Language Reference</h1><p class="lede">The phrase to ask for each component — recipe fuel.</p><p>For every component, widget, panel, control, and skill, this page gives the <strong>natural-language phrase a
+person actually uses</strong> to get it. It's the bridge between "what a user says" and "what strata-app-builder builds".</p>
+<p><strong>Who this is for.</strong> Recipe authors and <code>/recipe</code> wizards: pull phrasing straight from here into a recipe's
+<strong><code>## Guided wizard</code></strong> questions and <strong><code>§ Prompt-script</code></strong> so the app makes good, idiomatic UI suggestions.
+Claude also reads this to reach for the right component by default. Pair it with
+<strong><a href="reference-components.html">Components, widgets &amp; skills</a></strong> (what each one <em>is</em>) and
+<a href="reference-commands.html">Command reference</a> (the exact command).</p>
+<blockquote>
+<p><strong>Status key:</strong> ✅ shipped · 🔶 needs a writable/authenticated ESRI backend · 🟡 partial.</p>
+</blockquote>
+<hr />
+<h2 id="1-map-layers-basemaps">1 · Map, layers &amp; basemaps</h2>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Show these layers on a map."</td>
+<td><code>&lt;StrataMap&gt;</code> on the ESRI Web Map JSON <code>layers.json</code>.</td>
+</tr>
+<tr>
+<td>"Add this feature service: <code>…/FeatureServer/0</code>."</td>
+<td>An ArcGIS REST layer (pulls <code>drawingInfo</code> + fields).</td>
+</tr>
+<tr>
+<td>"Load <code>cities.geojson</code>." / "Add this GeoJSON URL."</td>
+<td>A GeoJSON layer.</td>
+</tr>
+<tr>
+<td>"Cluster the points; refresh every minute."</td>
+<td>Clustering + a refresh interval.</td>
+</tr>
+<tr>
+<td>"Use the CARTO dark basemap." / "Give me a crisp vector basemap."</td>
+<td>A keyless raster or vector basemap.</td>
+</tr>
+<tr>
+<td>"Let users switch basemaps."</td>
+<td>A BasemapPanel / basemap gallery.</td>
+</tr>
+<tr>
+<td>"Make it a hazard / control-room look."</td>
+<td>The <code>hazard</code> theme preset.</td>
+</tr>
+<tr>
+<td>"Add this ImageServer as an NDVI raster." ✅</td>
+<td>An ESRI ImageServer raster layer (<code>renderingRule</code>).</td>
+</tr>
+<tr>
+<td>"Load this GeoTIFF (COG) directly." ✅</td>
+<td>A cloud-optimized GeoTIFF via the <code>cog://</code> protocol.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-symbology-symbology">2 · Symbology (<code>/symbology</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Make the rivers thin blue lines."</td>
+<td>A simple renderer.</td>
+</tr>
+<tr>
+<td>"Color the countries by continent."</td>
+<td>A unique-value renderer (palette from <code>@strata/theme</code>).</td>
+</tr>
+<tr>
+<td>"Shade by population in 5 ranges, light to dark."</td>
+<td>A class-breaks (graduated) renderer.</td>
+</tr>
+<tr>
+<td>"Show the quakes as a heatmap."</td>
+<td>A heatmap renderer.</td>
+</tr>
+<tr>
+<td>"Size the city dots by population."</td>
+<td>A size visual variable.</td>
+</tr>
+<tr>
+<td>"Color by economy <strong>and</strong> income group together." ✅</td>
+<td>A multi-field unique-value renderer.</td>
+</tr>
+<tr>
+<td>"Show population as dot density — one dot per 100k." ✅</td>
+<td>A dot-density layer (expanded to points).</td>
+</tr>
+<tr>
+<td>"Color by GDP per capita (GDP ÷ population)." ✅</td>
+<td>An Arcade <code>valueExpression</code> renderer.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-popups-popup">3 · Popups (<code>/popup</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Show name, population (comma-separated), and the date."</td>
+<td>Title + a formatted field table.</td>
+</tr>
+<tr>
+<td>"Show the feature's photo in the popup." ✅</td>
+<td>A media image element.</td>
+</tr>
+<tr>
+<td>"Put a little bar chart of the yearly values in the popup." ✅</td>
+<td>A media chart (bar/line/pie/column).</td>
+</tr>
+<tr>
+<td>"Let me page through the photos attached to each inspection." ✅</td>
+<td>An attachments strip.</td>
+</tr>
+<tr>
+<td>"In the popup, list the permits related to this parcel." ✅</td>
+<td>A related-records mini-table.</td>
+</tr>
+<tr>
+<td>"Add a computed 'density' line." ✅</td>
+<td>An Arcade <code>expressionInfos</code> value.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-panels-panel">4 · Panels (<code>/panel</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Add a layer list I can toggle and reorder."</td>
+<td>LayerPanel.</td>
+</tr>
+<tr>
+<td>"Show the data in a sortable table under the map." ✅</td>
+<td>AttributeTablePanel (paging + windowing + CSV/GeoJSON export).</td>
+</tr>
+<tr>
+<td>"Add a panel of charts beside the map." ✅</td>
+<td>ChartPanel (ECharts/SVG; click cross-filters).</td>
+</tr>
+<tr>
+<td>"Add CARTO-style widgets that filter the map when I click a category."</td>
+<td>CartoPanel.</td>
+</tr>
+<tr>
+<td>"Add a filter panel so users can narrow by field values." ✅</td>
+<td>FilterPanel (query builder).</td>
+</tr>
+<tr>
+<td>"Let users pick a date or a date range from a calendar." ✅</td>
+<td>DateFilter.</td>
+</tr>
+<tr>
+<td>"Show the selected feature's details in a side panel, not a popup." ✅</td>
+<td>FeatureInfoPanel.</td>
+</tr>
+<tr>
+<td>"When I select a feature, give me quick actions — zoom, flash, view in table, export." ✅</td>
+<td>DataActionMenu.</td>
+</tr>
+<tr>
+<td>"Let me edit these features' attributes." 🔶</td>
+<td>EditPanel.</td>
+</tr>
+<tr>
+<td>"Add an attachment viewer to page through photos." 🔶-write / ✅-read</td>
+<td>AttachmentViewer.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-map-controls-tools">5 · Map controls &amp; tools</h2>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Add zoom buttons / a scale bar / a status bar with live coordinates."</td>
+<td>Navigation / ScaleControl / StatusBar.</td>
+</tr>
+<tr>
+<td>"Add a legend."</td>
+<td>Legend.</td>
+</tr>
+<tr>
+<td>"Let me measure distances and areas." / "Let me draw shapes."</td>
+<td>Measure / Sketch.</td>
+</tr>
+<tr>
+<td>"Add a time slider that animates the data over the month."</td>
+<td>TimeSlider (<code>/timeslider</code>).</td>
+</tr>
+<tr>
+<td>"Put all the tools behind a toolbar so it's not cluttered." ✅</td>
+<td>The <code>controller</code> tool dock.</td>
+</tr>
+<tr>
+<td>"Add saved places I can jump between." ✅</td>
+<td>The <code>bookmarks</code> widget.</td>
+</tr>
+<tr>
+<td>"Add a swipe tool to compare two layers." ✅</td>
+<td>The <code>swipe</code> widget.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-layout-widgets-for-strataapp-via-app">6 · Layout widgets (for <code>&lt;StrataApp&gt;</code>, via <code>/app</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get (<code>type</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Put the map on the left."</td>
+<td><code>map</code></td>
+</tr>
+<tr>
+<td>"Add KPI cards for total population and country count."</td>
+<td><code>kpi</code></td>
+</tr>
+<tr>
+<td>"Add a gauge showing % affected." / "a trend sparkline" / "a stacked bar by continent."</td>
+<td><code>gauge</code> / <code>sparkline</code> / <code>stacked-bar</code></td>
+</tr>
+<tr>
+<td>"Add a bar chart of GDP by region — let me brush it to filter." ✅</td>
+<td><code>chart</code></td>
+</tr>
+<tr>
+<td>"Add the attribute table as a widget." ✅</td>
+<td><code>table</code></td>
+</tr>
+<tr>
+<td>"Add a query builder that returns the matching records." ✅</td>
+<td><code>query</code> (publishes results as an output others consume).</td>
+</tr>
+<tr>
+<td>"Add a spatial-analysis tool — buffer / dissolve / clip / spatial-join." ✅</td>
+<td><code>analysis</code> (a shell over <code>@strata/processing</code>).</td>
+</tr>
+<tr>
+<td>"Let users switch basemaps from a panel." ✅</td>
+<td><code>basemap</code> (basemap gallery as a widget; store-driven).</td>
+</tr>
+<tr>
+<td>"Show the items as a filterable gallery of cards."</td>
+<td><code>gallery</code> / <code>list</code> / <code>card</code></td>
+</tr>
+<tr>
+<td>"Add a heading and a paragraph." / "a banner image" / "a button" / "a nav menu" / "a divider."</td>
+<td><code>text</code> / <code>image</code> / <code>button</code> / <code>menu</code> / <code>divider</code></td>
+</tr>
+<tr>
+<td>"Embed this web page / dashboard." / "Play this video." ✅</td>
+<td><code>embed</code> (sandboxed iframe) / <code>video</code></td>
+</tr>
+<tr>
+<td>"Add a light/dark toggle." / "an English/Arabic switcher." ✅</td>
+<td><code>theme-switch</code> / <code>lang-switch</code></td>
+</tr>
+<tr>
+<td>"Give me a link that reopens the app as I have it now." ✅</td>
+<td><code>share</code></td>
+</tr>
+<tr>
+<td>"Add a 'find what's near me' tool." ✅</td>
+<td><code>near-me</code></td>
+</tr>
+<tr>
+<td>"Let users add their own layer at runtime." ✅</td>
+<td><code>add-data</code></td>
+</tr>
+<tr>
+<td>"Find the best site weighting slope, roads, and land use." ✅</td>
+<td><code>weighted-overlay</code></td>
+</tr>
+<tr>
+<td>"Add an elevation profile for a drawn line." ✅</td>
+<td><code>elevation</code></td>
+</tr>
+<tr>
+<td>"Reserve a slot here for now." ✅</td>
+<td><code>placeholder</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-layout-engine-containers-app-new-app">7 · Layout engine &amp; containers (<code>/app</code>, <code>/new-app</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Two columns: map left, KPIs and a chart stacked right."</td>
+<td><code>row</code>/<code>column</code>/<code>grid</code> containers.</td>
+</tr>
+<tr>
+<td>"Stack these panels in an accordion." ✅</td>
+<td>An <code>accordion</code> container.</td>
+</tr>
+<tr>
+<td>"Lay these out in a wrapping row." ✅</td>
+<td>A <code>flow-row</code> container.</td>
+</tr>
+<tr>
+<td>"Make a section with several views the user can flip between." ✅</td>
+<td>A <code>views</code> node (tabs).</td>
+</tr>
+<tr>
+<td>"Build a slideshow where each slide sets its own map view and filter." ✅</td>
+<td>A <code>views</code> node (slides) with per-view <code>mapState</code>.</td>
+</tr>
+<tr>
+<td>"Fade / fly / zoom sections in as I scroll." ✅</td>
+<td>An <code>animate</code> (<code>fade</code>/<code>slide</code>/<code>scroll-reveal</code>/<code>fly</code>/<code>zoom</code>/<code>rotate</code>) container + <code>animateOptions</code>.</td>
+</tr>
+<tr>
+<td>"Auto-advance the slideshow every few seconds." ✅</td>
+<td>A <code>views</code> node with <code>autoPlay: { intervalMs }</code>.</td>
+</tr>
+<tr>
+<td>"Split the screen with a draggable divider." ✅</td>
+<td>A <code>splitter</code> container (resizable).</td>
+</tr>
+<tr>
+<td>"Pop up a modal window when I click this." ✅</td>
+<td>A <code>window</code> node (opened by a <code>showHide</code>/<code>navigate</code> action).</td>
+</tr>
+<tr>
+<td>"Dock a collapsible panel on the left." ✅</td>
+<td>A <code>panel</code> node (<code>dock</code> left/right/top/bottom/float).</td>
+</tr>
+<tr>
+<td>"Add a header and footer." / "Show a splash intro on load." ✅</td>
+<td>Page <code>header</code>/<code>footer</code> regions + an app <code>splash</code>.</td>
+</tr>
+<tr>
+<td>"Give it my brand colors / a spacious type scale." ✅</td>
+<td>A structured <code>theme</code> (<code>{ mode, colors, fonts, variables, overrides }</code>) compiled to <code>--strata-*</code> + states.</td>
+</tr>
+<tr>
+<td>"Make it bilingual EN/AR, right-to-left."</td>
+<td>i18n + RTL.</td>
+</tr>
+<tr>
+<td>"Build a split dashboard / a card gallery / a scrolling story."</td>
+<td><code>dashboardTemplate</code> / <code>cardGalleryTemplate</code> / <code>scrollingStoryTemplate</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-widget-interactivity-the-wif">8 · Widget interactivity (the WIF)</h2>
+<p>The framework that makes an app <strong>alive on the first build</strong> — author it declaratively via
+<code>AppLayout.connections</code>. These phrases should "just work":</p>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"When I click a category, filter the whole app." ✅</td>
+<td>A <code>categorySelect → filter</code> connection.</td>
+</tr>
+<tr>
+<td>"Selecting a bar filters the map and the table; clearing resets everything." ✅</td>
+<td>Chart→map/table connections + <code>clear</code>.</td>
+</tr>
+<tr>
+<td>"Let me drag-select a range on the chart to filter." 🟡 (click ✅; drag-range needs <code>echarts</code>)</td>
+<td>A <code>rangeSelect</code>/<code>brush → filter</code> connection.</td>
+</tr>
+<tr>
+<td>"Feed the filtered list into the table and the chart." ✅</td>
+<td>An output data source (<code>dataSource.fromWidget</code>).</td>
+</tr>
+<tr>
+<td>"Highlight the same feature everywhere when I select it." ✅</td>
+<td>Linked selection (map bus-sink).</td>
+</tr>
+<tr>
+<td>"Clicking a card should zoom the map and filter the table." ✅</td>
+<td><code>rowSelect → zoomTo</code> + <code>filter</code> connections.</td>
+</tr>
+<tr>
+<td>"Update the KPIs to whatever is currently in view." ✅</td>
+<td>Extent-driven stats (<code>extentChange</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9-spatial-analysis-analyze">9 · Spatial analysis (<code>/analyze</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Buffer the schools by 500 m." / "Find the nearest hospital." / "Which incidents are in the flood zone?"</td>
+<td>buffer / nearest / points-within.</td>
+</tr>
+<tr>
+<td>"Merge the districts into regions." / "Clip the roads to the boundary."</td>
+<td>dissolve / clip.</td>
+</tr>
+<tr>
+<td>"Sum the population per region." ✅</td>
+<td><code>aggregate</code> (dissolve-with-stats).</td>
+</tr>
+<tr>
+<td>"Erase the water from the parcels." / "Combine these polygons." ✅</td>
+<td>difference / union / intersect.</td>
+</tr>
+<tr>
+<td>"Draw service areas around each station (Thiessen)." ✅</td>
+<td>voronoi.</td>
+</tr>
+<tr>
+<td>"Show a 10-minute drive-time area." ✅</td>
+<td>isochrone (<code>fetchIsochrone</code>).</td>
+</tr>
+<tr>
+<td>"Where are the statistically significant crime hotspots?" / "Where are the fraud clusters?" ✅</td>
+<td>hotspot (Getis-Ord Gi*) / hexbin density.</td>
+</tr>
+<tr>
+<td>"Find the best site weighting slope, roads, and land use." ✅</td>
+<td>weighted overlay (suitability).</td>
+</tr>
+<tr>
+<td>"How much of our portfolio is in the flood zone?" ✅</td>
+<td>points-within a hazard polygon, then sum a <code>$</code> field (the exposure number).</td>
+</tr>
+<tr>
+<td>"Which tracts have no branch within 2 miles?" / "Who's within 3 km of a major-flood gauge?" ✅</td>
+<td>within-distance flag (banking-desert / at-risk).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="10-export-share-export">10 · Export &amp; share (<code>/export</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Export the map as a PNG." / "…at higher resolution." ✅</td>
+<td>Image (with <code>scale</code>).</td>
+</tr>
+<tr>
+<td>"Make a proper map PDF with a legend and scale bar." ✅</td>
+<td>A composed PDF (legend/scalebar/north-arrow).</td>
+</tr>
+<tr>
+<td>"Print one page per district." ✅</td>
+<td>An atlas / map-series.</td>
+</tr>
+<tr>
+<td>"Generate a one-page report for the selected parcel / incident." ✅</td>
+<td>A feature report.</td>
+</tr>
+<tr>
+<td>"Make a climate-risk (TCFD / IFRS-S2) disclosure map + a per-region packet." 🟡</td>
+<td>A composed PDF + a per-region atlas (a multi-section disclosure-report <em>template</em> is a gap — logged).</td>
+</tr>
+<tr>
+<td>"Give me a link that opens the app exactly as I have it now." ✅</td>
+<td>A share deep-link + embed.</td>
+</tr>
+<tr>
+<td>"Give me a shareable web map I can re-open."</td>
+<td>The ESRI Web Map JSON spec.</td>
+</tr>
+<tr>
+<td>"Export this layer as GeoJSON / CSV."</td>
+<td>Layer data.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-data-convert-publish">11 · Data, convert &amp; publish</h2>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Show only countries where population &gt; 10 million."</td>
+<td>A <code>definitionExpression</code> filter.</td>
+</tr>
+<tr>
+<td>"What's the total and average population by continent?"</td>
+<td><code>queryStatistics</code> (group-by).</td>
+</tr>
+<tr>
+<td>"Convert this shapefile to GeoParquet in 4326."</td>
+<td><code>/convert</code>.</td>
+</tr>
+<tr>
+<td>"Publish <code>crashes.parquet</code> as a FeatureServer."</td>
+<td><code>/publish</code> (Strata Serve).</td>
+</tr>
+<tr>
+<td>"Change the display field and add field aliases."</td>
+<td><code>/update-metadata</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-visual-editing-stratastudio">12 · Visual editing (<code>@strata/studio</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Say this</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Let me see the app and click things to edit them." ✅</td>
+<td><code>&lt;StrataStudio&gt;</code> (preview + outline + inspector).</td>
+</tr>
+<tr>
+<td>"Move this panel, rename it, and pick a theme — visually." ✅</td>
+<td>The property inspector + theme picker (round-trips the JSON).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="13-composite-app-patterns-whole-patterns-to-suggest">13 · Composite app patterns (whole patterns to suggest)</h2>
+<p>When a user describes a <strong>goal</strong> (not a widget), map it to a whole pattern and assemble the blocks above —
+this is how a recipe makes a <em>good UI suggestion</em> instead of a bare map. Each defaults to the WIF, so it's
+alive on the first build.</p>
+<table>
+<thead>
+<tr>
+<th>Say this (a goal)</th>
+<th>Suggest this → what it composes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Build me a dashboard for this data."</td>
+<td><strong>Dashboard</strong> — KPI row + <code>chart</code> + paged <code>table</code> + <code>map</code>, cross-filtered by <code>connections</code>.</td>
+</tr>
+<tr>
+<td>"Let people explore and filter this layer."</td>
+<td><strong>Explorer</strong> — map + <code>filter</code> + <code>date-filter</code> + <code>feature-info</code> + <code>data-actions</code> + <code>add-data</code>.</td>
+</tr>
+<tr>
+<td>"Make a scrolling story / a briefing."</td>
+<td><strong>Story</strong> — a <code>views</code> node (slides) with per-slide <code>mapState</code> + <code>animate</code>.</td>
+</tr>
+<tr>
+<td>"Show these as a filterable gallery."</td>
+<td><strong>Gallery</strong> — <code>cardGalleryTemplate</code> + a category rail; card click zooms + filters.</td>
+</tr>
+<tr>
+<td>"Compare two layers / two dates."</td>
+<td><strong>Compare</strong> — a <code>swipe</code> over two <code>map</code>s, or <code>views</code> flipping saved <code>mapState</code>s.</td>
+</tr>
+<tr>
+<td>"Find what's near me / a drive-time area."</td>
+<td><strong>Proximity</strong> — <code>near-me</code> + <code>/analyze isochrone</code> + search/routing.</td>
+</tr>
+<tr>
+<td>"Find the best site for X."</td>
+<td><strong>Suitability</strong> — <code>/analyze weighted-overlay</code> + the <code>weighted-overlay</code> sliders → a choropleth.</td>
+</tr>
+<tr>
+<td>"A control-room / situational picture."</td>
+<td><strong>Ops picture</strong> — <code>hazard</code> theme + <code>LayerPanel</code> + <code>Legend</code> + KPI/<code>gauge</code> + <code>TimeSlider</code> + <code>controller</code>.</td>
+</tr>
+<tr>
+<td>"An imagery viewer."</td>
+<td><strong>Imagery</strong> — <code>/add-data --imageserver</code>/<code>--cog</code> + <code>swipe</code> + a <code>TimeSlider</code> on the ImageServer <code>time</code>.</td>
+</tr>
+<tr>
+<td>"Make it shareable / printable."</td>
+<td><strong>Publish-out</strong> — a <code>share</code> deep-link + composed PDF + a per-feature <code>report</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule:</strong> open with the composite pattern (so the app is whole), then let the wizard tune the blocks; always
+emit the WIF <code>connections</code>.</p>
+<hr />
+<h2 id="14-domain-solution-patterns-banking-emergency">14 · Domain solution patterns (banking &amp; emergency)</h2>
+<p>When a user names a <strong>domain outcome</strong> (not a widget or a generic pattern), map it to a whole <strong>solution
+recipe</strong> and open with its composite, then run <em>that recipe's</em> guided wizard (whose answers assign the app's
+defaults). Each is an "ops picture" / "dashboard" composite tuned to the domain; all default to the WIF.</p>
+<table>
+<thead>
+<tr>
+<th>Say this (a domain goal)</th>
+<th>Suggest this recipe → what it composes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Map our loan collateral against flood/quake/wildfire — how much is in the flood zone?"</td>
+<td><strong>Collateral &amp; Portfolio Risk</strong> — hazard overlays + <code>pointsWithin</code> collateral × hazard + <code>$</code>-exposure KPIs + a TCFD/IFRS-S2 report.</td>
+</tr>
+<tr>
+<td>"Show our portfolio's climate risk for the regulator/board."</td>
+<td><strong>Regulatory &amp; Climate-Risk Reporting</strong> — hazard exposure + IFRS-S2/TCFD framing + composed report + per-jurisdiction atlas.</td>
+</tr>
+<tr>
+<td>"Where is our credit / real-estate exposure concentrated?"</td>
+<td><strong>Portfolio Concentration &amp; Exposure</strong> — hexbin/hotspot + group-by stats + concentration KPIs.</td>
+</tr>
+<tr>
+<td>"Where should we open (or close) the next branch/ATM?"</td>
+<td><strong>Site Selection &amp; Expansion</strong> — FDIC competitors + ACS catchment (<code>buffer</code>/<code>isochrone</code>) + <code>weighted-overlay</code> suitability + banking-desert gaps.</td>
+</tr>
+<tr>
+<td>"Map the branch/ATM network with performance KPIs."</td>
+<td><strong>Branch &amp; ATM Dashboard</strong> — points + KPI row + charts + paged table, cross-filtered.</td>
+</tr>
+<tr>
+<td>"Where are the fraud clusters this week?"</td>
+<td><strong>Fraud/AML Dashboard</strong> — hotspot + hexbin + a time filter (sovereign/on-prem is the pitch).</td>
+</tr>
+<tr>
+<td>"Which communities are underserved / unbanked?"</td>
+<td><strong>Financial Inclusion</strong> — coverage gaps vs. CRA / low-moderate-income tracts.</td>
+</tr>
+<tr>
+<td>"One live map of incidents, assets, and hazards I can ask in plain language."</td>
+<td><strong>Common Operating Picture</strong> — <code>hazard</code> theme + live feeds + KPIs + <code>TimeSlider</code> + <code>controller</code>.</td>
+</tr>
+<tr>
+<td>"Who and what is inside the hazard zone?"</td>
+<td><strong>Hazard &amp; Impact Analyzer</strong> — draw/import the zone + <code>pointsWithin</code>/<code>intersect</code> × population + facilities.</td>
+</tr>
+<tr>
+<td>"Which units are nearest the incident, and where are they now?"</td>
+<td><strong>AVL / Resource Tracker</strong> — live AVL points (refresh) + nearest-resource (<code>/analyze nearest</code>).</td>
+</tr>
+<tr>
+<td>"Show evacuation zones, routes, and shelters with capacity/status."</td>
+<td><strong>Evacuation &amp; Shelter</strong> — zones/routes/shelters + closures (internal + public variants).</td>
+</tr>
+<tr>
+<td>"Are the hospitals / power / schools affected by this event?"</td>
+<td><strong>Critical Infrastructure Monitor</strong> — facilities × event footprint + status/dependencies.</td>
+</tr>
+<tr>
+<td>"Post-event: response times, hotspots, resource utilization."</td>
+<td><strong>After-Action Analytics</strong> — bins/stats/timelines + printable reports.</td>
+</tr>
+<tr>
+<td>"A public map of what's happening — closures, shelters, safety info."</td>
+<td><strong>Public Crisis Map</strong> — an Atlas public instance over live incident/closure/shelter feeds.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule:</strong> name the recipe, open with its composite, then run its wizard. Full specs (data + default-assigning
+prompts) live in the solution recipes; benchmark to the incumbent (Esri Business Analyst / ArcGIS COP) and
+<strong>coexist</strong> — never "replace ArcGIS."</p>
+<hr />
+<h2 id="how-a-recipe-uses-this-page">How a recipe uses this page</h2>
+<ol>
+<li>In the recipe's <strong><code>## Guided wizard</code></strong>, phrase each option so the <strong>default maps to a row above</strong> — e.g.
+   <em>"Symbology? → graduated color by population"</em> (class-breaks).</li>
+<li>In the <strong><code>§ Prompt-script</code></strong>, use the command column verbatim (<code>/symbology</code>, <code>/panel</code>, <code>/app</code>, <code>/analyze</code>)
+   with the natural-language phrase as the instruction.</li>
+<li>Prefer ✅ phrases; for 🔶/🟡 rows, name the gap (backend requirement or the optional dep).</li>
+</ol><div class="pager"><a class="prev" href="reference-components.html"><small>Previous</small>Components &amp; widgets</a><a class="next" href="reference-commands.html"><small>Next</small>Command reference</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

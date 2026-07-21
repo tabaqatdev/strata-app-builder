@@ -1,0 +1,20 @@
+{
+  "name": "@strata/plugin-statusbar",
+  "version": "0.3.0",
+  "description": "A GeoLibre-style map status bar + scalebar as a StrataPlugin: live coordinates, zoom, scale, and CRS. Plain-DOM, uses only app.getMap().",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@strata/plugins": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

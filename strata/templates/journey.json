@@ -1,0 +1,421 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'journey' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/md.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "journey",
+    "name": "Journey",
+    "category": "web-page",
+    "webmap": "md",
+    "tier": "simple",
+    "blurb": "A bookmark-driven narrative: each step flies the pinned map to the next stop."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#0e7490"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "views",
+                "views": [
+                  {
+                    "id": "baltimore",
+                    "title": "Baltimore",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Baltimore",
+                              "as": "h3"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Stop 1 of 5 — services and coverage around Baltimore."
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "feature-info",
+                            "id": "info0",
+                            "dataSource": {
+                              "layerId": "md-hospitals"
+                            }
+                          }
+                        }
+                      ],
+                      "gap": 10,
+                      "style": {
+                        "padding": "14px",
+                        "overflow": "auto"
+                      }
+                    },
+                    "mapState": {
+                      "viewpoint": {
+                        "center": [
+                          -76.61,
+                          39.29
+                        ],
+                        "zoom": 11
+                      }
+                    }
+                  },
+                  {
+                    "id": "annapolis",
+                    "title": "Annapolis",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Annapolis",
+                              "as": "h3"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Stop 2 of 5 — services and coverage around Annapolis."
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "feature-info",
+                            "id": "info1",
+                            "dataSource": {
+                              "layerId": "md-hospitals"
+                            }
+                          }
+                        }
+                      ],
+                      "gap": 10,
+                      "style": {
+                        "padding": "14px",
+                        "overflow": "auto"
+                      }
+                    },
+                    "mapState": {
+                      "viewpoint": {
+                        "center": [
+                          -76.49,
+                          38.98
+                        ],
+                        "zoom": 12
+                      }
+                    }
+                  },
+                  {
+                    "id": "frederick",
+                    "title": "Frederick",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Frederick",
+                              "as": "h3"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Stop 3 of 5 — services and coverage around Frederick."
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "feature-info",
+                            "id": "info2",
+                            "dataSource": {
+                              "layerId": "md-hospitals"
+                            }
+                          }
+                        }
+                      ],
+                      "gap": 10,
+                      "style": {
+                        "padding": "14px",
+                        "overflow": "auto"
+                      }
+                    },
+                    "mapState": {
+                      "viewpoint": {
+                        "center": [
+                          -77.41,
+                          39.41
+                        ],
+                        "zoom": 11
+                      }
+                    }
+                  },
+                  {
+                    "id": "ocean-city",
+                    "title": "Ocean City",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Ocean City",
+                              "as": "h3"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Stop 4 of 5 — services and coverage around Ocean City."
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "feature-info",
+                            "id": "info3",
+                            "dataSource": {
+                              "layerId": "md-hospitals"
+                            }
+                          }
+                        }
+                      ],
+                      "gap": 10,
+                      "style": {
+                        "padding": "14px",
+                        "overflow": "auto"
+                      }
+                    },
+                    "mapState": {
+                      "viewpoint": {
+                        "center": [
+                          -75.08,
+                          38.34
+                        ],
+                        "zoom": 11
+                      }
+                    }
+                  },
+                  {
+                    "id": "cumberland",
+                    "title": "Cumberland",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Cumberland",
+                              "as": "h3"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Stop 5 of 5 — services and coverage around Cumberland."
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "feature-info",
+                            "id": "info4",
+                            "dataSource": {
+                              "layerId": "md-hospitals"
+                            }
+                          }
+                        }
+                      ],
+                      "gap": 10,
+                      "style": {
+                        "padding": "14px",
+                        "overflow": "auto"
+                      }
+                    },
+                    "mapState": {
+                      "viewpoint": {
+                        "center": [
+                          -78.76,
+                          39.65
+                        ],
+                        "zoom": 11
+                      }
+                    }
+                  }
+                ],
+                "nav": "slides",
+                "animate": "fly"
+              }
+            ],
+            "style": {
+              "flex": "0 0 360px",
+              "width": 360,
+              "height": "100%",
+              "borderRight": "1px solid var(--strata-border)"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "md-counties",
+                      "md-hospitals",
+                      "md-fire-stations"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minWidth": 0,
+              "minHeight": 0,
+              "height": "100%"
+            }
+          }
+        ],
+        "mode": "fixed",
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Journey",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "a guided tour of Maryland",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    },
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "zoomTo"
+    }
+  ]
+}

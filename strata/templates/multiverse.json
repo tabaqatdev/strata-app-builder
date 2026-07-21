@@ -1,0 +1,249 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'multiverse' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/md.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "multiverse",
+    "name": "Multiverse",
+    "category": "grid",
+    "webmap": "md",
+    "tier": "advanced",
+    "blurb": "Four synced universes: a 2×2 grid of maps locked to one extent, each showing a different layer mix."
+  },
+  "theme": {
+    "mode": "dark",
+    "colors": {
+      "primary": "#111827",
+      "secondary": "#22d3ee"
+    },
+    "variables": {
+      "--strata-app-bg": "#05070c"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "grid",
+        "children": [
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "m1",
+                  "props": {
+                    "layerIds": [
+                      "md-counties"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "100%"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "m2",
+                  "props": {
+                    "layerIds": [
+                      "md-hospitals",
+                      "md-counties"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "100%"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "m3",
+                  "props": {
+                    "layerIds": [
+                      "md-fire-stations",
+                      "md-counties"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "100%"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "m4",
+                  "props": {
+                    "layerIds": [
+                      "md-counties",
+                      "md-hospitals",
+                      "md-fire-stations"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "100%"
+            }
+          }
+        ],
+        "columns": 2,
+        "gap": 2,
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Multiverse",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "4 synced maps",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "m1",
+      "trigger": "extentChange",
+      "to": "m2",
+      "action": "zoomTo"
+    },
+    {
+      "from": "m1",
+      "trigger": "extentChange",
+      "to": "m3",
+      "action": "zoomTo"
+    },
+    {
+      "from": "m1",
+      "trigger": "extentChange",
+      "to": "m4",
+      "action": "zoomTo"
+    },
+    {
+      "from": "m2",
+      "trigger": "extentChange",
+      "to": "m1",
+      "action": "zoomTo"
+    },
+    {
+      "from": "m3",
+      "trigger": "extentChange",
+      "to": "m1",
+      "action": "zoomTo"
+    },
+    {
+      "from": "m4",
+      "trigger": "extentChange",
+      "to": "m1",
+      "action": "zoomTo"
+    }
+  ]
+}

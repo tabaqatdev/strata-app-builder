@@ -1,0 +1,222 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'leaflet' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/md.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "leaflet",
+    "name": "Leaflet",
+    "category": "grid",
+    "webmap": "md",
+    "tier": "simple",
+    "blurb": "A tall reading pane beside the map — the printed-leaflet look, digital behavior."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#15803d"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "splitter",
+        "children": [
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Emergency preparedness",
+                    "as": "h2"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Know your nearest hospital and fire station before you need them."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "divider"
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "near-me",
+                  "id": "nearMe",
+                  "dataSource": {
+                    "layerId": "md-hospitals"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "divider"
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Data: Maryland iMAP. Coverage shown for all 24 jurisdictions.",
+                    "style": {
+                      "opacity": "0.6",
+                      "fontSize": "12px"
+                    }
+                  }
+                }
+              }
+            ],
+            "gap": 12,
+            "style": {
+              "padding": "18px",
+              "overflow": "auto",
+              "height": "100%",
+              "background": "var(--strata-panel-bg)"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "md-counties",
+                      "md-hospitals",
+                      "md-fire-stations"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minWidth": 0,
+              "minHeight": 0,
+              "height": "100%"
+            }
+          }
+        ],
+        "sizes": [
+          30,
+          70
+        ],
+        "orientation": "h"
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Leaflet",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "reading pane + map",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "nearMe",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "layerId": "md-hospitals"
+      }
+    },
+    {
+      "from": "nearMe",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    },
+    {
+      "from": "nearMe",
+      "trigger": "recordsChange",
+      "to": "map",
+      "action": "filter",
+      "options": {
+        "layerId": "md-hospitals"
+      }
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+/**
+ * basemaps — apply a `baseMap.baseMapLayers[]` to the MapLibre style (raster/vector below operational
+ * layers). Both `WebTiledLayer` (raster XYZ) and `VectorTileLayer` (a keyless GL style URL) are supported.
+ */
+import type { BaseMap } from "@strata/schema";
+
+/** A selectable open basemap (raster XYZ `templateUrl`, or a vector `style` URL). */
+export interface BasemapPreset {
+  id: string;
+  title: string;
+  /** Raster XYZ template using ESRI Web Map tokens `{level}/{col}/{row}`. */
+  templateUrl?: string;
+  /** Vector-tile GL style JSON URL. */
+  style?: string;
+  /** Which UI theme this basemap pairs with (dark map ↔ dark UI). Drives {@link basemapForTheme}. */
+  mode?: "light" | "dark";
+  copyright?: string;
+}
+
+/**
+ * Curated **vector** basemaps — keyless GL style URLs (OpenFreeMap · CARTO GL · Versatiles), all
+ * OSM-derived and openly licensed. Crisp at every zoom and theme-aware. No proprietary/API-keyed
+ * provider ever appears here.
+ */
+export const VECTOR_BASEMAPS: BasemapPreset[] = [
+  {
+    id: "openfreemap-liberty",
+    title: "OpenFreeMap Liberty",
+    style: "https://tiles.openfreemap.org/styles/liberty",
+    mode: "light",
+    copyright: "© OpenStreetMap contributors · OpenFreeMap",
+  },
+  {
+    id: "carto-positron-gl",
+    title: "CARTO Positron (vector)",
+    style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+    mode: "light",
+    copyright: "© OpenStreetMap contributors © CARTO",
+  },
+  {
+    id: "carto-voyager-gl",
+    title: "CARTO Voyager (vector)",
+    style: "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
+    mode: "light",
+    copyright: "© OpenStreetMap contributors © CARTO",
+  },
+  {
+    id: "carto-dark-gl",
+    title: "CARTO Dark Matter (vector)",
+    style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+    mode: "dark",
+    copyright: "© OpenStreetMap contributors © CARTO",
+  },
+  {
+    id: "versatiles-colorful",
+    title: "Versatiles Colorful",
+    style: "https://tiles.versatiles.org/assets/styles/colorful/style.json",
+    mode: "light",
+    copyright: "© OpenStreetMap contributors · Versatiles",
+  },
+  {
+    id: "versatiles-eclipse",
+    title: "Versatiles Eclipse (dark)",
+    style: "https://tiles.versatiles.org/assets/styles/eclipse/style.json",
+    mode: "dark",
+    copyright: "© OpenStreetMap contributors · Versatiles",
+  },
+];
+
+/**
+ * Default basemaps — **open-source only, OpenStreetMap first.** Every entry is OSM-derived / openly
+ * licensed and keyless; no proprietary or API-keyed provider is ever a default. These populate the
+ * `BasemapPanel` and back {@link defaultBaseMap}. Raster presets come first (safe universal default),
+ * then the curated vector gallery. Respect each provider's tile-usage policy — self-host or add an API
+ * for heavy production traffic (see `docs/how-to/cors-and-proxy.md`).
+ */
+export const OPEN_BASEMAPS: BasemapPreset[] = [
+  {
+    id: "osm",
+    title: "OpenStreetMap",
+    templateUrl: "https://tile.openstreetmap.org/{level}/{col}/{row}.png",
+    mode: "light",
+    copyright: "© OpenStreetMap contributors",
+  },
+  {
+    id: "carto-positron",
+    title: "CARTO Positron (Light)",
+    templateUrl: "https://basemaps.cartocdn.com/light_all/{level}/{col}/{row}.png",
+    mode: "light",
+    copyright: "© OpenStreetMap contributors © CARTO",
+  },
+  {
+    id: "carto-voyager",
+    title: "CARTO Voyager",
+    templateUrl: "https://basemaps.cartocdn.com/rastertiles/voyager/{level}/{col}/{row}.png",
+    mode: "light",
+    copyright: "© OpenStreetMap contributors © CARTO",
+  },
+  {
+    id: "carto-dark",
+    title: "CARTO Dark Matter",
+    templateUrl: "https://basemaps.cartocdn.com/dark_all/{level}/{col}/{row}.png",
+    mode: "dark",
+    copyright: "© OpenStreetMap contributors © CARTO",
+  },
+  {
+    id: "opentopomap",
+    title: "OpenTopoMap",
+    templateUrl: "https://tile.opentopomap.org/{level}/{col}/{row}.png",
+    mode: "light",
+    copyright: "© OpenStreetMap contributors, SRTM · © OpenTopoMap (CC-BY-SA)",
+  },
+  ...VECTOR_BASEMAPS,
+];
+
+/** Build a genuine ESRI Web Map `BaseMap` from a preset (VectorTileLayer for `style`, else WebTiledLayer). */
+export function baseMapFromPreset(p: BasemapPreset): BaseMap {
+  return {
+    title: p.title,
+    baseMapLayers: [
+      p.style
+        ? { id: p.id, layerType: "VectorTileLayer", styleUrl: p.style, copyright: p.copyright }
+        : { id: p.id, layerType: "WebTiledLayer", templateUrl: p.templateUrl, copyright: p.copyright },
+    ],
+  };
+}
+
+/** The default basemap for a new map: **OpenStreetMap** (open, keyless raster). */
+export function defaultBaseMap(): BaseMap {
+  return baseMapFromPreset(OPEN_BASEMAPS[0]);
+}
+
+/**
+ * Pick a basemap preset that pairs with a UI theme mode (dark map ↔ dark UI). Prefers a **vector**
+ * basemap of the matching mode (crisp, theme-coherent); falls back to any preset of that mode, then
+ * to the OSM default. Used by `/create-map` / `/new-app` so a generated app's map matches its theme.
+ */
+export function basemapForTheme(mode: "light" | "dark"): BasemapPreset {
+  return (
+    VECTOR_BASEMAPS.find((p) => p.mode === mode) ??
+    OPEN_BASEMAPS.find((p) => p.mode === mode) ??
+    OPEN_BASEMAPS[0]
+  );
+}
+
+/** The default **vector** basemap for a theme mode (a `VectorTileLayer` BaseMap). */
+export function defaultVectorBaseMap(mode: "light" | "dark" = "light"): BaseMap {
+  return baseMapFromPreset(basemapForTheme(mode));
+}
+
+/**
+ * Namespace a fetched GL style's sources and layers under a prefix so they can be inserted below the
+ * operational layers and later removed cleanly. Pure and testable — the async fetch/mutation lives in
+ * {@link applyBaseMap}. Layer `source` references are rewritten to the namespaced source ids.
+ */
+export function prepareVectorBasemap(
+  styleJson: any,
+  prefix = "basemap:"
+): { sources: Record<string, any>; layers: any[]; glyphs?: string; sprite?: string } {
+  const sources: Record<string, any> = {};
+  const idMap: Record<string, string> = {};
+  for (const [id, src] of Object.entries(styleJson?.sources || {})) {
+    const nid = `${prefix}${id}`;
+    sources[nid] = src;
+    idMap[id] = nid;
+  }
+  const layers = (styleJson?.layers || []).map((l: any) => {
+    const copy = { ...l, id: `${prefix}${l.id}` };
+    if (copy.source && idMap[copy.source]) copy.source = idMap[copy.source];
+    return copy;
+  });
+  return { sources, layers, glyphs: styleJson?.glyphs, sprite: styleJson?.sprite };
+}
+
+/** Remove any previously-applied `basemap:` sources/layers from the live map. */
+function clearBasemap(map: any): void {
+  const style = map.getStyle?.();
+  (style?.layers || [])
+    .filter((l: any) => l.id.startsWith("basemap:"))
+    .forEach((l: any) => map.getLayer(l.id) && map.removeLayer(l.id));
+  Object.keys(style?.sources || {})
+    .filter((s) => s.startsWith("basemap:"))
+    .forEach((s) => map.getSource(s) && map.removeSource(s));
+}
+
+/** The id of the first operational (`lyr:*`) layer, so a basemap inserts beneath it. */
+function firstOperationalLayerId(map: any): string | undefined {
+  return (map.getStyle?.().layers || []).find((l: any) => l.id.startsWith("lyr:"))?.id;
+}
+
+/**
+ * Fetch a GL style URL and inject its sources + layers below the operational layers. Glyphs/sprite are
+ * adopted from the basemap style when the current style lacks them (guarded — older MapLibre lacks the
+ * setters). Fire-and-forget from {@link applyBaseMap}.
+ */
+async function loadVectorBasemap(map: any, url: string): Promise<void> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`basemap style fetch failed: ${res.status}`);
+  const styleJson = await res.json();
+  const { sources, layers, glyphs, sprite } = prepareVectorBasemap(styleJson);
+
+  const current = map.getStyle?.() || {};
+  if (glyphs && !current.glyphs && typeof map.setGlyphs === "function") {
+    try {
+      map.setGlyphs(glyphs);
+    } catch {
+      /* older MapLibre — labels fall back to whatever glyphs the map already has */
+    }
+  }
+  if (sprite && !current.sprite && typeof map.setSprite === "function") {
+    try {
+      map.setSprite(sprite);
+    } catch {
+      /* sprite is optional; icons degrade gracefully */
+    }
+  }
+
+  for (const [id, src] of Object.entries(sources)) {
+    if (!map.getSource(id)) map.addSource(id, src);
+  }
+  const beforeId = firstOperationalLayerId(map);
+  for (const layer of layers) {
+    if (!map.getLayer(layer.id)) map.addLayer(layer, beforeId);
+  }
+}
+
+export function applyBaseMap(map: any, baseMap: BaseMap): void {
+  clearBasemap(map);
+
+  const first = (baseMap.baseMapLayers || [])[0];
+  if (!first) return;
+  const srcId = `basemap:${first.id}`;
+
+  if (first.layerType === "WebTiledLayer" && first.templateUrl) {
+    const tiles = [
+      first.templateUrl.replace("{level}", "{z}").replace("{col}", "{x}").replace("{row}", "{y}"),
+    ];
+    map.addSource(srcId, { type: "raster", tiles, tileSize: 256, attribution: first.copyright || "" });
+    map.addLayer({ id: `${srcId}:raster`, type: "raster", source: srcId }, firstOperationalLayerId(map));
+    return;
+  }
+
+  if (first.layerType === "VectorTileLayer" && (first.styleUrl || first.templateUrl)) {
+    const url = (first.styleUrl || first.templateUrl) as string;
+    // Async: fetch the GL style and inject it. Errors are swallowed so a bad basemap never breaks the map.
+    void loadVectorBasemap(map, url).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.warn(`[strata] vector basemap '${first.id}' failed to load:`, err);
+    });
+  }
+}

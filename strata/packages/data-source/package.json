@@ -1,0 +1,30 @@
+{
+  "name": "@strata/data-source",
+  "version": "0.1.0",
+  "description": "First-class DataSource layer for strata-app-builder: a source owns its own schema, query, selection, filtered view, and statistics. Wraps @strata/state + @strata/actions so any widget can drive any widget. Back-compat auto-wraps layerId / fromWidget bindings.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@strata/schema": "workspace:*",
+    "@strata/state": "workspace:*",
+    "@strata/actions": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

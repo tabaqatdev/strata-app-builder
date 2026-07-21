@@ -1,0 +1,196 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'timeline' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "timeline",
+    "name": "Timeline",
+    "category": "web-page",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "Chronology as the spine: a time window drives the map, with the trend chart alongside."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#7c2d12",
+      "secondary": "#ea580c"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-crashes",
+                      "dc-wards"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minHeight": 0
+            }
+          },
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "date-filter",
+                  "id": "ts",
+                  "props": {
+                    "play": true,
+                    "mode": "window"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-crashes",
+                    "fields": [
+                      "REPORTDATE"
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "chart",
+                  "id": "trend",
+                  "props": {
+                    "kind": "line",
+                    "category": "REPORTDATE",
+                    "title": "Crashes through Q4 2024",
+                    "bands": true
+                  },
+                  "dataSource": {
+                    "layerId": "dc-crashes"
+                  }
+                }
+              }
+            ],
+            "gap": 10,
+            "style": {
+              "flex": "0 0 240px",
+              "padding": "12px",
+              "borderTop": "1px solid var(--strata-border)"
+            }
+          }
+        ],
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Timeline",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "time-enabled layer + window filter",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "ts",
+      "trigger": "filterChange",
+      "to": "map",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    },
+    {
+      "from": "ts",
+      "trigger": "filterChange",
+      "to": "trend",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    },
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "name": "@strata/core-map",
+  "version": "0.3.0",
+  "description": "React + MapLibre GL JS map component driven by an ESRI Web Map JSON layers.json, with an ESRI drawingInfo/popupInfo -> MapLibre style compiler. The core of every Strata GIS app.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@strata/actions": "workspace:*",
+    "@strata/arcade": "workspace:*",
+    "@strata/data-source": "workspace:*",
+    "@strata/export": "workspace:*",
+    "@strata/feature-arcgis": "workspace:*",
+    "@strata/i18n": "workspace:*",
+    "@strata/schema": "workspace:*",
+    "@strata/state": "workspace:*",
+    "@strata/theme": "workspace:*"
+  },
+  "peerDependencies": {
+    "@geomatico/maplibre-cog-protocol": ">=0.4",
+    "@tanstack/react-virtual": ">=3",
+    "@turf/turf": ">=7",
+    "echarts": ">=5",
+    "maplibre-gl": ">=3",
+    "react": ">=18",
+    "react-dom": ">=18",
+    "terra-draw": ">=1",
+    "terra-draw-maplibre-gl-adapter": ">=1"
+  },
+  "peerDependenciesMeta": {
+    "terra-draw": {
+      "optional": true
+    },
+    "terra-draw-maplibre-gl-adapter": {
+      "optional": true
+    },
+    "@turf/turf": {
+      "optional": true
+    },
+    "echarts": {
+      "optional": true
+    },
+    "@tanstack/react-virtual": {
+      "optional": true
+    },
+    "@geomatico/maplibre-cog-protocol": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^29.1.1",
+    "react": "^18",
+    "react-dom": "^18",
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

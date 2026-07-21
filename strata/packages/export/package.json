@@ -1,0 +1,25 @@
+{
+  "name": "@strata/export",
+  "version": "0.1.0",
+  "description": "Map export for strata-app-builder: image (PNG/JPEG), print/PDF, shareable ESRI Web Map spec, and layer data (GeoParquet/GeoJSON/CSV).",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@strata/schema": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

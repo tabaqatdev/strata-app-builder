@@ -1,0 +1,11 @@
+{
+  "name": "strata-app-builder-root",
+  "private": true,
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "install:all": "pnpm -C strata install",
+    "build": "pnpm -C strata build",
+    "typecheck": "pnpm -C strata typecheck",
+    "test": "pnpm -C strata test"
+  }
+}

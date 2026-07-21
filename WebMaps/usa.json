@@ -1,0 +1,1529 @@
+{
+  "version": "1.0",
+  "spatialReference": {
+    "wkid": 4326,
+    "latestWkid": 4326
+  },
+  "initialState": {
+    "viewpoint": {
+      "targetGeometry": {
+        "xmin": -128,
+        "ymin": 23,
+        "xmax": -66,
+        "ymax": 50,
+        "spatialReference": {
+          "wkid": 4326
+        }
+      }
+    }
+  },
+  "baseMap": {
+    "title": "OpenStreetMap",
+    "baseMapLayers": [
+      {
+        "id": "osm",
+        "layerType": "WebTiledLayer",
+        "templateUrl": "https://tile.openstreetmap.org/{level}/{col}/{row}.png",
+        "copyright": "© OpenStreetMap contributors"
+      }
+    ]
+  },
+  "operationalLayers": [
+    {
+      "id": "usa-states",
+      "title": "States",
+      "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2",
+      "layerType": "ArcGISFeatureLayer",
+      "source": {
+        "kind": "arcgis-feature",
+        "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2"
+      },
+      "visibility": true,
+      "opacity": 1.0,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "uniqueValue",
+            "field1": "state_name",
+            "field2": null,
+            "field3": null,
+            "fieldDelimiter": ", ",
+            "defaultSymbol": {
+              "type": "esriSFS",
+              "style": "esriSFSSolid",
+              "color": [
+                205,
+                232,
+                238,
+                51
+              ],
+              "outline": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  63,
+                  192,
+                  217,
+                  255
+                ],
+                "width": 1.5
+              }
+            },
+            "defaultLabel": "Other",
+            "uniqueValueInfos": [
+              {
+                "value": "Alabama",
+                "label": "Alabama",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    187,
+                    209,
+                    223,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      57,
+                      141,
+                      189,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Alaska",
+                "label": "Alaska",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    181,
+                    202,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      199,
+                      45,
+                      116,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Arizona",
+                "label": "Arizona",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    187,
+                    222,
+                    199,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      58,
+                      187,
+                      104,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Arkansas",
+                "label": "Arkansas",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    237,
+                    211,
+                    232,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      210,
+                      74,
+                      184,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "California",
+                "label": "California",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    226,
+                    198,
+                    187,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      198,
+                      93,
+                      52,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Colorado",
+                "label": "Colorado",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    213,
+                    229,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      82,
+                      170,
+                      202,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Connecticut",
+                "label": "Connecticut",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    228,
+                    201,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      200,
+                      191,
+                      68,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Delaware",
+                "label": "Delaware",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    214,
+                    230,
+                    196,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      135,
+                      205,
+                      58,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "District of Columbia",
+                "label": "District of Columbia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    200,
+                    225,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      212,
+                      60,
+                      171,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Florida",
+                "label": "Florida",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    204,
+                    237,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      171,
+                      62,
+                      216,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Georgia",
+                "label": "Georgia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    194,
+                    205,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      57,
+                      106,
+                      202,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Hawaii",
+                "label": "Hawaii",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    197,
+                    232,
+                    222,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      58,
+                      209,
+                      166,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Idaho",
+                "label": "Idaho",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    185,
+                    227,
+                    182,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      56,
+                      199,
+                      46,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Illinois",
+                "label": "Illinois",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    234,
+                    231,
+                    203,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      207,
+                      194,
+                      66,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Indiana",
+                "label": "Indiana",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    222,
+                    188,
+                    187,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      188,
+                      62,
+                      58,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Iowa",
+                "label": "Iowa",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    213,
+                    215,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      81,
+                      91,
+                      204,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Kansas",
+                "label": "Kansas",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    233,
+                    205,
+                    201,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      207,
+                      79,
+                      64,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Kentucky",
+                "label": "Kentucky",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    223,
+                    187,
+                    204,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      189,
+                      58,
+                      120,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Louisiana",
+                "label": "Louisiana",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    192,
+                    225,
+                    186,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      74,
+                      196,
+                      52,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Maine",
+                "label": "Maine",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    236,
+                    212,
+                    229,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      207,
+                      78,
+                      168,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Maryland",
+                "label": "Maryland",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    206,
+                    230,
+                    180,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      127,
+                      207,
+                      40,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Massachusetts",
+                "label": "Massachusetts",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    226,
+                    187,
+                    227,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      196,
+                      49,
+                      202,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Michigan",
+                "label": "Michigan",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    233,
+                    201,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      181,
+                      208,
+                      63,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Minnesota",
+                "label": "Minnesota",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    213,
+                    182,
+                    229,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      150,
+                      42,
+                      205,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Mississippi",
+                "label": "Mississippi",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    225,
+                    222,
+                    183,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      195,
+                      183,
+                      50,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Missouri",
+                "label": "Missouri",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    233,
+                    198,
+                    204,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      209,
+                      59,
+                      83,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Montana",
+                "label": "Montana",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    219,
+                    203,
+                    232,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      141,
+                      69,
+                      202,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Nebraska",
+                "label": "Nebraska",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    203,
+                    200,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      200,
+                      78,
+                      66,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Nevada",
+                "label": "Nevada",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    209,
+                    219,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      207,
+                      74,
+                      122,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "New Hampshire",
+                "label": "New Hampshire",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    184,
+                    228,
+                    200,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      47,
+                      202,
+                      101,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "New Jersey",
+                "label": "New Jersey",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    189,
+                    228,
+                    182,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      69,
+                      202,
+                      45,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "New Mexico",
+                "label": "New Mexico",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    230,
+                    191,
+                    191,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      208,
+                      52,
+                      50,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "New York",
+                "label": "New York",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    183,
+                    186,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      46,
+                      54,
+                      202,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "North Carolina",
+                "label": "North Carolina",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    218,
+                    232,
+                    201,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      142,
+                      204,
+                      65,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "North Dakota",
+                "label": "North Dakota",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    228,
+                    236,
+                    203,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      175,
+                      214,
+                      62,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Ohio",
+                "label": "Ohio",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    187,
+                    232,
+                    212,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      42,
+                      214,
+                      138,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Oklahoma",
+                "label": "Oklahoma",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    233,
+                    219,
+                    197,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      210,
+                      152,
+                      56,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Oregon",
+                "label": "Oregon",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    204,
+                    230,
+                    196,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      94,
+                      204,
+                      59,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Pennsylvania",
+                "label": "Pennsylvania",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    185,
+                    214,
+                    223,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      55,
+                      157,
+                      190,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Rhode Island",
+                "label": "Rhode Island",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    195,
+                    206,
+                    234,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      52,
+                      98,
+                      214,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "South Carolina",
+                "label": "South Carolina",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    197,
+                    215,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      62,
+                      142,
+                      199,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "South Dakota",
+                "label": "South Dakota",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    218,
+                    184,
+                    224,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      172,
+                      53,
+                      192,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Tennessee",
+                "label": "Tennessee",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    218,
+                    186,
+                    228,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      166,
+                      48,
+                      202,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Texas",
+                "label": "Texas",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    223,
+                    185,
+                    230,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      182,
+                      44,
+                      208,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Utah",
+                "label": "Utah",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    187,
+                    203,
+                    225,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      54,
+                      112,
+                      195,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Vermont",
+                "label": "Vermont",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    235,
+                    212,
+                    221,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      203,
+                      81,
+                      129,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Virginia",
+                "label": "Virginia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    199,
+                    209,
+                    233,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      60,
+                      104,
+                      209,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Washington",
+                "label": "Washington",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    200,
+                    214,
+                    231,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      65,
+                      129,
+                      203,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "West Virginia",
+                "label": "West Virginia",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    218,
+                    212,
+                    235,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      112,
+                      81,
+                      202,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Wisconsin",
+                "label": "Wisconsin",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    226,
+                    234,
+                    212,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      158,
+                      201,
+                      81,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              },
+              {
+                "value": "Wyoming",
+                "label": "Wyoming",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    234,
+                    233,
+                    212,
+                    51
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      201,
+                      194,
+                      82,
+                      255
+                    ],
+                    "width": 1.5
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "{state_name}",
+        "fieldInfos": [
+          {
+            "fieldName": "state_name",
+            "label": "State",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "state_abbr",
+            "label": "Abbr",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "sub_region",
+            "label": "Region",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "pop2000",
+            "label": "Population (2000)",
+            "visible": true,
+            "isEditable": false,
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            }
+          },
+          {
+            "fieldName": "pop00_sqmi",
+            "label": "People / sq mi",
+            "visible": true,
+            "isEditable": false,
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "usa-highways",
+      "title": "Highways",
+      "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/1",
+      "layerType": "ArcGISFeatureLayer",
+      "source": {
+        "kind": "arcgis-feature",
+        "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/1"
+      },
+      "visibility": true,
+      "opacity": 1.0,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple",
+            "symbol": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [
+                204,
+                72,
+                63,
+                255
+              ],
+              "width": 1.4
+            }
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "{route}",
+        "fieldInfos": [
+          {
+            "fieldName": "route",
+            "label": "Route",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "type",
+            "label": "Type",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "rte_num1",
+            "label": "Number",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "admn_class",
+            "label": "Class",
+            "visible": true,
+            "isEditable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "usa-cities",
+      "title": "Cities",
+      "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0",
+      "layerType": "ArcGISFeatureLayer",
+      "source": {
+        "kind": "arcgis-feature",
+        "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0"
+      },
+      "visibility": true,
+      "opacity": 1.0,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple",
+            "symbol": {
+              "type": "esriSMS",
+              "style": "esriSMSCircle",
+              "color": [
+                26,
+                167,
+                166,
+                255
+              ],
+              "size": 5,
+              "outline": {
+                "color": [
+                  255,
+                  255,
+                  255,
+                  255
+                ],
+                "width": 1
+              }
+            }
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "{areaname}",
+        "fieldInfos": [
+          {
+            "fieldName": "areaname",
+            "label": "City",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "class",
+            "label": "Class",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "st",
+            "label": "State",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "pop2000",
+            "label": "Population (2000)",
+            "visible": true,
+            "isEditable": false,
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

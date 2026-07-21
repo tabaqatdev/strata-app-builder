@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Getting started · strata-app-builder help</title><style>
+:root{--navy:#0c2b38;--navy2:#123c4d;--teal:#1ba7a6;--teal600:#178f8e;--teal50:#e9f7f7;
+--ink:#12303c;--slate:#5b6b76;--slate400:#94a3b8;--line:#e4ebee;--panel:#f6f9fa;--white:#fff;
+--code-bg:#f4f7f8;--font:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+--mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--white);line-height:1.6}
+a{color:var(--teal600);text-decoration:none}
+a:hover{text-decoration:underline}
+/* top bar */
+.top{position:sticky;top:0;z-index:20;height:58px;display:flex;align-items:center;gap:14px;
+padding:0 20px;background:var(--navy);color:#fff}
+.top .mk{width:26px;height:26px}
+.top .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.01em}
+.top .brand b{color:#fff}.top .brand span{color:var(--teal);font-weight:700}
+.top .brand small{color:#9fc7cd;font-weight:600;margin-left:6px;font-size:.8rem;letter-spacing:.04em}
+.top .spacer{flex:1}
+.top .home{color:#cfe6e6;font-size:.9rem}
+.filter{display:flex;align-items:center}
+.filter input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;
+border-radius:8px;padding:.4rem .7rem;font-size:.85rem;width:190px;outline:none}
+.filter input::placeholder{color:#9fc7cd}
+/* layout */
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1200px;margin:0 auto}
+nav.side{border-right:1px solid var(--line);padding:22px 14px 60px;height:calc(100vh - 58px);
+position:sticky;top:58px;overflow:auto}
+nav.side .grp{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+color:var(--slate400);margin:18px 10px 6px}
+nav.side a{display:block;padding:.4rem .7rem;border-radius:8px;color:var(--ink);font-size:.92rem;font-weight:500}
+nav.side a:hover{background:var(--panel);text-decoration:none}
+nav.side a.active{background:var(--teal50);color:var(--teal600);font-weight:700}
+/* content */
+main{padding:34px 44px 80px;min-width:0;max-width:860px}
+main .crumb{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal600);font-weight:800}
+main h1{font-size:2.15rem;line-height:1.15;color:var(--navy);letter-spacing:-.02em;margin:.2rem 0 .2rem}
+main .lede{color:var(--slate);font-size:1.05rem;margin:0 0 1.4rem}
+main h2{font-size:1.5rem;color:var(--navy);margin:2rem 0 .6rem;padding-top:.4rem;border-top:1px solid var(--line)}
+main h3{font-size:1.16rem;color:var(--navy2);margin:1.4rem 0 .4rem}
+main h4{font-size:1rem;color:var(--navy2);margin:1.1rem 0 .3rem}
+main p,main li{color:#243b45}
+main code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);color:#0a3a44;
+padding:.12em .38em;border-radius:5px}
+main pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+overflow:auto}
+main pre code{background:none;padding:0;color:#123}
+main table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem;display:block;overflow:auto}
+main th,main td{border:1px solid var(--line);padding:.5rem .7rem;text-align:left;vertical-align:top}
+main thead th{background:var(--panel);color:var(--navy);font-size:.82rem;letter-spacing:.02em}
+main blockquote{margin:1.1rem 0;padding:.7rem 1rem;background:var(--teal50);border-radius:0 10px 10px 0;
+border-left:4px solid var(--teal);color:#134}
+main blockquote p{margin:.3rem 0}
+main hr{border:none;border-top:1px solid var(--line);margin:2rem 0}
+main ul,main ol{padding-left:1.3rem}main li{margin:.25rem 0}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:3rem;border-top:1px solid var(--line);padding-top:1.2rem}
+.pager a{flex:1;padding:.8rem 1rem;border:1px solid var(--line);border-radius:12px;font-weight:600}
+.pager a:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.pager a.next{text-align:right}
+.pager small{display:block;color:var(--slate400);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;padding:22px 44px;max-width:860px}
+/* landing */
+.hero{background:linear-gradient(135deg,var(--navy),#164a5c);color:#fff;border-radius:18px;padding:40px 40px}
+.hero h1{color:#fff;font-size:2.4rem;margin:.4rem 0 .5rem;letter-spacing:-.02em}
+.hero p{color:#cfe6e6;font-size:1.1rem;max-width:44ch;margin:0}
+.hero .mk{width:34px;height:34px;vertical-align:middle}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:block;color:inherit}
+.card:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.card b{color:var(--navy);font-size:1.02rem}
+.card p{color:var(--slate);font-size:.9rem;margin:.3rem 0 0}
+.sec-h{font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal600);margin:26px 0 4px}
+.menu-btn{display:none}
+@media(max-width:860px){
+ .wrap{grid-template-columns:1fr}
+ nav.side{position:fixed;left:0;top:58px;bottom:0;width:280px;background:#fff;transform:translateX(-100%);
+ transition:.2s;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+ nav.side.open{transform:none}
+ .menu-btn{display:inline-flex}.filter{display:none}
+ main{padding:24px 20px 60px}.cards{grid-template-columns:1fr}.hero{padding:28px 22px}
+}
+</style></head><body><header class="top"><button class="menu-btn" onclick="document.getElementById('side').classList.toggle('open')" aria-label="Menu" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer">☰</button><a class="brand" href="index.html"><svg class="mk" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="6" y="7" width="20" height="4.2" rx="2.1" fill="#0c2b38"/><rect x="4" y="14" width="24" height="4.2" rx="2.1" fill="#1ba7a6"/><rect x="8" y="21" width="16" height="4.2" rx="2.1" fill="#5cc7c5"/></svg><b>tabaqat</b><span>· Strata</span><small>HELP &amp; DOCS</small></a><div class="spacer"></div><div class="filter"><input id="q" type="search" placeholder="Filter topics…" oninput="filterNav(this.value)"></div><a class="home" href="index.html">Home</a></header><div class="wrap"><nav class="side" id="side">
+<div class="grp">Start here</div>
+<a class="nav-link" data-title="overview" href="README.html">Overview</a>
+<a class="nav-link active" data-title="getting started" href="getting-started.html">Getting started</a>
+<a class="nav-link" data-title="faq" href="faq.html">FAQ</a>
+<div class="grp">Guide</div>
+<a class="nav-link" data-title="repository anatomy" href="guide-anatomy.html">Repository anatomy</a>
+<a class="nav-link" data-title="sample map templates" href="guide-map-templates.html">Sample map templates</a>
+<a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
+<a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
+<a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<div class="grp">How-to</div>
+<a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
+<a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
+<a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
+<a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
+<a class="nav-link" data-title="using recipes" href="how-to-using-recipes.html">Using recipes</a>
+<div class="grp">Reference</div>
+<a class="nav-link" data-title="components &amp; widgets" href="reference-components.html">Components &amp; widgets</a>
+<a class="nav-link" data-title="human language reference" href="reference-human-language.html">Human Language Reference</a>
+<a class="nav-link" data-title="command reference" href="reference-commands.html">Command reference</a>
+<a class="nav-link" data-title="troubleshooting" href="troubleshooting.html">Troubleshooting</a>
+</nav><main><div class="crumb">Start here</div><h1>Getting started</h1><p class="lede">From install to your first working map — the on-ramp.</p><p>Welcome to <strong>strata-app-builder</strong> — a Claude Code template for building advanced GIS web apps without writing code.
+You describe the map you want; Claude authors it. This page is the on-ramp: the mental model, how to run the
+example, the commands you'll live in, and the day-to-day build workflow.</p>
+<h2 id="the-mental-model">The mental model</h2>
+<p>Three ideas carry everything:</p>
+<ul>
+<li><strong>You describe, Claude authors.</strong> The work a GIS admin would do in ArcGIS Pro / ArcGIS Online — add layers,
+  style them, write popups, assemble panels — you do here by <em>describing it</em>. Claude writes the JSON.</li>
+<li><strong>The map is a component, not an app.</strong> <code>&lt;StrataMap&gt;</code> (React + MapLibre GL JS) renders a map spec. The same
+  map can become a full-page operations wall, a scrolling report, a split dashboard, or two synced maps.</li>
+<li><strong>ESRI Web Map JSON is the contract.</strong> The map spec (<code>layers.json</code>) is genuine ESRI Web Map JSON —
+  <code>operationalLayers</code>, <code>baseMap</code>, <code>spatialReference</code>, <code>initialState</code>. Styling is genuine ESRI <code>drawingInfo</code>;
+  popups are genuine ESRI <code>popupInfo</code>. Nothing here is a home-grown DSL — it round-trips with ArcGIS tooling.</li>
+</ul>
+<p>Data comes from <strong>ArcGIS REST</strong> services (public or secured FeatureServer / MapServer) and/or the <strong>Strata
+Serve</strong> server (your own GeoParquet published as a FeatureServer). Basemaps default to <strong>open-source,
+OpenStreetMap first</strong> (keyless).</p>
+<h2 id="install-build">Install &amp; build</h2>
+<p>Everything runs from inside <code>strata/</code>:</p>
+<pre><code class="language-bash">cd strata
+pnpm install     # installs the workspace
+pnpm -r build    # build all packages
+pnpm test        # run the unit suites
+</code></pre>
+<p>Once the workspace builds, scaffold your first app with <strong><code>/new-app</code></strong> in Claude Code (below) — it interviews
+you, generates a working <code>layers.json</code>, and wires up the app.</p>
+<h2 id="the-trio">The trio</h2>
+<p>Three commands orient you at any moment:</p>
+<ul>
+<li><strong><code>/new-app</code></strong> — <em>to build.</em> A guided wizard: it interviews you, scaffolds a working app (layout, panels,
+  plugins, proxy, auth), and installs dependencies.</li>
+<li><strong><code>/guide</code></strong> — <em>to decide.</em> State a goal ("I want two synced maps") and it routes you to the exact command,
+  plugin, or doc.</li>
+<li><strong><code>/help</code></strong> — <em>to look up.</em> Capabilities plus task how-tos. (<code>/what-can-i-do</code> is the full capability list.)</li>
+</ul>
+<h2 id="first-run-a-starter-map">First run: a starter map</h2>
+<p>The canvas is never empty. On your first run — or any time via <code>/new-app</code> — Claude offers a <strong>starting
+point</strong>: <strong>World</strong>, <strong>USA</strong>, a <strong>specific country</strong>, or a <strong>US state</strong>. Pick one and Claude <strong>copies the
+matching template from <code>WebMaps/</code> into your app as its <code>layers.json</code></strong>, so the Layer panel opens
+already populated with real layers (pastel polygons plus cities and airports). That proves your setup and the
+Claude interaction are working before you've done anything else.</p>
+<p>For a specific country or state, Claude retargets the template's <code>definitionExpression</code> and
+<code>initialState.viewpoint</code> to your choice. See <strong><a href="guide-map-templates.html">the map templates guide</a></strong> for the
+four templates, their data sources, and the styling conventions.</p>
+<h2 id="the-build-workflow">The build workflow</h2>
+<p>This is where GIS admins spend most of their time — turning raw data into a styled, queryable map:</p>
+<ol>
+<li><strong>Get data</strong> — <code>/add-data</code> adds a layer to the current map from an ArcGIS FeatureServer/MapServer URL
+   (public or secured) or a GeoJSON file/URL.</li>
+<li><strong>Convert</strong> — <code>/convert</code> turns a GDB / Shapefile / GeoJSON / ESRI JSON / CSV / KML into <strong>EPSG:4326
+   GeoParquet</strong> (everything in strata-app-builder is 4326 — reproject on the way in).</li>
+<li><strong>Publish</strong> — <code>/publish</code> makes that GeoParquet a permanent FeatureServer endpoint on <strong>Strata Serve</strong>
+   (adds a <code>[[duckdb.datasources]]</code> block + a metadata bundle; restart the server, no hot reload).</li>
+<li><strong>Symbolize</strong> — <code>/symbology</code> authors a genuine ESRI renderer (<code>simple</code> / <code>classBreaks</code> / <code>uniqueValue</code> /
+   <code>heatmap</code>), compiled to MapLibre paint.</li>
+<li><strong>Advanced popups</strong> — <code>/popup</code> authors a genuine ESRI <code>popupInfo</code> (field lists, aliases, formatting).</li>
+<li><strong>Assemble</strong> — <code>/panel</code> adds advanced panels (filter, table, statistics, chart, carto, edit, attachments,
+   time series, swipe, bookmarks…), and <code>/app</code> composes a whole declarative <code>&lt;StrataApp&gt;</code> layout
+   (dashboard / gallery / story).</li>
+</ol>
+<p>You don't have to do all six — reach for the step you need. Reads (query, statistics, related, attachment
+viewing) work on both ArcGIS and Strata Serve backends; <strong>feature editing and attachment writes require a
+writable, authenticated ESRI backend</strong> (Strata Serve is read-only today; Strata editing is planned).</p>
+<h2 id="start-from-a-recipe">Start from a recipe</h2>
+<p>You don't have to start blank. A <strong>recipe</strong> is a complete app template — a spec, a prompt-script, and a
+<strong>guided wizard</strong> — that Claude runs like an ArcGIS Instant App. Launch one with <code>/recipe &lt;name&gt;</code> (e.g.
+<code>/recipe showcase</code>) or just describe the app; Claude runs the wizard to collect your app's properties, confirms,
+then builds it and prompts you to finish. See <strong><a href="how-to-using-recipes.html">using recipes</a></strong>.</p>
+<h2 id="export-share">Export &amp; share</h2>
+<p>When the map is ready, <code>/export</code> gets it out:</p>
+<ul>
+<li><code>/export image</code> — PNG / JPEG of the current view.</li>
+<li><code>/export pdf</code> — a real print layout (legend, scale bar, title).</li>
+<li><code>/export map</code> — a shareable ESRI Web Map spec that round-trips to ArcGIS tooling.</li>
+<li><code>/export layer &lt;id&gt;</code> — the layer's data as GeoJSON or CSV.</li>
+</ul>
+<p>The interface is bilingual (English / Arabic, RTL-aware) throughout.</p>
+<h2 id="where-to-next">Where to next</h2>
+<ul>
+<li><strong><a href="guide-anatomy.html">Repository anatomy</a></strong> — what every folder and file is.</li>
+<li><strong><a href="reference-commands.html">Command reference</a></strong> — every command at a glance.</li>
+<li><strong><a href="guide-style-compiler.html">The style compiler</a></strong> — how ESRI <code>drawingInfo</code> becomes MapLibre paint.</li>
+<li><strong><a href="README.html#help-task-how-tos">Help</a></strong> — task how-tos (layouts, symbology, publishing, export, CORS).</li>
+</ul><div class="pager"><a class="prev" href="README.html"><small>Previous</small>Overview</a><a class="next" href="faq.html"><small>Next</small>FAQ</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

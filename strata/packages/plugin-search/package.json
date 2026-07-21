@@ -1,0 +1,37 @@
+{
+  "name": "@strata/plugin-search",
+  "version": "0.3.0",
+  "description": "Geocoding / place-search plugin for Strata. Ships a keyless OSM Nominatim provider and an optional, lazy Esri geocoding provider. Registers a search box that fits the map to the chosen result.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@strata/plugins": "workspace:*"
+  },
+  "peerDependencies": {
+    "@esri/arcgis-rest-geocoding": "*",
+    "@esri/arcgis-rest-request": "*"
+  },
+  "peerDependenciesMeta": {
+    "@esri/arcgis-rest-geocoding": {
+      "optional": true
+    },
+    "@esri/arcgis-rest-request": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

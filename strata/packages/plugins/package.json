@@ -1,0 +1,29 @@
+{
+  "name": "@strata/plugins",
+  "version": "0.3.0",
+  "description": "The strata-app-builder plugin system: an ESRI Web Map-native plugin contract (modelled on GeoLibre's plugin API), app API, and a plugin manager.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@strata/schema": "workspace:*",
+    "@strata/state": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

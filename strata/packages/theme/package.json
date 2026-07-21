@@ -1,0 +1,25 @@
+{
+  "name": "@strata/theme",
+  "version": "0.1.0",
+  "description": "One validated visual system for strata-app-builder: colorblind-safe categorical/sequential/diverging ramps (light+dark) plus named AppLayout theme presets (light/dark/hazard/muted). Symbology, charts, and app themes all draw from here so a generated app is visually coherent on the first build.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

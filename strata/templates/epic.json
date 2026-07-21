@@ -1,0 +1,229 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'epic' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/md.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "epic",
+    "name": "Epic",
+    "category": "web-page",
+    "webmap": "md",
+    "tier": "simple",
+    "blurb": "A website home page: hero, feature sections, embedded map, footer CTA."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#854d0e",
+      "secondary": "#365314"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "scroll",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Old Line State GIS",
+                    "as": "h1"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Authoritative geospatial services for Maryland agencies and the public.",
+                    "style": {
+                      "fontSize": "18px",
+                      "opacity": "0.8"
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "row",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "button",
+                      "id": "cta1",
+                      "props": {
+                        "label": "Open the map",
+                        "variant": "primary"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "button",
+                      "id": "cta2",
+                      "props": {
+                        "label": "Browse data"
+                      }
+                    }
+                  }
+                ],
+                "gap": 10,
+                "style": {
+                  "justifyContent": "center"
+                }
+              }
+            ],
+            "gap": 14,
+            "animate": "fade",
+            "style": {
+              "padding": "72px 24px 40px",
+              "textAlign": "center"
+            }
+          },
+          {
+            "kind": "grid",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "Emergency services",
+                    "content": "Hospitals and fire stations, updated from iMAP."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "Boundaries",
+                    "content": "Counties and municipal lines, survey-grade."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "card",
+                  "props": {
+                    "title": "Open by default",
+                    "content": "Every layer a public FeatureServer endpoint."
+                  }
+                }
+              }
+            ],
+            "columns": 3,
+            "gap": 16,
+            "animate": "scroll-reveal",
+            "style": {
+              "padding": "0 24px"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "md-counties",
+                      "md-hospitals",
+                      "md-fire-stations"
+                    ]
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "480px",
+              "margin": "24px",
+              "borderRadius": "14px",
+              "overflow": "hidden"
+            }
+          }
+        ],
+        "gap": 8,
+        "style": {
+          "maxWidth": "1200px",
+          "margin": "0 auto"
+        }
+      },
+      "footer": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "© Maryland iMAP · built on strata-app-builder",
+                "style": {
+                  "opacity": "0.6"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "style": {
+          "padding": "14px 24px",
+          "borderTop": "1px solid var(--strata-border)"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "cta1",
+      "trigger": "buttonClick",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "viewpoint": {
+          "center": [
+            -77.2,
+            39.0
+          ],
+          "zoom": 7
+        }
+      }
+    },
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+[package]
+name = "strata-proxy-rust"
+version = "1.0.0"
+edition = "2021"
+license = "MIT"
+description = "strata-app-builder CORS/proxy reference — tiny axum app for CORS-restricted ArcGIS REST services"
+
+[[bin]]
+name = "strata-proxy"
+path = "src/main.rs"
+
+[dependencies]
+axum = "0.7"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream"] }
+tower-http = { version = "0.5", features = ["cors"] }
+http = "1"
+futures-util = "0.3"
+serde = { version = "1", features = ["derive"] }
+
+[profile.release]
+opt-level = "z"
+lto = true
+strip = true

@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strata.tabaqat.net/schema/layers.schema.json",
+  "title": "strata-app-builder layers.json (ESRI Web Map JSON aligned)",
+  "description": "The map specification file that drives <StrataMap>. Aligned to the ESRI Web Map JSON spec; styling and popups are genuine ESRI drawingInfo/popupInfo JSON.",
+  "type": "object",
+  "required": ["version", "spatialReference", "initialState", "baseMap", "operationalLayers"],
+  "properties": {
+    "version": { "type": "string" },
+    "spatialReference": { "$ref": "#/$defs/spatialReference" },
+    "initialState": {
+      "type": "object",
+      "required": ["viewpoint"],
+      "properties": {
+        "viewpoint": {
+          "type": "object",
+          "required": ["targetGeometry"],
+          "properties": { "targetGeometry": { "$ref": "#/$defs/extent" } }
+        }
+      }
+    },
+    "baseMap": {
+      "type": "object",
+      "required": ["title", "baseMapLayers"],
+      "properties": {
+        "title": { "type": "string" },
+        "baseMapLayers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "layerType"],
+            "properties": {
+              "id": { "type": "string" },
+              "layerType": { "enum": ["WebTiledLayer", "VectorTileLayer", "ArcGISTiledMapServiceLayer"] },
+              "templateUrl": { "type": "string" },
+              "styleUrl": { "type": "string" },
+              "copyright": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "operationalLayers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/operationalLayer" }
+    },
+    "strata:extensions": { "type": "object" }
+  },
+  "$defs": {
+    "spatialReference": {
+      "type": "object",
+      "required": ["wkid"],
+      "properties": { "wkid": { "type": "integer" }, "latestWkid": { "type": "integer" } }
+    },
+    "extent": {
+      "type": "object",
+      "required": ["xmin", "ymin", "xmax", "ymax", "spatialReference"],
+      "properties": {
+        "xmin": { "type": "number" },
+        "ymin": { "type": "number" },
+        "xmax": { "type": "number" },
+        "ymax": { "type": "number" },
+        "spatialReference": { "$ref": "#/$defs/spatialReference" }
+      }
+    },
+    "operationalLayer": {
+      "type": "object",
+      "required": ["id", "title", "layerType", "source"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "url": { "type": "string" },
+        "layerType": {
+          "enum": ["ArcGISFeatureLayer", "ArcGISMapServiceLayer", "GeoJSON", "WebTiledLayer", "WMS"]
+        },
+        "source": {
+          "type": "object",
+          "required": ["kind"],
+          "properties": {
+            "kind": { "enum": ["arcgis-feature", "arcgis-map", "strata", "geojson", "tile", "wms"] },
+            "dataset": { "type": "string" },
+            "url": { "type": "string" },
+            "data": {}
+          }
+        },
+        "visibility": { "type": "boolean" },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "refreshIntervalSeconds": { "type": "number" },
+        "layerDefinition": {
+          "type": "object",
+          "properties": {
+            "definitionExpression": { "type": "string" },
+            "drawingInfo": {
+              "type": "object",
+              "properties": { "renderer": { "type": "object" }, "labelingInfo": {}, "transparency": { "type": "number" } }
+            },
+            "fields": { "type": "array", "items": { "type": "object" } }
+          }
+        },
+        "popupInfo": { "type": "object" },
+        "attribution": { "type": "string" },
+        "askable": { "type": "boolean" }
+      }
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'foldable' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "foldable",
+    "name": "Foldable",
+    "category": "map-centric",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "The classic viewer: full map + a collapsible left panel of layers, legend, and basemaps."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#2f6fed"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "panel",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "layer-panel",
+                  "id": "layers",
+                  "props": {
+                    "reorder": true
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "legend",
+                  "id": "legend"
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "basemap",
+                  "id": "basemaps"
+                }
+              }
+            ],
+            "dock": "left",
+            "width": 300,
+            "collapsible": true,
+            "open": true
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-wards",
+                      "dc-parcels",
+                      "dc-bike-routes",
+                      "dc-crashes",
+                      "dc-affordable-housing"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "status-bar",
+                  "id": "status",
+                  "props": {
+                    "fields": [
+                      "coordinates",
+                      "zoom",
+                      "scale"
+                    ]
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minWidth": 0,
+              "minHeight": 0,
+              "height": "100%"
+            }
+          }
+        ],
+        "mode": "fixed",
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Foldable",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "map + folding panel",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "layers",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "zoomTo"
+    },
+    {
+      "from": "layers",
+      "trigger": "filterChange",
+      "to": "map",
+      "action": "filter"
+    },
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    }
+  ]
+}

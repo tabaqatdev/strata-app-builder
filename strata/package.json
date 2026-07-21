@@ -1,0 +1,30 @@
+{
+  "name": "strata-app-builder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Claude Code template for building advanced GIS web applications on Strata or ArcGIS Server, rendered on MapLibre GL JS using the ESRI Web Map JSON specification.",
+  "license": "MIT",
+  "keywords": [
+    "arcgis",
+    "esri",
+    "featureserver",
+    "web-map",
+    "esri-web-map-json",
+    "maplibre",
+    "geoparquet",
+    "gis",
+    "claude-code",
+    "template"
+  ],
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r --if-present test",
+    "coverage:matrix": "node docs/maintainers/testing/gen-coverage.mjs",
+    "coverage:matrix:check": "node docs/maintainers/testing/gen-coverage.mjs --check"
+  },
+  "engines": {
+    "node": ">=18.20"
+  }
+}

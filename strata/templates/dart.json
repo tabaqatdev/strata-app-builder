@@ -1,0 +1,206 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'dart' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "dart",
+    "name": "Dart",
+    "category": "map-centric",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "Map on top, a fixed bottom shelf of data widgets — the horizontal split classic."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#0e9488"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-wards",
+                      "dc-crashes"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minHeight": 0
+            }
+          },
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "row",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "chart",
+                      "id": "severityChart",
+                      "props": {
+                        "kind": "bar",
+                        "category": "WARD",
+                        "title": "Crashes by ward"
+                      },
+                      "dataSource": {
+                        "layerId": "dc-crashes"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "table",
+                      "id": "crashTable",
+                      "props": {
+                        "paging": true
+                      },
+                      "dataSource": {
+                        "layerId": "dc-crashes"
+                      }
+                    }
+                  }
+                ],
+                "gap": 12,
+                "style": {
+                  "height": "100%"
+                },
+                "responsive": {
+                  "small": {
+                    "kind": "column"
+                  }
+                }
+              }
+            ],
+            "style": {
+              "flex": "0 0 260px",
+              "padding": "10px",
+              "borderTop": "1px solid var(--strata-border)"
+            }
+          }
+        ],
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Dart",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "bottom data shelf",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "severityChart",
+      "trigger": "categorySelect",
+      "to": "map",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    },
+    {
+      "from": "severityChart",
+      "trigger": "categorySelect",
+      "to": "crashTable",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    },
+    {
+      "from": "crashTable",
+      "trigger": "rowSelect",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    }
+  ]
+}

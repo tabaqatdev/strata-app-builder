@@ -1,0 +1,22 @@
+{
+  "name": "@strata/i18n",
+  "version": "0.3.0",
+  "description": "A tiny, dependency-free internationalization helper for strata-app-builder apps: a locale -> key -> string dictionary, {var} interpolation, RTL direction detection, and a base EN/AR UI dictionary. Framework-agnostic.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

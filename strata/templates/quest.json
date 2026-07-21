@@ -1,0 +1,355 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'quest' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "quest",
+    "name": "Quest",
+    "category": "web-page",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "A guided, step-by-step task flow — each step gives an instruction and stages the map for it."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#be185d"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "views",
+                "views": [
+                  {
+                    "id": "q1",
+                    "title": "1 · Find your ward",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Step 1 — Find your ward",
+                              "as": "h3"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Search your address; the map highlights the containing ward."
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "search",
+                            "id": "search"
+                          }
+                        }
+                      ],
+                      "gap": 10,
+                      "style": {
+                        "padding": "14px"
+                      }
+                    },
+                    "mapState": {
+                      "viewpoint": {
+                        "center": [
+                          -77.02,
+                          38.9
+                        ],
+                        "zoom": 11
+                      },
+                      "activeLayers": [
+                        "dc-wards"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "q2",
+                    "title": "2 · Check crashes",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Step 2 — Crashes near you",
+                              "as": "h3"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Q4 crashes appear; use the filter to narrow by ward."
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "filter",
+                            "id": "wardFilter",
+                            "dataSource": {
+                              "layerId": "dc-crashes"
+                            }
+                          }
+                        }
+                      ],
+                      "gap": 10,
+                      "style": {
+                        "padding": "14px"
+                      }
+                    },
+                    "mapState": {
+                      "activeLayers": [
+                        "dc-crashes",
+                        "dc-wards"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "q3",
+                    "title": "3 · Measure a route",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Step 3 — Measure your route",
+                              "as": "h3"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Use the measure tool along a signed bike route."
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "measure",
+                            "id": "measure"
+                          }
+                        }
+                      ],
+                      "gap": 10,
+                      "style": {
+                        "padding": "14px"
+                      }
+                    },
+                    "mapState": {
+                      "activeLayers": [
+                        "dc-bike-routes"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "q4",
+                    "title": "4 · Done",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Quest complete ✓",
+                              "as": "h3"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Export what you found, or start over."
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "data-actions",
+                            "id": "actions",
+                            "dataSource": {
+                              "layerId": "dc-crashes"
+                            }
+                          }
+                        }
+                      ],
+                      "gap": 10,
+                      "style": {
+                        "padding": "14px"
+                      }
+                    }
+                  }
+                ],
+                "nav": "slides",
+                "animate": "slide"
+              }
+            ],
+            "style": {
+              "flex": "0 0 340px",
+              "width": 340,
+              "height": "100%",
+              "borderRight": "1px solid var(--strata-border)"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-wards",
+                      "dc-crashes",
+                      "dc-bike-routes"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minWidth": 0,
+              "minHeight": 0,
+              "height": "100%"
+            }
+          }
+        ],
+        "mode": "fixed",
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Quest",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "guided steps",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "search",
+      "trigger": "search",
+      "to": "map",
+      "action": "zoomTo"
+    },
+    {
+      "from": "wardFilter",
+      "trigger": "filterChange",
+      "to": "map",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    },
+    {
+      "from": "actions",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    }
+  ]
+}

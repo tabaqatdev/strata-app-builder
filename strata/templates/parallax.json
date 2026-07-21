@@ -1,0 +1,247 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'parallax' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "parallax",
+    "name": "Parallax",
+    "category": "web-page",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "A scrolling story with a pinned map stage: sections reveal as you scroll, each restyling the map."
+  },
+  "theme": {
+    "mode": "dark",
+    "colors": {
+      "primary": "#e11d48"
+    },
+    "variables": {
+      "--strata-app-bg": "#12070c"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "scroll",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Vision Zero DC",
+                    "as": "h1"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Scroll — the map keeps pace with the story.",
+                    "style": {
+                      "opacity": "0.7"
+                    }
+                  }
+                }
+              }
+            ],
+            "style": {
+              "padding": "56px 24px 12px",
+              "textAlign": "center"
+            },
+            "animate": "fade"
+          },
+          {
+            "kind": "views",
+            "views": [
+              {
+                "id": "s1",
+                "title": "The network",
+                "content": {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "The street network",
+                          "as": "h3"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Signed bike routes thread every quadrant of the city."
+                        }
+                      }
+                    }
+                  ],
+                  "gap": 8,
+                  "style": {
+                    "padding": "16px"
+                  }
+                },
+                "mapState": {
+                  "viewpoint": {
+                    "center": [
+                      -77.02,
+                      38.9
+                    ],
+                    "zoom": 11
+                  },
+                  "activeLayers": [
+                    "dc-bike-routes"
+                  ]
+                }
+              },
+              {
+                "id": "s2",
+                "title": "The crashes",
+                "content": {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Where crashes cluster",
+                          "as": "h3"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Q4-2024 crashes, time-enabled; darker wards are higher-income."
+                        }
+                      }
+                    }
+                  ],
+                  "gap": 8,
+                  "style": {
+                    "padding": "16px"
+                  }
+                },
+                "mapState": {
+                  "viewpoint": {
+                    "center": [
+                      -77.03,
+                      38.905
+                    ],
+                    "zoom": 12
+                  },
+                  "activeLayers": [
+                    "dc-crashes",
+                    "dc-wards"
+                  ]
+                }
+              },
+              {
+                "id": "s3",
+                "title": "Fatal only",
+                "content": {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "The fatal few",
+                          "as": "h3"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Filtering to the most severe events sharpens the picture."
+                        }
+                      }
+                    }
+                  ],
+                  "gap": 8,
+                  "style": {
+                    "padding": "16px"
+                  }
+                },
+                "mapState": {
+                  "definitionExpression": {
+                    "dc-crashes": "TOTAL_PEDESTRIANS > 0"
+                  }
+                }
+              }
+            ],
+            "nav": "slides",
+            "animate": "scroll-reveal",
+            "autoPlay": {
+              "intervalMs": 7000,
+              "loop": true
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-bike-routes",
+                      "dc-crashes",
+                      "dc-wards"
+                    ]
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "60vh",
+              "margin": "0 24px 40px",
+              "borderRadius": "12px",
+              "overflow": "hidden"
+            }
+          }
+        ],
+        "gap": 16,
+        "style": {
+          "maxWidth": "1000px",
+          "margin": "0 auto"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    },
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "zoomTo"
+    }
+  ]
+}

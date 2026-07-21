@@ -1,0 +1,324 @@
+{
+  "version": "1.0",
+  "spatialReference": { "wkid": 4326, "latestWkid": 4326 },
+  "initialState": {
+    "viewpoint": {
+      "targetGeometry": {
+        "xmin": -77.13, "ymin": 38.79, "xmax": -76.9, "ymax": 39.0,
+        "spatialReference": { "wkid": 4326 }
+      }
+    }
+  },
+  "strata:notes": {
+    "title": "District of Columbia — recipe test map",
+    "summary": "A deliberately complete DC dataset for exercising the strata-app-builder recipes (except mapviewer). It spans every geometry type, standalone + related tables, a time-enabled layer, and rich categorical/numeric fields. All sources are public DC GIS (OCTO) FeatureServer/MapServer endpoints, CORS-enabled, and reprojected to EPSG:4326 by the arcgis-feature source (outSR=4326).",
+    "theme": "DC places, property, demographics & public safety",
+    "howToUse": "Copy this file into an app as layers.json (or /create-map), then run any recipe under recipes/. Each layer below is tagged with the recipes it best exercises. Recipe wizards pick fields; the tags say which layer to point them at.",
+    "relationships": [
+      {
+        "originLayer": "dc-parcels",
+        "relatedTable": "dc-property-assessment",
+        "relationshipId": 11,
+        "keyField": "SSL",
+        "cardinality": "one-to-many",
+        "purpose": "Click a parcel -> its tax/assessment record. For related-records recipes (manager) and queryRelatedRecords."
+      },
+      {
+        "originLayer": "dc-crashes",
+        "relatedTable": "dc-crash-details",
+        "relationshipId": 3,
+        "keyField": "CRIMEID",
+        "cardinality": "one-to-many",
+        "purpose": "Click a crash -> the people/details involved. Second related pair for related-records testing."
+      }
+    ],
+    "timeField": { "layer": "dc-crashes", "field": "REPORTDATE", "note": "ArcGIS Date field (epoch-millis in queries). Layer is pre-filtered to Q4 2024; the time slider filters within that window." },
+    "capabilityGaps": {
+      "attachments": "NOT AVAILABLE. 118 DC + Maryland-iMap services were scanned for hasAttachments:true and none exist — attachments live in hosted Survey123/Field Maps layers, not authoritative open-data FeatureServers. The attachment-viewer recipe (and the media side of manager/reporter) needs a dedicated demo/ESRI layer.",
+      "editing": "NOT AVAILABLE. These are read-only DC services. manager/web-editor/reporter need a writable + authenticated ESRI FeatureServer (see @strata/auth-arcgis). Reads (query/stats/related) work here; writes do not."
+    },
+    "layers": {
+      "dc-wards": { "role": "demographic choropleth base", "geometry": "polygon (8 wards)", "categorical": ["NAMELSAD"], "numeric": ["DP03_0062E (median household income)", "DP03_0088E (per-capita income)", "DP03_0009P (unemployment %)", "DP03_0119P (families below poverty %)"], "recipes": ["interactive-legend", "chart-viewer", "compare", "observer", "countdown", "gallery", "category-gallery", "exhibit", "zone-lookup", "insets", "portfolio", "data-explorer", "sidebar", "basic", "vector-analysis"] },
+      "dc-zip-codes": { "role": "boundary/zone context (off by default)", "geometry": "polygon", "recipes": ["zone-lookup", "sidebar", "basic"] },
+      "dc-parcels": { "role": "feature side of a related pair", "geometry": "polygon (downtown, filtered)", "categorical": ["PROPTYPE"], "relatedTable": "dc-property-assessment", "recipes": ["manager (related records)", "sidebar", "zone-lookup"] },
+      "dc-property-assessment": { "role": "table related to dc-parcels via SSL", "geometry": "table", "recipes": ["manager", "sidebar (attribute table)"] },
+      "dc-bike-routes": { "role": "line geometry", "geometry": "polyline", "categorical": ["WARD", "STREETTYPE"], "numeric": ["LENGTH_MI"], "recipes": ["basic", "sidebar", "vector-analysis (line input)"] },
+      "dc-crashes": { "role": "time-enabled dense point layer + feature side of a related pair", "geometry": "point (~4,930, Q4 2024)", "time": "REPORTDATE", "categorical": ["WARD"], "numeric": ["TOTAL_VEHICLES", "TOTAL_PEDESTRIANS", "TOTAL_BICYCLES"], "relatedTable": "dc-crash-details", "recipes": ["slider", "nearby", "public-notification", "observer", "reporter (clustering shape)", "chart-viewer (temporal)"] },
+      "dc-crash-details": { "role": "table related to dc-crashes via CRIMEID", "geometry": "table", "recipes": ["manager", "data-explorer"] },
+      "dc-affordable-housing": { "role": "point layer with numeric size field", "geometry": "point", "categorical": ["MAR_WARD", "STATUS_PUBLIC", "AGENCY_CALCULATED"], "numeric": ["TOTAL_AFFORDABLE_UNITS"], "recipes": ["nearby", "public-notification", "chart-viewer", "countdown", "gallery", "category-gallery", "basic"] },
+      "dc-address-table": { "role": "standalone (non-spatial) table", "geometry": "table", "recipes": ["sidebar (attribute table)"] }
+    }
+  },
+  "bookmarks": [
+    { "name": "Full District", "extent": { "xmin": -77.13, "ymin": 38.79, "xmax": -76.9, "ymax": 39.0, "spatialReference": { "wkid": 4326 } } },
+    { "name": "Downtown (parcels)", "extent": { "xmin": -77.045, "ymin": 38.895, "xmax": -77.02, "ymax": 38.922, "spatialReference": { "wkid": 4326 } } },
+    { "name": "National Mall & Monuments", "extent": { "xmin": -77.05, "ymin": 38.879, "xmax": -77.008, "ymax": 38.897, "spatialReference": { "wkid": 4326 } } },
+    { "name": "Capitol Hill", "extent": { "xmin": -77.012, "ymin": 38.879, "xmax": -76.982, "ymax": 38.896, "spatialReference": { "wkid": 4326 } } },
+    { "name": "Georgetown", "extent": { "xmin": -77.077, "ymin": 38.9, "xmax": -77.05, "ymax": 38.918, "spatialReference": { "wkid": 4326 } } },
+    { "name": "Dupont Circle", "extent": { "xmin": -77.05, "ymin": 38.905, "xmax": -77.03, "ymax": 38.919, "spatialReference": { "wkid": 4326 } } }
+  ],
+  "baseMap": {
+    "title": "OpenStreetMap",
+    "baseMapLayers": [
+      { "id": "osm", "layerType": "WebTiledLayer", "templateUrl": "https://tile.openstreetmap.org/{level}/{col}/{row}.png", "copyright": "© OpenStreetMap contributors" }
+    ]
+  },
+  "strata:basemaps": [
+    { "id": "osm", "title": "OpenStreetMap", "default": true, "templateUrl": "https://tile.openstreetmap.org/{level}/{col}/{row}.png", "copyright": "© OpenStreetMap contributors" },
+    { "id": "carto-positron", "title": "CARTO Positron (Light)", "templateUrl": "https://basemaps.cartocdn.com/light_all/{level}/{col}/{row}.png", "copyright": "© OpenStreetMap contributors © CARTO" },
+    { "id": "carto-voyager", "title": "CARTO Voyager", "templateUrl": "https://basemaps.cartocdn.com/rastertiles/voyager/{level}/{col}/{row}.png", "copyright": "© OpenStreetMap contributors © CARTO" },
+    { "id": "carto-dark", "title": "CARTO Dark Matter", "templateUrl": "https://basemaps.cartocdn.com/dark_all/{level}/{col}/{row}.png", "copyright": "© OpenStreetMap contributors © CARTO" },
+    { "id": "opentopomap", "title": "OpenTopoMap", "templateUrl": "https://tile.opentopomap.org/{level}/{col}/{row}.png", "copyright": "© OpenStreetMap contributors, SRTM · © OpenTopoMap (CC-BY-SA)" }
+  ],
+  "operationalLayers": [
+    {
+      "id": "dc-wards",
+      "title": "Wards — Income & Employment (choropleth)",
+      "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/OP/ACS_Economic_Characteristics/MapServer/57",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/OP/ACS_Economic_Characteristics/MapServer/57" },
+      "visibility": true,
+      "opacity": 1.0,
+      "attribution": "DC GIS · Office of Planning · US Census ACS 2018–2022",
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "classBreaks",
+            "field": "DP03_0062E",
+            "minValue": 0,
+            "classBreakInfos": [
+              { "classMaxValue": 60000, "label": "< $60k", "symbol": { "type": "esriSFS", "style": "esriSFSSolid", "color": [239, 243, 255, 180], "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [90, 110, 140, 255], "width": 1 } } },
+              { "classMaxValue": 90000, "label": "$60k – $90k", "symbol": { "type": "esriSFS", "style": "esriSFSSolid", "color": [189, 215, 231, 180], "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [90, 110, 140, 255], "width": 1 } } },
+              { "classMaxValue": 120000, "label": "$90k – $120k", "symbol": { "type": "esriSFS", "style": "esriSFSSolid", "color": [107, 174, 214, 180], "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [90, 110, 140, 255], "width": 1 } } },
+              { "classMaxValue": 150000, "label": "$120k – $150k", "symbol": { "type": "esriSFS", "style": "esriSFSSolid", "color": [49, 130, 189, 180], "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [90, 110, 140, 255], "width": 1 } } },
+              { "classMaxValue": 500000, "label": "> $150k", "symbol": { "type": "esriSFS", "style": "esriSFSSolid", "color": [8, 81, 156, 180], "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [90, 110, 140, 255], "width": 1 } } }
+            ]
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "{NAMELSAD}",
+        "fieldInfos": [
+          { "fieldName": "DP03_0062E", "label": "Median household income", "visible": true, "format": { "digitSeparator": true, "places": 0 } },
+          { "fieldName": "DP03_0088E", "label": "Per-capita income", "visible": true, "format": { "digitSeparator": true, "places": 0 } },
+          { "fieldName": "DP03_0009P", "label": "Unemployment rate (%)", "visible": true, "format": { "places": 1 } },
+          { "fieldName": "DP03_0119P", "label": "Families below poverty (%)", "visible": true, "format": { "places": 1 } }
+        ]
+      }
+    },
+    {
+      "id": "dc-zip-codes",
+      "title": "Zip Codes (polygon)",
+      "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Location_WebMercator/FeatureServer/4",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Location_WebMercator/FeatureServer/4" },
+      "visibility": false,
+      "opacity": 1.0,
+      "attribution": "DC GIS · Office of the Chief Technology Officer",
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple", "label": "DC Zip Code",
+            "symbol": { "type": "esriSFS", "style": "esriSFSSolid", "color": [100, 149, 237, 40], "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [40, 70, 120, 255], "width": 1.2 } }
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "ZIP {ZIPCODE}",
+        "fieldInfos": [
+          { "fieldName": "ZIPCODE", "label": "Zip Code", "visible": true },
+          { "fieldName": "NAME", "label": "Name", "visible": true },
+          { "fieldName": "TYPE", "label": "Type", "visible": true }
+        ]
+      }
+    },
+    {
+      "id": "dc-parcels",
+      "title": "Parcels (polygon, downtown)",
+      "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Property_and_Land_WebMercator/FeatureServer/40",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Property_and_Land_WebMercator/FeatureServer/40" },
+      "visibility": true,
+      "opacity": 1.0,
+      "attribution": "DC GIS · Office of Tax and Revenue (OTR)",
+      "layerDefinition": {
+        "definitionExpression": "SQUARE >= '0200' AND SQUARE <= '0225'",
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple", "label": "Tax Parcel",
+            "symbol": { "type": "esriSFS", "style": "esriSFSSolid", "color": [255, 170, 60, 45], "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [200, 120, 20, 220], "width": 0.6 } }
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "Parcel {SSL}",
+        "fieldInfos": [
+          { "fieldName": "SSL", "label": "Square, Suffix, Lot", "visible": true },
+          { "fieldName": "ASRNAME", "label": "Assessor Name", "visible": true },
+          { "fieldName": "PROPTYPE", "label": "Property Type", "visible": true },
+          { "fieldName": "SQUARE", "label": "Square", "visible": true },
+          { "fieldName": "LOT", "label": "Lot", "visible": true },
+          { "fieldName": "QUADRANT", "label": "Quadrant", "visible": true }
+        ]
+      },
+      "strata:relatedTables": [
+        { "operationalLayerId": "dc-property-assessment", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Property_and_Land_WebMercator/FeatureServer/53", "relationshipId": 11, "keyField": "SSL", "cardinality": "esriRelCardinalityOneToMany", "title": "Property Tax Assessment (ITSPE)" }
+      ]
+    },
+    {
+      "id": "dc-bike-routes",
+      "title": "Signed Bike Routes (line)",
+      "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Transportation_WebMercator/FeatureServer/6",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Transportation_WebMercator/FeatureServer/6" },
+      "visibility": true,
+      "opacity": 1.0,
+      "attribution": "DC GIS · District Department of Transportation (DDOT)",
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple", "label": "Signed Bike Route",
+            "symbol": { "type": "esriSLS", "style": "esriSLSSolid", "color": [39, 174, 96, 255], "width": 2 }
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "{STREET}",
+        "fieldInfos": [
+          { "fieldName": "STREET", "label": "Street", "visible": true },
+          { "fieldName": "WARD", "label": "Ward", "visible": true },
+          { "fieldName": "STREETTYPE", "label": "Street Type", "visible": true },
+          { "fieldName": "QUADRANT", "label": "Quadrant", "visible": true },
+          { "fieldName": "LENGTH_MI", "label": "Length (mi)", "visible": true, "format": { "digitSeparator": true, "places": 2 } }
+        ]
+      }
+    },
+    {
+      "id": "dc-crashes",
+      "title": "Vehicular Crashes — Q4 2024 (point, time-enabled)",
+      "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Public_Safety_WebMercator/FeatureServer/24",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Public_Safety_WebMercator/FeatureServer/24" },
+      "visibility": true,
+      "opacity": 1.0,
+      "attribution": "DC GIS · District Department of Transportation (DDOT) / Vision Zero",
+      "layerDefinition": {
+        "definitionExpression": "REPORTDATE >= DATE '2024-10-01' AND REPORTDATE < DATE '2025-01-01'",
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple", "label": "Reported crash",
+            "symbol": { "type": "esriSMS", "style": "esriSMSCircle", "color": [220, 50, 50, 200], "size": 5, "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [120, 20, 20, 255], "width": 0.5 } }
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "Crash — {ADDRESS}",
+        "fieldInfos": [
+          { "fieldName": "REPORTDATE", "label": "Reported", "visible": true },
+          { "fieldName": "WARD", "label": "Ward", "visible": true },
+          { "fieldName": "TOTAL_VEHICLES", "label": "Vehicles", "visible": true },
+          { "fieldName": "TOTAL_PEDESTRIANS", "label": "Pedestrians", "visible": true },
+          { "fieldName": "TOTAL_BICYCLES", "label": "Bicycles", "visible": true }
+        ]
+      },
+      "strata:timeField": "REPORTDATE",
+      "strata:relatedTables": [
+        { "operationalLayerId": "dc-crash-details", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Public_Safety_WebMercator/FeatureServer/25", "relationshipId": 3, "keyField": "CRIMEID", "cardinality": "esriRelCardinalityOneToMany", "title": "Crash Details (people involved)" }
+      ]
+    },
+    {
+      "id": "dc-affordable-housing",
+      "title": "Affordable Housing (point)",
+      "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Property_and_Land_WebMercator/FeatureServer/62",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Property_and_Land_WebMercator/FeatureServer/62" },
+      "visibility": true,
+      "opacity": 1.0,
+      "attribution": "DC GIS · Department of Housing and Community Development (DHCD)",
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple", "label": "Affordable Housing",
+            "symbol": { "type": "esriSMS", "style": "esriSMSCircle", "color": [230, 126, 34, 255], "size": 8, "outline": { "type": "esriSLS", "style": "esriSLSSolid", "color": [255, 255, 255, 255], "width": 1 } }
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "{PROJECT_NAME}",
+        "fieldInfos": [
+          { "fieldName": "ADDRESS", "label": "Address", "visible": true },
+          { "fieldName": "STATUS_PUBLIC", "label": "Status", "visible": true },
+          { "fieldName": "AGENCY_CALCULATED", "label": "Agency", "visible": true },
+          { "fieldName": "TOTAL_AFFORDABLE_UNITS", "label": "Total Affordable Units", "visible": true, "format": { "digitSeparator": true, "places": 0 } },
+          { "fieldName": "MAR_WARD", "label": "Ward", "visible": true }
+        ]
+      }
+    },
+    {
+      "id": "dc-property-assessment",
+      "title": "Property Tax Assessment — ITSPE (table)",
+      "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Property_and_Land_WebMercator/FeatureServer/53",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Property_and_Land_WebMercator/FeatureServer/53" },
+      "visibility": true,
+      "opacity": 1.0,
+      "attribution": "DC GIS · Office of Tax and Revenue (OTR)",
+      "popupInfo": {
+        "title": "{ASRNAME}",
+        "fieldInfos": [
+          { "fieldName": "SSL", "label": "Square, Suffix, Lot", "visible": true },
+          { "fieldName": "OWNERNAME", "label": "Owner", "visible": true },
+          { "fieldName": "PROPTYPE", "label": "Property Type", "visible": true },
+          { "fieldName": "USECODE", "label": "Use Code", "visible": true },
+          { "fieldName": "PREMISEADD", "label": "Premise Address", "visible": true },
+          { "fieldName": "LANDAREA", "label": "Land Area (sq ft)", "visible": true, "format": { "digitSeparator": true, "places": 0 } },
+          { "fieldName": "NBHD", "label": "Assessment Neighborhood", "visible": true }
+        ]
+      },
+      "strata:relatedFeatureLayer": { "operationalLayerId": "dc-parcels", "keyField": "SSL" }
+    },
+    {
+      "id": "dc-crash-details",
+      "title": "Crash Details — people involved (table)",
+      "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Public_Safety_WebMercator/FeatureServer/25",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Public_Safety_WebMercator/FeatureServer/25" },
+      "visibility": true,
+      "opacity": 1.0,
+      "attribution": "DC GIS · District Department of Transportation (DDOT) / Vision Zero",
+      "popupInfo": {
+        "title": "{PERSONTYPE}",
+        "fieldInfos": [
+          { "fieldName": "PERSONTYPE", "label": "Person Type", "visible": true },
+          { "fieldName": "AGE", "label": "Age", "visible": true },
+          { "fieldName": "INVEHICLETYPE", "label": "Vehicle Type", "visible": true },
+          { "fieldName": "MAJORINJURY", "label": "Major Injury", "visible": true },
+          { "fieldName": "FATAL", "label": "Fatal", "visible": true },
+          { "fieldName": "SPEEDING", "label": "Speeding", "visible": true },
+          { "fieldName": "IMPAIRED", "label": "Impaired", "visible": true }
+        ]
+      },
+      "strata:relatedFeatureLayer": { "operationalLayerId": "dc-crashes", "keyField": "CRIMEID" }
+    },
+    {
+      "id": "dc-address-table",
+      "title": "Address Table (table)",
+      "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Location_WebMercator/FeatureServer/6",
+      "layerType": "ArcGISFeatureLayer",
+      "source": { "kind": "arcgis-feature", "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Location_WebMercator/FeatureServer/6" },
+      "visibility": true,
+      "opacity": 1.0,
+      "attribution": "DC GIS · Master Address Repository (MAR)",
+      "popupInfo": {
+        "title": "{ADDRESS}",
+        "fieldInfos": [
+          { "fieldName": "ADDRESS", "label": "Address", "visible": true },
+          { "fieldName": "QUADRANT", "label": "Quadrant", "visible": true },
+          { "fieldName": "ZIPCODE", "label": "Zip Code", "visible": true },
+          { "fieldName": "WARD", "label": "Ward", "visible": true },
+          { "fieldName": "SSL", "label": "Square, Suffix, Lot", "visible": true }
+        ]
+      }
+    }
+  ]
+}

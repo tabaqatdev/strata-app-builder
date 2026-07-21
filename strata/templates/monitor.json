@@ -1,0 +1,335 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'monitor' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "monitor",
+    "name": "Monitor",
+    "category": "dashboard",
+    "webmap": "dc",
+    "tier": "advanced",
+    "blurb": "The dark ops board: KPI strip, boxed center map, priority list, chart shelf — wall-readable."
+  },
+  "theme": {
+    "mode": "dark",
+    "colors": {
+      "primary": "#38bdf8",
+      "secondary": "#f59e0b"
+    },
+    "variables": {
+      "--strata-app-bg": "#0b1220",
+      "--strata-panel-bg": "#111a2b"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "grid",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "id": "kpiCrashes",
+                  "props": {
+                    "label": "Crashes (Q4)",
+                    "stat": "count",
+                    "status": "warn"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-crashes"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "id": "kpiVehicles",
+                  "props": {
+                    "label": "Vehicles involved",
+                    "field": "TOTAL_VEHICLES",
+                    "stat": "sum"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-crashes"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "id": "kpiWards",
+                  "props": {
+                    "label": "Wards",
+                    "stat": "count",
+                    "status": "ok"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-wards"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "id": "kpiProjects",
+                  "props": {
+                    "label": "Housing projects",
+                    "stat": "count"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-affordable-housing"
+                  }
+                }
+              }
+            ],
+            "columns": 4,
+            "gap": 10,
+            "style": {
+              "padding": "12px 12px 0"
+            }
+          },
+          {
+            "kind": "row",
+            "children": [
+              {
+                "kind": "section",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "map",
+                      "id": "map",
+                      "props": {
+                        "layerIds": [
+                          "dc-wards",
+                          "dc-crashes"
+                        ],
+                        "controls": {
+                          "navigation": true,
+                          "scale": true,
+                          "position": "top-right"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "mode": "fixed",
+                "style": {
+                  "flex": "1 1 0%",
+                  "minWidth": 0,
+                  "height": "100%",
+                  "padding": "12px"
+                }
+              },
+              {
+                "kind": "column",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "text",
+                      "props": {
+                        "content": "Latest crashes",
+                        "as": "h3"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "table",
+                      "id": "crashList",
+                      "props": {
+                        "paging": true
+                      },
+                      "dataSource": {
+                        "layerId": "dc-crashes"
+                      }
+                    }
+                  }
+                ],
+                "gap": 8,
+                "style": {
+                  "flex": "0 0 320px",
+                  "padding": "12px",
+                  "overflow": "auto"
+                }
+              }
+            ],
+            "style": {
+              "flex": "1 1 0%",
+              "minHeight": 0
+            },
+            "responsive": {
+              "small": {
+                "kind": "column"
+              }
+            }
+          },
+          {
+            "kind": "row",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "chart",
+                  "id": "wardChart",
+                  "props": {
+                    "kind": "bar",
+                    "category": "WARD",
+                    "title": "Crashes by ward"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-crashes"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "chart",
+                  "id": "trend",
+                  "props": {
+                    "kind": "line",
+                    "category": "REPORTDATE",
+                    "title": "Crashes over time"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-crashes"
+                  }
+                }
+              }
+            ],
+            "gap": 12,
+            "style": {
+              "flex": "0 0 220px",
+              "padding": "0 12px 12px"
+            },
+            "responsive": {
+              "small": {
+                "kind": "column"
+              }
+            }
+          }
+        ],
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Monitor",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "operations board",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "wardChart",
+      "trigger": "categorySelect",
+      "to": "map",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    },
+    {
+      "from": "wardChart",
+      "trigger": "categorySelect",
+      "to": "crashList",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    },
+    {
+      "from": "crashList",
+      "trigger": "rowSelect",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    },
+    {
+      "from": "crashList",
+      "trigger": "rowSelect",
+      "to": "map",
+      "action": "flash"
+    },
+    {
+      "from": "map",
+      "trigger": "extentChange",
+      "to": "kpiCrashes",
+      "action": "showStatistics"
+    }
+  ]
+}

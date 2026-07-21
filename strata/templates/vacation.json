@@ -1,0 +1,328 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'vacation' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/md.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "vacation",
+    "name": "Vacation",
+    "category": "web-page",
+    "webmap": "md",
+    "tier": "simple",
+    "blurb": "A self-running fly-through: autoplaying slides glide the map from stop to stop."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#0891b2",
+      "secondary": "#fbbf24"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "scroll",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "A weekend in Maryland",
+                    "as": "h1"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Sit back — the map flies itself. Click any dot to pause at a stop.",
+                    "style": {
+                      "opacity": "0.75"
+                    }
+                  }
+                }
+              }
+            ],
+            "style": {
+              "padding": "28px 24px 4px",
+              "textAlign": "center"
+            }
+          },
+          {
+            "kind": "views",
+            "views": [
+              {
+                "id": "baltimore",
+                "title": "Baltimore",
+                "content": {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Baltimore",
+                          "as": "h3"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Baltimore — nearby hospitals and stations shown on the map."
+                        }
+                      }
+                    }
+                  ],
+                  "gap": 6,
+                  "style": {
+                    "padding": "12px",
+                    "textAlign": "center"
+                  }
+                },
+                "mapState": {
+                  "viewpoint": {
+                    "center": [
+                      -76.61,
+                      39.29
+                    ],
+                    "zoom": 11
+                  }
+                }
+              },
+              {
+                "id": "annapolis",
+                "title": "Annapolis",
+                "content": {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Annapolis",
+                          "as": "h3"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Annapolis — nearby hospitals and stations shown on the map."
+                        }
+                      }
+                    }
+                  ],
+                  "gap": 6,
+                  "style": {
+                    "padding": "12px",
+                    "textAlign": "center"
+                  }
+                },
+                "mapState": {
+                  "viewpoint": {
+                    "center": [
+                      -76.49,
+                      38.98
+                    ],
+                    "zoom": 12
+                  }
+                }
+              },
+              {
+                "id": "frederick",
+                "title": "Frederick",
+                "content": {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Frederick",
+                          "as": "h3"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Frederick — nearby hospitals and stations shown on the map."
+                        }
+                      }
+                    }
+                  ],
+                  "gap": 6,
+                  "style": {
+                    "padding": "12px",
+                    "textAlign": "center"
+                  }
+                },
+                "mapState": {
+                  "viewpoint": {
+                    "center": [
+                      -77.41,
+                      39.41
+                    ],
+                    "zoom": 11
+                  }
+                }
+              },
+              {
+                "id": "ocean-city",
+                "title": "Ocean City",
+                "content": {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Ocean City",
+                          "as": "h3"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Ocean City — nearby hospitals and stations shown on the map."
+                        }
+                      }
+                    }
+                  ],
+                  "gap": 6,
+                  "style": {
+                    "padding": "12px",
+                    "textAlign": "center"
+                  }
+                },
+                "mapState": {
+                  "viewpoint": {
+                    "center": [
+                      -75.08,
+                      38.34
+                    ],
+                    "zoom": 11
+                  }
+                }
+              },
+              {
+                "id": "cumberland",
+                "title": "Cumberland",
+                "content": {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Cumberland",
+                          "as": "h3"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "text",
+                        "props": {
+                          "content": "Cumberland — nearby hospitals and stations shown on the map."
+                        }
+                      }
+                    }
+                  ],
+                  "gap": 6,
+                  "style": {
+                    "padding": "12px",
+                    "textAlign": "center"
+                  }
+                },
+                "mapState": {
+                  "viewpoint": {
+                    "center": [
+                      -78.76,
+                      39.65
+                    ],
+                    "zoom": 11
+                  }
+                }
+              }
+            ],
+            "nav": "slides",
+            "animate": "fly",
+            "autoPlay": {
+              "intervalMs": 6000,
+              "loop": true
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "md-counties",
+                      "md-hospitals",
+                      "md-fire-stations"
+                    ]
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "58vh",
+              "margin": "0 24px 32px",
+              "borderRadius": "14px",
+              "overflow": "hidden"
+            }
+          }
+        ],
+        "gap": 10,
+        "style": {
+          "maxWidth": "1100px",
+          "margin": "0 auto"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    },
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "zoomTo"
+    }
+  ]
+}

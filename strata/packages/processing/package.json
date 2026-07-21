@@ -1,0 +1,29 @@
+{
+  "name": "@strata/processing",
+  "version": "0.3.0",
+  "description": "Turf.js spatial-analysis registry for strata-app-builder: pure GeoJSON operations (buffer, dissolve, clip, spatial join, select-by-location) that power COP analyses.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@turf/turf": "^7.1.0"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.14",
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@strata/arcade",
+  "version": "0.1.0",
+  "description": "Arcade-subset evaluator for strata-app-builder: transpiles the common ~80% of ESRI Arcade ($feature.FIELD, arithmetic, string ops, When/Iif/Decode/Round/Text, comparison) to a MapLibre expression (renderers) or a computed scalar (popups). Explicitly scoped — anything outside the subset warns and falls back.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

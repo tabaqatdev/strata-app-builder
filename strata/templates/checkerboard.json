@@ -1,0 +1,253 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'checkerboard' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/md.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "checkerboard",
+    "name": "Checkerboard",
+    "category": "grid",
+    "webmap": "md",
+    "tier": "simple",
+    "blurb": "A 2×2 checker of maps and content cards — alternate squares, alternating kinds."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#57534e"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "grid",
+        "children": [
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "mapA",
+                  "props": {
+                    "layerIds": [
+                      "md-hospitals",
+                      "md-counties"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "100%"
+            }
+          },
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Hospitals",
+                    "as": "h3"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Acute-care facilities across the state."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "props": {
+                    "label": "Hospitals",
+                    "stat": "count"
+                  },
+                  "dataSource": {
+                    "layerId": "md-hospitals"
+                  }
+                }
+              }
+            ],
+            "gap": 10,
+            "style": {
+              "padding": "16px",
+              "background": "var(--strata-panel-bg)",
+              "height": "100%"
+            }
+          },
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Fire stations",
+                    "as": "h3"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "text",
+                  "props": {
+                    "content": "Response coverage, county by county."
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "props": {
+                    "label": "Stations",
+                    "stat": "count"
+                  },
+                  "dataSource": {
+                    "layerId": "md-fire-stations"
+                  }
+                }
+              }
+            ],
+            "gap": 10,
+            "style": {
+              "padding": "16px",
+              "background": "var(--strata-panel-bg)",
+              "height": "100%"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "mapB",
+                  "props": {
+                    "layerIds": [
+                      "md-fire-stations",
+                      "md-counties"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "100%"
+            }
+          }
+        ],
+        "columns": 2,
+        "gap": 2,
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Checkerboard",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "alternating grid",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "mapA",
+      "trigger": "extentChange",
+      "to": "mapB",
+      "action": "zoomTo"
+    },
+    {
+      "from": "mapB",
+      "trigger": "extentChange",
+      "to": "mapA",
+      "action": "zoomTo"
+    }
+  ]
+}

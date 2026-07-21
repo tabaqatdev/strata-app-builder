@@ -1,0 +1,216 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'summary' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "summary",
+    "name": "Summary",
+    "category": "dashboard",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "Stats-first: a huge KPI banner over the map; every pan/zoom recomputes for the visible extent."
+  },
+  "theme": {
+    "mode": "dark",
+    "colors": {
+      "primary": "#dc2626"
+    },
+    "variables": {
+      "--strata-app-bg": "#171216"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "grid",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "id": "k1",
+                  "props": {
+                    "label": "Crashes in view",
+                    "stat": "count",
+                    "status": "warn"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-crashes"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "id": "k2",
+                  "props": {
+                    "label": "Vehicles",
+                    "field": "TOTAL_VEHICLES",
+                    "stat": "sum"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-crashes"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "id": "k3",
+                  "props": {
+                    "label": "Pedestrians",
+                    "field": "TOTAL_PEDESTRIANS",
+                    "stat": "sum"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-crashes"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "sparkline",
+                  "id": "spark",
+                  "props": {
+                    "field": "REPORTDATE"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-crashes"
+                  }
+                }
+              }
+            ],
+            "columns": 4,
+            "gap": 10,
+            "style": {
+              "padding": "12px"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-crashes",
+                      "dc-wards"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minHeight": 0
+            }
+          }
+        ],
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Summary",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "extent scoreboard",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "map",
+      "trigger": "extentChange",
+      "to": "k1",
+      "action": "showStatistics"
+    },
+    {
+      "from": "map",
+      "trigger": "extentChange",
+      "to": "k2",
+      "action": "showStatistics"
+    },
+    {
+      "from": "map",
+      "trigger": "extentChange",
+      "to": "k3",
+      "action": "showStatistics"
+    }
+  ]
+}

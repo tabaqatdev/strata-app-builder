@@ -1,0 +1,290 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'tab' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "tab",
+    "name": "Tab",
+    "category": "map-centric",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "Map with a right sidebar whose content switches by tab — About, Layers, Data."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#0369a1"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-wards",
+                      "dc-affordable-housing"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minWidth": 0,
+              "minHeight": 0,
+              "height": "100%"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "views",
+                "views": [
+                  {
+                    "id": "about",
+                    "title": "About",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Affordable housing",
+                              "as": "h3"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "text",
+                            "props": {
+                              "content": "Projects across the District, with ward context. Pick a tab to browse layers or records."
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "feature-info",
+                            "id": "info",
+                            "dataSource": {
+                              "layerId": "dc-affordable-housing"
+                            }
+                          }
+                        }
+                      ],
+                      "gap": 10,
+                      "style": {
+                        "padding": "12px",
+                        "overflow": "auto"
+                      }
+                    }
+                  },
+                  {
+                    "id": "layers",
+                    "title": "Layers",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "layer-panel",
+                            "id": "layers"
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "legend"
+                          }
+                        }
+                      ],
+                      "gap": 12,
+                      "style": {
+                        "padding": "12px",
+                        "overflow": "auto"
+                      }
+                    }
+                  },
+                  {
+                    "id": "data",
+                    "title": "Data",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "filter",
+                            "id": "statusFilter",
+                            "dataSource": {
+                              "layerId": "dc-affordable-housing"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "table",
+                            "id": "projTable",
+                            "props": {
+                              "paging": true
+                            },
+                            "dataSource": {
+                              "layerId": "dc-affordable-housing"
+                            }
+                          }
+                        }
+                      ],
+                      "gap": 10,
+                      "style": {
+                        "padding": "12px",
+                        "overflow": "auto"
+                      }
+                    }
+                  }
+                ],
+                "nav": "tabs"
+              }
+            ],
+            "style": {
+              "flex": "0 0 360px",
+              "width": 360,
+              "height": "100%",
+              "borderLeft": "1px solid var(--strata-border)"
+            }
+          }
+        ],
+        "mode": "fixed",
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Tab",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "tabbed sidebar",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "projTable",
+      "trigger": "rowSelect",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    },
+    {
+      "from": "projTable",
+      "trigger": "rowSelect",
+      "to": "info",
+      "action": "viewInTable",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    },
+    {
+      "from": "statusFilter",
+      "trigger": "filterChange",
+      "to": "map",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    },
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "info",
+      "action": "viewInTable",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    }
+  ]
+}

@@ -1,0 +1,366 @@
+{
+  "version": "1.0",
+  "//": "Strata Showcase — the DC Operations Center. A genuine <StrataApp> AppLayout that exercises the whole shipped strata-app-builder surface against WebMaps/dc.json. Every `type` is a real defaultWidgetRegistry key; every `layerId` is a real dc.json operational layer. Themed as a civic command center (structured dark theme + light/auto). See RECIPE.md.",
+
+  "theme": {
+    "mode": "auto",
+    "colors": {
+      "primary": "#38bdf8",
+      "secondary": "#a78bfa",
+      "success": "#34d399",
+      "info": "#38bdf8",
+      "warning": "#fbbf24",
+      "danger": "#f87171",
+      "dark": "#0b1220",
+      "light": "#f4f7fb"
+    },
+    "fonts": { "family": "Inter, system-ui, sans-serif", "mono": "ui-monospace, Menlo, monospace", "scale": "default" },
+    "variables": {
+      "--strata-app-bg": "#0b1220",
+      "--strata-panel-bg": "#111a2b",
+      "--strata-radius-md": "10px"
+    },
+    "overrides": {
+      "kpi": { "borderRadius": "12px" },
+      "status-bar": { "backdropFilter": "blur(6px)" }
+    }
+  },
+
+  "splash": {
+    "title": "DC Operations Center",
+    "body": "A living catalogue of strata-app-builder — every panel, widget, layout, chart, filter, and interaction, wired live against District of Columbia open data (ESRI Web Map JSON on MapLibre). Use the tab bar to tour each capability family.",
+    "dismissible": true,
+    "once": true
+  },
+
+  "connections": [
+    { "from": "wardChart", "trigger": "categorySelect", "to": "map", "action": "filter", "options": { "layerId": "dc-wards" } },
+    { "from": "wardChart", "trigger": "categorySelect", "to": "wardTable", "action": "filter", "options": { "layerId": "dc-wards" } },
+    { "from": "severityChart", "trigger": "categorySelect", "to": "map", "action": "filter", "options": { "layerId": "dc-crashes" } },
+    { "from": "wardTable", "trigger": "rowSelect", "to": "map", "action": "zoomTo", "options": { "layerId": "dc-wards" } },
+    { "from": "wardTable", "trigger": "rowSelect", "to": "featureInfo", "action": "viewInTable", "options": { "layerId": "dc-wards" } },
+    { "from": "carto", "trigger": "filterChange", "to": "map", "action": "filter" },
+    { "from": "queryBuilder", "trigger": "filterChange", "to": "map", "action": "filter", "options": { "layerId": "dc-crashes" } },
+    { "from": "queryBuilder", "trigger": "recordsChange", "to": "queryTable", "action": "viewInTable" },
+    { "from": "timeSlider", "trigger": "filterChange", "to": "map", "action": "filter", "options": { "layerId": "dc-crashes" } },
+    { "from": "sketch", "trigger": "sketchComplete", "to": "map", "action": "selectByGeometry" },
+    { "from": "openBench", "trigger": "buttonClick", "to": "benchWindow", "action": "showHide", "options": { "hidden": false } },
+    { "from": "dataMenu", "trigger": "featureSelect", "to": "map", "action": "flash" }
+  ],
+
+  "pages": [
+    {
+      "id": "command",
+      "title": "Command",
+      "type": "fixed",
+      "header": {
+        "kind": "row",
+        "gap": 12,
+        "style": { "alignItems": "center", "padding": "10px 16px" },
+        "children": [
+          { "kind": "widget", "widget": { "type": "text", "props": { "content": "DC Operations Center", "as": "h3" } } },
+          { "kind": "widget", "widget": { "type": "page-nav", "props": { "style": "tabs" } } },
+          { "kind": "widget", "widget": { "type": "text", "props": { "content": "", "style": { "flex": "1" } } } },
+          { "kind": "widget", "widget": { "id": "themeSwitch", "type": "theme-switch", "props": { "presets": ["dark", "light", "hazard"] } } },
+          { "kind": "widget", "widget": { "id": "langSwitch", "type": "lang-switch", "props": { "langs": ["en", "ar"] } } },
+          { "kind": "widget", "widget": { "type": "share" } }
+        ]
+      },
+      "root": {
+        "kind": "row",
+        "mode": "fixed",
+        "style": { "height": "100%" },
+        "children": [
+          {
+            "kind": "panel",
+            "dock": "left",
+            "width": 300,
+            "collapsible": true,
+            "open": true,
+            "children": [
+              { "kind": "widget", "widget": { "id": "layers", "type": "layer-panel", "props": { "reorder": true, "contextMenu": ["table", "zoom", "filter", "symbology", "popup", "rename", "remove"] } } },
+              { "kind": "widget", "widget": { "id": "basemaps", "type": "basemap", "props": { "manage": true } } },
+              { "kind": "widget", "widget": { "id": "legend", "type": "legend" } }
+            ]
+          },
+          {
+            "kind": "section",
+            "mode": "fixed",
+            "style": { "flex": "1 1 0%", "minWidth": 0, "height": "100%" },
+            "children": [
+              { "kind": "widget", "widget": { "id": "map", "type": "map", "props": { "layerIds": ["dc-wards", "dc-zip-codes", "dc-parcels", "dc-bike-routes", "dc-crashes", "dc-affordable-housing"], "controls": { "navigation": true, "geolocate": true, "fullscreen": true, "scale": true, "position": "top-right" } } } },
+              {
+                "kind": "column",
+                "mode": "flow",
+                "style": { "position": "absolute", "top": "12px", "left": "12px", "gap": "8px", "zIndex": "5" },
+                "children": [
+                  { "kind": "widget", "widget": { "id": "measure", "type": "measure" } },
+                  { "kind": "widget", "widget": { "id": "sketch", "type": "draw" } },
+                  { "kind": "widget", "widget": { "id": "coords", "type": "coordinates" } },
+                  { "kind": "widget", "widget": { "type": "search" } },
+                  { "kind": "widget", "widget": { "type": "print" } }
+                ]
+              },
+              { "kind": "widget", "widget": { "id": "featureInfo", "type": "feature-info", "dataSource": { "layerId": "dc-wards" } } },
+              { "kind": "widget", "widget": { "id": "status", "type": "status-bar", "props": { "fields": ["coordinates", "zoom", "scale", "crs", "activeLayer"] } } }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "panels",
+      "title": "Panels",
+      "type": "fixed",
+      "root": {
+        "kind": "splitter",
+        "orientation": "h",
+        "sizes": [58, 42],
+        "children": [
+          {
+            "kind": "section",
+            "mode": "fixed",
+            "style": { "height": "100%" },
+            "children": [
+              { "kind": "widget", "widget": { "type": "map", "props": { "layerIds": ["dc-wards", "dc-crashes", "dc-affordable-housing"] } } },
+              { "kind": "widget", "widget": { "id": "cartoFloat", "type": "carto", "dataSource": { "layerId": "dc-crashes" }, "props": { "mode": "floating" } } }
+            ]
+          },
+          {
+            "kind": "column",
+            "gap": 12,
+            "style": { "padding": "12px", "overflow": "auto", "height": "100%" },
+            "children": [
+              { "kind": "widget", "widget": { "type": "filter", "dataSource": { "layerId": "dc-crashes" } } },
+              { "kind": "widget", "widget": { "type": "date-filter", "dataSource": { "layerId": "dc-crashes", "fields": ["REPORTDATE"] } } },
+              { "kind": "widget", "widget": { "type": "table", "dataSource": { "layerId": "dc-crashes" }, "props": { "paging": true, "export": ["csv", "geojson"] } } },
+              { "kind": "widget", "widget": { "id": "dataMenu", "type": "data-actions", "dataSource": { "layerId": "dc-crashes" } } }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "dashboard",
+      "title": "Dashboard",
+      "type": "fixed",
+      "root": {
+        "kind": "row",
+        "style": { "height": "100%" },
+        "responsive": { "small": { "kind": "column" } },
+        "children": [
+          {
+            "kind": "section",
+            "mode": "fixed",
+            "style": { "flex": "1 1 0%", "minWidth": 0, "height": "100%" },
+            "children": [{ "kind": "widget", "widget": { "type": "map", "props": { "layerIds": ["dc-wards", "dc-crashes"] } } }]
+          },
+          {
+            "kind": "column",
+            "gap": 12,
+            "animate": "fly",
+            "animateOptions": { "stagger": 70 },
+            "style": { "flex": "0 0 400px", "width": 400, "padding": "12px", "overflow": "auto" },
+            "children": [
+              {
+                "kind": "grid",
+                "columns": 3,
+                "gap": 10,
+                "children": [
+                  { "kind": "widget", "widget": { "id": "kpiWards", "type": "kpi", "dataSource": { "sourceId": "wards" }, "props": { "label": "Wards", "stat": "count" } } },
+                  { "kind": "widget", "widget": { "id": "kpiIncome", "type": "kpi", "dataSource": { "sourceId": "wards" }, "props": { "label": "Median income", "field": "MED_HH_INC", "stat": "avg", "unit": "$", "status": "ok" } } },
+                  { "kind": "widget", "widget": { "id": "kpiCrashes", "type": "kpi", "dataSource": { "sourceId": "crashes" }, "props": { "label": "Crashes", "stat": "count", "status": "warn" } } }
+                ]
+              },
+              { "kind": "widget", "widget": { "id": "gauge", "type": "gauge", "dataSource": { "sourceId": "wards" }, "props": { "label": "Employment rate", "field": "EMP_RATE", "min": 0, "max": 100 } } },
+              { "kind": "widget", "widget": { "id": "wardChart", "type": "chart", "dataSource": { "sourceId": "wards" }, "props": { "kind": "bar", "category": "WARD", "value": "MED_HH_INC", "title": "Median income by ward" } } },
+              { "kind": "widget", "widget": { "id": "severityChart", "type": "chart", "dataSource": { "sourceId": "crashes" }, "props": { "kind": "pie", "category": "SEVERITY", "title": "Crashes by severity" } } },
+              { "kind": "widget", "widget": { "type": "sparkline", "dataSource": { "sourceId": "crashes" }, "props": { "field": "REPORTDATE" } } },
+              { "kind": "widget", "widget": { "id": "wardTable", "type": "table", "dataSource": { "sourceId": "wards" }, "props": { "paging": true } } }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "query",
+      "title": "Query & SQL",
+      "type": "fixed",
+      "root": {
+        "kind": "splitter",
+        "orientation": "h",
+        "sizes": [40, 60],
+        "children": [
+          {
+            "kind": "column",
+            "gap": 12,
+            "style": { "padding": "12px", "overflow": "auto", "height": "100%" },
+            "children": [
+              { "kind": "widget", "widget": { "type": "text", "props": { "content": "Advanced query builder", "as": "h3" } } },
+              { "kind": "widget", "widget": { "id": "queryBuilder", "type": "query", "dataSource": { "layerId": "dc-crashes" }, "props": { "groups": true, "combinators": ["AND", "OR"], "output": "queryResult" } } },
+              { "kind": "widget", "widget": { "id": "queryTable", "type": "table", "dataSource": { "fromWidget": "queryBuilder" }, "props": { "paging": true, "export": ["csv"] } } }
+            ]
+          },
+          {
+            "kind": "section",
+            "mode": "fixed",
+            "style": { "height": "100%" },
+            "children": [
+              { "kind": "widget", "widget": { "type": "map", "props": { "layerIds": ["dc-crashes", "dc-wards"] } } },
+              { "kind": "widget", "widget": { "type": "legend", "props": { "mode": "floating" } } }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "time",
+      "title": "Time",
+      "type": "fixed",
+      "root": {
+        "kind": "column",
+        "style": { "height": "100%" },
+        "children": [
+          {
+            "kind": "section",
+            "mode": "fixed",
+            "style": { "flex": "1 1 0%", "minHeight": 0 },
+            "children": [{ "kind": "widget", "widget": { "type": "map", "props": { "layerIds": ["dc-crashes", "dc-wards"] } } }]
+          },
+          {
+            "kind": "column",
+            "gap": 8,
+            "style": { "flex": "0 0 auto", "padding": "12px", "borderTop": "1px solid var(--strata-border)" },
+            "children": [
+              { "kind": "widget", "widget": { "id": "timeSlider", "type": "date-filter", "dataSource": { "layerId": "dc-crashes", "fields": ["REPORTDATE"] }, "props": { "play": true, "mode": "window" } } },
+              { "kind": "widget", "widget": { "type": "chart", "dataSource": { "sourceId": "crashes" }, "props": { "kind": "line", "category": "REPORTDATE", "title": "Crashes over time", "bands": true } } }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "analysis",
+      "title": "Analysis",
+      "type": "fixed",
+      "root": {
+        "kind": "splitter",
+        "orientation": "h",
+        "sizes": [34, 66],
+        "children": [
+          {
+            "kind": "column",
+            "gap": 12,
+            "style": { "padding": "12px", "overflow": "auto", "height": "100%" },
+            "children": [
+              { "kind": "widget", "widget": { "type": "analysis", "dataSource": { "layerId": "dc-crashes" }, "props": { "ops": ["buffer", "hexbinDensity", "hotspot", "withinDistance"] } } },
+              { "kind": "widget", "widget": { "type": "near-me", "dataSource": { "layerId": "dc-affordable-housing" } } },
+              { "kind": "widget", "widget": { "type": "weighted-overlay", "props": { "layers": ["dc-wards", "dc-crashes"] } } },
+              { "kind": "widget", "widget": { "type": "add-data" } }
+            ]
+          },
+          {
+            "kind": "section",
+            "mode": "fixed",
+            "style": { "height": "100%" },
+            "children": [{ "kind": "widget", "widget": { "type": "map", "props": { "layerIds": ["dc-crashes", "dc-affordable-housing", "dc-wards"] } } }]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "layouts",
+      "title": "Layouts & Compare",
+      "type": "fixed",
+      "root": {
+        "kind": "views",
+        "nav": "slides",
+        "animate": "fly",
+        "autoPlay": { "intervalMs": 9000, "loop": true },
+        "views": [
+          {
+            "id": "swipe",
+            "title": "Swipe compare",
+            "content": { "kind": "widget", "widget": { "type": "swipe", "props": { "left": ["dc-wards"], "right": ["dc-crashes"] } } },
+            "mapState": { "viewpoint": { "center": [-77.03, 38.9], "zoom": 11 }, "activeLayers": ["dc-wards"] }
+          },
+          {
+            "id": "split",
+            "title": "Split maps",
+            "content": {
+              "kind": "splitter",
+              "orientation": "h",
+              "sizes": [50, 50],
+              "children": [
+                { "kind": "widget", "widget": { "type": "map", "props": { "layerIds": ["dc-wards"] } } },
+                { "kind": "widget", "widget": { "type": "map", "props": { "layerIds": ["dc-crashes"] } } }
+              ]
+            },
+            "mapState": { "viewpoint": { "center": [-77.02, 38.91], "zoom": 12 } }
+          },
+          {
+            "id": "bookmarks",
+            "title": "Bookmarks tour",
+            "content": { "kind": "widget", "widget": { "type": "bookmarks" } },
+            "mapState": { "viewpoint": { "center": [-77.0, 38.89], "zoom": 12 }, "definitionExpression": { "dc-crashes": "SEVERITY = 'Fatal'" } }
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "design",
+      "title": "Design & Embed",
+      "type": "scroll",
+      "footer": {
+        "kind": "row",
+        "style": { "padding": "8px 16px", "justifyContent": "space-between" },
+        "children": [
+          { "kind": "widget", "widget": { "type": "text", "props": { "content": "tabaqat · Strata — coexistence with ArcGIS, not replacement. Data © District of Columbia (OCTO).", "style": { "opacity": "0.7" } } } },
+          { "kind": "widget", "widget": { "type": "controller" } }
+        ]
+      },
+      "root": {
+        "kind": "column",
+        "gap": 20,
+        "animate": "scroll-reveal",
+        "style": { "padding": "20px", "maxWidth": "1100px", "margin": "0 auto" },
+        "children": [
+          { "kind": "widget", "widget": { "type": "text", "props": { "content": "Design system & embedded objects", "as": "h2" } } },
+          {
+            "kind": "grid",
+            "columns": 2,
+            "gap": 16,
+            "children": [
+              { "kind": "widget", "widget": { "type": "card", "props": { "title": "Theme roles", "content": "primary · secondary · success · info · warning · danger — each with hover/active/contrast, a type scale, and a scoped state/motion stylesheet." } } },
+              { "kind": "widget", "widget": { "type": "card", "props": { "title": "Bilingual", "content": "EN + AR with full RTL via lang-switch — the whole shell mirrors." } } },
+              { "kind": "widget", "widget": { "id": "openBench", "type": "button", "props": { "label": "Open the Map Bench (MapViewer) ↗", "variant": "primary" } } },
+              { "kind": "widget", "widget": { "type": "embed", "props": { "src": "https://opendata.dc.gov/", "title": "DC Open Data portal", "height": 260 } } }
+            ]
+          },
+          { "kind": "widget", "widget": { "type": "video", "props": { "src": "https://www.youtube.com/embed/aircAruvnKk", "title": "How maps drive decisions" } } },
+          { "kind": "widget", "widget": { "type": "gallery", "props": { "columns": 3, "items": [ { "title": "Ward 1", "content": "Median income $95k" }, { "title": "Ward 6", "content": "Median income $110k" }, { "title": "Ward 8", "content": "Median income $42k" } ] } } },
+          { "kind": "widget", "widget": { "type": "divider" } },
+          { "kind": "widget", "widget": { "type": "text", "props": { "content": "Studio", "as": "h3" } } },
+          { "kind": "widget", "widget": { "type": "placeholder", "props": { "label": "StrataStudio — edit this AppLayout live (outline · preview · inspector), round-tripping the same JSON." } } },
+          {
+            "kind": "window",
+            "id": "benchWindow",
+            "title": "Map Bench — MapViewer (embeddable)",
+            "modal": false,
+            "open": false,
+            "children": [
+              { "kind": "widget", "widget": { "type": "embed", "props": { "src": "mapviewer", "note": "The mapviewer recipe embedded as a headerless, full-bleed control — every panel a click away against the same dc.json." } } }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

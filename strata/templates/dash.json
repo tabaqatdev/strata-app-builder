@@ -1,0 +1,258 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'dash' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "dash",
+    "name": "Dash",
+    "category": "dashboard",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "The light compact dashboard: a left rail of KPIs and charts beside the map."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#16a34a"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "column",
+            "children": [
+              {
+                "kind": "grid",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "kpi",
+                      "props": {
+                        "label": "Projects",
+                        "stat": "count"
+                      },
+                      "dataSource": {
+                        "layerId": "dc-affordable-housing"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "kpi",
+                      "props": {
+                        "label": "Affordable units",
+                        "field": "TOTAL_AFFORDABLE_UNITS",
+                        "stat": "sum",
+                        "status": "ok"
+                      },
+                      "dataSource": {
+                        "layerId": "dc-affordable-housing"
+                      }
+                    }
+                  }
+                ],
+                "columns": 2,
+                "gap": 10
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "gauge",
+                  "id": "gauge",
+                  "props": {
+                    "label": "Units delivered",
+                    "field": "TOTAL_AFFORDABLE_UNITS",
+                    "stat": "avg",
+                    "min": 0,
+                    "max": 300
+                  },
+                  "dataSource": {
+                    "layerId": "dc-affordable-housing"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "chart",
+                  "id": "agencyChart",
+                  "props": {
+                    "kind": "bar",
+                    "category": "AGENCY_CALCULATED",
+                    "title": "Units by agency"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-affordable-housing"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "table",
+                  "id": "projTable",
+                  "props": {
+                    "paging": true
+                  },
+                  "dataSource": {
+                    "layerId": "dc-affordable-housing"
+                  }
+                }
+              }
+            ],
+            "gap": 12,
+            "animate": "fly",
+            "animateOptions": {
+              "stagger": 60
+            },
+            "style": {
+              "flex": "0 0 380px",
+              "padding": "12px",
+              "overflow": "auto",
+              "height": "100%"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-wards",
+                      "dc-affordable-housing"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minWidth": 0,
+              "minHeight": 0,
+              "height": "100%"
+            }
+          }
+        ],
+        "mode": "fixed",
+        "style": {
+          "height": "100%"
+        },
+        "responsive": {
+          "small": {
+            "kind": "column"
+          }
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Dash",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "compact KPI rail",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "agencyChart",
+      "trigger": "categorySelect",
+      "to": "map",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    },
+    {
+      "from": "agencyChart",
+      "trigger": "categorySelect",
+      "to": "projTable",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    },
+    {
+      "from": "projTable",
+      "trigger": "rowSelect",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    }
+  ]
+}

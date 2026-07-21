@@ -1,0 +1,274 @@
+{
+  "version": "1.0",
+  "spatialReference": {
+    "wkid": 4326
+  },
+  "initialState": {
+    "viewpoint": {
+      "targetGeometry": {
+        "xmin": -170.0,
+        "ymin": -58.0,
+        "xmax": 190.0,
+        "ymax": 78.0,
+        "spatialReference": {
+          "wkid": 4326
+        }
+      }
+    }
+  },
+  "baseMap": {
+    "title": "OpenStreetMap",
+    "baseMapLayers": [
+      {
+        "id": "osm",
+        "layerType": "WebTiledLayer",
+        "templateUrl": "https://tile.openstreetmap.org/{level}/{col}/{row}.png",
+        "copyright": "© OpenStreetMap contributors"
+      }
+    ]
+  },
+  "operationalLayers": [
+    {
+      "id": "world-countries",
+      "title": "World Countries (by population)",
+      "layerType": "GeoJSON",
+      "source": {
+        "kind": "geojson",
+        "url": "./data/world-countries.geojson"
+      },
+      "visibility": true,
+      "opacity": 1,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "classBreaks",
+            "field": "pop_est",
+            "classBreakInfos": [
+              {
+                "classMaxValue": 50000000,
+                "label": "< 50M",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    255,
+                    255,
+                    178,
+                    40
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      120,
+                      120,
+                      120,
+                      255
+                    ],
+                    "width": 0.5
+                  }
+                }
+              },
+              {
+                "classMaxValue": 150000000,
+                "label": "50M – 150M",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    254,
+                    178,
+                    76,
+                    40
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      120,
+                      120,
+                      120,
+                      255
+                    ],
+                    "width": 0.5
+                  }
+                }
+              },
+              {
+                "classMaxValue": 500000000,
+                "label": "150M – 500M",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    253,
+                    141,
+                    60,
+                    40
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      120,
+                      120,
+                      120,
+                      255
+                    ],
+                    "width": 0.5
+                  }
+                }
+              },
+              {
+                "classMaxValue": 2000000000,
+                "label": "> 500M",
+                "symbol": {
+                  "type": "esriSFS",
+                  "style": "esriSFSSolid",
+                  "color": [
+                    227,
+                    26,
+                    28,
+                    40
+                  ],
+                  "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [
+                      120,
+                      120,
+                      120,
+                      255
+                    ],
+                    "width": 0.5
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "{name}",
+        "fieldInfos": [
+          {
+            "fieldName": "name",
+            "label": "Country",
+            "visible": true
+          },
+          {
+            "fieldName": "continent",
+            "label": "Continent",
+            "visible": true
+          },
+          {
+            "fieldName": "pop_est",
+            "label": "Population (est.)",
+            "visible": true,
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            }
+          }
+        ]
+      },
+      "attribution": "Sample data — simplified world countries (offline)"
+    },
+    {
+      "id": "world-cities",
+      "title": "Major World Cities (by population)",
+      "layerType": "GeoJSON",
+      "source": {
+        "kind": "geojson",
+        "url": "./data/world-cities.geojson"
+      },
+      "visibility": true,
+      "opacity": 1,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple",
+            "symbol": {
+              "type": "esriSMS",
+              "style": "esriSMSCircle",
+              "color": [
+                56,
+                189,
+                248,
+                200
+              ],
+              "size": 6,
+              "outline": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  12,
+                  74,
+                  110,
+                  255
+                ],
+                "width": 0.8
+              }
+            },
+            "visualVariables": [
+              {
+                "type": "sizeInfo",
+                "field": "population",
+                "stops": [
+                  {
+                    "value": 3000000,
+                    "size": 6
+                  },
+                  {
+                    "value": 10000000,
+                    "size": 12
+                  },
+                  {
+                    "value": 20000000,
+                    "size": 22
+                  },
+                  {
+                    "value": 38000000,
+                    "size": 34
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "popupInfo": {
+        "title": "{name}",
+        "fieldInfos": [
+          {
+            "fieldName": "name",
+            "label": "City",
+            "visible": true
+          },
+          {
+            "fieldName": "country",
+            "label": "Country",
+            "visible": true
+          },
+          {
+            "fieldName": "population",
+            "label": "Population",
+            "visible": true,
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            }
+          }
+        ]
+      },
+      "attribution": "Sample data — major world cities (offline)"
+    }
+  ],
+  "strata:extensions": {
+    "layout": {
+      "preset": "FullPage"
+    },
+    "charts": [],
+    "tables": []
+  }
+}

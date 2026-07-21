@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strata.tabaqat.net/schema/catalog.schema.json",
+  "title": "strata-app-builder catalog record",
+  "description": "The single source of truth for a published layer. Renders into a Strata Serve [[duckdb.datasources]] block and a metadata bundle (metadata.toml + drawingInfo.json + popupInfo.json). Also feeds the open-data hub (DCAT).",
+  "type": "object",
+  "required": ["id", "title", "description", "geometry", "source"],
+  "properties": {
+    "id": { "type": "string", "description": "Globally unique. Becomes the SQL view name and dataset id." },
+    "title": { "type": "string" },
+    "title_ar": { "type": "string" },
+    "description": { "type": "string", "description": "Use-case-first text (embeds and retrieves well)." },
+    "description_ar": { "type": "string" },
+    "geometry": { "enum": ["point", "polyline", "polygon", "table"] },
+    "category": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "source": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "enum": ["arcgis-feature", "arcgis-map", "strata", "geojson", "tile", "wms"] },
+        "url": { "type": "string" },
+        "dataset": { "type": "string" }
+      }
+    },
+    "secured": { "type": "boolean" },
+    "drawingInfo": { "type": "object", "properties": { "renderer": { "type": "object" } } },
+    "popupInfo": { "type": "object" },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": { "name": { "type": "string" }, "type": { "type": "string" }, "alias": { "type": "string" } }
+      }
+    },
+    "attribution": { "type": "string" },
+    "license": { "type": "string" },
+    "publish": {
+      "type": "object",
+      "required": ["target", "serviceName", "format"],
+      "properties": {
+        "target": { "const": "strata" },
+        "serviceName": { "type": "string" },
+        "folder": { "type": "string" },
+        "layerId": { "type": "integer" },
+        "format": { "const": "geoparquet" },
+        "path": { "type": "string", "description": "disk path, https://… or s3://…" },
+        "sourceFormat": {
+          "enum": ["filegdb", "shapefile", "geojson", "esri-geojson", "esri-json", "csv", "kml", "geoparquet"]
+        }
+      }
+    },
+    "dcat": {
+      "type": "object",
+      "properties": {
+        "publisher": { "type": "string" },
+        "accessLevel": { "enum": ["public", "restricted", "private"] },
+        "issued": { "type": "string" },
+        "modified": { "type": "string" },
+        "spatial": { "type": "string" }
+      }
+    }
+  }
+}

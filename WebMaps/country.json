@@ -1,0 +1,158 @@
+{
+  "version": "1.0",
+  "spatialReference": {
+    "wkid": 4326,
+    "latestWkid": 4326
+  },
+  "initialState": {
+    "viewpoint": {
+      "targetGeometry": {
+        "xmin": 33,
+        "ymin": 15.5,
+        "xmax": 56.5,
+        "ymax": 33.5,
+        "spatialReference": {
+          "wkid": 4326
+        }
+      }
+    }
+  },
+  "baseMap": {
+    "title": "OpenStreetMap",
+    "baseMapLayers": [
+      {
+        "id": "osm",
+        "layerType": "WebTiledLayer",
+        "templateUrl": "https://tile.openstreetmap.org/{level}/{col}/{row}.png",
+        "copyright": "© OpenStreetMap contributors"
+      }
+    ]
+  },
+  "operationalLayers": [
+    {
+      "id": "country",
+      "title": "Country — Saudi Arabia",
+      "url": "https://services2.arcgis.com/ZQ4jTQn6k7VPXEwO/ArcGIS/rest/services/World_Countries/FeatureServer/0/0",
+      "layerType": "ArcGISFeatureLayer",
+      "source": {
+        "kind": "arcgis-feature",
+        "url": "https://services2.arcgis.com/ZQ4jTQn6k7VPXEwO/ArcGIS/rest/services/World_Countries/FeatureServer/0/0"
+      },
+      "visibility": true,
+      "opacity": 1.0,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple",
+            "symbol": {
+              "type": "esriSFS",
+              "style": "esriSFSSolid",
+              "color": [
+                196,
+                233,
+                203,
+                51
+              ],
+              "outline": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  56,
+                  211,
+                  82,
+                  255
+                ],
+                "width": 1.5
+              }
+            }
+          }
+        },
+        "definitionExpression": "COUNTRYAFF = 'Saudi Arabia'"
+      },
+      "popupInfo": {
+        "title": "{COUNTRYAFF}",
+        "fieldInfos": [
+          {
+            "fieldName": "COUNTRYAFF",
+            "label": "Country",
+            "visible": true,
+            "isEditable": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "country-cities",
+      "title": "Cities",
+      "url": "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Cities/FeatureServer/0",
+      "layerType": "ArcGISFeatureLayer",
+      "source": {
+        "kind": "arcgis-feature",
+        "url": "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Cities/FeatureServer/0"
+      },
+      "visibility": true,
+      "opacity": 1.0,
+      "layerDefinition": {
+        "drawingInfo": {
+          "renderer": {
+            "type": "simple",
+            "symbol": {
+              "type": "esriSMS",
+              "style": "esriSMSCircle",
+              "color": [
+                26,
+                167,
+                166,
+                255
+              ],
+              "size": 6,
+              "outline": {
+                "color": [
+                  255,
+                  255,
+                  255,
+                  255
+                ],
+                "width": 1
+              }
+            }
+          }
+        },
+        "definitionExpression": "CNTRY_NAME = 'Saudi Arabia'"
+      },
+      "popupInfo": {
+        "title": "{CITY_NAME}",
+        "fieldInfos": [
+          {
+            "fieldName": "CITY_NAME",
+            "label": "City",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "ADMIN_NAME",
+            "label": "Admin area",
+            "visible": true,
+            "isEditable": false
+          },
+          {
+            "fieldName": "POP",
+            "label": "Population",
+            "visible": true,
+            "isEditable": false,
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            }
+          },
+          {
+            "fieldName": "STATUS",
+            "label": "Status",
+            "visible": true,
+            "isEditable": false
+          }
+        ]
+      }
+    }
+  ]
+}

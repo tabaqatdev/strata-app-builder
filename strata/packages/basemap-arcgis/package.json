@@ -1,0 +1,33 @@
+{
+  "name": "@strata/basemap-arcgis",
+  "version": "0.1.0",
+  "description": "Optional @esri/maplibre-arcgis adapter: load ArcGIS basemap styles/sessions and services (feature / vector-tile), handing genuine ESRI drawingInfo/popupInfo to strata's custom compiler. Keyless-OSM stays the default; this is opt-in. The Esri plugin is a lazy optional peer dependency.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "@esri/maplibre-arcgis": "*"
+  },
+  "peerDependenciesMeta": {
+    "@esri/maplibre-arcgis": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

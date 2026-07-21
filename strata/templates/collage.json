@@ -1,0 +1,279 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'collage' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "collage",
+    "name": "Collage",
+    "category": "grid",
+    "webmap": "dc",
+    "tier": "advanced",
+    "blurb": "An asymmetric collage: one dominant map tile plus chart, table, and stat tiles."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#c026d3",
+      "secondary": "#2dd4bf"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "splitter",
+        "children": [
+          {
+            "kind": "splitter",
+            "children": [
+              {
+                "kind": "section",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "map",
+                      "id": "map",
+                      "props": {
+                        "layerIds": [
+                          "dc-wards",
+                          "dc-crashes"
+                        ],
+                        "controls": {
+                          "navigation": true,
+                          "scale": true,
+                          "position": "top-right"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "mode": "fixed",
+                "style": {
+                  "flex": "1 1 0%",
+                  "minWidth": 0,
+                  "minHeight": 0,
+                  "height": "100%"
+                }
+              },
+              {
+                "kind": "row",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "kpi",
+                      "props": {
+                        "label": "Crashes",
+                        "stat": "count",
+                        "status": "warn"
+                      },
+                      "dataSource": {
+                        "layerId": "dc-crashes"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "kpi",
+                      "props": {
+                        "label": "Wards",
+                        "stat": "count"
+                      },
+                      "dataSource": {
+                        "layerId": "dc-wards"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "gauge",
+                      "props": {
+                        "label": "Avg vehicles",
+                        "field": "TOTAL_VEHICLES",
+                        "stat": "avg",
+                        "min": 0,
+                        "max": 5
+                      },
+                      "dataSource": {
+                        "layerId": "dc-crashes"
+                      }
+                    }
+                  }
+                ],
+                "gap": 10,
+                "style": {
+                  "padding": "10px",
+                  "height": "100%"
+                }
+              }
+            ],
+            "sizes": [
+              72,
+              28
+            ],
+            "orientation": "v"
+          },
+          {
+            "kind": "splitter",
+            "children": [
+              {
+                "kind": "column",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "chart",
+                      "id": "wardChart",
+                      "props": {
+                        "kind": "bar",
+                        "category": "WARD",
+                        "title": "By ward"
+                      },
+                      "dataSource": {
+                        "layerId": "dc-crashes"
+                      }
+                    }
+                  }
+                ],
+                "style": {
+                  "padding": "10px",
+                  "height": "100%"
+                }
+              },
+              {
+                "kind": "column",
+                "children": [
+                  {
+                    "kind": "widget",
+                    "widget": {
+                      "type": "table",
+                      "id": "tbl",
+                      "props": {
+                        "paging": true
+                      },
+                      "dataSource": {
+                        "layerId": "dc-crashes"
+                      }
+                    }
+                  }
+                ],
+                "style": {
+                  "padding": "10px",
+                  "overflow": "auto",
+                  "height": "100%"
+                }
+              }
+            ],
+            "sizes": [
+              45,
+              55
+            ],
+            "orientation": "v"
+          }
+        ],
+        "sizes": [
+          62,
+          38
+        ],
+        "orientation": "h"
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Collage",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "asymmetric tiles",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "wardChart",
+      "trigger": "categorySelect",
+      "to": "map",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    },
+    {
+      "from": "wardChart",
+      "trigger": "categorySelect",
+      "to": "tbl",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    },
+    {
+      "from": "tbl",
+      "trigger": "rowSelect",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "layerId": "dc-crashes"
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "@strata/feature-arcgis",
+  "version": "0.3.0",
+  "description": "Optional adapter over @esri/arcgis-feature-service \u2014 advanced query, statistics, related records, and editing against Strata OR ESRI FeatureServers. Esri libs are optional peer deps, loaded lazily.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "@esri/arcgis-feature-service": "*",
+    "@esri/arcgis-rest-request": "*"
+  },
+  "peerDependenciesMeta": {
+    "@esri/arcgis-feature-service": {
+      "optional": true
+    },
+    "@esri/arcgis-rest-request": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

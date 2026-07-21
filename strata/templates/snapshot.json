@@ -1,0 +1,203 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'snapshot' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "snapshot",
+    "name": "Snapshot",
+    "category": "web-page",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "A content snapshot page — cards + a views section swapping quick facets of one dataset."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#0f766e"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "scroll",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "District snapshot",
+                "as": "h2"
+              }
+            }
+          },
+          {
+            "kind": "grid",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "props": {
+                    "label": "Housing projects",
+                    "stat": "count"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-affordable-housing"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "props": {
+                    "label": "Affordable units",
+                    "field": "TOTAL_AFFORDABLE_UNITS",
+                    "stat": "sum"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-affordable-housing"
+                  }
+                }
+              },
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "kpi",
+                  "props": {
+                    "label": "Q4 crashes",
+                    "stat": "count",
+                    "status": "warn"
+                  },
+                  "dataSource": {
+                    "layerId": "dc-crashes"
+                  }
+                }
+              }
+            ],
+            "columns": 3,
+            "gap": 12
+          },
+          {
+            "kind": "views",
+            "views": [
+              {
+                "id": "mapview",
+                "title": "Map",
+                "content": {
+                  "kind": "section",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "map",
+                        "id": "map",
+                        "props": {
+                          "layerIds": [
+                            "dc-wards",
+                            "dc-affordable-housing"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "mode": "fixed",
+                  "style": {
+                    "height": "460px"
+                  }
+                }
+              },
+              {
+                "id": "chart",
+                "title": "Chart",
+                "content": {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "chart",
+                        "id": "agency",
+                        "props": {
+                          "kind": "bar",
+                          "category": "AGENCY_CALCULATED",
+                          "title": "Units by agency"
+                        },
+                        "dataSource": {
+                          "layerId": "dc-affordable-housing"
+                        }
+                      }
+                    }
+                  ],
+                  "style": {
+                    "padding": "10px"
+                  }
+                }
+              },
+              {
+                "id": "table",
+                "title": "Table",
+                "content": {
+                  "kind": "column",
+                  "children": [
+                    {
+                      "kind": "widget",
+                      "widget": {
+                        "type": "table",
+                        "id": "tbl",
+                        "props": {
+                          "paging": true,
+                          "export": [
+                            "csv"
+                          ]
+                        },
+                        "dataSource": {
+                          "layerId": "dc-affordable-housing"
+                        }
+                      }
+                    }
+                  ],
+                  "style": {
+                    "padding": "10px"
+                  }
+                }
+              }
+            ],
+            "nav": "tabs",
+            "animate": "fade"
+          }
+        ],
+        "gap": 18,
+        "animate": "scroll-reveal",
+        "style": {
+          "maxWidth": "1000px",
+          "margin": "0 auto",
+          "padding": "28px 24px 48px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "agency",
+      "trigger": "categorySelect",
+      "to": "map",
+      "action": "filter",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    },
+    {
+      "from": "tbl",
+      "trigger": "rowSelect",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "layerId": "dc-affordable-housing"
+      }
+    }
+  ]
+}

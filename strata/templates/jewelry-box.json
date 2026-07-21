@@ -1,0 +1,240 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'jewelry-box' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/dc.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "jewelry-box",
+    "name": "Jewelry Box",
+    "category": "map-centric",
+    "webmap": "dc",
+    "tier": "simple",
+    "blurb": "A fixed left drawer of tabbed tools (ESRI's recommended accessible layout) beside the map."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#7c3aed"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "fixed",
+      "root": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "views",
+                "views": [
+                  {
+                    "id": "layers",
+                    "title": "Layers",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "layer-panel",
+                            "id": "layers"
+                          }
+                        },
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "basemap"
+                          }
+                        }
+                      ],
+                      "gap": 12,
+                      "style": {
+                        "padding": "10px",
+                        "overflow": "auto"
+                      }
+                    }
+                  },
+                  {
+                    "id": "legend",
+                    "title": "Legend",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "legend"
+                          }
+                        }
+                      ],
+                      "style": {
+                        "padding": "10px"
+                      }
+                    }
+                  },
+                  {
+                    "id": "data",
+                    "title": "Data",
+                    "content": {
+                      "kind": "column",
+                      "children": [
+                        {
+                          "kind": "widget",
+                          "widget": {
+                            "type": "table",
+                            "id": "wardTable",
+                            "props": {
+                              "paging": true
+                            },
+                            "dataSource": {
+                              "layerId": "dc-wards"
+                            }
+                          }
+                        }
+                      ],
+                      "style": {
+                        "padding": "10px",
+                        "overflow": "auto"
+                      }
+                    }
+                  }
+                ],
+                "nav": "tabs"
+              }
+            ],
+            "style": {
+              "flex": "0 0 340px",
+              "width": 340,
+              "height": "100%",
+              "borderRight": "1px solid var(--strata-border)"
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "dc-wards",
+                      "dc-crashes",
+                      "dc-affordable-housing"
+                    ],
+                    "controls": {
+                      "navigation": true,
+                      "scale": true,
+                      "position": "top-right"
+                    }
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "flex": "1 1 0%",
+              "minWidth": 0,
+              "minHeight": 0,
+              "height": "100%"
+            }
+          }
+        ],
+        "mode": "fixed",
+        "style": {
+          "height": "100%"
+        }
+      },
+      "header": {
+        "kind": "row",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Jewelry Box",
+                "as": "h3"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "tabbed tool drawer",
+                "style": {
+                  "opacity": "0.65",
+                  "fontSize": "12px"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "",
+                "style": {
+                  "flex": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "theme-switch",
+              "id": "themeSwitch",
+              "props": {
+                "presets": [
+                  "light",
+                  "dark"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "share"
+            }
+          }
+        ],
+        "gap": 12,
+        "style": {
+          "alignItems": "center",
+          "padding": "10px 16px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "wardTable",
+      "trigger": "rowSelect",
+      "to": "map",
+      "action": "zoomTo",
+      "options": {
+        "layerId": "dc-wards"
+      }
+    },
+    {
+      "from": "wardTable",
+      "trigger": "rowSelect",
+      "to": "map",
+      "action": "flash"
+    },
+    {
+      "from": "layers",
+      "trigger": "filterChange",
+      "to": "map",
+      "action": "filter"
+    }
+  ]
+}

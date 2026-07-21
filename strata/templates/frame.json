@@ -1,0 +1,121 @@
+{
+  "version": "1.0",
+  "//": "Strata template 'frame' — a genuine <StrataApp> AppLayout. Demo data: WebMaps/md.json. See strata/templates/README.md.",
+  "strata:template": {
+    "id": "frame",
+    "name": "Frame",
+    "category": "web-page",
+    "webmap": "md",
+    "tier": "trivial",
+    "blurb": "A framed exhibit: one boxed map with caption and prose around it — editorial print feel."
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "primary": "#1c1917",
+      "secondary": "#a8a29e"
+    }
+  },
+  "pages": [
+    {
+      "id": "main",
+      "title": "Main",
+      "type": "scroll",
+      "root": {
+        "kind": "column",
+        "children": [
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "The Chesapeake's first responders",
+                "as": "h2"
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Maryland's emergency network in a single frame: every hospital and fire station, over the county fabric."
+              }
+            }
+          },
+          {
+            "kind": "section",
+            "children": [
+              {
+                "kind": "widget",
+                "widget": {
+                  "type": "map",
+                  "id": "map",
+                  "props": {
+                    "layerIds": [
+                      "md-counties",
+                      "md-hospitals",
+                      "md-fire-stations"
+                    ]
+                  }
+                }
+              }
+            ],
+            "mode": "fixed",
+            "style": {
+              "height": "520px",
+              "border": "10px solid var(--strata-panel-bg-2)",
+              "borderRadius": "6px",
+              "overflow": "hidden",
+              "boxShadow": "0 12px 40px rgba(0,0,0,.18)"
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Fig. 1 — Maryland iMAP services, rendered by strata-app-builder on open basemaps.",
+                "style": {
+                  "opacity": "0.6",
+                  "fontSize": "12px",
+                  "textAlign": "center"
+                }
+              }
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "divider"
+            }
+          },
+          {
+            "kind": "widget",
+            "widget": {
+              "type": "text",
+              "props": {
+                "content": "Zoom, identify, and compare coverage; the frame stays put while the map works."
+              }
+            }
+          }
+        ],
+        "gap": 14,
+        "animate": "fade",
+        "style": {
+          "maxWidth": "860px",
+          "margin": "0 auto",
+          "padding": "36px 24px 48px"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "map",
+      "trigger": "featureSelect",
+      "to": "map",
+      "action": "flash"
+    }
+  ]
+}
