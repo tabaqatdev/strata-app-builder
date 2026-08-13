@@ -89,9 +89,11 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
 <a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
 <a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
 <a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
@@ -143,7 +145,7 @@ matching template from <code>WebMaps/</code> into your app as its <code>layers.j
 already populated with real layers (pastel polygons plus cities and airports). That proves your setup and the
 Claude interaction are working before you've done anything else.</p>
 <p>For a specific country or state, Claude retargets the template's <code>definitionExpression</code> and
-<code>initialState.viewpoint</code> to your choice. See <strong><a href="guide-map-templates.html">the map templates guide</a></strong> for the
+<code>initialState.viewpoint</code> to your choice. See <strong><a href="..\guide\map-templates.md">the map templates guide</a></strong> for the
 four templates, their data sources, and the styling conventions.</p>
 <h2 id="the-build-workflow">The build workflow</h2>
 <p>This is where GIS admins spend most of their time — turning raw data into a styled, queryable map:</p>
@@ -168,7 +170,7 @@ writable, authenticated ESRI backend</strong> (Strata Serve is read-only today; 
 <p>You don't have to start blank. A <strong>recipe</strong> is a complete app template — a spec, a prompt-script, and a
 <strong>guided wizard</strong> — that Claude runs like an ArcGIS Instant App. Launch one with <code>/recipe &lt;name&gt;</code> (e.g.
 <code>/recipe showcase</code>) or just describe the app; Claude runs the wizard to collect your app's properties, confirms,
-then builds it and prompts you to finish. See <strong><a href="how-to-using-recipes.html">using recipes</a></strong>.</p>
+then builds it and prompts you to finish. See <strong><a href="..\how-to\using-recipes.md">using recipes</a></strong>.</p>
 <h2 id="export-share">Export &amp; share</h2>
 <p>When the map is ready, <code>/export</code> gets it out:</p>
 <ul>
@@ -180,8 +182,8 @@ then builds it and prompts you to finish. See <strong><a href="how-to-using-reci
 <p>The interface is bilingual (English / Arabic, RTL-aware) throughout.</p>
 <h2 id="where-to-next">Where to next</h2>
 <ul>
-<li><strong><a href="guide-anatomy.html">Repository anatomy</a></strong> — what every folder and file is.</li>
-<li><strong><a href="reference-commands.html">Command reference</a></strong> — every command at a glance.</li>
-<li><strong><a href="guide-style-compiler.html">The style compiler</a></strong> — how ESRI <code>drawingInfo</code> becomes MapLibre paint.</li>
+<li><strong><a href="..\guide\anatomy.md">Repository anatomy</a></strong> — what every folder and file is.</li>
+<li><strong><a href="..\reference\commands.md">Command reference</a></strong> — every command at a glance.</li>
+<li><strong><a href="..\guide\style-compiler.md">The style compiler</a></strong> — how ESRI <code>drawingInfo</code> becomes MapLibre paint.</li>
 <li><strong><a href="README.html#help-task-how-tos">Help</a></strong> — task how-tos (layouts, symbology, publishing, export, CORS).</li>
 </ul><div class="pager"><a class="prev" href="README.html"><small>Previous</small>Overview</a><a class="next" href="faq.html"><small>Next</small>FAQ</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

@@ -21,6 +21,11 @@ and is **separate from** the ESRI Web Map `layers.json` it references — `/crea
   `table`/`carto`/`legend`/`status-bar`/`layer-panel`/`theme-switch`/`lang-switch`/`data-actions`/`filter`/
   `date-filter`/`feature-info`/`swipe`/`bookmarks`/`controller`/`share`/`near-me`/`add-data`/
   `weighted-overlay`/`elevation`); extend with `mergeRegistry`.
+- **Map chrome comes free.** A `map` widget with `controls:{navigation,layerList,basemapSwitcher,legend}`
+  renders the house cluster (zoom · fit · layers · basemap · legend) with one drawer beside it, layer
+  checkboxes, basemap **radios** with live tiles, and an **interactive legend** (click hides · shift-click
+  isolates · `Esc` clears). Don't rebuild any of it as widgets, and don't put layers/basemap in the page
+  header — they belong on the map. `controls.position` moves the cluster; `controls.cluster:false` opts out.
 
 ## Theme + header switchers (default polish)
 Set `AppLayout.theme = themeTokens(name)` from `@strata/theme` (light/dark/hazard/muted). **When the app is
@@ -54,3 +59,15 @@ Pick a starter and adapt it (`@strata/core-map/react/app`):
 5. Write the `AppLayout` JSON and show where `<StrataApp>` mounts it.
 
 Keep the ESRI Web Map JSON contract intact — the app layout only *references* `layers.json`, never replaces it.
+
+## Before you call the layout done
+
+- **The one-sentence purpose is answerable on the first screen**, and the app **opens on a view where its
+  own signature is visible.** One build opened on its hierarchy root, leaving the signature band empty —
+  every non-visual test was green. Confirm by screenshot.
+- **≥3 live `connections`** on first render; target every widget participating. Interactivity is the demo.
+- **Master–detail is bidirectional or it is not wired.**
+- **Whatever adopts must also release** — a second click clears, with a visible affordance.
+- **Only verified field names.** Never bind to a field a response has not shown.
+- **`responsive.small` on every side-by-side row**, tested at phone width.
+- Full checklist: `strata/docs/guide/app-design.md` §7.

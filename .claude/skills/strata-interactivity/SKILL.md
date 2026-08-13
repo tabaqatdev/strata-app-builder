@@ -37,6 +37,22 @@ already emits a starter block — extend it, don't strip it.
 `filter` derives the `where` from the trigger automatically (`whereFromTrigger`) — a `categorySelect` becomes
 `FIELD = 'value'`, a `rangeSelect`/`brush` becomes a `>=`/`<=` clause. Override with `options.where`.
 
+## The selection contract (`featureSelect` / `rowSelect`)
+
+```ts
+{ layerId, oids: Array<number|string>, zoom?: boolean, popup?: boolean }
+```
+- **`oids` are `number | string`** — an object id is whatever the service says it is
+  (`troubleshooting.md` §1). Never coerce; a string key coerced to a number selects the wrong row.
+- **`zoom:true` flies to the RECORD**, not to its layer's extent. Fitting a whole layer for one row is a
+  non-answer: the user asked to see one feature and got the extent they already had.
+- **`popup:true` opens that record's `popupInfo`** on arrival, the same popup identify would show.
+- **An empty `oids` is a RELEASE, not a no-op.** Every sink clears: the map drops the highlight and
+  closes the popup. This is what makes "click the row again to clear it" work for free — the table emits
+  the release, and the map already knows what to do with it.
+
+The shipped `table` does exactly this: click a row to adopt (fly + popup), click it again to release.
+
 ## Wiring for it to actually apply
 - Pass a `store` in the `<StrataApp context={{ store, maplibregl }}>` so `filter` applies **in place**
   (`store.setDefinition` → no map remount). Pass the shared `bus` to the map (`<StrataMap bus>` — StrataApp
@@ -61,3 +77,22 @@ actions via `dataActionRegistry([...])`.
 The interactive recipes (`interactive-legend`, `category-gallery`, `chart-viewer`, `data-explorer`, `slider`)
 must cross-filter **in place** (no map remount) — that is exactly what `connections` + `store.setDefinition`
 deliver. Don't hand-roll panel-to-panel wiring; author `connections`.
+
+## Known traps
+
+- **Master–detail is bidirectional or it is not wired.** If a row drives the map, the map must drive the
+  row. Shipping one direction reads as a bug to everyone except the person who wrote it.
+- **A signature loop needs a release.** Whatever adopts must also clear — clicking the same cell, row or
+  KPI again returns to the parent scope, `aria-pressed` flips back, and the chip disappears. Carry a
+  visible affordance (an `×`, a ring) so the user can see which click will clear.
+- **Exactly one population at a time.** Two stacked selections name a set nobody asked for; selecting a
+  second releases the first.
+- **`Esc` unwinds one thing at a time** — clear the filter first, and only then climb a level. A single
+  `Esc` that discards everything loses work.
+- **Enumerating the redraws by hand is the bug.** One adopt-handler refreshed five things and not the
+  filter chips, so they went stale the moment the signature loop ran. Call one `redraw()`.
+- **A deep link must round-trip the reading**, so a colleague can be sent the exact state
+  (`setUrlParam` ⇄ parse on boot).
+- **Show the filter chips.** Every active filter (KPI, legend isolate, table search) gets a labelled chip
+  with an `×`, plus **Clear all** — otherwise a narrowed view is indistinguishable from an empty one.
+- Full catalogue: `strata/docs/troubleshooting.md` §7.

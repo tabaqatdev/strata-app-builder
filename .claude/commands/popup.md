@@ -26,3 +26,13 @@ element model:
 - `relatedRecords: { relationshipId, title?, fields? }` — a nested mini-table via `queryRelatedRecords`.
 
 Read the real field names + aliases from the service (`.../<layer>?f=json`). Show the `popupInfo` JSON.
+
+## Traps
+
+- **Labels show, values are blank** — on a **MapServer** layer `f=geojson` lower-cases every field name
+  (FeatureServer preserves case), so a canonically-cased `popupInfo` resolves to `undefined` throughout.
+  Core resolves case-insensitively; any lookup you write needs the same tolerance.
+- **Profile a field before you show it.** `WHERE f IS NOT NULL AND f <> ''` — a published field can be
+  blank on every row, and a popup of empty labels reads as a broken app.
+- **The popup carries the caveat it inherits.** If the value is banded, apportioned, or advertised rather
+  than measured, say so in the popup — not only in the panel that produced it.

@@ -72,7 +72,9 @@ interface ContainerNode {
   orientation?: "h" | "v";               // h = side-by-side (vertical divider, default) · v = stacked
   sizes?: number[];                      // initial size % per child (sum ~100); default equal
   minSizes?: number[];                   // min % per child while dragging (default 5)
-  resizable?: boolean;                   // draggable dividers (default true)
+  // splitter + panel:
+  resizable?: boolean;                   // user can resize (default TRUE) — splitter: draggable dividers
+                                         // · panel: a grip on the inner edge. false locks the size.
   // window / panel:
   id?: string;                           // window: stable id — target of showHide/navigate to open/close
   title?: string;                        // window/panel header title
@@ -81,7 +83,9 @@ interface ContainerNode {
   // panel only:
   dock?: "left" | "right" | "top" | "bottom" | "float";  // dock edge (default "left")
   collapsible?: boolean;                 // show a collapse toggle (default true)
-  width?: number;                        // fixed px (width for left/right docks, height for top/bottom)
+  width?: number;                        // STARTING px along the dock axis (height for top/bottom docks)
+  minWidth?: number;                     // smallest the user can drag to (default 120)
+  maxWidth?: number;                     // largest the user can drag to (default unbounded)
   style?: Record<string, string | number>;
   responsive?: ResponsiveOverrides;
 }
@@ -92,6 +96,14 @@ interface ResponsiveOverrides {          // partial node merged per breakpoint
 }
 ```
 Use `row`/`column` for flex stacks, `grid` (+`columns`) for card galleries, `section` for scroll‑page bands, `card` as a bordered container, `accordion` (+`titles`) for collapsible stacks, `flow-row` for wrapping chips, and **`splitter`** (+`orientation`/`sizes`/`minSizes`/`resizable`) for a **resizable** split (ExB Sidebar — drag the divider between panes). A **`window`** (`id`,`title?`,`modal?`,`open?`) is a modal/dialog overlay hosting its children — starts closed, opened/closed by a `showHide`/`navigate` action targeting its `id` (e.g. `{from:"btn",trigger:"buttonClick",to:"win",action:"showHide",options:{hidden:false}}`). A **`panel`** (`dock`,`collapsible?`,`width?`,`title?`,`open?`) is a dockable, collapsible region anchored to an edge (`left`/`right`/`top`/`bottom`) or `float`ing — the general form of the per‑widget floating chrome. Set `mode:"fixed"` on a container to absolutely position children inside (e.g. a floating panel over a full‑bleed map).
+
+> **Panels are resizable by default.** A `panel` node and every `PanelShell`‑based panel widget
+> (`layer-panel`, `table`, `chart`, `carto`, `filter`, `feature-info`, …) ship a drag grip — on the edge
+> facing the content for a docked panel, plus a height grip and corner when floating — and the grip is
+> arrow‑key operable (`Shift` = a bigger step). `width` is therefore a **starting** size, not a fixed one;
+> bound it with `minWidth`/`maxWidth` and only set `resizable:false` where a locked size is load‑bearing
+> (a swipe pane, a fixed‑ratio chart). The dragged size is **session state** — a reload returns to the
+> authored `width`, which stays the single source of truth.
 
 ### 2.2 ViewsNode — tabs & slides (ExB Views/Sections)
 The dynamic‑content primitive. Swaps both **content** and **map state** when the active view changes.
@@ -160,9 +172,9 @@ Configure each via `widget.props` (fields below) and `widget.dataSource` (bindin
 | type | component | props | binding | renders |
 |---|---|---|---|---|
 | `map` | StrataMap | **`config`** = the `layers.json`; `controls?` (see below); `glyphs?`, `rtlTextPluginUrl?`, `askEnabled?` | reads `config`; `store`/`maplibregl` from context | the MapLibre map |
-| `legend` | Legend | **`layers`** = `operationalLayers[]`, `visibleOnly?` (def true), `title?` | reads layers' `drawingInfo` | swatch+label legend |
+| `legend` | Legend | **`layers`** = `operationalLayers[]`, `visibleOnly?` (def true), `title?`, `interactive?` (def **true**), `store?`, `bus?`, `counts?` `{label:{n,total?}}`, `onFilterChange?` | reads layers' `drawingInfo`; filters via `store.setDefinition` | swatch+label legend that **filters**: click hides · shift‑click isolates · `Esc` clears. Rows show `n of N`. Emits `categorySelect` |
 | `layer-panel` | LayerPanel | **`store`**, `mode?`, `floating?`, `initialX/Y?`, `defaultWidth?`, + callbacks (`onZoomTo`,`onFilter`,`onSymbology`,`onPopup`,`onShowTable`,`onAddLayer`,…) | store‑driven | operational‑layer list (visibility/reorder/actions) |
-| `basemap` | BasemapPanel | `basemaps?` (def `OPEN_BASEMAPS`), `defaultId?`, `onApplyBasemap?`, `onLibraryChange?`, `mode?`,`floating?`,… | **`store`** (injected) | basemap gallery as a droppable widget — clicking a basemap drives `store.setBaseMap`, restyling the store‑bound map |
+| `basemap` | BasemapPanel | `basemaps?` (def `OPEN_BASEMAPS`), `defaultId?`, `map?` (for live tile thumbnails), `themeMode?` (adds a **Follow the theme** row), `onApplyBasemap?`, `onLibraryChange?`, `mode?`,`floating?`,… | **`store`** (injected) | basemap **radiogroup** — one always in force and always ticked, each row a live tile of the current area in that style; clicking drives `store.setBaseMap`, restyling the store‑bound map |
 | `measure` | MeasureWidget | `mapId?` (def first map), `units?` `"metric"\|"imperial"` | reaches a `map` via the **MapRegistry**; `store`/`maplibregl` injected | distance/area measuring, placeable in a sidebar/panel (not only on the map) |
 | `draw` | DrawWidget | `mapId?`, `onChange?(featureCollection)` | MapRegistry + injected `store`/`maplibregl` | sketch/annotation, placeable anywhere; emits the sketched GeoJSON |
 | `status-bar` | StatusBar | **`map`** (maplibre Map), `crs?` (def `EPSG:4326`), `precision?` (def 5), `showCoords?`,`showZoom?`,`showScale?` | live map | coords/zoom/scale/CRS bar |
@@ -171,14 +183,27 @@ Configure each via `widget.props` (fields below) and `widget.dataSource` (bindin
 | `add-data` | AddDataWidget | **`onAddLayer({url,kind,title})`**, `title?` | callback‑driven | URL box to add a layer |
 | `elevation` | ElevationProfile | **`samples`** `{distanceKm,elevation}[]`, `height?` (def 120), `title?` | data prop | elevation profile chart |
 
-`map.props.controls` (all boolean unless noted): `navigation`, `geolocate`, `fullscreen`, `scale`, `measure`, `sketch`, `legend`, `basemapSwitcher`, `layerList`, `position?` (control corner). Today the basemap gallery is `controls.basemapSwitcher`, not a separate widget.
+`map.props.controls` (all boolean unless noted): `navigation`, `geolocate`, `fullscreen`, `scale`, `measure`, `sketch`, `legend`, `basemapSwitcher`, `layerList`, `cluster?` (default **true**), `position?` (control corner). Today the basemap gallery is `controls.basemapSwitcher`, not a separate widget.
+
+> **The house chrome is the default.** `navigation` + `layerList` + `basemapSwitcher` render as **one
+> 32 px cluster** (zoom in · zoom out · fit · layers · basemap · legend) with MapLibre's own zoom
+> suppressed and **one drawer** opening beside it — layers as square checkboxes (multi‑select, each row
+> stating *off* / *N in view* / *none in this view*), basemaps as **round radios** with a live tile of
+> the current area in each style plus a "Follow the theme" row. Keyboard `L`/`B`/`G`/`F`, `Esc` closes.
+> `position` moves the cluster and its drawer together; geolocate/fullscreen take the opposite corner.
+> Set `cluster:false` only to restore the older always‑open boxes.
+>
+> **The `legend` control is interactive by default** — click a class to hide it, shift‑click to isolate,
+> `Esc` clears; it writes a real `definitionExpression` on the renderer's field via the store, so the
+> legend **filters rather than fades**. Pass `counts` to render `n of N`. `interactive:false` for a
+> static caption.
 
 > **Map‑tool widgets (Phase 7, all shipped).** Droppable widgets that reach a sibling `map` through the app's **MapRegistry** (`useMapInstance(mapId)`; defaults to the first map, or set `props.mapId`; a `map` publishes its live instance on ready): **`basemap`** (store‑driven), **`measure`**, **`draw`**, **`coordinates`** (live lng/lat/zoom), **`search`** (inject a `provider` — e.g. `@strata/plugin-search`'s `nominatimProvider()`), **`directions`** (inject `search` + `routing` — `@strata/plugin-routing`'s `osrmProvider()`), **`print`** (PNG/PDF via `@strata/export`).
 
 ### 3c. Data‑centric
 | type | component | props | binding | renders |
 |---|---|---|---|---|
-| `table` | AttributeTablePanel | `rows?` `Record[]` (omit when source-bound), `columns?`, `fieldAliases?`, `oidField?` (def OBJECTID), `layerId?`, `page?`,`onPageChange?`, `virtualize?` (auto >150 rows), `viewportHeight?` (def 400), `mode?`,`floating?`,… | `rows`, or `dataSource.{layerId\|sourceId\|fromWidget}` | sortable/filterable table + CSV/GeoJSON export. **Source-bound:** shows the live filtered view; a row click **selects into the source**. **Emits `rowSelect`** |
+| `table` | AttributeTablePanel | `rows?` `Record[]` (omit when source-bound), `columns?`, `fieldAliases?`, `oidField?` (def OBJECTID), `layerId?`, `page?`,`onPageChange?`, `virtualize?` (auto >150 rows), `viewportHeight?` (def 400), `mode?`,`floating?`,… | `rows`, or `dataSource.{layerId\|sourceId\|fromWidget}` | sortable/filterable table + CSV/GeoJSON export. **Source-bound:** shows the live filtered view. A row click **adopts** the record — the map flies to it and opens its popup; **clicking it again releases** it (selection cleared, popup closed). **Emits `rowSelect`** with `{oids,zoom,popup}` — an **empty `oids` is the release** |
 | `chart` | ChartPanel | **`charts`** `SavedChart[]` (kind `bar`/`line`/`pie`/`scatter`/`histogram`), `onQueryData?(source)→data`, `store?`, `mode?`,… | `charts` + live query | charts incl. **`histogram`** (auto-binned) + **`scatter`**. **Emits `categorySelect`** |
 | `carto` | CartoPanel | **`widgets`** `CartoWidgetSpec[]`, `onQuery?`,`onFilter?`,`onToggleVisibility?`, `title?`, `mode?` | cross‑filtering | CARTO‑style layer list + category/formula/histogram/timeseries. **Emits `categorySelect`** |
 | `filter` | FilterPanel | **`layerId`**, **`fields`** `{name,label?,type?}[]`, `onFilter?`, `mode?`,… | layer | query builder → `definitionExpression`. **Emits `filterChange`**. Nested AND/OR via `buildWhereGroups(FilterGroup)` |
@@ -188,6 +213,19 @@ Configure each via `widget.props` (fields below) and `widget.dataSource` (bindin
 | `data-actions` | DataActionMenu | `selection?` (auto‑tracks if omitted), `actions?` (def `defaultDataActions`), `hideWhenEmpty?` (def true) | bus | quick‑actions menu on a selection |
 
 `SavedChart` (bar/line/pie) and `CartoWidgetSpec` (`{id,kind:"category"|"formula"|"histogram"|"timeseries",layerId,field,operation?,valueField?,title?,limit?}`, ops `count|sum|avg|min|max`) are the two data‑widget payloads.
+
+> **Shared panel chrome (`PanelShell`) — every panel widget above takes these**, whichever section it is
+> listed in (`layer-panel`, `basemap`, `table`, `chart`, `carto`, `filter`, `query`, `date-filter`,
+> `feature-info`, `analysis`, `weighted-overlay`, plus `EditPanel`/`AttachmentViewer`/`AskPanel`/
+> `SavedItemsPanel`):
+> `mode?` `"fixed"`(def)\|`"floating"` · `initialX?`/`initialY?` (floating placement) ·
+> **`defaultWidth?`** / **`defaultHeight?`** (floating) — the **starting** size ·
+> **`resizable?`** (def `true`) · **`minWidth?`** (def 200) · **`maxWidth?`** (def 960) ·
+> **`minHeight?`** (def 120) · **`maxHeight?`** (def 900) ·
+> **`onResize?({width,height?})`** — fires after each resize, for side effects the panel cannot know
+> about. You rarely need it beside a `map` widget: `<StrataMap>` observes its own box and calls
+> `map.resize()` itself. Docked panels get a width grip; floating panels add a height grip and a corner.
+> All grips are arrow‑key operable (`Shift` = larger step). The dragged size is session state.
 
 ### 3d. Basic, media & KPI
 | type | component | props | renders |
@@ -240,9 +278,17 @@ interface Connection {
 
 **Phase 2 (bus layer shipped):** `buttonClick` · `timer` · `viewChange` · `pageChange` · `sketchComplete` · `mapClick` · `countChange`. The trigger types, payloads, `TimerSource`, and the source→bus `countChange` bridge (`connectSourceToBus`) exist and are tested; *pending:* the widget emitters (button/menu → `buttonClick`, map → `mapClick`, sketch → `sketchComplete`, `views` → `viewChange`, router → `pageChange`) and mounting `TimerSource` from a `timer` connection in `<StrataApp>`.
 
-Payloads worth knowing: `featureSelect {layerId,oids,zoom?}`, `categorySelect {layerId,field,value}`, `rangeSelect {layerId,field,min,max}`, `filterChange {layerId,where}`, `extentChange {bbox}`, `hover {layerId,oids}`, `recordsChange {widgetId,records,layerId?}`.
+Payloads worth knowing: `featureSelect {layerId,oids,zoom?,popup?}`, `categorySelect {layerId,field,value}`, `rangeSelect {layerId,field,min,max}`, `filterChange {layerId,where}`, `extentChange {bbox}`, `hover {layerId,oids}`, `recordsChange {widgetId,records,layerId?}`.
 
-Emitters (from §3): `table`→`rowSelect`; `chart`/`carto`→`categorySelect`; `filter`/`date-filter`→`filterChange`; the map→`featureSelect`/`extentChange`; `data-actions`→zoom/flash/table/export/clear.
+> **`oids` are `number | string`.** An object id is whatever the service says it is — real layers publish
+> string keys (`troubleshooting.md` §1). Never coerce.
+>
+> **An empty `oids` is a RELEASE, not a no-op.** The widget that adopted the record has let it go, so
+> every sink clears: the map drops the highlight, closes the popup and stops flying. `zoom:true` flies to
+> the **record** (not its layer's extent); `popup:true` opens that record's `popupInfo` on arrival. This
+> is the shipped table gesture — click a row to adopt, click it again to release.
+
+Emitters (from §3): `table`→`rowSelect` (adopt/release); `chart`/`carto`/`legend`→`categorySelect`; `filter`/`date-filter`→`filterChange`; the map→`featureSelect`/`extentChange`; `data-actions`→zoom/flash/table/export/clear.
 
 ### 4.2 Actions (what runs on the target)
 `filter` · `zoomTo` · `panTo` · `flash` · `viewInTable` · `showStatistics` · `export` · `setUrlParam` · `showHide` · `message`
@@ -316,7 +362,7 @@ interface BaseMapLayer {
 ```
 `LayerSourceKind`: `arcgis-feature | arcgis-map | strata | geojson | tile | wms | imageserver | cog | vector-tile | pmtiles`.
 
-**Rules that bite (from real publishing):** `objectIdField` is always `OBJECTID`; use `esriSMSCircle/Square`, never `esriSMSPath`; polygon fills need low alpha (~40/255); basemaps default to keyless OSM‑first (never default to ESRI/Google/Mapbox — offer only on request); reproject everything to 4326 on the way in.
+**Rules that bite (from real publishing):** a layer *you publish* always exposes `objectIdField` as `OBJECTID` — but on any service you did not publish, read `objectIdFieldName` instead of assuming it; use `esriSMSCircle/Square`, never `esriSMSPath`; polygon fills need low alpha (~40/255); basemaps default to keyless OSM‑first (never default to ESRI/Google/Mapbox — offer only on request); reproject everything to 4326 on the way in.
 
 Style/popup authoring: write **genuine ESRI `drawingInfo`/`popupInfo` JSON** — the compiler maps it to MapLibre. Never invent a styling DSL. Supported renderers: simple, uniqueValue (single/multi‑field), classBreaks, heatmap, visual variables, labels; `valueExpression` runs through the Arcade subset.
 
@@ -462,6 +508,7 @@ tiers — is `../strata/docs/guide/app-design.md`; don't restate it here.)*
 - Put **map styling in `layers.json`** (`drawingInfo`/`popupInfo`), **app structure in `AppLayout`**. Never mix.
 - Ship **`connections`** with the first build — a silent app is a bug (but widgets sharing a `sourceId` link with none).
 - Bind data via `dataSource` (`sourceId` / `layerId` / `fromWidget`), not by hand‑passing rows where a source exists.
+- Treat every panel size as a **starting** size: bound it with `minWidth`/`maxWidth` and justify each `resizable:false`.
 - Basemap keyless OSM‑first; genuine ESRI JSON for symbology; everything EPSG:4326; `OBJECTID` is the OID.
 - Reach for the **modernization patterns (§8)** — structured theme, app‑shell, motion, source linking.
 - New widget/behavior in a recipe ⇒ add a row here and cover it with a Vitest case.

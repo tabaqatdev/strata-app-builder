@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { initialSizes, resizeSplit } from "../../src/react/app/splitterMath.js";
+import { initialSizes, resizePanel, resizeSplit } from "../../src/react/app/splitterMath.js";
 
 const round = (a: number[]): number[] => a.map((v) => Math.round(v * 100) / 100);
 
@@ -21,5 +21,30 @@ describe("resizeSplit", () => {
   });
   it("is a no-op for an out-of-range divider", () => {
     expect(round(resizeSplit([50, 50], 1, 10))).toEqual([50, 50]);
+  });
+});
+
+describe("resizePanel", () => {
+  it("grows and shrinks one box by a pixel delta", () => {
+    expect(resizePanel(300, 40)).toBe(340);
+    expect(resizePanel(300, -40)).toBe(260);
+  });
+
+  it("clamps to [min, max]", () => {
+    expect(resizePanel(300, 5000, 200, 960)).toBe(960);
+    expect(resizePanel(300, -5000, 200, 960)).toBe(200);
+    expect(resizePanel(300, 100, 200)).toBe(400); // no max → unbounded above
+  });
+
+  it("measures from the drag's start, so a clamped drag comes back with the pointer", () => {
+    const start = 300;
+    expect(resizePanel(start, 5000, 200, 960)).toBe(960); // dragged past the max…
+    expect(resizePanel(start, 10, 200, 960)).toBe(310); // …and back: no accumulated overshoot
+  });
+
+  it("survives an unmeasured box and a bad delta", () => {
+    expect(resizePanel(NaN, 40, 200, 960)).toBe(240); // no layout yet → drag from the minimum
+    expect(resizePanel(300, NaN, 200, 960)).toBe(300); // a delta from a pointer with no coords
+    expect(resizePanel(300, 40, 400, 200)).toBe(400); // max below min → min wins
   });
 });

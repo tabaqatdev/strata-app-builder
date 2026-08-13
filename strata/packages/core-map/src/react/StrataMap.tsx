@@ -23,7 +23,7 @@ import type { ActionBus } from "@strata/actions";
 import { MapController } from "../engine/MapController.js";
 import { LayerRegistry } from "../engine/layers.js";
 import { applyBaseMap } from "../engine/basemaps.js";
-import { initPopups } from "../engine/popups.js";
+import { initPopups, type PopupSurface } from "../engine/popups.js";
 import { bindStoreToMap, type StoreBinding } from "../engine/storeBinding.js";
 import type { DataClient } from "../engine/arcgisSource.js";
 import {
@@ -34,6 +34,7 @@ import {
   MeasureControl,
   SketchControl,
   Legend,
+  MapChrome,
   type ControlPosition,
 } from "./controls/index.js";
 import { LayerPanel, BasemapPanel } from "./panels/index.js";
@@ -49,9 +50,16 @@ export interface StrataMapControls {
   basemapSwitcher?: boolean;
   layerList?: boolean;
   /**
-   * Corner for the native navigation/geolocate/fullscreen cluster (default `"top-right"`). Set this so
-   * the controls don't collide with a docked/floating panel — e.g. `"top-left"` when panels dock right.
-   * The scale bar stays bottom-left.
+   * The house control cluster — one 32px stack (zoom · fit · layers · basemap · legend) with a
+   * single drawer beside it, and MapLibre's own zoom suppressed. **Default true** whenever
+   * `navigation`, `layerList` or `basemapSwitcher` is on: those flags now render *as* the cluster.
+   * Set `false` for the older always-open boxes.
+   */
+  cluster?: boolean;
+  /**
+   * Corner for the control cluster (default `"top-right"`); the drawer opens on its inner side.
+   * Set this so the controls don't collide with a docked/floating panel — e.g. `"top-left"` when
+   * panels dock right. Geolocate/fullscreen take the opposite corner. The scale bar stays bottom-left.
    */
   position?: ControlPosition;
 }
@@ -142,7 +150,7 @@ export function StrataMap(props: StrataMapProps): React.ReactElement {
       rtlTextPluginUrl,
     });
     controllerRef.current = controller;
-    let disposePopups: (() => void) | undefined;
+    let disposePopups: PopupSurface | undefined;
     let binding: StoreBinding | undefined;
 
     // The map is often constructed before its flex/late-sized container has laid out (MapLibre then
@@ -190,6 +198,8 @@ export function StrataMap(props: StrataMapProps): React.ReactElement {
           onInteractionMode: (mode) => applyCursor(map, mode),
           bus: props.bus,
           mapId: props.mapId,
+          // So a row adopting a record opens that record's popup, and releasing it closes it.
+          popups: disposePopups,
         });
         bindingRef.current = binding;
         applyCursor(map, store.getState().interactionMode);
@@ -257,11 +267,39 @@ function StrataControls(props: {
   const { map, maplibregl, store, controls, configLayers } = props;
   // Legend must react to layer changes when store-driven; fall back to the static config otherwise.
   const layers = useStoreLayers(store, configLayers);
+  const [legendOn, setLegendOn] = React.useState(true);
+
+  // The house chrome: ONE 32px cluster carrying zoom · fit · layers · basemap · legend, with a
+  // single drawer beside it. It subsumes `navigation` (it owns +/−), `layerList` and
+  // `basemapSwitcher` (they become drawers) — set `controls.cluster = false` for the older
+  // always-open boxes and MapLibre's own zoom.
+  const cluster = controls.cluster !== false && (controls.navigation || controls.layerList || controls.basemapSwitcher);
+
   return (
     <>
-      {controls.navigation && <NavigationControl map={map} maplibregl={maplibregl} position={controls.position} />}
-      {controls.geolocate && <GeolocateControl map={map} maplibregl={maplibregl} position={controls.position} />}
-      {controls.fullscreen && <FullscreenControl map={map} maplibregl={maplibregl} position={controls.position} />}
+      {cluster && (
+        <MapChrome
+          map={map}
+          store={store}
+          layers={layers}
+          position={controls.position === "top-left" ? "top-left" : "top-right"}
+          showLegend={legendOn}
+          onToggleLegend={controls.legend ? setLegendOn : undefined}
+          onFit={() => map?.fitBounds?.(fullExtentOf(layers) ?? undefined)}
+          onApplyBasemap={(bm) => applyBaseMap(map, bm)}
+        />
+      )}
+      {/* MapLibre's own zoom is suppressed while the cluster is up, so there is exactly one set. */}
+      {controls.navigation && !cluster && (
+        <NavigationControl map={map} maplibregl={maplibregl} position={controls.position} />
+      )}
+      {/* Geolocate/fullscreen keep their native corner — moved opposite the cluster so nothing overlaps. */}
+      {controls.geolocate && (
+        <GeolocateControl map={map} maplibregl={maplibregl} position={controls.position ?? (cluster ? "top-left" : undefined)} />
+      )}
+      {controls.fullscreen && (
+        <FullscreenControl map={map} maplibregl={maplibregl} position={controls.position ?? (cluster ? "top-left" : undefined)} />
+      )}
       {controls.scale && <ScaleControl map={map} maplibregl={maplibregl} />}
       {controls.measure && store && (
         <div style={measureBarStyle}>
@@ -273,23 +311,41 @@ function StrataControls(props: {
           <SketchControl map={map} maplibregl={maplibregl} store={store} />
         </div>
       )}
-      {controls.legend && (
+      {/* The legend is a control surface, bottom-left, and the cluster's legend button hides it. */}
+      {controls.legend && legendOn && (
         <div style={legendBoxStyle}>
-          <Legend layers={layers} title="Legend" />
+          <Legend layers={layers} title="Legend" store={store} />
         </div>
       )}
-      {controls.layerList && store && (
+      {controls.layerList && store && !cluster && (
         <div style={layerListBoxStyle}>
           <LayerPanel store={store} />
         </div>
       )}
-      {controls.basemapSwitcher && store && (
+      {controls.basemapSwitcher && store && !cluster && (
         <div style={basemapBoxStyle}>
-          <BasemapPanel store={store} />
+          <BasemapPanel store={store} map={map} />
         </div>
       )}
     </>
   );
+}
+
+/**
+ * The union of every layer's declared `fullExtent` — what the cluster's fit button flies to.
+ * Returns `undefined` when no layer declares one, so `fitBounds` is simply not called rather than
+ * being handed a fabricated world extent.
+ */
+function fullExtentOf(layers: OperationalLayer[]): [[number, number], [number, number]] | undefined {
+  let box: [number, number, number, number] | null = null;
+  for (const l of layers) {
+    const e = (l.layerDefinition as any)?.extent ?? (l as any).fullExtent;
+    if (!e || e.xmin == null) continue;
+    box = box
+      ? [Math.min(box[0], e.xmin), Math.min(box[1], e.ymin), Math.max(box[2], e.xmax), Math.max(box[3], e.ymax)]
+      : [e.xmin, e.ymin, e.xmax, e.ymax];
+  }
+  return box ? [[box[0], box[1]], [box[2], box[3]]] : undefined;
 }
 
 /** Subscribe to the store's operational layers (for reactive controls), else use static config. */

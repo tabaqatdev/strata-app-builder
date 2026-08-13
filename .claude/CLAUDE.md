@@ -14,6 +14,13 @@ the visible root are **`README.md`**, **`llms.txt`**, **`LICENSE`**, **`package.
 
 - **The library — all code, docs, and reference material → `strata/`.** Never add a new top-level file/folder for these.
 - **The user works in `recipes/`** (repo root). This is where apps are built; the user does not touch `strata/`.
+- **Build knowledge lives in the library docs — do not create a parallel copy.** Traps →
+  `strata/docs/troubleshooting.md` · designing an app → `strata/docs/guide/app-design.md` · building and
+  verifying one → `strata/docs/guide/building-apps.md` · sourcing data →
+  `strata/docs/how-to/find-and-verify-data.md` · what a recipe must contain → `recipes/README.md` ·
+  exact config → `recipes/COMPONENT-MANIFEST.md` · **how** to construct and verify one → the
+  `strata-app-build` skill. Every new doc under `strata/docs/` must be registered in the `TOPICS` list of
+  `strata/docs/help/build_site.py`, or it never reaches the help site. **Cross-reference; never restate.**
 - **Community-health files → `.github/`** (`CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, templates,
   workflows). GitHub renders them from there.
 - **Authoring layer → `.claude/`.**
@@ -37,8 +44,11 @@ to them from public files (a public clone won't have them).
 ## Testing
 
 Tests are **Vitest**: each package with logic has a `tests/` dir + its own `vitest.config.ts` + `test`
-script, and a root `strata/vitest.workspace.ts` runs everything (`cd strata && pnpm test`; 400+ tests,
-`@strata/core-map` alone is 218).
+script, and a root `strata/vitest.workspace.ts` runs everything. **`pnpm -r build` must run first** —
+workspace packages resolve from `dist/`, so on a fresh clone `pnpm test` fails to resolve `@strata/*`
+until they are built. Verified 2026-08-12 after the resizable-panel change:
+`cd strata && pnpm install && pnpm -r build && pnpm test` → **796 tests, 0 failures**, across the **18 of
+20 packages** that carry suites (`@strata/core-map` 329, `@strata/schema` 221).
 **Add tests for any behavior change**, especially the style/popup compilers, and list any new package in
 `strata/vitest.workspace.ts`.
 
@@ -110,6 +120,10 @@ After the user scaffolds or opts out, write a `.strata/onboarded` marker and sto
 - **Identify → popup** — a click in identify mode enriches the top/active feature by OID and shows the
   layer's **`popupInfo`** (genuine ESRI popup). **Define popups** per layer via `layers.json` `popupInfo` or
   the `/popup` command; identify uses whatever is defined (or a default field table).
+- **Panels are resizable by default** — `PanelShell` (every management panel) and the `panel` layout node
+  both ship an edge grip that is draggable *and* arrow-key operable, clamped by `minWidth`/`maxWidth`. An
+  authored width is where a panel **opens**, not where it stays; the dragged size is session state, so the
+  spec stays the source of truth. `resizable:false` locks one, and needs a reason in the recipe.
 - **Store-driven map** — when a `store` is passed to `<StrataMap>`, panel actions (visibility/opacity/order/
   remove/basemap/zoom/highlight/**filter**) drive the live map. Wire panels to the store, not ad-hoc map
   calls. In-place server-side filtering is `store.setDefinition(layerId, where)` → the binding calls
@@ -163,8 +177,17 @@ print secrets (`llm_keys.json`, tokens).
 
 ## Known traps (from real publishing)
 
-- `objectIdField` is **always `OBJECTID`**; `object_id_field` only picks the SOURCE column to cast. A
-  string id ⇒ omit it so the OID is synthesised, or points won't render.
+> The full field-tested catalogue — reading traps as well as publishing ones, each with its status
+> against the current core — is **`strata/docs/troubleshooting.md`**. Read it before binding an app to
+> any service you did not publish yourself. Add new traps there, not here.
+
+- **The OID rule is directional.** When **publishing** to Strata Serve, the served FeatureServer's
+  `objectIdField` is **always `OBJECTID`**; `object_id_field` only picks the SOURCE column to cast, and a
+  string id ⇒ omit it so the OID is synthesised, or points won't render. When **consuming** any service
+  you did not publish, **never assume it** — read `objectIdFieldName` from the layer's own metadata. Real
+  services return `FID` while carrying a *different* column literally named `OBJECTID`, and some report
+  `objectIdFieldName: null` although an OID column exists (bind read-only). Selecting on the assumed field
+  highlights the wrong feature, silently.
 - **Do not use `esriSMSPath`** custom markers — use `esriSMSCircle`/`Square`/etc.
 - **Polygon fills need low alpha** (~40/255) so overlapping layers stay readable.
 - `tile_fields` (vector-tile attributes) ≠ popup fields; keep `tile_fields` small for performance.

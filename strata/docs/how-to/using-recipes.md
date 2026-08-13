@@ -52,13 +52,7 @@ component-config reference).
 
 ## Anatomy of a recipe
 
-Every recipe follows six stages plus the wizard:
-
-1. **Research** — the domain and the reference apps (cited).
-2. **UI design spec** — layout, KPIs, charts, tables, infographics, theme, typography (front-loaded).
-3. **Data sources** — the exact feature-service URLs and how each maps to the app.
-4. **Prompt-script** — the consecutive `/…` prompts that build and style the app.
-5. **Verify** — pass criteria, benchmarked against the reference app.
-6. **Harvest** — any gaps found become strata-app-builder issues/PRs.
-
-And the **`## Guided wizard`** section — the configuration questions Claude runs at launch.
+A recipe's required sections — and the rule that `/recipe` will **refuse to build** one whose §3 Data or
+§4 Verify is missing — are defined once, normatively, in
+[`../../../recipes/README.md`](../../../recipes/README.md) *"Recipe anatomy — the contract"*. Read it
+before writing one; don't re-derive the shape from an existing recipe.

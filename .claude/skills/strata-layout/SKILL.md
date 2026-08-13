@@ -38,6 +38,12 @@ replaces it.
   (`viewpoint`/`definitionExpression`/`activeLayers`) drives the map (store) — build exhibits/slideshows this
   way. **Accordion** (`kind:"accordion"`, `titles[]`) and **Flow Row** (`kind:"flow-row"`) are two more
   container primitives; any container takes an entrance `animate` (`fade`/`slide`/`scroll-reveal`).
+- **Dockable panels** (`kind:"panel"`): `dock` (`left`/`right`/`top`/`bottom`/`float`), `title`,
+  `collapsible` (default true), and **sizing** — `width` is the **starting** px along the dock axis (height
+  for top/bottom), `minWidth`/`maxWidth` (default 120/unbounded) bound the drag, and **`resizable` defaults
+  to `true`**: a grip on the edge facing the content drags the panel, arrow keys too. `resizable:false`
+  locks it. Same rule as `splitter`, and the same rule the `PanelShell` panels follow (`strata-panels`).
+  The size is session state — the authored `width` stays the source of truth.
 - **Design widgets**: `swipe` (two panes + draggable divider — drop two `map`s in to compare), `bookmarks`
   (saved viewpoints → fly-to via the store), `controller` (a tool dock — toggle buttons that show/hide
   panels, so a multi-tool app stays uncluttered; **put secondary panels behind a controller by default**),
@@ -63,3 +69,14 @@ accept an optional `bus` — pass it to make a category/row click cross-filter *
 - Each map instance owns its own store — pass the right `mapId` to page-side widgets.
 - The **app layout JSON is not `layers.json`** — keep them separate; the app references the map spec.
 - `mode:fixed` containers position absolutely (canvas overlays); `mode:flow` go in normal page flow.
+- **An author `display` rule beats the UA stylesheet's `[hidden]{display:none}`.** A `.splash{display:grid}`
+  meant `el.hidden = true` did nothing and the overlay sat over the app forever — then the same bug
+  reappeared on another control. Ship one global `[hidden]{display:none !important}` and assert **that
+  rule**, not the components you have found so far.
+- **A panel built inside a hidden container has no size** — fit or resize it on first reveal, not at
+  construction. The resize grips measure the live box on pointer-down for exactly this reason.
+- **A resized panel is session state, not a saved preference.** `splitter`, the `panel` node, and every
+  `PanelShell` keep the dragged size in React state: a reload returns to the authored `sizes`/`width`, so
+  the running app never disagrees with its own spec. An app that genuinely wants the size remembered owns
+  that itself (store it, and give the user a way to reset) — the library will not do it behind your back.
+- **Every side-by-side row needs `responsive.small`**, tested at phone width — not assumed.

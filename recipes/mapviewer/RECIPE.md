@@ -135,6 +135,42 @@ and status strip, so the component reads as "just a map" until you open a tool.*
 | `date-filter` | a layer with `source.timeField` | that time field | `WebMaps/dc.json` `dc-crashes` `REPORTDATE` |
 | `status-bar` | live map view | lng/lat/zoom/scale | runtime |
 
+## 7b · Verify each source first (terminal)
+
+**Reference recipe** (`../README.md` -> Two classes) — universal keyless sources, still probed.
+Literal output recorded **2026-08-11**.
+
+```bash
+B=https://maps2.dcgis.dc.gov/dcgis/rest/services
+
+#  layer                  path                                            oidField   geom      wkid    count
+#  dc-wards               OP/ACS_Economic_Characteristics/MapServer/57    null (!)   Polygon   26985       8
+#  dc-zip-codes           DCGIS_DATA/Location_WebMercator/FS/4            OBJECTID   Polygon    3857     172
+#  dc-bike-routes         DCGIS_DATA/Transportation_WebMercator/FS/6      OBJECTID   Polyline   3857   1,024
+#  dc-crashes             DCGIS_DATA/Public_Safety_WebMercator/FS/24      OBJECTID   Point      3857 352,414
+#  dc-affordable-housing  DCGIS_DATA/Property_and_Land_WebMercator/FS/62  OBJECTID   Point      3857     923
+#  dc-crash-details       DCGIS_DATA/Public_Safety_WebMercator/FS/25      OBJECTID   null      -      897,159
+
+# TRAP D1 - dc-wards reports objectIdField: null though an OBJECTID field exists. Bind READ-ONLY.
+# TRAP D2 - dc-wards is wkid 26985 (NAD83 / MD State Plane); its siblings are 3857. One server does
+#           NOT mean one spatial reference. Reproject on the way in; everything renders 4326.
+# TRAP D3 - dc-crashes is 352,414 features at maxRecordCount=1000 -> 353 pages. The map's
+#           definitionExpression narrows it to one quarter; never load it whole.
+curl -s "$B/DCGIS_DATA/Public_Safety_WebMercator/FeatureServer/24/query?where=1%3D1&returnCountOnly=true&f=json"
+#  -> {"count":352414}
+# TRAP D4 - dc-crash-details is a TABLE (geometryType null), 897,159 rows. Related records only.
+# TRAP D5 - dc-wards publishes 147 fields. A popup or table MUST name an explicit subset.
+# TRAP D6 - CORS REFLECTS THE ORIGIN; it does not send "*".
+curl -sI "$B/.../FeatureServer/24?f=json" | grep -i access-control
+#  -> (nothing)                      <- a HEAD with no Origin looks CORS-CLOSED
+curl -s -D- -o /dev/null -H "Origin: http://localhost:8042" "$B/.../FeatureServer/24?f=json" | grep -i access-control
+#  -> Access-Control-Allow-Origin: http://localhost:8042
+#     Always probe with an Origin header, or you will proxy a host that never needed one.
+```
+
+**Vintage:** DC open data refreshes continuously. Assert the *shape* — oid field, geometry type, spatial
+reference, field presence — and treat counts as order-of-magnitude.
+
 ## 8 · Capability sweep
 
 | Capability | Where MapViewer uses it |
@@ -182,7 +218,9 @@ G. Embed: because MapViewer has no outer chrome and fills its container, other a
 
 ## 11 · Verify · gaps · risks
 
-**Verify:** every dock panel opens as a floating window with no console errors · the active layer drives
+**Verify:** every dock panel opens as a floating window with no console errors · each floating panel
+**resizes** from its width grip, its height grip and its corner, and the arrow keys size a focused grip ·
+the active layer drives
 table/identify · measure/draw revert to `identify` when done · a table row zooms+flashes the map · a chart
 category filters it · the status-bar tracks the view · the whole component embeds in a parent and shares its
 store.

@@ -19,6 +19,7 @@ import type { ActionBus, FeatureSelectPayload, HoverPayload } from "@strata/acti
 import { LayerRegistry } from "./layers.js";
 import { applyBaseMap } from "./basemaps.js";
 import { queryExtent, type DataClient } from "./arcgisSource.js";
+import { featureByOid } from "./popups.js";
 import type { MapController } from "./MapController.js";
 
 export interface StoreBindingOptions {
@@ -38,6 +39,12 @@ export interface StoreBindingOptions {
   bus?: ActionBus;
   /** The map's own id, so it ignores echoes of triggers it emitted itself. */
   mapId?: string;
+  /**
+   * The popup surface from `initPopups`. Given it, a selection carrying `popup:true` opens **that
+   * record's** popup, and an empty selection closes it — so a table row and the map hold one state
+   * between them instead of two that can disagree.
+   */
+  popups?: { showFeature: (layerId: string, oid: number | string) => Promise<boolean>; close: () => void };
 }
 
 export interface StoreBinding {
@@ -171,8 +178,24 @@ export function bindStoreToMap(opts: StoreBindingOptions): StoreBinding {
     const onSelect = (t: { source?: string; payload: FeatureSelectPayload }): void => {
       if (t.source && opts.mapId && t.source === opts.mapId) return; // ignore own echoes
       if (!t.payload?.layerId) return;
-      store.getState().setSelection?.({ layerId: t.payload.layerId, oids: t.payload.oids });
-      if (t.payload.zoom) void zoomToLayer(t.payload.layerId);
+      const oids = t.payload.oids ?? [];
+      const layerId = t.payload.layerId;
+
+      // An EMPTY selection is a release, not a no-op: the row that adopted this record has been
+      // clicked again. Drop the highlight and take the popup down with it — a popup left open over
+      // a cleared selection is the app disagreeing with itself.
+      if (oids.length === 0) {
+        store.getState().setSelection?.(null);
+        registry.highlight(layerId, []);
+        opts.popups?.close();
+        return;
+      }
+
+      store.getState().setSelection?.({ layerId, oids });
+      // Fly to the RECORD, not to its layer. Fitting the whole layer for a single row is a
+      // non-answer: the user asked to see one feature and got the extent they already had.
+      if (t.payload.zoom) void zoomToFeature(layerId, oids[0]);
+      if ((t.payload as any).popup) void opts.popups?.showFeature(layerId, oids[0]);
     };
     busOffs.push(bus.on<FeatureSelectPayload>("featureSelect", onSelect));
     busOffs.push(bus.on<FeatureSelectPayload>("rowSelect", onSelect));
@@ -192,6 +215,24 @@ export function bindStoreToMap(opts: StoreBindingOptions): StoreBinding {
       }),
     );
   }
+
+  /**
+   * Fly to one feature. Uses the feature's own geometry (server-queried by its real OID field, or
+   * read from the loaded source), and eases in rather than jumping so the reader keeps their
+   * bearings. Falls back to the layer extent only when the record cannot be located — and says so
+   * by doing the thing it *can* do rather than nothing at all.
+   */
+  const zoomToFeature = async (layerId: string, oid: number | string): Promise<void> => {
+    const layer = store.getState().layers.find((l) => l.id === layerId);
+    if (!layer) return;
+    const found = await featureByOid(layer, oid, client, map).catch(() => null);
+    if (found) {
+      // Ease in rather than jump: a reader who clicked a row needs to see where the map went.
+      controller.flyTo(found.lngLat, Math.max(controller.getZoom(), 12));
+      return;
+    }
+    await zoomToLayer(layerId);
+  };
 
   const zoomToLayer = async (layerId: string): Promise<void> => {
     const layer = store.getState().layers.find((l) => l.id === layerId);

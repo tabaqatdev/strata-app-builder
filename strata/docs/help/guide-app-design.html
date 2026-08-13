@@ -89,9 +89,11 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link active" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
 <a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
 <a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
 <a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
@@ -101,9 +103,9 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="human language reference" href="reference-human-language.html">Human Language Reference</a>
 <a class="nav-link" data-title="command reference" href="reference-commands.html">Command reference</a>
 <a class="nav-link" data-title="troubleshooting" href="troubleshooting.html">Troubleshooting</a>
-</nav><main><div class="crumb">Guide</div><h1>Application design</h1><p class="lede">Silhouette, layout, wiring, theme — how to design a distinct, alive app.</p><p>How to design a strata-app-builder application — an <a href="../../packages/schema/src/types.ts"><code>AppLayout</code></a> rendered by
+</nav><main><div class="crumb">Guide</div><h1>Application design</h1><p class="lede">Silhouette, layout, wiring, theme — how to design a distinct, alive app.</p><p>How to design a strata-app-builder application — an <a href="..\..\packages\schema\src\types.ts"><code>AppLayout</code></a> rendered by
 <code>&lt;StrataApp&gt;</code> — so that it is <strong>visually distinct, immediately interactive, and honest about its data</strong>.
-This is the guideline the app templates in <a href="../../templates/README.md"><code>strata/templates/</code></a> follow; use it
+This is the guideline the app templates in <a href="..\..\templates\README.md"><code>strata/templates/</code></a> follow; use it
 whether you start from one of those templates or design from a blank page.</p>
 <h2 id="the-design-process">The design process</h2>
 <p>Design in this order, and resist skipping ahead to widgets:</p>
@@ -119,6 +121,47 @@ whether you start from one of those templates or design from a blank page.</p>
 <li><strong>Theme</strong> — one <code>ThemeSpec</code>, one accent, deliberate dark-or-light.</li>
 <li><strong>Verify</strong> — the checklist at the end of this page.</li>
 </ol>
+<h2 id="0-the-house-defaults-and-when-to-break-them">0 · The house defaults, and when to break them</h2>
+<p>These are what every app gets unless its business need genuinely conflicts. <strong>They are defaults, not
+laws</strong> — a recipe may override any of them, in writing, with the reason. What it may not do is depart
+silently: an unexplained deviation is indistinguishable from an oversight, and the next reader cannot
+tell which it was.</p>
+<p><strong>Shell.</strong> A header carrying the title and the controls that change the <em>reading</em>; a <strong>persistent notice
+bar</strong> for anything true as long as the data is on screen; a <strong>status line</strong> for transient progress. Never
+put a lasting caveat in the status line — load progress overwrites it and it never reaches anyone.</p>
+<p><strong>Map chrome.</strong> One inline-SVG control cluster, top-right, 32 px buttons on <code>currentColor</code> — <strong>zoom in ·
+zoom out · fit · layers · basemap · legend</strong>. MapLibre's own zoom control suppressed so there is exactly
+one set. Drawers (layers · basemap) open <strong>beside</strong> the cluster, never over it, and <strong>one at a time</strong>.
+Layer rows are checkboxes; <strong>basemap rows are radios</strong> carrying a live tile of the current area in that
+style, and the tick names the <strong>effective</strong> basemap even when the theme is choosing it. Legend
+bottom-left as its own control surface with live counts; coordinate/zoom/CRS readout bottom-right. Layers
+and basemap belong <strong>on the map</strong> — a reader looking at the map should not travel to a page header to
+change what it shows. On the React path this is <code>MapChrome</code>, on by default.</p>
+<p><strong>The legend filters; it does not fade.</strong> Click a class to hide it, shift-click to isolate, <code>Esc</code> clears
+— applied as a real <code>definitionExpression</code>, because a faded class is still clickable and a "hidden"
+feature can be selected through it. Every count keeps its denominator, and the panel says in words that
+isolating changes the map, not the reading.</p>
+<p><strong>Panels size to the reader.</strong> Every drawer, rail and docked panel carries a resize grip on the edge
+facing the content — draggable and arrow-key operable — bounded by a floor at which the panel is still
+readable. The authored width is where it <em>opens</em>, not where it must stay: the same rail is generous on a
+laptop, truncated on a projector, and eats the map on a tablet, and only the reader knows which they have.</p>
+<p><strong>Keyboard.</strong> <code>L</code> layers · <code>B</code> basemap · <code>G</code> legend · <code>F</code> fit · <code>←</code>/<code>→</code> step the signature dimension ·
+<code>Esc</code> unwinds <strong>one thing at a time</strong> (clear the filter first, only then climb a level). A focused resize
+grip takes <code>←</code>/<code>→</code> (or <code>↑</code>/<code>↓</code>) to size the panel, <code>Shift</code> for a bigger step.</p>
+<p><strong>Interaction floor.</strong> ≥3 live <code>connections</code> on first render. The signature loop works end-to-end and
+<strong>bidirectionally</strong> where it is master–detail. Whatever adopts also <strong>releases</strong>, with a visible
+affordance — a table row is the canonical case: click it and the map flies to <em>that record</em> and opens its
+popup; click it again and the selection clears and the popup closes. Exactly one population selected at a
+time. A deep link round-trips the reading.</p>
+<p><strong>Honesty surfaces.</strong> Every cap visible (<code>+N more</code>, <code>Capped, not complete</code>). Every filtered count keeps its
+denominator (<code>2 of 7</code>). Every active filter shown as a labelled chip with an <code>×</code> and a <strong>Clear all</strong>.
+Layers labelled with their real state — <em>off</em> · <em>N in view</em> · <em>none in this view</em> · <em>capped</em> ·
+<em>not mappable</em>.</p>
+<p><strong>Theme.</strong> One <code>--strata-*</code> token set; both modes clear <strong>4.5:1</strong> on every informational state, measured
+rather than eyeballed. Data colours identical in both themes. Semantic roles carry meaning, not emphasis.</p>
+<p><strong>Non-negotiable regardless of business need:</strong> keyless basemaps · EPSG:4326 · verified field names only ·
+nothing fabricated · read-only unless the recipe names a writable authenticated backend. These are not
+defaults; they are the contract.</p>
 <h2 id="1-choose-the-silhouette-first">1 · Choose the silhouette first</h2>
 <p>Apps read as one of four families. Within a product suite or demo gallery, adjacent apps should come from
 <em>different</em> families whenever possible:</p>
@@ -162,6 +205,130 @@ whether you start from one of those templates or design from a blank page.</p>
   all render as "map + left panel". Use at most two of them per suite, and let each lead with its signature
   accent (the buffer ring, the rank numerals, the clickable legend chips, the brushable charts).</li>
 </ul>
+<h3 id="named-archetypes-and-their-signature-loops">Named archetypes and their signature loops</h3>
+<p>A silhouette is a shape; an archetype is a shape <strong>plus the one interaction that justifies it</strong>. Pick the
+loop first — it is what a client recognises in ten seconds — then the shape follows. Templates marked with
+a file are already serialized in <a href="..\..\templates\README.md"><code>templates/</code></a>; the rest you compose.</p>
+<table>
+<thead>
+<tr>
+<th>Archetype</th>
+<th>The signature loop — the thing that <em>is</em> the app</th>
+<th>Template</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sidebar explorer</td>
+<td>legend class chip → <code>filter</code> via <code>setDefinition</code>, with live counts</td>
+<td><code>foldable</code></td>
+</tr>
+<tr>
+<td>Launchpad</td>
+<td>tools open as floating cards over a full-bleed map; nothing docked</td>
+<td><code>launchpad</code></td>
+</tr>
+<tr>
+<td>Ops command</td>
+<td>header selectors → <code>filter</code> everything; <code>extentChange</code> → recompute KPIs</td>
+<td><code>monitor</code></td>
+</tr>
+<tr>
+<td>Split dashboard</td>
+<td>the general-purpose default — pick something more specific unless nothing fits</td>
+<td><code>dash</code>, <code>collage</code></td>
+</tr>
+<tr>
+<td>Extent scoreboard</td>
+<td>every pan/zoom recomputes the stat strip (<code>extentChange</code> → <code>showStatistics</code>)</td>
+<td><code>summary</code></td>
+</tr>
+<tr>
+<td>Scroll story</td>
+<td>section scrolls into view → apply a map state diff</td>
+<td><code>parallax</code></td>
+</tr>
+<tr>
+<td>Time player</td>
+<td>slider → time <code>definitionExpression</code>; <code>featureSelect</code> → that feature's series</td>
+<td><code>timeline</code></td>
+</tr>
+<tr>
+<td>Insets grid</td>
+<td>shared <code>filterChange</code> → every pane; inset click → main <code>zoomTo</code></td>
+<td><code>multiverse</code></td>
+</tr>
+<tr>
+<td>Portfolio hub</td>
+<td>card → <code>navigate</code>; the front door that makes a family of apps a product</td>
+<td><code>gallery</code>, <code>epic</code></td>
+</tr>
+<tr>
+<td>Ranked list</td>
+<td><strong>the rank ORDER is the app</strong>; <code>rowSelect</code> ⇄ <code>featureSelect</code>, pin-to-compare tray</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Nearby finder</td>
+<td>search → geocode → buffer → <code>selectByGeometry</code> on N layers; <strong>the ring is the signature</strong></td>
+<td><code>leaflet</code> (partial)</td>
+</tr>
+<tr>
+<td>Zone lookup</td>
+<td>address → point-in-polygon → zoom, dim all others, one result card. One question, one answer</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Chart board</td>
+<td>brushable charts cross-filter the map and each other; filters stack into a chip row</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Triage console</td>
+<td><code>rowSelect</code> ⇄ <code>featureSelect</code> bidirectional; <strong>the table is the protagonist</strong></td>
+<td><code>dart</code> (partial)</td>
+</tr>
+<tr>
+<td>Media pager</td>
+<td>media pane ~70 %, map demoted to a locator; pager steps features</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Compare / swipe</td>
+<td>two panes or a draggable divider; <code>extentChange</code> syncs the sibling both ways</td>
+<td><code>checkerboard</code> (partial)</td>
+</tr>
+<tr>
+<td>Select &amp; export</td>
+<td>sketch → select → accumulating tray → <strong>the output document is the product</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>Exhibit slides</td>
+<td>each slide is a saved map state; <code>pageChange</code> applies the diff</td>
+<td><code>vacation</code>, <code>ribbon</code></td>
+</tr>
+<tr>
+<td>Atlas workbench</td>
+<td>the user composes the view from a catalog panel. The kitchen sink — use sparingly</td>
+<td><code>tab</code>, <code>jewelry-box</code></td>
+</tr>
+<tr>
+<td>Reporter</td>
+<td>public submit form + browse. <strong>Capture needs a writable, authenticated ESRI backend</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>Field trio</td>
+<td>composite: capture + triage + monitor as three pages behind a hub. Backend caveat as above</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Two findings behind this list, from inventorying a large published solutions catalogue: <strong>~151 solutions
+collapse to about 14 UI archetypes</strong> — differentiation lives in the data model, not the UI — and nearly
+every solution pairs an internal surface (console, dashboard) with a public one (lookup, transparency
+page). Reach for that two-persona symmetry before inventing a third shape.</p>
 <h2 id="2-layout-rules">2 · Layout rules</h2>
 <p>The <code>LayoutNode</code> tree gives you <code>row</code>, <code>column</code>, <code>grid</code>, <code>section</code>, <code>card</code>, <code>accordion</code>, <code>flow-row</code>,
 <code>splitter</code>, <code>panel</code>, <code>window</code>, and <code>views</code>. Guidance:</p>
@@ -173,8 +340,14 @@ whether you start from one of those templates or design from a blank page.</p>
   overlays (status bars, floating cards, windows) can be absolutely placed inside it. In scroll pages, give
   embedded map sections an explicit height and rounded corners — a full-bleed map inside prose reads as a
   bug, a framed one as a figure.</li>
-<li><strong>Panels vs splitters.</strong> Use <code>panel</code> (dockable, collapsible, fixed width) for tool drawers the user may
-  dismiss; use <code>splitter</code> when both sides are content the user will want to resize.</li>
+<li><strong>Panels vs splitters.</strong> Use <code>panel</code> (dockable, collapsible, resizable) for tool drawers the user may
+  dismiss; use <code>splitter</code> when both sides are content and neither is subordinate. Both resize — the choice
+  is about <em>what the region is</em>, not about which one the user can drag.</li>
+<li><strong>A panel width is a starting position, not a decision.</strong> Panels resize by default, so author <code>width</code> as
+  where the panel opens and <code>minWidth</code>/<code>maxWidth</code> as the range it stays useful in. Set the floor at the
+  width the panel is still readable at — that is the honest alternative to truncating labels to fit a size
+  the user could have fixed. Lock one with <code>resizable:false</code> only where the size is load-bearing, and say
+  so in the recipe.</li>
 <li><strong>Windows</strong> are for tools summoned on demand (launchpad pattern): declare them <code>open:false</code> and toggle
   them with a <code>showHide</code> connection from a <code>controller</code> or <code>button</code>.</li>
 <li><strong><code>views</code> is the state machine.</strong> Tabs for facets, <code>nav:"slides"</code> for guided sequences; attach a
@@ -278,15 +451,32 @@ power is the wiring matrix, not the vocabulary. Rules:</p>
 <li>[ ] ≥3 connections fire; the signature loop works end-to-end.</li>
 <li>[ ] Every <code>layerId</code> and field name is verified against the webmap.</li>
 <li>[ ] <code>responsive.small</code> collapses every side-by-side row; tested at phone width.</li>
+<li>[ ] Every panel resizes, from the pointer <strong>and</strong> the keyboard, within a floor that keeps it readable;
+      each <code>resizable:false</code> has its reason in the recipe.</li>
+<li>[ ] One control cluster on the map (zoom · fit · layers · basemap · legend), one drawer at a time, and
+      MapLibre's own zoom suppressed. The basemap drawer ticks the basemap actually in force.</li>
+<li>[ ] The legend filters rather than fades, isolates on shift-click, clears on <code>Esc</code>, and keeps every
+      denominator.</li>
+<li>[ ] A table row adopts its record (fly + popup) and <strong>releases it on a second click</strong> — nothing is left
+      selected on the map with nothing selected in the table.</li>
 <li>[ ] Theme: one accent, deliberate mode, semantic status colors where statuses exist.</li>
 <li>[ ] Basemap keyless; nothing blocks first paint on a slow tile.</li>
 <li>[ ] Write paths (if any) guarded behind an ESRI backend and degrade to read-only.</li>
 <li>[ ] Layout validates: registry widget types only — or a bespoke widget added under the freestyle
       charter in <code>recipes/COMPONENT-MANIFEST.md</code> §10 (app-local <code>registry</code> override honoring the
       widget contract), with a named fallback until it ships (<code>pnpm test</code> keeps the roster suite green).</li>
+<li>[ ] The app <strong>opens on a view where its own signature is visible.</strong> Confirmed by screenshot, not by
+      reasoning — an app has shipped that opened on the one view where its argument was invisible, with
+      every non-visual test green.</li>
+<li>[ ] Contrast measured, not eyeballed: every informational state ≥ 4.5:1 <strong>in both themes</strong>. Where one
+      hue must serve as both a fill and text, it is two tokens.</li>
+<li>[ ] Nothing synthesized. A lane with no data renders empty with its citation; every cap says so on
+      screen (<code>+N more</code>, <code>Capped, not complete</code>).</li>
 </ul>
+<p><em>Building the app, rather than designing it, has its own gate — the data-honesty, suite and runtime
+checks in <a href="..\guide\building-apps.md"><code>building-apps.md</code></a> §7, which starts from this checklist.</em></p>
 <h2 id="8-harvest-what-works">8 · Harvest what works</h2>
 <p>A good layout is an asset. When an open-design app earns reuse, serialize it, add a <code>strata:template</code>
 metadata block, and drop it into <code>strata/templates/</code> — the galleries pick it up automatically and the
 validation suite keeps it honest. Templates are just serialized app configs; treat yours as a library, not
-as one-offs.</p><div class="pager"><a class="prev" href="guide-creating-components.html"><small>Previous</small>Creating components</a><a class="next" href="how-to-create-app-layouts.html"><small>Next</small>Create an app layout</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>
+as one-offs.</p><div class="pager"><a class="prev" href="guide-creating-components.html"><small>Previous</small>Creating components</a><a class="next" href="guide-building-apps.html"><small>Next</small>Building an app</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

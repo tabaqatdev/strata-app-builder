@@ -14,3 +14,16 @@ Export via `@strata/export`. `/export image|pdf|report|atlas|share|map|layer …
 - **layer** — `exportLayerData(id, {format:'geoparquet'|'geojson'|'csv'})`.
 
 Used by the open-data hub for downloads, thumbnails, "open this map", and shareable deep-links.
+
+## Known traps
+
+- **An export carries its caveats with it.** A CSV leaves the app and is read with no chrome around it,
+  so any banding, apportionment or "advertised, not measured" qualifier belongs in the **file's own
+  header comment** — not only on the screen it came from.
+- **Export the current scope, and name it.** If a filter is active, the file is that subset; say which
+  in the header and in the filename, or a partial extract will be read as the whole register.
+- **`exportImage` returns a blank image** unless the MapLibre map was created with
+  `preserveDrawingBuffer: true`.
+- **A composed PDF is the default, not a bare screenshot** — legend, scalebar, north arrow, attribution.
+- **Never export a figure the suite has not asserted.** Everything in the file should come from the same
+  domain module the screen renders from.

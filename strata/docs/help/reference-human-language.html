@@ -89,9 +89,11 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
 <a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
 <a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
 <a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
@@ -106,8 +108,8 @@ person actually uses</strong> to get it. It's the bridge between "what a user sa
 <p><strong>Who this is for.</strong> Recipe authors and <code>/recipe</code> wizards: pull phrasing straight from here into a recipe's
 <strong><code>## Guided wizard</code></strong> questions and <strong><code>§ Prompt-script</code></strong> so the app makes good, idiomatic UI suggestions.
 Claude also reads this to reach for the right component by default. Pair it with
-<strong><a href="reference-components.html">Components, widgets &amp; skills</a></strong> (what each one <em>is</em>) and
-<a href="reference-commands.html">Command reference</a> (the exact command).</p>
+<strong><a href="..\reference\components.md">Components, widgets &amp; skills</a></strong> (what each one <em>is</em>) and
+<a href="..\reference\commands.md">Command reference</a> (the exact command).</p>
 <blockquote>
 <p><strong>Status key:</strong> ✅ shipped · 🔶 needs a writable/authenticated ESRI backend · 🟡 partial.</p>
 </blockquote>
@@ -255,6 +257,10 @@ Claude also reads this to reach for the right component by default. Pair it with
 <td>AttributeTablePanel (paging + windowing + CSV/GeoJSON export).</td>
 </tr>
 <tr>
+<td>"Clicking a row should fly the map there and open the popup — clicking again clears it." ✅</td>
+<td>Already shipped — that is the row gesture: adopt (fly + popup), click again to release (selection cleared, popup closed).</td>
+</tr>
+<tr>
 <td>"Add a panel of charts beside the map." ✅</td>
 <td>ChartPanel (ECharts/SVG; click cross-filters).</td>
 </tr>
@@ -286,6 +292,18 @@ Claude also reads this to reach for the right component by default. Pair it with
 <td>"Add an attachment viewer to page through photos." 🔶-write / ✅-read</td>
 <td>AttachmentViewer.</td>
 </tr>
+<tr>
+<td>"Let me drag the panel wider." / "Make the table panel resizable." ✅</td>
+<td>Already shipped — every panel resizes by default (drag the edge grip, or focus it and use the arrow keys).</td>
+</tr>
+<tr>
+<td>"Start the layer panel at 320px but let it go to 600." ✅</td>
+<td><code>defaultWidth: 320</code> + <code>maxWidth: 600</code> on the panel (<code>minWidth</code> for the floor).</td>
+</tr>
+<tr>
+<td>"Don't let users resize this one." ✅</td>
+<td><code>resizable: false</code> — for a panel whose size the design depends on.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="5-map-controls-tools">5 · Map controls &amp; tools</h2>
@@ -302,8 +320,32 @@ Claude also reads this to reach for the right component by default. Pair it with
 <td>Navigation / ScaleControl / StatusBar.</td>
 </tr>
 <tr>
+<td>"Put the zoom, fit, layers, basemap and legend controls on the map." ✅</td>
+<td>Already shipped — <code>MapChrome</code>, the house cluster, is the default whenever <code>navigation</code>/<code>layerList</code>/<code>basemapSwitcher</code> is on.</td>
+</tr>
+<tr>
+<td>"Move the controls to the other corner." ✅</td>
+<td><code>controls.position</code> (<code>top-left</code>) — the drawer follows, geolocate/fullscreen take the opposite corner.</td>
+</tr>
+<tr>
+<td>"Give me back the old always-open layer and basemap boxes." ✅</td>
+<td><code>controls.cluster: false</code>.</td>
+</tr>
+<tr>
 <td>"Add a legend."</td>
-<td>Legend.</td>
+<td>Legend — interactive by default.</td>
+</tr>
+<tr>
+<td>"Let me click the legend to hide a class, and isolate one." ✅</td>
+<td>Built in: click hides · shift-click isolates · <code>Esc</code> clears (a real <code>definitionExpression</code>, applied in place).</td>
+</tr>
+<tr>
+<td>"Show how many features are in each legend class." ✅</td>
+<td><code>counts</code> on the Legend — rows render <code>n of N</code>, keeping the denominator.</td>
+</tr>
+<tr>
+<td>"Make the legend a plain caption, not a control." ✅</td>
+<td><code>interactive: false</code>.</td>
 </tr>
 <tr>
 <td>"Let me measure distances and areas." / "Let me draw shapes."</td>
@@ -457,7 +499,7 @@ Claude also reads this to reach for the right component by default. Pair it with
 </tr>
 <tr>
 <td>"Dock a collapsible panel on the left." ✅</td>
-<td>A <code>panel</code> node (<code>dock</code> left/right/top/bottom/float).</td>
+<td>A <code>panel</code> node (<code>dock</code> left/right/top/bottom/float) — resizable by default; bound it with <code>minWidth</code>/<code>maxWidth</code>.</td>
 </tr>
 <tr>
 <td>"Add a header and footer." / "Show a splash intro on load." ✅</td>

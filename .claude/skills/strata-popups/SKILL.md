@@ -32,3 +32,12 @@ fallback.
 ## Traps
 Read real field names from the service. `format` applies to numeric fields only. Keep Arcade to the supported
 subset (`$feature.X`, arithmetic, `When/Iif/Decode/Round/Text`, comparisons) — anything else shows blank.
+
+- **Labels render but every value is blank on a MapServer layer.** `f=geojson` lower-cases every field
+  name while FeatureServer preserves case, so a canonically-cased `popupInfo` resolves to `undefined`
+  throughout. Core resolves exact-case then case-insensitively (`engine/popups.ts` `propValue`) — but any
+  lookup **you** write needs the same tolerance.
+- **A field can be published and empty on every row.** Profile `WHERE f IS NOT NULL AND f <> ''` before
+  putting a field in a popup: one register's two headline fields are blank on all 62,306 rows.
+- **A popup must name the caveat it inherits.** If a value is banded, apportioned or advertised rather
+  than measured, say so in the popup — not only in the panel that produced it.

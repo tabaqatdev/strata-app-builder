@@ -7,6 +7,16 @@
  * store via `setBaseMap`, then hands the same object to `onApplyBasemap` so the live map
  * can restyle. An "Add basemap" row appends a user-supplied tile/style URL to the list.
  *
+ * **A basemap is a radio, not a checklist** — exactly one is in force, so each row carries a round
+ * box and `role="radio"`, and the list is a `radiogroup`. Two rules the shipped build paid for:
+ *
+ *  - **Tick the EFFECTIVE basemap, not just an explicitly chosen one.** With "Follow the theme" on
+ *    — the default — an id-only test ticks nothing, so the panel offers five options and shows none
+ *    in force, leaving no way to tell which basemap you are looking at. "Follow the theme" says
+ *    HOW the choice is made; it does not stop there being a choice. Both rows tick.
+ *  - **The thumbnail is a live tile of the current area in that style.** A colour swatch cannot
+ *    tell Positron from Voyager.
+ *
  * Layout: renders inside a PanelShell, so it can be `mode="fixed"` (docked, default) or
  * `mode="floating"` (draggable overlay) with the Open / Remove context menu.
  */
@@ -45,6 +55,16 @@ export interface BasemapPanelProps {
    * The app persists `basemaps` (the full effective library) and `defaultId` into the ESRI Map JSON.
    */
   onLibraryChange?: (basemaps: BasemapOption[], defaultId: string | null) => void;
+  /**
+   * The live MapLibre map. Used only to compute the preview tile, so each row's thumbnail shows
+   * **this** area in that basemap's own style.
+   */
+  map?: any;
+  /**
+   * The app's theme mode. Offers a "Follow the theme" row that pairs a light UI with a light map;
+   * omit it and no such row is shown.
+   */
+  themeMode?: "light" | "dark";
   /** Layout mode passed through to PanelShell. Defaults to "fixed". */
   mode?: PanelMode;
   /** Convenience alias for `mode="floating"`. */
@@ -67,6 +87,35 @@ export function buildBaseMap(opt: BasemapOption): BaseMap {
     ? { id: opt.id, layerType: "VectorTileLayer", styleUrl: opt.style, copyright: opt.copyright }
     : { id: opt.id, layerType: "WebTiledLayer", templateUrl: opt.templateUrl, copyright: opt.copyright };
   return { title: opt.title, baseMapLayers: [layer] };
+}
+
+/**
+ * The z/x/y of a tile covering the current view. The thumbnail then **is** the style, here — which
+ * is the only way to tell two grey basemaps apart. Falls back to a world tile without a map.
+ */
+export function previewTile(map: any): { z: number; x: number; y: number } {
+  const c = map?.getCenter?.() ?? { lng: 0, lat: 20 };
+  const z = Math.max(2, Math.min(14, Math.round((map?.getZoom?.() ?? 4) - 2)));
+  const n = 2 ** z;
+  const lat = (Math.max(-85.05, Math.min(85.05, c.lat)) * Math.PI) / 180;
+  return {
+    z,
+    x: Math.floor(((c.lng + 180) / 360) * n),
+    y: Math.floor(((1 - Math.log(Math.tan(lat) + 1 / Math.cos(lat)) / Math.PI) / 2) * n),
+  };
+}
+
+/** Background style painting `opt`'s own tile for the current area. ESRI tokens and XYZ both work. */
+export function tileBackground(
+  opt: BasemapOption,
+  t: { z: number; x: number; y: number },
+): React.CSSProperties {
+  if (!opt.templateUrl) return {};
+  const url = opt.templateUrl
+    .replace(/\{level\}|\{z\}/g, String(t.z))
+    .replace(/\{col\}|\{x\}/g, String(t.x))
+    .replace(/\{row\}|\{y\}/g, String(t.y));
+  return { backgroundImage: `url('${url}')`, backgroundSize: "cover", backgroundPosition: "center" };
 }
 
 /** True when `bm` was built from `opt` (matched by the layer's style/template URL, else title). */
@@ -98,9 +147,17 @@ export function BasemapPanel(props: BasemapPanelProps): React.ReactElement {
   const [manage, setManage] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newUrl, setNewUrl] = useState("");
+  // "Follow the theme" is the default choice-maker when a themeMode is supplied.
+  const [auto, setAuto] = useState<boolean>(props.themeMode != null);
 
   // The effective library: the supplied/built-in options plus locally-added ones, minus deletions.
   const all = [...(props.basemaps ?? (OPEN_BASEMAPS as BasemapOption[])), ...extra].filter((o) => !removed.has(o.id));
+
+  // The basemap actually in force — explicit choice, or the one the theme is choosing.
+  const themed = all.find((o) => (o as any).mode === props.themeMode) ?? all[0];
+  const explicit = all.find((o) => matches(current, o));
+  const effective = auto ? themed : explicit ?? themed;
+  const tile = previewTile(props.map);
 
   const apply = (opt: BasemapOption): void => {
     const bm = buildBaseMap(opt);
@@ -165,20 +222,26 @@ export function BasemapPanel(props: BasemapPanelProps): React.ReactElement {
       className={props.className}
       style={{ ...panelStyle, ...props.style }}
     >
-      <ul style={listStyle}>
+      <ul style={listStyle} role="radiogroup" aria-label="Basemap">
         {all.map((opt) => {
-          const active = matches(current, opt);
+          const active = opt.id === effective?.id;
           const isDefault = opt.id === defaultId;
           return (
             <li
               key={opt.id}
+              role="radio"
+              aria-checked={active}
+              data-basemap={opt.id}
               style={{ ...rowStyle, ...(active ? activeRowStyle : null) }}
-              onClick={() => { if (!manage) apply(opt); }}
+              onClick={() => { if (!manage) { setAuto(false); apply(opt); } }}
             >
+              <span style={{ ...radioStyle, ...(active ? radioOnStyle : null) }} aria-hidden>
+                {active ? "✓" : ""}
+              </span>
               {opt.thumbnail ? (
                 <img src={opt.thumbnail} alt="" style={thumbStyle} />
               ) : (
-                <div style={{ ...thumbStyle, ...thumbPlaceholderStyle }} />
+                <div style={{ ...thumbStyle, ...thumbPlaceholderStyle, ...tileBackground(opt, tile) }} />
               )}
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontWeight: active ? 600 : 400, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
@@ -186,18 +249,34 @@ export function BasemapPanel(props: BasemapPanelProps): React.ReactElement {
                 </div>
                 <div style={subtitleStyle}>{opt.style ? "Vector" : "Raster"}</div>
               </div>
-              {manage ? (
+              {manage && (
                 <div style={{ display: "flex", gap: 4 }} onClick={(e) => e.stopPropagation()}>
                   <button style={miniBtnStyle} title="Set as default" disabled={isDefault} onClick={() => setDefault(opt)}>Set default</button>
                   <button style={{ ...miniBtnStyle, ...miniDangerStyle }} title="Remove basemap" onClick={() => removeBasemap(opt)}>Delete</button>
                 </div>
-              ) : (
-                active && <span style={checkStyle}>✓</span>
               )}
             </li>
           );
         })}
+        {props.themeMode != null && (
+          <li
+            role="radio"
+            aria-checked={auto}
+            data-basemap="auto"
+            style={{ ...rowStyle, ...(auto ? activeRowStyle : null) }}
+            onClick={() => { setAuto(true); if (themed) apply(themed); }}
+          >
+            <span style={{ ...radioStyle, ...(auto ? radioOnStyle : null) }} aria-hidden>{auto ? "✓" : ""}</span>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontWeight: auto ? 600 : 400 }}>Follow the theme</div>
+              <div style={subtitleStyle}>light UI → light map</div>
+            </div>
+          </li>
+        )}
       </ul>
+      <p style={houseRuleStyle}>
+        No keyed or proprietary provider is offered — that is a house rule, not an omission.
+      </p>
 
       {manage && (
         <div style={addRowStyle}>
@@ -228,6 +307,25 @@ const rowStyle: React.CSSProperties = {
   borderBottom: "1px solid #f5f5f5",
 };
 const activeRowStyle: React.CSSProperties = { background: "#eef5ff" };
+// Round box = exactly one is in force. A square box would promise multi-select the map cannot honour.
+const radioStyle: React.CSSProperties = {
+  flex: "0 0 15px",
+  height: 15,
+  borderRadius: "50%",
+  border: "1.5px solid #9aa3af",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: 11,
+  lineHeight: 1,
+};
+const radioOnStyle: React.CSSProperties = { background: "#2b6cb0", borderColor: "#2b6cb0", color: "#fff" };
+const houseRuleStyle: React.CSSProperties = {
+  fontSize: 10.5,
+  color: "#888",
+  lineHeight: 1.4,
+  margin: "7px 12px 10px",
+};
 const thumbStyle: React.CSSProperties = { width: 40, height: 40, borderRadius: 4, objectFit: "cover", flexShrink: 0 };
 const thumbPlaceholderStyle: React.CSSProperties = {
   background: "linear-gradient(135deg,#dfe7f1,#b9c7dd)",

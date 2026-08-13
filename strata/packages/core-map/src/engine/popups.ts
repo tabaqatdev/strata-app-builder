@@ -17,7 +17,7 @@
  * measure/sketch interaction can own the canvas without spawning popups.
  */
 import type { OperationalLayer } from "@strata/schema";
-import type { DataClient } from "./arcgisSource.js";
+import { fetchMeta, loadFeatures, type DataClient } from "./arcgisSource.js";
 import type { InteractionMode } from "@strata/state";
 import { transpileArcade } from "@strata/arcade";
 import { categorical } from "@strata/theme";
@@ -40,9 +40,34 @@ export interface PopupOptions {
   onFeatureSelect?: (feature: unknown) => void;
 }
 
-export function initPopups(opts: PopupOptions): () => void {
+/**
+ * The popup surface. Returned by {@link initPopups} — it is callable (the dispose function, so
+ * `const off = initPopups(…); off()` still works) and carries the programmatic controls a
+ * selection elsewhere needs: a table row adopting a record opens **that record's** popup, and
+ * releasing the row closes it.
+ */
+export interface PopupSurface {
+  (): void;
+  /** Open the popup for one feature, by OID. Resolves false when the feature cannot be located. */
+  showFeature: (layerId: string, oid: number | string) => Promise<boolean>;
+  /** Close whatever popup is open. Safe to call when none is. */
+  close: () => void;
+}
+
+export function initPopups(opts: PopupOptions): PopupSurface {
   const { map, maplibregl, target = "canvas", client = {} } = opts;
   const getLayers = typeof opts.layers === "function" ? opts.layers : () => opts.layers as OperationalLayer[];
+  // ONE popup at a time. Without a tracked instance every click leaves its predecessor on the map,
+  // and nothing can close a popup that was opened by a click somewhere else.
+  let current: any = null;
+  const closeCurrent = (): void => {
+    try {
+      current?.remove?.();
+    } catch {
+      /* already gone with the map */
+    }
+    current = null;
+  };
 
   const onClick = (e: any) => {
     if (opts.getInteractionMode && opts.getInteractionMode() !== "identify") return;
@@ -58,10 +83,12 @@ export function initPopups(opts: PopupOptions): () => void {
       const html = renderPopup(res.properties, res.layer.popupInfo);
       let rootEl: HTMLElement | null = null;
       if (target === "canvas") {
+        closeCurrent();
         const popup = new maplibregl.Popup({ maxWidth: "340px", closeOnClick: false })
           .setLngLat(e.lngLat)
           .setHTML(html)
           .addTo(map);
+        current = popup;
         rootEl = popup.getElement?.() ?? null;
       } else {
         renderToSlot(target, html);
@@ -83,7 +110,117 @@ export function initPopups(opts: PopupOptions): () => void {
     });
   };
   map.on("click", onClick);
-  return () => map.off("click", onClick);
+
+  /** Open the popup for one record — the map half of "click a row, see that feature". */
+  const showFeature = async (layerId: string, oid: number | string): Promise<boolean> => {
+    const layer = getLayers().find((l) => l.id === layerId);
+    if (!layer) return false;
+    const found = await featureByOid(layer, oid, client, map);
+    if (!found) return false;
+    const html = renderPopup(found.properties, layer.popupInfo);
+    if (target !== "canvas") {
+      renderToSlot(target, html);
+      return true;
+    }
+    closeCurrent();
+    const popup = new maplibregl.Popup({ maxWidth: "340px", closeOnClick: false })
+      .setLngLat(found.lngLat)
+      .setHTML(html)
+      .addTo(map);
+    current = popup;
+    const rootEl = popup.getElement?.() ?? null;
+    if (rootEl && layer.popupInfo) {
+      const objectId = objectIdOf(found.properties, found.feature);
+      const layerUrl = layer.url || layer.source?.url;
+      if (objectId != null && layerUrl) {
+        void enrichPopupElements(rootEl, {
+          objectId,
+          layerUrl,
+          popupInfo: layer.popupInfo,
+          token: (client as any)?.token,
+        });
+      }
+    }
+    return true;
+  };
+
+  const surface = (() => {
+    map.off("click", onClick);
+    closeCurrent();
+  }) as PopupSurface;
+  surface.showFeature = showFeature;
+  surface.close = closeCurrent;
+  return surface;
+}
+
+/**
+ * Locate one feature by OID and give back its properties and a point to anchor a popup at.
+ *
+ * Server-backed layers are re-queried on their **own** OID field — never an assumed `OBJECTID`,
+ * because a service can report `FID` while carrying a different column literally named `OBJECTID`.
+ * GeoJSON-backed layers are read from the loaded source instead, so an offline map still works.
+ */
+export async function featureByOid(
+  layer: OperationalLayer,
+  oid: number | string,
+  client: DataClient,
+  map: any,
+): Promise<{ properties: Record<string, unknown>; lngLat: [number, number]; feature?: any } | null> {
+  const url = layer.url || layer.source?.url;
+  const serverBacked = layer.source?.kind === "arcgis-feature" || layer.source?.kind === "strata";
+
+  if (serverBacked && url) {
+    try {
+      const meta = await fetchMeta(url, client).catch(() => null);
+      const oidField = meta?.oidField || "OBJECTID";
+      const n = Number(oid);
+      const where = Number.isFinite(n) ? `${oidField} = ${n}` : `${oidField} = '${String(oid).replace(/'/g, "''")}'`;
+      const fc = await loadFeatures(url, client, { where, outFields: "*", cap: 1 });
+      const f = fc.features[0];
+      if (f) {
+        const at = centroidOf(f.geometry);
+        if (at) return { properties: (f.properties ?? {}) as Record<string, unknown>, lngLat: at, feature: f };
+      }
+    } catch {
+      /* fall through to the rendered source */
+    }
+  }
+
+  // GeoJSON / already-loaded source.
+  try {
+    const data = map?.getSource?.(`lyr:${layer.id}`)?._data;
+    const feats: any[] = data?.features ?? [];
+    const hit = feats.find((f) => {
+      const p = f.properties ?? {};
+      return String(f.id ?? p.OBJECTID ?? p.objectid ?? p.FID ?? p.fid ?? "") === String(oid);
+    });
+    if (hit) {
+      const at = centroidOf(hit.geometry);
+      if (at) return { properties: (hit.properties ?? {}) as Record<string, unknown>, lngLat: at, feature: hit };
+    }
+  } catch {
+    /* no source, no anchor */
+  }
+  return null;
+}
+
+/** Average of every coordinate — good enough to hang a popup on, for any geometry type. */
+export function centroidOf(geometry: any): [number, number] | null {
+  if (!geometry) return null;
+  let n = 0;
+  let x = 0;
+  let y = 0;
+  const walk = (c: any): void => {
+    if (typeof c?.[0] === "number" && typeof c?.[1] === "number") {
+      x += c[0];
+      y += c[1];
+      n += 1;
+      return;
+    }
+    if (Array.isArray(c)) c.forEach(walk);
+  };
+  walk(geometry.coordinates);
+  return n ? [x / n, y / n] : null;
 }
 
 /** Render popup HTML into a page-slot element (surface="page"). No-op if the slot is missing. */

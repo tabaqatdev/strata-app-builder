@@ -8,7 +8,7 @@ behaviors that matter, and whether a test exercises them. Regenerate with
 
 **Status:** ✅ covered · 🟡 partial · 🌐 browser-only · ⬜ no test yet
 
-**Totals:** 78 tests green. Components with a dedicated test file: **23 / 32**. Behaviors covered: **78 / 119** (66%). Open items: **39**.
+**Totals:** 209 tests green. Components with a dedicated test file: **24 / 32**. Behaviors covered: **130 / 170** (76%). Open items: **38**.
 
 ## Widgets (14 / 14) — Tier 1 · pure / presentational
 
@@ -33,23 +33,23 @@ behaviors that matter, and whether a test exercises them. Regenerate with
 
 | Component | Cov. | Behaviors |
 |---|---|---|
-| `Legend` | 7/9 | ✅ legendRows: simple renderer + rgba coercion<br>✅ legendRows: uniqueValue + default row<br>✅ legendRows: classBreaks rows<br>✅ legendRows: [] when no renderer<br>✅ component: group title + row per class<br>✅ visibleOnly hides non-visible → null<br>✅ visibleOnly=false includes hidden<br>⬜ heatmap renderer row<br>⬜ swatch shape point / line / fill |
+| `Legend` | 29/31 | ✅ legendRows: simple renderer + rgba coercion<br>✅ legendRows: uniqueValue + default row<br>✅ legendRows: classBreaks rows<br>✅ legendRows: [] when no renderer<br>✅ component: group title + row per class<br>✅ visibleOnly hides non-visible → null<br>✅ visibleOnly=false includes hidden<br>✅ interactive: click hides → NOT IN definitionExpression<br>✅ interactive: shift-click isolates → IN<br>✅ interactive: shift-click again releases the isolate<br>✅ interactive: Esc clears every legend filter<br>✅ interactive: counts keep their denominator (n of N)<br>✅ interactive: says isolating changes the map, not the reading<br>✅ interactive:false renders a static caption<br>✅ interactive: emits categorySelect on the bus<br>✅ legendWhere: classBreaks isolate → range predicate<br>✅ legendWhere: null when the renderer names no field<br>✅ MapChrome: six-glyph cluster in order<br>✅ MapChrome: cluster zooms the map<br>✅ MapChrome: one drawer at a time; same button closes<br>✅ MapChrome: drawer opens beside the cluster<br>✅ MapChrome: layer rows are checkboxes → store visibility<br>✅ MapChrome: basemap rows are radios<br>✅ MapChrome: ticks the effective basemap under Follow-the-theme<br>✅ MapChrome: an explicit pick takes over from the theme<br>✅ MapChrome: rows carry a live tile of the current area<br>✅ MapChrome: states the keyless house rule<br>✅ MapChrome: L/B/G/F drive it, Esc closes<br>✅ MapChrome: does not steal keystrokes from an input<br>⬜ heatmap renderer row<br>⬜ swatch shape point / line / fill<br>_MapChrome is covered here rather than in a file of its own (chrome + legend are one surface)._ |
 | `StatusBar` | 3/5 | ✅ zoom / CRS / placeholder readout<br>✅ coordinate updates on mousemove<br>✅ crs prop honored<br>⬜ scale (1:N) computation<br>⬜ showCoords / showZoom / showScale toggles |
 | `TimeSlider` | 4/6 | ✅ instant `<=` clause, fires on mount<br>✅ window BETWEEN clause<br>✅ re-applies filter on slider move<br>✅ play advances + label flips<br>⬜ pause stops / loops at max<br>⬜ custom formatLabel |
 | `MeasureControl` | 2/4 | ✅ distance / area buttons render<br>✅ reverts store to identify on unmount<br>⬜ arm → measure → readout flow<br>⬜ setInteractionMode('measure')<br>_Full flow needs a faked lazy TerraDraw module — shared with SketchControl._ |
 | `NativeControls` | 0/1 | 🌐 mounts NavigationControl + ScaleControl<br>_Imperative maplibre calls — verified via the browser smoke test._ |
 | `SketchControl` | 0/1 | ⬜ sketch mode transitions + geometry<br>_Same lazy-TerraDraw shape as MeasureControl; unlocked by one shared fake._ |
 
-## Panels (5 / 9) — docked / floating UI
+## Panels (6 / 9) — docked / floating UI
 
 | Component | Cov. | Behaviors |
 |---|---|---|
 | `LayerPanel` | 5/7 | ✅ row per layer + empty state<br>✅ toggle → store.setVisibility<br>✅ range → store.setOpacity<br>✅ row click → setActiveLayer<br>✅ remove → store.removeLayer<br>⬜ reorder move up / down<br>⬜ rename + add-layer flow |
-| `BasemapPanel` | 4/6 | ✅ buildBaseMap: vector (style)<br>✅ buildBaseMap: raster (tiled)<br>✅ lists basemap options<br>✅ click → setBaseMap + onApplyBasemap<br>⬜ active ✓ indicator<br>⬜ add-basemap flow |
-| `AttributeTablePanel` | 4/6 | ✅ inferred columns + row count<br>✅ field aliases on headers<br>✅ row click → onRowSelect + bus (numeric OID)<br>✅ per-column filter<br>⬜ sort on header click<br>⬜ column hide/show + CSV export |
+| `BasemapPanel` | 13/14 | ✅ buildBaseMap: vector (style)<br>✅ buildBaseMap: raster (tiled)<br>✅ lists basemap options<br>✅ click → setBaseMap + onApplyBasemap<br>✅ is a radiogroup, not a checklist<br>✅ always ticks the basemap in force, before any choice<br>✅ an explicit choice moves the tick<br>✅ Follow the theme ticks with the map it chooses<br>✅ no Follow-the-theme row without a themeMode<br>✅ rows paint that basemap's own tile for the current view<br>✅ states the keyless house rule<br>✅ previewTile: derives a tile for the view<br>✅ previewTile: survives no map; clamps zoom + poles<br>⬜ add-basemap flow |
+| `AttributeTablePanel` | 14/16 | ✅ inferred columns + row count<br>✅ field aliases on headers<br>✅ row click → onRowSelect + bus (numeric OID)<br>✅ per-column filter<br>✅ toGeoJson: FeatureCollection from the accessor<br>✅ toGeoJson: null geometry without an accessor<br>✅ GeoJSON export button triggers a download<br>✅ server pager → onPageChange with the next offset<br>✅ windows rows past the virtualization threshold<br>✅ bound source: filtered view + select into the source<br>✅ row adopts the record — fly + popup<br>✅ same row again RELEASES it (empty oids, popup closed)<br>✅ a different row moves the selection (one at a time)<br>✅ release clears the bound source's selection too<br>⬜ sort on header click<br>⬜ column hide/show + CSV export |
 | `CartoPanel` | 4/6 | ✅ lists store layers<br>✅ visibility toggle via store<br>✅ category widget → onFilter + bus<br>✅ add-widget spec<br>⬜ remove widget / clear filter<br>⬜ formula / histogram / timeseries widgets |
 | `EditPanel` | 3/5 | ✅ advisory + editable fields (not OBJECTID)<br>✅ disabled when no FeatureServer url<br>✅ Save → applyEdits update + success<br>⬜ add mode + delete<br>⬜ field-type coercion |
-| `PanelShell` | 1/2 | 🟡 title / menu / close (via every panel)<br>⬜ drag / resize / floating chrome<br>_Exercised indirectly through all panels; no dedicated test._ |
+| `PanelShell` | 12/13 | ✅ resizable by default — docked panel gets a width grip only<br>✅ floating panel adds height + corner grips<br>✅ no grips when resizable={false}<br>✅ width grip drag applies the new width<br>✅ clamps to minWidth/maxWidth; a clamped drag returns with the pointer<br>✅ arrow keys resize a focused grip (Shift = coarser step)<br>✅ a locked panel ignores keyboard as well as pointer<br>✅ floating height drag overrides the shell maxHeight<br>✅ corner grip drags both axes<br>✅ onResize reports the new box<br>✅ a grip drag does not move a floating panel (header drag stays separate)<br>🟡 title / menu / close (via every panel)<br>⬜ header drag-to-move geometry<br>_Dedicated suite covers the resize chrome; title/menu/close still ride on the panel suites._ |
 | `ChartPanel` | 0/1 | ⬜ chart over attribute rows<br>_EASY next add — static rows like AttributeTablePanel._ |
 | `AttachmentViewer` | 0/1 | ⬜ attachment pager + media view<br>_Needs a fake DataClient returning attachment infos._ |
 | `AskPanel` | 0/1 | ⬜ conversational query UI<br>_AI layer is OFF this release — intentionally deprioritized._ |
@@ -95,7 +95,6 @@ behaviors that matter, and whether a test exercises them. Regenerate with
 
 - ⬜ `LayerPanel` — reorder move up / down
 - ⬜ `LayerPanel` — rename + add-layer flow
-- ⬜ `BasemapPanel` — active ✓ indicator
 - ⬜ `BasemapPanel` — add-basemap flow
 - ⬜ `AttributeTablePanel` — sort on header click
 - ⬜ `AttributeTablePanel` — column hide/show + CSV export
@@ -104,7 +103,7 @@ behaviors that matter, and whether a test exercises them. Regenerate with
 - ⬜ `EditPanel` — add mode + delete
 - ⬜ `EditPanel` — field-type coercion
 - 🟡 `PanelShell` — title / menu / close (via every panel)
-- ⬜ `PanelShell` — drag / resize / floating chrome
+- ⬜ `PanelShell` — header drag-to-move geometry
 - ⬜ `ChartPanel` — chart over attribute rows
 - ⬜ `AttachmentViewer` — attachment pager + media view
 - ⬜ `AskPanel` — conversational query UI
@@ -115,4 +114,4 @@ behaviors that matter, and whether a test exercises them. Regenerate with
 - ⬜ `ErrorBoundary` — renders fallback on child throw
 - ⬜ `i18n` — key lookup + {var} + RTL direction
 
-_Generated 2026-07-15._
+_Generated 2026-08-12._

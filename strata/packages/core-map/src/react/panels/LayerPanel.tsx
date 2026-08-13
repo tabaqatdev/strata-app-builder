@@ -32,7 +32,7 @@ export interface LayerPanelProps {
   /** Fit/zoom the live map to a layer's extent. */
   onZoomTo?: (layerId: string) => void;
   /** Highlight a set of OBJECTIDs on the live map. */
-  onHighlight?: (layerId: string, oids: number[]) => void;
+  onHighlight?: (layerId: string, oids: Array<number | string>) => void;
   /** Open the attribute table for a layer (app decides how to render it). */
   onOpenTable?: (layerId: string) => void;
   /** "Show table" per-row action — falls back to `onOpenTable` when omitted. */

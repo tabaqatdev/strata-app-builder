@@ -89,9 +89,11 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
 <a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
 <a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
 <a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
@@ -156,8 +158,8 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <td>Author an ESRI <code>popupInfo</code> (media images/charts, attachments, related records, Arcade <code>expressionInfos</code>).</td>
 </tr>
 <tr>
-<td><code>/panel &lt;filter\|date-filter\|feature-info\|list\|table\|statistics\|chart\|carto\|edit\|attachment\|time-series\|statusbar\|swipe\|bookmarks\|data-actions&gt; &lt;layer&gt; [--surface --slot]</code></td>
-<td>Add an advanced panel (<code>filter</code>/<code>date-filter</code> query UIs, <code>feature-info</code> docked detail, <code>data-actions</code> = WIF quick-action menu).</td>
+<td><code>/panel &lt;filter\|date-filter\|feature-info\|list\|table\|statistics\|chart\|carto\|edit\|attachment\|time-series\|statusbar\|swipe\|bookmarks\|data-actions&gt; &lt;layer&gt; [--surface --slot --width --min-width --max-width --no-resize]</code></td>
+<td>Add an advanced panel (<code>filter</code>/<code>date-filter</code> query UIs, <code>feature-info</code> docked detail, <code>data-actions</code> = WIF quick-action menu). Panels are <strong>resizable by default</strong>: <code>--width</code> is the starting size, <code>--min-width</code>/<code>--max-width</code> bound the drag, <code>--no-resize</code> locks it.</td>
 </tr>
 <tr>
 <td><code>/timeslider &lt;id&gt; --field &lt;t&gt; [--mode instant\|window --range --step]</code></td>
@@ -278,15 +280,15 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 </thead>
 <tbody>
 <tr>
-<td><a href="reference-components.html">Components, widgets &amp; skills</a></td>
+<td><a href="..\reference\components.md">Components, widgets &amp; skills</a></td>
 <td>Purpose/scope of every package, panel, widget, and skill — and how they fit together.</td>
 </tr>
 <tr>
-<td><a href="reference-human-language.html">Human Language Reference</a></td>
+<td><a href="..\reference\human-language.md">Human Language Reference</a></td>
 <td>The phrase to ask for each component (recipe fuel).</td>
 </tr>
 <tr>
-<td><a href="guide-creating-components.html">Creating a new component/widget/plugin</a></td>
+<td><a href="..\guide\creating-components.md">Creating a new component/widget/plugin</a></td>
 <td>Prerequisites + the recipe for extending the core.</td>
 </tr>
 </tbody>

@@ -22,3 +22,13 @@ Use `@strata/export` (all really implemented — no stubs):
 - **layer** — `exportLayerData(id, { format })` → GeoJSON / CSV `Blob` download; GeoParquet is server-side.
 
 Report the output path/URL.
+
+## Traps
+
+- **The file carries its caveats.** A CSV is read with no chrome around it, so any banding,
+  apportionment, or "advertised, not measured" qualifier belongs in the **file's own header comment**.
+- **Export the current scope, and name it** — in the header and the filename. A filtered extract with no
+  label will be read as the whole register.
+- **`exportImage` returns a blank image** unless the map was created with `preserveDrawingBuffer: true`.
+- **Default to a composed PDF**, not a bare screenshot: legend, scalebar, north arrow, attribution.
+- **Export only figures the suite asserts** — the same domain module that renders the screen.

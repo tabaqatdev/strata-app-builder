@@ -89,9 +89,11 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
 <a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
 <a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
 <a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
@@ -134,10 +136,10 @@ reference material, and build config — lives in <code>strata/</code></strong>;
 <h2 id="stratatemplates-the-app-template-roster"><code>strata/templates/</code> — the app template roster</h2>
 <p>30 serialized <code>AppLayout</code> JSONs — ready-to-render app silhouettes (map-centric, dashboard, web-page, grid) —
 demonstrated against <code>WebMaps/dc.json</code> / <code>md.json</code> and validated by <code>packages/schema/tests/templates.test.ts</code>.
-See <a href="../../templates/README.md"><code>templates/README.md</code></a> and the
-<a href="guide-app-design.html">application design guideline</a>.</p>
-<h2 id="stratapackages-the-code-18-packages"><code>strata/packages/</code> — the code (18 packages)</h2>
-<p>See <strong><a href="reference-components.html">Components, widgets &amp; skills</a></strong> for the purpose/scope of each and how they
+See <a href="..\..\templates\README.md"><code>templates/README.md</code></a> and the
+<a href="..\guide\app-design.md">application design guideline</a>.</p>
+<h2 id="stratapackages-the-code-20-packages"><code>strata/packages/</code> — the code (20 packages)</h2>
+<p>See <strong><a href="..\reference\components.md">Components, widgets &amp; skills</a></strong> for the purpose/scope of each and how they
 compose.
 - <strong><code>@strata/schema</code></strong> — the contract: <code>layers.json</code> (ESRI Web Map) + the <code>AppLayout</code> (containers, <code>ViewsNode</code>,
   <code>Connection</code>) + the catalog record (JSON Schema + TS).
@@ -168,7 +170,7 @@ compose.
 <ul>
 <li><strong>Vitest</strong>, ~410 unit tests across the packages. Each package has its own <code>vitest.config.ts</code>; a root
   <code>strata/vitest.workspace.ts</code> runs them all. Run from inside <code>strata/</code>: <code>pnpm test</code>. Add tests for behavior
-  changes — see <a href="guide-creating-components.html">Creating a new component/widget/plugin</a>.</li>
+  changes — see <a href="..\guide\creating-components.md">Creating a new component/widget/plugin</a>.</li>
 </ul>
 <h2 id="stratareference-runnable-references"><code>strata/reference/</code> — runnable references</h2>
 <ul>
@@ -178,7 +180,7 @@ compose.
 <ul>
 <li>Four ready-to-use <code>layers.json</code> maps (<code>world</code> · <code>usa</code> · <code>country</code> · <code>state</code>) that <strong>first run copies into a
   new app</strong> so the Layer panel is never empty. Genuine ESRI Web Map JSON, pastel-styled, OSM basemap. See
-  <a href="guide-map-templates.html"><code>guide/map-templates.md</code></a>.</li>
+  <a href="..\guide\map-templates.md"><code>guide/map-templates.md</code></a>.</li>
 </ul>
 <h2 id="recipes-your-workspace-repo-root"><code>recipes/</code> — your workspace (repo root)</h2>
 <ul>

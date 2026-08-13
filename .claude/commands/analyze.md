@@ -30,3 +30,21 @@ layer** in `layers.json` (with sensible `@strata/theme` symbology) and report it
    drop a **statistics/analysis panel** (`/panel statistics`) bound to it.
 
 Everything is EPSG:4326. Recipe: **`vector-analysis`**.
+
+## Measurement traps — a wrong number here is invisible
+
+- **Never report length from `Shape__Length` on a Web-Mercator (102100) layer.** It is Mercator metres,
+  inflated by 1/cos(latitude) — one network measured 21 % long that way. Compute geodesically.
+- **Never measure on generalised geometry.** Drawing tolerance (~0.0005° ≈ 55 m) is for paint only;
+  fetch full resolution for any measurement.
+- **`make_valid` before an overlay, and never swallow a failure.** A probe with a bare
+  `except: continue` silently dropped 5 of 13 polygons and published *53 of 91 miles* when the answer was
+  **91.05 of 91.05**. A caught-and-continued measurement is data corruption that reports success.
+- **Cumulative fields do not sum.** Upstream drainage area double-counts every confluence — ask what a
+  field accumulates before aggregating it, and reconcile the total against a published figure.
+- **Do not snap boundaries to vertices.** Snapping band edges to the nearest vertex manufactured a
+  hairline "evaluated, and not zoned" sliver between two abutting unevaluated polygons — painting *an
+  authority looked and found nothing* onto ground nobody had looked at. Refine by bisection.
+- **POST long geometries as a form body** — a 1,352-vertex polyline exceeds the shell's `ARG_MAX`.
+- **Reproduce the result independently** in the suite, and assert it. A figure the app computes and
+  nothing checks is a figure nobody can defend.

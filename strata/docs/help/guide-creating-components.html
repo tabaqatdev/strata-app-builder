@@ -89,9 +89,11 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
 <a class="nav-link active" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
 <a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
 <a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
 <a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
@@ -119,7 +121,7 @@ enforced by the conventions in <code>.claude/CLAUDE.md</code> and verified by th
    graceful fallback. Add a hard dependency only inside a dedicated package.</li>
 <li><strong>Two halves or it isn't done.</strong> Ship the <strong>runtime</strong> (the component) <em>and</em> the <strong>authoring default</strong> (the
    <code>.claude</code> skill/command that makes Claude reach for it) — plus <strong>Vitest tests</strong> and a
-   <strong><a href="reference-human-language.html">Human Language Reference</a></strong> row so recipes can suggest it.</li>
+   <strong><a href="..\reference\human-language.md">Human Language Reference</a></strong> row so recipes can suggest it.</li>
 <li><strong>Theme with tokens, be bilingual-safe.</strong> Style via the <code>--strata-*</code> CSS variables (so a theme swap
    restyles you); don't hard-code colors. Wrap user strings for <code>@strata/i18n</code> where relevant.</li>
 </ol>
@@ -138,7 +140,7 @@ enforced by the conventions in <code>.claude/CLAUDE.md</code> and verified by th
 <li><strong>Add tests</strong> in <code>packages/core-map/tests/react/</code> (render + interaction).</li>
 <li><strong>Authoring half:</strong> add a row to the <code>/app</code> and/or <code>/panel</code> command's widget list and the relevant skill
    (<code>strata-layout</code> / <code>strata-panels</code> / <code>strata-interactivity</code>), and a
-   <strong><a href="reference-human-language.html">Human Language Reference</a></strong> entry.</li>
+   <strong><a href="..\reference\human-language.md">Human Language Reference</a></strong> entry.</li>
 </ol>
 <h2 id="add-a-panel-a-dockedfloating-tool">Add a <strong>panel</strong> (a docked/floating tool)</h2>
 <p>Same as a widget, but render inside <strong><code>PanelShell</code></strong> (it supplies the card chrome, fixed/floating layout, and
@@ -175,13 +177,13 @@ widget registry if it should also work as an <code>AppLayout</code> widget.</p>
 <ul>
 <li><code>pnpm build</code> clean · <code>pnpm test</code> green (new tests added; new package registered in the workspace).</li>
 <li><strong>Both halves</strong> landed: runtime + the <code>.claude</code> authoring default.</li>
-<li>Docs updated: this repo's <a href="reference-components.html"><code>components.md</code></a>,
-  <a href="reference-human-language.html"><code>human-language.md</code></a>, and any affected <code>strata/docs/**/*.md</code> — then
+<li>Docs updated: this repo's <a href="..\reference\components.md"><code>components.md</code></a>,
+  <a href="..\reference\human-language.md"><code>human-language.md</code></a>, and any affected <code>strata/docs/**/*.md</code> — then
   <strong>regenerate the help site</strong> (<code>python3 strata/docs/help/build_site.py</code>).</li>
 </ul>
 <h2 id="see-also">See also</h2>
 <ul>
-<li><a href="reference-components.html">Components, widgets &amp; skills</a> — the inventory you're extending.</li>
-<li><a href="guide-style-compiler.html">The style compiler</a> — how a renderer becomes MapLibre paint (the pattern for compilers).</li>
-<li><a href="guide-anatomy.html">Repository anatomy</a> — where everything lives.</li>
+<li><a href="..\reference\components.md">Components, widgets &amp; skills</a> — the inventory you're extending.</li>
+<li><a href="..\guide\style-compiler.md">The style compiler</a> — how a renderer becomes MapLibre paint (the pattern for compilers).</li>
+<li><a href="..\guide\anatomy.md">Repository anatomy</a> — where everything lives.</li>
 </ul><div class="pager"><a class="prev" href="guide-style-compiler.html"><small>Previous</small>The style compiler</a><a class="next" href="guide-app-design.html"><small>Next</small>Application design</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

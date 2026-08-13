@@ -47,6 +47,24 @@ actions, dataSource shape — **with a named fallback** from existing widgets so
 way. Exhaust existing widgets + connections first; most "missing" widgets are an existing widget wired
 differently.
 
+## 3b · Verify every source before you design around it
+
+**A field name may not enter the design until a response has shown it.** Not the catalogue's claim about
+the field, not an alias, not another layer's schema — a real response, in the terminal.
+
+For each service the design depends on, run the seven-step probe
+(`strata/docs/how-to/find-and-verify-data.md` §2) and keep the **literal output**: identity
+(`objectIdFieldName`, geometry type, wkid) · count **and** ids · the real page size (ask above
+`maxRecordCount` and use what comes back) · whether each field you want is actually populated · value
+shape · extent · CORS posture **probed with an `Origin` header**. Number the traps inline so the build
+steps and the suites can cite them.
+
+If a source disqualifies itself — blank fields, a group layer, no coordinates, a count that disagrees with
+its ids — **say so and reshape the design.** One shipped app became a map rather than a search box for
+exactly this reason, and that finding was the product.
+
+**Never synthesize.** If the data does not exist, the design renders that lane empty with its citation.
+
 ## 4 · Non-negotiables
 
 One-sentence purpose answerable on the first screen. A signature interaction loop working end-to-end.
@@ -72,7 +90,9 @@ deliver, in order:
 9. **Any §10.3 New-widget blocks** (rule 3), each with its fallback.
 10. **MODE=REDESIGN:** the rewritten `RECIPE.md` §2 (layout/theme/components) sections, ready to paste.
     **MODE=CREATE:** a full `RECIPE.md` draft following the attached exemplar's structure.
-11. **Open questions / risks.**
+11. **§4 Verify** — the commands and their **literal responses**, traps numbered inline. A recipe without
+    this is a scaffold and `/recipe` will refuse to build it (`recipes/README.md` → Required sections).
+12. **Open questions / risks.**
 
 Judge your own output before returning it: would a client seeing this next to other demos recognize it
 instantly as a different product? If not, redesign.
