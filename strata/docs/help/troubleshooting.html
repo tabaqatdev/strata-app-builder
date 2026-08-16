@@ -89,9 +89,11 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
 <a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
 <a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
 <a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
@@ -101,32 +103,666 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="human language reference" href="reference-human-language.html">Human Language Reference</a>
 <a class="nav-link" data-title="command reference" href="reference-commands.html">Command reference</a>
 <a class="nav-link active" data-title="troubleshooting" href="troubleshooting.html">Troubleshooting</a>
-</nav><main><div class="crumb">Reference</div><h1>Troubleshooting</h1><p class="lede">Known traps and how to avoid them.</p><p>Hard-won lessons — most come from real publishing to the Strata Serve server.</p>
-<ul>
-<li><strong>Points don't render.</strong> The <code>objectIdField</code> must be <code>OBJECTID</code>. <code>object_id_field</code> only picks the SOURCE
-  column to cast; a string id (GERS, ministry number) can't be the OID — <strong>omit <code>object_id_field</code></strong> so it's
-  synthesised. The ArcGIS JS/MapLibre snapshot query uses <code>orderByFields=&lt;OID&gt;</code>; a wrong OID returns 0
-  features and points silently don't draw (polygons/lines use the tiled path and are unaffected).</li>
-<li><strong>Custom markers don't show.</strong> Don't use <code>esriSMSPath</code>. Use <code>esriSMSCircle</code> / <code>Square</code> / <code>Diamond</code> /
-  <code>Triangle</code>. Vary colour per layer.</li>
-<li><strong>Overlapping polygons hide each other.</strong> Use a <strong>low fill alpha</strong> (~40/255).</li>
-<li><strong>Changes don't take effect.</strong> The Serve server has <strong>no hot reload</strong> — restart after any config /
-  datasource / metadata change (<code>/restart</code> or <code>.claude/scripts/restart_server.sh</code>).</li>
-<li><strong>Vector tiles are huge.</strong> <code>tile_fields</code> controls which attributes are baked into vector tiles — keep it
-  to a handful. It is <strong>not</strong> the popup field list (FeatureServer <code>/query</code> always returns all fields).</li>
-<li><strong>A stray field appears.</strong> pandas-written GeoParquet can carry <code>__index_level_0__</code> — drop it on convert
-  (<code>SELECT * EXCLUDE(__index_level_0__)</code>).</li>
-<li><strong>Everything must be EPSG:4326.</strong> Reproject on the way in (<code>-t_srs EPSG:4326</code>).</li>
-<li><strong><code>exportImage</code> returns a blank image.</strong> Create the MapLibre map with <code>preserveDrawingBuffer:true</code>.</li>
-<li><strong>Heatmap floods the canvas.</strong> Ensure a ratio-0 transparent colour stop (the style compiler adds one if
-  missing).</li>
-<li><strong>Secured services.</strong> Never send or store the password — mint a short-lived, referer-bound token via
-  <code>{portal}/generateToken</code> and attach only the token.</li>
-<li><strong><code>/edit</code> won't save (Strata layer).</strong> Editing/attachment writes need a <strong>writable, authenticated ESRI
-  backend</strong>; <code>@strata/auth-arcgis</code> <code>assertEsriBackend</code> <strong>throws</strong> for a <code>strata</code> backend. Strata Serve is
-  read-only (Strata editing is planned). Reads — query / statistics / related / attachment <em>viewing</em> — work
-  on both backends.</li>
-<li><strong>Time slider filters nothing.</strong> Read the <strong>real time field</strong> from the service (<code>?f=json</code>) — don't invent
-  it. The <code>TimeSlider</code> builds a <code>definitionExpression</code> on that field (<code>instant</code>: <code>t &lt;= now</code>; <code>window</code>:
-  <code>t BETWEEN a AND b</code>), stacking with any other <code>definitionExpression</code> filter.</li>
-</ul><div class="pager"><a class="prev" href="reference-commands.html"><small>Previous</small>Command reference</a><span></span></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>
+</nav><main><div class="crumb">Reference</div><h1>Troubleshooting</h1><p class="lede">Known traps and how to avoid them.</p><p>Hard-won lessons. Every entry cost a rebuild, a wrong number on a screen, or a shipped defect.</p>
+<p><strong>Read the reading traps (§1–§5) before binding an app to any service you did not publish yourself, and
+the publishing traps (§6) before running <code>/publish</code>.</strong></p>
+<h2 id="how-to-read-an-entry">How to read an entry</h2>
+<table>
+<thead>
+<tr>
+<th>Marker</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[core: fixed]</code></td>
+<td>Was a defect in <code>strata/packages</code>. <strong>Fixed — do not apply the old workaround.</strong> Kept because the symptom looks identical when it comes from elsewhere.</td>
+</tr>
+<tr>
+<td><code>[core: open]</code></td>
+<td>A current limitation. The workaround is live.</td>
+</tr>
+<tr>
+<td><code>[data]</code></td>
+<td>External service behaviour. Will never be "fixed" — guard against it.</td>
+</tr>
+<tr>
+<td><code>[app]</code></td>
+<td>A mistake an app made. Structural: easy to repeat.</td>
+</tr>
+<tr>
+<td><code>[browser]</code></td>
+<td>Platform, CSS or runtime behaviour.</td>
+</tr>
+</tbody>
+</table>
+<p>Where two entries disagree, the newer wins. Sources, newest first: the <strong><code>nearby</code> reference build</strong>
+(11 Aug — the first app built end-to-end from a recipe under this guidance), the watershed portal
+(10 Aug), the broadband gap matrix and the public-information map (9 Aug), and the pipeline evidence
+pack (6 Aug).</p>
+<hr />
+<h2 id="three-rules-that-govern-the-rest">Three rules that govern the rest</h2>
+<p><strong>A trap is a property of a service, not a law of nature.</strong> Test, never inherit. The pipeline build was
+burned by zero-padded identifiers (<code>PLINEID</code> as <code>String(4)</code>); the watershed build checked the same trap
+against its HUC codes and found all 8,194 rows full-width strings. Inheriting the guard is harmless;
+inheriting the <em>conclusion</em> would have been wrong.</p>
+<p><strong>One probe is not enough to declare an endpoint dead.</strong> A basins layer returned three consecutive 500s
+during research and three consecutive <code>{count:21}</code> an hour later. Intermittent is not broken — sample more
+than once, and write suites that pass on either outcome.</p>
+<p><strong>Assert the rule, not the victims.</strong> When one cascade bug hit a splash overlay and then a radius control,
+the fix was not a second per-component guard — it was one global rule plus an assertion on <em>that rule</em>. A
+guard that enumerates the victims found so far keeps finding the next one by hand.</p>
+<hr />
+<h2 id="1-identity-which-row-is-this">1 · Identity — which row is this?</h2>
+<p><strong>The OID is whatever the service says it is.</strong> <code>[data]</code>
+<code>objectIdField</code> is guaranteed to be <code>OBJECTID</code> only on a layer <strong>you</strong> published to Strata Serve (§6).
+On a pipeline centerline the OID is <code>FID</code>, and a <em>different</em> column is literally named <code>OBJECTID</code> —
+<code>FID 4</code> is <code>OBJECTID 7</code>. On three SafeGraph slices it is <code>OBJECTID_1</code>, and both columns exist. Selecting,
+highlighting or joining on the assumed field addresses the wrong rows with no error.
+<strong>Guard:</strong> read <code>objectIdFieldName</code> from the layer metadata; assert it in the suite.</p>
+<p><strong>Some layers report no OID although one exists.</strong> <code>[data]</code>
+Three geohazard layers returned <code>objectIdField: null</code> while carrying a usable OID column.
+<strong>Guard:</strong> bind read-only; never build an edit or selection key on it.</p>
+<p><strong>Identifiers are strings; only magnitudes are numbers.</strong> <code>[app]</code>
+A zero-padded <code>String(4)</code> line id coerced to a number makes every row of an operator's upload miss its
+line — and report a cheerful "0 matched". <strong>Guard:</strong> refuse to coerce any cell carrying a leading zero.</p>
+<p><strong>Unidentified rows need unique keys.</strong> <code>[app]</code>
+Collapsing every unbranded outlet onto one empty brand key rolls them up as a single phantom chain,
+inventing a major competitor out of missing data.</p>
+<h2 id="2-counting-and-paging-is-this-all-of-it">2 · Counting and paging — is this all of it?</h2>
+<p><strong>Paging silently stops short when the server caps below your page size.</strong> <code>[data]</code> <code>[app]</code>
+A paging helper compared the returned page against the <em>requested</em> size. The flowline layer caps at
+1,000; asking for 2,000 returned exactly 1,000 — no error, no <code>exceededTransferLimit</code> — so the loop halted
+at 1,000 of 1,619 reaches. That <strong>understated the stream network and inflated the measured share from
+11.2 % to 18.0 %</strong>, in the flattering direction. <strong>Guard:</strong> the effective page size is whatever the server
+actually returns at its widest, not what you asked for. <em>The most expensive entry in this file.</em></p>
+<p><strong>A capped denominator inflates every share computed from it.</strong> <code>[data]</code>
+A 2,985-row register returned exactly 2,000 without complaint. <strong>Guard:</strong> compare against
+<code>returnCountOnly</code> and fail loudly on equality with <code>maxRecordCount</code>.</p>
+<p><strong><code>returnCountOnly</code> itself can lie.</strong> <code>[data]</code>
+One boundaries layer returns <code>{"count":0}</code> with HTTP 200 against 36 real object ids. <strong>Guard:</strong> on any
+layer whose count reaches a KPI, assert the count <em>and</em> a fetch of ids.</p>
+<p><strong>A host can answer HTTP 200 with a challenge page instead of data.</strong> <code>[data]</code>
+A WAF (Imperva/Incapsula and friends) returns an HTML interstitial <strong>with a 200 status</strong>, so
+<code>curl -w '%{http_code}'</code> reports success and a naive fetch stores markup as if it were JSON — and it does
+this <em>intermittently</em>, so one clean probe proves nothing. <strong>Guard:</strong> assert the response <strong>parses</strong> and
+carries the field you expect, never just that the status was 200.</p>
+<p><strong>Some services publish hundreds of layers — never enumerate them.</strong> <code>[data]</code>
+One drilldown MapServer exposes 855 layers (one per provider × technology). Walking the catalogue is a
+self-inflicted outage. <strong>Guard:</strong> use the service's identify/summary endpoint instead, and cap any
+catalogue crawl.</p>
+<p><strong><code>returnIdsOnly</code> ignores the feature page size, so pacing a fetch off it truncates.</strong> <code>[data]</code>
+<em>(2026-08-13, catchment &amp; market-share)</em> One layer advertises <code>maxRecordCount: 2000</code>. Asking for 5,000
+<strong>ids</strong> returns exactly <strong>5,000</strong>; asking for 5,000 <strong>features</strong> returns <strong>2,000</strong> with
+<code>exceededTransferLimit: true</code>. A pager that establishes its stride from an ids-only probe therefore
+believes it has a 5,000-row page and drops 60 % of every subsequent one. <strong>Guard:</strong> the stride is what
+the server returns <em>for the request you actually make</em> — measure it with features, not ids.</p>
+<p><strong>A computational halo must never reach a number on screen.</strong> <code>[app]</code>
+<em>(2026-08-13, catchment &amp; market-share)</em> Outlets were deliberately fetched on a box ~9 km wider than
+the study area, so a nearest-neighbour distance at the edge would not be wrong for want of a feature
+just outside the frame. That halo then leaked into the legend (362 against the register chip's 113 for
+the same layer) and, worse, into a <em>decision</em>: the default subject brand was chosen as the largest on
+the halo rather than the largest in the market, naming a different company. <strong>Guard:</strong> clip to the
+study area for every displayed count <strong>and every derived choice</strong>; let the halo feed geometry only,
+and say on screen that the map draws context the counts exclude.</p>
+<p><strong>Never truncate silently.</strong> <code>[app]</code>
+Every cap says so on screen: <code>+N more</code>, <code>Capped, not complete</code>, <code>250 of 1,975 rows</code>.</p>
+<p><strong>ArcGIS answers errors with HTTP 200 and an <code>{error}</code> body.</strong> <code>[core: fixed]</code> <code>[data]</code>
+Rate limits and bad queries return 200 plus <code>{"error": …}</code> and no <code>features</code>. Code doing
+<code>j.features || []</code> reads that as <strong>zero features</strong> and overwrites good data on the next refresh tick.
+Fixed in <code>engine/arcgisSource.ts</code> (<code>assertNotArcgisError</code> throws). <strong>Still applies to any fetch you write
+yourself.</strong></p>
+<h2 id="3-field-semantics-does-this-field-mean-what-it-is-called">3 · Field semantics — does this field mean what it is called?</h2>
+<p><strong>A field can be published and empty on every row.</strong> <code>[data]</code>
+One field looks like the USGS quadrangle name a study must cover; it is whitespace on all 2,806 rows, as
+are the two coordinate fields beside it. <code>EventType</code> and <code>StreetName</code> are blank on all 62,306 rows of a
+works registry — which is why that app is a map and not a search box. <strong>Guard:</strong> profile
+<code>WHERE field IS NOT NULL AND field &lt;&gt; ''</code> before designing around a field.</p>
+<p><strong>Numeric-looking columns are often strings.</strong> <code>[data]</code>
+<code>naics_code</code> is a String; use <code>LIKE '4451%'</code> or cast. A "diameter" field has <strong>84 distinct forms</strong>
+(<code>8</code>, <code>8, 10</code>, <code>8.625</code>, <code>8"</code>, <code></code>) and is not a plain number on 28.3 % of the network. <strong>Guard:</strong>
+profile distinct values before treating a column as a measure.</p>
+<p><strong>A numeric comparison against a string code column is silently COERCED, not rejected.</strong> <code>[data]</code>
+<em>(2026-08-13, catchment &amp; market-share)</em> This entry previously said <code>naics_code = 445110</code> <strong>errors</strong>.
+It does not, and the truth is worse. On the same service, in the same second: <code>= 445110</code> returns the
+correct <strong>323</strong>; <code>= 4451</code> — the obvious way to ask for the <em>category</em> — returns a silent <strong>0</strong>; and
+<code>&gt; 445000</code> returns <strong>1,686</strong> categorically meaningless rows. A wrong query comes back as a plausible
+number instead of a failure, and the silent zero reads as <em>"no competitors here"</em>, which sends any
+share computed from it to infinity. <strong>Guard:</strong> never write an ordering comparison against a code
+column, use <code>=</code> only on a full-width code and <code>LIKE</code> on a prefix, and assert the <em>prefix</em> count
+against the <code>LIKE</code> count in the suite — the two disagreeing is the whole trap.</p>
+<p><strong>An identifier need not join across two registers of the same thing.</strong> <code>[data]</code> <code>[app]</code>
+<em>(2026-08-13, catchment &amp; market-share)</em> Comparing a brand's share under two POI registers assumes the
+brand exists in both. The largest grocery operator under NAICS 4451 (69 outlets) appears in <strong>no other
+grocery register at all</strong>, so every cross-register comparison for it was empty — and an app that picks
+"the largest operator" as its default subject silently collapses to a single source. <strong>Guard:</strong> when a
+design compares an entity across sources, choose the default subject from entities the sources
+<strong>agree exist</strong>, and name the sources that cannot see it rather than rendering a zero.</p>
+<p><strong>A ratio can be degenerate by construction, and it will look like a triumph.</strong> <code>[app]</code>
+<em>(2026-08-13, catchment &amp; market-share)</em> A catchment defined as <em>"ground nearer to one of ours than to
+any competitor's"</em> contains, necessarily, none of their outlets — a competitor's own site is always
+nearest to itself. The share therefore reads <strong>100 %</strong> whatever the market does. Every arithmetic
+assertion passed, because the arithmetic was right. <strong>Guard:</strong> for any ratio, ask what its denominator
+is <em>forbidden</em> to contain; where the answer is "the thing that would make it move", refuse to print the
+ratio, say why on screen, and keep the measure the construction <em>can</em> support (here, the demand it
+holds). Found by looking at the first screenshot, not by a test.</p>
+<p><strong>A field can be filterable but not selectable.</strong> <code>[data]</code>
+One service drives its own renderer from a field and accepts it in a <code>WHERE</code> clause, but omits it from
+<code>fields[]</code> — so <code>outFields=&lt;that field&gt;</code> returns <strong>HTTP 400</strong>. <strong>Guard:</strong> a field proven to work in a
+filter still has to be proven in <code>outFields</code> before a popup or table binds to it.</p>
+<p><strong>One code, two meanings.</strong> <code>[data]</code>
+A band labelled <code>0</code> meant <em>"0 % </em><em>or</em><em> no data"</em> — a sentinel that conflates a measured zero with an
+absent measurement. Colouring it as a gap silently invents a finding. <strong>Guard:</strong> find the sentinel before
+designing the scale; render it as its own class, off by default, with the ambiguity named on screen.</p>
+<p><strong>Two names, one measurement.</strong> <code>[data]</code>
+Two differently-titled services published byte-identical bands — offering both as choices implies a
+comparison that does not exist. <strong>Guard:</strong> prove two sources differ before letting the user pick between
+them.</p>
+<p><strong>A field renamed between vintages fails silently.</strong> <code>[data]</code>
+<code>ACAT_100_20</code> became <code>ACAT_10020</code> between two years of the same product. A hard-coded name returns an
+<strong>empty groupBy with no error</strong>, which reads as <em>"no data here"</em> rather than <em>"wrong field"</em>. <strong>Guard:</strong>
+resolve field names per vintage from <code>?f=json</code>, and make an empty result assert loudly.</p>
+<p><strong>Never derive a number from geometry the register does not publish.</strong> <code>[app]</code>
+A points-only register carries an area attribute as a string; computing area from the points, or drawing a
+boundary the publisher never issued, manufactures authority. If the shape is not published, the app does
+not draw it and does not measure it.</p>
+<p><strong>Exclude or label the class your measure cannot describe.</strong> <code>[data]</code>
+One stream order read 89 % "never gaged" — because it is tidal channel, where a discharge gage is not the
+instrument. Left in the headline it reads as a damning finding about neglect. <strong>Guard:</strong> identify the
+classes where the metric does not apply, and either exclude them with the reason on screen or label them.</p>
+<p><strong>Layers of ONE service need not share a schema.</strong> <code>[data]</code> <em>(2026-08-12, broadband gap matrix)</em>
+<code>CPUC_EOY_2024_Broadband_Grants</code> publishes five layers: layer 0 (<em>Proposed</em>) carries
+<code>PROP_SPEED</code>/<code>APPDATE</code>, layers 1–3 (<em>Approved</em>) carry <code>FRN</code>/<code>DOWNSTREAM</code>/<code>UPSTREAM</code>/<code>GRANTAMT</code>, and
+layer 4 keys on <strong><code>FID</code></strong>, not <code>OBJECTID</code>. Reading the service's layer 0 and binding layer 1 from it
+yields <code>outFields</code> that <strong>400</strong> on the layer you actually query — and the recipe that recorded the
+schema "for the grants service" was describing only one of its five. <strong>Guard:</strong> read <code>?f=json</code> per
+<strong>layer</strong>, never per service, and assert the bound <code>outFields</code> against that layer's own <code>fields[]</code>.</p>
+<p><strong>Padded <code>CHAR</code> columns never match an untrimmed comparison.</strong> <code>[data]</code>
+A space-padded <code>CHAR(6)</code> status flag: <code>=== 'OFF'</code> matches zero rows. Trim centrally.</p>
+<p><strong>Cumulative fields do not sum.</strong> <code>[app]</code>
+Cumulative upstream drainage area double-counts every confluence. <strong>Guard:</strong> ask what a field accumulates
+before aggregating it; prefer a measure that reconciles with a published total.</p>
+<p><strong>Changing scope must clear everything derived from the old scope.</strong> <code>[app]</code>
+Switching campus left the previous campus's inventory in place, so the panel reported one institution's
+24,400 ASF under whatever institution you had just selected. The same class of bug bit a second app from
+the other direction: adopting a new cell repainted the map and re-scoped the table but left the reading
+stale, so the headline number and both KPIs kept the <em>previous</em> cell's figures — the map looked right,
+the table looked right, and the big number lied. <strong>Guard:</strong> one scope-change handler that invalidates
+every derived value, and recomputes the reading <em>before</em> repainting.</p>
+<p><strong>Two similar numbers are often not parameterised the same way.</strong> <code>[app]</code>
+A published "gaged share" of stream length is <em>not</em> affected by the app's own definition of "measured";
+only gage presence is. Conflating them made a toggle appear to move a number it has no business moving.
+<em>(2026-08-12, broadband gap matrix)</em> The same class, one level up: a recipe quoted a <strong>statewide</strong>
+ratio of 20.4× beside a <strong>county</strong> ratio of 16.8× — computed under <em>different</em> rules for an ambiguous
+"0% or no data" band, which it disclosed once in §1 and not again beside the figures. A suite pinning
+the statewide constant against the app's (correctly band-0-excluding) default went red at 19.7×.
+<strong>Guard:</strong> carry the rule with the figure everywhere it appears, and pin <strong>both</strong> readings in the
+suite. The arithmetic that settles such a dispute is usually a containment check — here, any "≤60%"
+gap larger than the whole 1–3 band range must be counting band 0.</p>
+<p><strong>Completeness varies by geometry type.</strong> <code>[data]</code>
+0.09 % of polygons lack a contact email against <strong>75.2 % of lines</strong>. Sampling one layer generalises
+wrongly by two orders of magnitude.</p>
+<p><strong>A registry with no retirement policy carries the dead.</strong> <code>[data]</code>
+539 sentinel values and in-progress rows dated 1999. State the vintage on screen.</p>
+<p><strong>Time slider filters nothing.</strong> <code>[app]</code>
+Read the <strong>real time field</strong> from the service (<code>?f=json</code>) — don't invent it. <code>TimeSlider</code> builds a
+<code>definitionExpression</code> on that field (<code>instant</code>: <code>t &lt;= now</code>; <code>window</code>: <code>t BETWEEN a AND b</code>), stacking with
+any other <code>definitionExpression</code>.</p>
+<h2 id="4-geometry-and-measurement">4 · Geometry and measurement</h2>
+<p><strong><code>Shape__Length</code> on a Web-Mercator layer is not ground distance.</strong> <code>[data]</code>
+It is Mercator metres, inflated by 1/cos(latitude). A network measured 12,042,671 m (7,483 mi) against a
+true geodesic 6,093.1 mi — a 21 % "discrepancy" that is pure projection. <strong>Never report mileage from
+<code>Shape__Length</code> on a 102100 layer.</strong></p>
+<p><strong>Everything must be EPSG:4326.</strong> Reproject on the way in (<code>-t_srs EPSG:4326</code>).</p>
+<p><strong>Generalised geometry is for drawing only.</strong> <code>[data]</code>
+Drawing tolerance (~0.0005° ≈ 55 m) is correct for paint. Never measure on it.</p>
+<p><strong>The geocoder's default output SR is Web Mercator.</strong> <code>[data]</code>
+Omit <code>outSR</code> and you get <code>x: -13162802</code> — metres. Fed to a 4326 map it lands in the Gulf of Guinea. The
+response declares its own <code>spatialReference</code>, so this is silent only if you don't read it.</p>
+<p><strong>A computed ring does not close itself — floating point will not do it for you.</strong> <code>[app]</code>
+Sweeping <code>i = 0 … steps</code> and taking <code>sin(2π)</code> yields <code>-2.4e-16</code>, not <code>0</code>, so the last vertex misses the
+first by an epsilon and the polygon is technically open. Some consumers accept it, some reject it, and the
+failure is invisible on screen. <strong>Guard:</strong> generate <code>steps</code> vertices and push a copy of the first as the
+last. Assert the two are identical, not merely close. <em>(nearby)</em></p>
+<p><strong>A GeoJSON ring repeats its first vertex as its last.</strong> <code>[app]</code>
+Averaging it twice drags every centroid toward that vertex — on a square, <code>[4,4]</code> instead of <code>[5,5]</code>.</p>
+<p><strong>Snapping band edges to vertices manufactures states that must never be manufactured.</strong> <code>[app]</code>
+Two abutting unevaluated polygons each lost their shared edge, drawing a hairline "evaluated, and not
+zoned" sliver — painting <em>an authority looked and found nothing</em> onto ground nobody has looked at.
+<strong>Guard:</strong> refine edges by bisection; reproduce an independent geodesic clip in the suite.</p>
+<p><strong>A bare <code>except</code> in a measurement script is data corruption that reports success.</strong> <code>[app]</code>
+A probe silently swallowed 5 of 13 polygons that failed validity, publishing 53 of 91 miles when the truth
+was 91.05 of 91.05 — 100 %. The figure reached the recipe, the design proposal and the catalogue before
+the app disagreed with it.</p>
+<p><strong>A multipart feature has no single linear axis.</strong> <code>[app]</code>
+A third of one network is discontinuous, so any milepost ruler drawn straight across it is fiction.
+<strong>Guard:</strong> break the axis at the gap, label the gap in real units, and never interpolate across it.</p>
+<p><strong>Overlay throws "side location conflict" on invalid geometry.</strong> <code>[data]</code>
+GEOS/Turf refuse self-intersecting rings. <code>make_valid</code> before every intersection — and see §4's rule on
+bare excepts: swallowing the throw is worse than the crash.</p>
+<p><strong>A long geometry exceeds the shell's <code>ARG_MAX</code>.</strong> <code>[data]</code>
+A 1,352-vertex polyline cannot go in a query string. POST it as a form body.</p>
+<h2 id="5-services-and-hosts">5 · Services and hosts</h2>
+<p><strong>Group layers are not queryable.</strong> <code>[data]</code>
+<code>geometryType: null</code> and <code>/query</code> returns HTTP 400. The data lives in the point/line/polygon children.</p>
+<p><strong>A raster layer answers identify, not query.</strong> <code>[data]</code>
+An image/MapServer raster has no features to select — <code>/query</code> is meaningless on it. Bind it as context
+with an identify path, and never expect attributes to join.</p>
+<p><strong>Some services publish no coordinates at all.</strong> <code>[data]</code>
+<strong>Guard:</strong> mark the layer <em>not mappable</em> and refuse to toggle it — never a checkbox that ticks and paints
+nothing. Only queryable FeatureServers belong in a catalogue drawer.</p>
+<p><strong>A layer can be mappable and still unjoinable.</strong> <code>[data]</code>
+OpenStreetMap footprints draw fine but carry no building id, so they can never join to an inventory and
+must never produce a derived figure. Label such a layer <strong>context only</strong>, and keep it out of every
+calculation.</p>
+<p><strong>Free public endpoints fail often enough to need a retry and a plain-English message.</strong> <code>[data]</code>
+Overpass returns 429/504 routinely — budget two attempts and a human-readable failure, and never wire it
+into boot. <em>(2026-08-12, broadband gap matrix)</em> <strong>A reliable host needs this too, once a run is long
+enough.</strong> A statewide join — ~330 paged requests over ~25 minutes against an Azure-hosted ArcGIS
+server — died on page 102 of 132 when one request passed its 90 s deadline, discarding twenty minutes
+of completed paging. <strong>Guard:</strong> bounded retry with backoff on the paging helper, retrying only what is
+transient (timeout, network, 5xx, 429) and <strong>never</strong> an ArcGIS <code>{error}</code> body or a 4xx — those fail
+identically forever, so retrying them only turns a clear failure into a slow one. Return the retry
+count rather than hiding it, and keep the bound so a genuinely dead endpoint still fails fast.</p>
+<p><strong>Public demo endpoints have limits worth measuring.</strong> <code>[data]</code>
+Overpass returns <strong>HTTP 406</strong> to an unidentified client (Node's default User-Agent) — fail fast, don't
+retry; its mirrors were <em>worse</em>, 504 after ~105 s on a query the main endpoint served in 5.4 s. It also
+<strong>504s under load</strong> on an ordinary city-sized bbox, repeatedly, so no app may depend on it at boot.
+<code>api.census.gov</code> now requires a key — a keyless call answers <strong>200</strong> and redirects to an HTML page
+titled <em>"Missing Key"</em>, so a naive fetch stores markup as JSON. <strong>Guard:</strong> assert each in the suite so
+a catalogue correction cannot rot silently, and let a register that fails degrade to a named absence.</p>
+<p><strong>OSRM <code>/table</code>'s ceiling is URL LENGTH, not a coordinate count.</strong> <code>[data]</code>
+<em>(2026-08-13, catchment &amp; market-share)</em> This entry previously said "above ~250 coordinates". Measured:
+<strong>300 sources × 33 destinations (333 coords) → 200</strong>, <strong>357 × 33 (390 coords) → HTTP 414</strong>, <strong>1 × 399
+(400 coords) → 414</strong> — yet <strong>400 coordinates with a bare <code>sources=0</code> → 200</strong>. The <code>sources=0;1;…;356</code>
+index list is most of the URL. A coordinate-count guard therefore passes every probe and fails in
+production the moment you ask for a real matrix. <strong>Guard:</strong> build the URL, measure it, and tile against
+a character budget (~6,800 worked); assert that the guard refuses an over-long request <em>and</em> that the
+server really answers 414 for the same URL sent raw.</p>
+<p><strong>Overpass needs OPPOSITE headers in Node and in the browser.</strong> <code>[data]</code> <code>[browser]</code>
+<em>(2026-08-13, catchment &amp; market-share)</em> From Node you <strong>must</strong> send a <code>User-Agent</code> or the POST is
+<strong>406</strong>. From a browser you must send <strong>no</strong> custom header at all: the <code>OPTIONS</code> preflight is answered
+<strong>406 with no CORS headers</strong>, so any non-safelisted header kills the call — while a CORS-<em>simple</em>
+form-urlencoded POST returns <code>Access-Control-Allow-Origin: *</code> and works. Note also that Overpass emits
+that header only when the request actually carries an <code>Origin</code>, so a probe without one reads as a
+closed host. <strong>Guard:</strong> keep the User-Agent in the injectable network seam and never in the domain
+module, so one module can serve a Node suite and a browser; probe CORS <strong>with</strong> an <code>Origin</code>.</p>
+<p><strong>MapServer <code>f=geojson</code> lower-cases every field name.</strong> <code>[core: fixed]</code> <code>[data]</code>
+FeatureServer preserves case; MapServer does not, so a canonically-cased <code>popupInfo</code> yields <code>undefined</code>
+for every field. Fixed in <code>engine/popups.ts</code> (<code>propValue</code>) and <code>engine/styleCompiler.ts</code> (<code>getField</code>
+emits a <code>coalesce</code> over exact/lower/upper). <strong>Still applies to any lookup you write yourself.</strong></p>
+<p><strong>Probe CORS with an <code>Origin</code> header, or you will misread an open host as closed.</strong> <code>[data]</code>
+Many ArcGIS hosts <strong>reflect</strong> the request's <code>Origin</code> instead of sending <code>Access-Control-Allow-Origin: *</code>.
+A <code>curl -I</code> with no <code>Origin</code> therefore returns no CORS header at all, which looks exactly like a host that
+forbids the browser — and the conclusion is a proxy nobody needed. <strong>Guard:</strong>
+<code>curl -s -D- -o /dev/null -H "Origin: http://localhost:PORT" "&lt;url&gt;?f=json" | grep -i access-control</code>,
+and check the <code>OPTIONS</code> preflight separately. <em>(DC open data, nearby/showcase verification)</em></p>
+<p><strong>One server does not mean one spatial reference.</strong> <code>[data]</code>
+On the same host, one layer published in NAD83 State Plane (wkid 26985) sat beside siblings in 3857.
+Read <code>spatialReference</code> per layer, never per server. <em>(DC open data)</em></p>
+<p><strong>A WAF's 403 can be client-dependent, so do not record it as the finding.</strong> <code>[data]</code>
+<em>(2026-08-12, broadband gap matrix)</em>
+<code>broadbandmap.fcc.gov/home</code> answered <strong>403</strong> (Akamai, "Access Denied") to three consecutive <code>curl</code>
+probes with a browser UA, and <strong>200</strong> with a real app shell to Node's <code>fetch</code> — same URL, same
+minute. A recipe had recorded "403 to every non-browser client", and a suite asserting that flaps.
+<strong>Guard:</strong> assert the fact that actually disqualifies the source and does not depend on the client —
+here the download API's <strong>401 to everyone</strong>. An app shell is not data; a 200 is not access.</p>
+<p><strong>A register can be published, mappable, and still too large to draw.</strong> <code>[data]</code>
+<em>(2026-08-12, broadband gap matrix)</em>
+A provider service-area layer returns valid geometry, but its features are statewide multipart
+polygons: <strong>60 of them, already generalised to 0.005°, weigh 22.8 MB and take 65 s</strong> — so the ~379
+intersecting one county would exceed 100 MB in a browser. <strong>Guard:</strong> measure the payload before
+binding a polygon register as a map layer, not just its row count. Bind it <strong>attributes-only</strong> where
+it is really a list (54 KB, 21 s for the same query), and give the layer panel a <em>list only</em> state
+with the measurement — a layer that ticks and then hangs the tab is worse than one that says why.</p>
+<p><strong>A host that answers curl may refuse the browser.</strong> <code>[data]</code>
+200 with no <code>Access-Control-Allow-Origin</code>, and 403 to the preflight, is the class of failure that passes
+server-side verification and dies in production. See
+<a href="..\how-to\cors-and-proxy.md"><code>how-to/cors-and-proxy.md</code></a> for the three-layer decision and the SSRF rules
+that any proxy must follow.</p>
+<p><strong>Every external call needs a deadline.</strong> <code>[app]</code>
+A dependency that neither answers nor refuses is worse than one that fails: in a real browser a geocoder
+left the app sitting at <em>"geocoding…"</em> <strong>indefinitely</strong>, with no error to show and nothing to retry —
+while both offline suites were green, because a stub always answers. <strong>Guard:</strong> every outbound call
+carries an <code>AbortSignal.timeout</code> (or equivalent), and a timeout is surfaced exactly like any other
+failure. <em>(nearby)</em></p>
+<p><strong>Browsers forbid setting <code>User-Agent</code> on <code>fetch</code>.</strong> <code>[browser]</code>
+A politeness header added to satisfy a provider's usage policy is silently dropped in the browser and
+applies only from Node — so a request verified with curl or a test runner is <strong>not</strong> the request the app
+sends. Providers that require identification must be called from a context that can supply it, or through
+your own allowlisted route. <em>(nearby)</em></p>
+<p><strong>Secured services.</strong> <code>[app]</code>
+Never send or store the password — mint a short-lived, referer-bound token via <code>{portal}/generateToken</code>
+and attach only the token.</p>
+<p><strong><code>/edit</code> won't save on a Strata layer.</strong> <code>[app]</code>
+Editing and attachment <em>writes</em> need a <strong>writable, authenticated ESRI backend</strong>; <code>@strata/auth-arcgis</code>
+<code>assertEsriBackend</code> <strong>throws</strong> for a <code>strata</code> backend. Strata Serve is read-only (Strata editing is
+planned). Reads — query, statistics, related, attachment <em>viewing</em> — work on both backends.</p>
+<h2 id="6-publishing-to-strata-serve">6 · Publishing to Strata Serve</h2>
+<p><strong>Points don't render.</strong> The published layer's <code>objectIdField</code> must be <code>OBJECTID</code>. <code>object_id_field</code> only
+picks the SOURCE column to cast; a string id (GERS, ministry number) can't be the OID — <strong>omit
+<code>object_id_field</code></strong> so it is synthesised. The snapshot query uses <code>orderByFields=&lt;OID&gt;</code>; a wrong OID
+returns 0 features and points silently don't draw (polygons and lines use the tiled path and are
+unaffected). <em>This is the publishing half of the §1 rule — it does not license assuming <code>OBJECTID</code> on a
+service you did not publish.</em></p>
+<p><strong>Custom markers don't show.</strong> Don't use <code>esriSMSPath</code>. Use <code>esriSMSCircle</code> / <code>Square</code> / <code>Diamond</code> /
+<code>Triangle</code>, and vary colour per layer.</p>
+<p><strong>Overlapping polygons hide each other.</strong> Use a low fill alpha (~40/255).</p>
+<p><strong>Changes don't take effect.</strong> The Serve server has <strong>no hot reload</strong> — restart after any config,
+datasource or metadata change (<code>/restart</code> or <code>.claude/scripts/restart_server.sh</code>).</p>
+<p><strong>Vector tiles are huge.</strong> <code>tile_fields</code> controls which attributes are baked into vector tiles — keep it
+to a handful. It is <strong>not</strong> the popup field list (FeatureServer <code>/query</code> always returns all fields).</p>
+<p><strong>A stray field appears.</strong> pandas-written GeoParquet can carry <code>__index_level_0__</code> — drop it on convert
+(<code>SELECT * EXCLUDE(__index_level_0__)</code>).</p>
+<h2 id="7-rendering-and-the-map">7 · Rendering and the map</h2>
+<p><strong><code>element.style.background</code> is the shorthand — it wipes <code>background-image</code>.</strong> <code>[browser]</code>
+Assigning a fill colour silently erased the hatch carrying an app's entire signature accent. The class was
+present, the browser driver counted 8 elements, every suite was green, and <strong>nothing rendered</strong>. Caught
+only while building a slide deck that reproduced the markup. <strong>Guard:</strong> use <code>backgroundColor</code>.</p>
+<p><strong>An author <code>display</code> rule beats the UA stylesheet's <code>[hidden]{display:none}</code>.</strong> <code>[browser]</code>
+<code>.splash-bg{display:grid}</code> meant <code>el.hidden = true</code> did nothing and the intro overlay sat over the app
+forever — then the identical bug reappeared on a radius control. <strong>Guard:</strong> one global
+<code>[hidden]{display:none !important}</code>, and assert <em>that rule</em>.</p>
+<p><strong>A map built inside a hidden container has no size.</strong> <code>[app]</code>
+Its boot-time <code>fitBounds</code> computes against nothing; revealing the page resizes but never re-fits.
+<strong>Guard:</strong> fit on first reveal. A canvas of <code>[0,0]</code> is a layout problem, not a data one.</p>
+<p><strong>A failed async step during boot must not strand the app.</strong> <code>[app]</code>
+An unguarded <code>await</code> in the boot sequence rejected, so everything after it never ran: no centre, no
+results, no error on screen — a rendered shell that looks like an app with no data rather than an app that
+failed. <strong>Guard:</strong> every boot-time async step is individually caught, reports its failure in the notice
+bar, and leaves the rest of the app usable. <em>(nearby)</em></p>
+<p><strong>Open on a view where the app's signature is visible.</strong> <code>[app]</code>
+Landing on the hierarchy root left a band empty and put <strong>zero hatched blocks</strong> on screen — the app opened
+on the one view where its own argument was invisible. Every non-visual suite was green.</p>
+<p><strong>Scoping the map to the selection removes the context the selection stands out from.</strong> <code>[app]</code>
+The map should draw the whole loaded scope; only an explicit filter narrows it.</p>
+<p><strong>A row that acts on click can remove itself, making a toggle impossible.</strong> <code>[app]</code>
+A table listing the <em>children</em> of the adopted node lost the row that adopted. <strong>Guard:</strong> separate the
+gestures — click selects and survives, double-click descends.</p>
+<p><strong>Fit to the subject, not to the items.</strong> <code>[app]</code>
+Fitting the <em>item</em> extent zoomed out to a whole region, because the register publishes some works as
+single features spanning the city. The subject was the 300-ft ring.</p>
+<p><strong>Enumerating the redraws by hand is the bug.</strong> <code>[app]</code>
+One refresh function updated five things and not the filter chips. One <code>redraw()</code>.</p>
+<p><strong>Layer panels must distinguish four kinds of nothing.</strong> <code>[app]</code>
+One report — "all the layers are hidden" — had three causes: the panel never listed the <em>primary</em> layer,
+all context defaulted off, and of five context layers one could never draw, one had nothing in this county,
+and one silently capped. <strong>Guard:</strong> list the primary layer first with a live drawn-count; default cheap
+context on; label every row <em>off</em> · <em>N in view</em> · <em>none in this view</em> · <em>capped</em> · <em>not mappable</em>.</p>
+<p><strong>Top-level <code>await</code> puts every <code>const</code> below it in the temporal dead zone.</strong> <code>[browser]</code>
+An arrow-function helper declared after <code>await load()</code> threw <em>"Cannot access … before initialization"</em> on
+first render — and the app showed a confident dash where a number should be, with nothing in the console
+until a global error handler was added. <strong>Guard:</strong> hoist helpers as <code>function</code> declarations above the boot
+block.</p>
+<p><strong><code>beforeId</code> throws when the reference layer is absent.</strong> <code>[app]</code>
+True on the first legend hover before the map paints, and for a frame after a theme swap wipes the style.</p>
+<p><strong>A container too small to lay out stops the style from ever loading.</strong> <code>[app]</code>
+Five properties wrapped a header strip onto four rows and squeezed the map to <strong>27 px</strong>, at which MapLibre
+never finishes loading a style — so the map was blank, not small. <strong>Guard:</strong> give the map container a
+minimum height, and keep single-row strips on one scrolling row rather than letting them wrap.</p>
+<p><strong>A filter carrying thousands of literal values kills the shared GeoJSON worker.</strong> <code>[app]</code>
+<em>(2026-08-12, broadband gap matrix)</em>
+Expressing a selection as <code>["in", ["get","geoid"], ["literal", [ …13,514 ids ]]]</code> killed MapLibre's
+<strong>one</strong> GeoJSON worker while it built the bucket. The failure is not confined to that layer: <strong>every
+source parsed afterwards silently produces nothing</strong> — no console error, no <code>error</code> event,
+<code>isSourceLoaded</code> just stays <code>false</code> forever. The one context layer that had been parsed <em>earlier</em>
+still drew, so the map read as merely empty rather than broken, and both non-visual suites were
+green. Located by adding a 20-feature copy of the identical data, which rendered instantly.
+<strong>Guard:</strong> selection travels <strong>in the data</strong> — flag each feature and filter on that one property
+(<code>["==",["get","sel"],1]</code>), re-flagging on <code>setData</code>. A filter should never carry more than a
+constant.</p>
+<p><strong><code>setFilter</code> and <code>setPaintProperty</code> fire <code>styledata</code> too — so re-hydrating on <code>styledata</code> re-enters
+itself.</strong> <code>[app]</code> <em>(2026-08-12, broadband gap matrix)</em>
+Hydrating on <code>styledata</code> is correct (see below), but <em>any</em> style mutation fires it, including the
+ones the hydrate itself performs. <code>styledata → paint → setFilter → styledata</code> spun forever, and a
+source under continuous re-parse <strong>never finishes loading</strong> — the same blank map as above, again with
+nothing in the console. <strong>Guard:</strong> one render signature that skips the whole repaint when nothing it
+depends on changed, plus a <code>hydrated</code> flag so an ordinary <code>styledata</code> is a no-op and only a genuine
+style swap (layers actually gone) rebuilds. Guarding <code>setData</code> alone is not enough.</p>
+<p><strong>Hydrate on <code>styledata</code> and <code>idle</code>, not only on <code>load</code>.</strong> <code>[app]</code>
+<code>styledata</code> can fire while a style is still resolving, leaving nothing to retry; a source added on <code>load</code>
+alone never arrives. Listen on all three and make hydration idempotent.</p>
+<p><strong>An idempotent hydrate plus a guarded paint means a skipped paint is never retried.</strong> <code>[app]</code>
+<em>(2026-08-13, catchment &amp; market-share)</em> Two individually-correct guards cancel each other. <code>paint()</code>
+returns early while <code>isStyleLoaded()</code> is false; <code>hydrate()</code> returns early when it is already hydrated
+and nothing is missing. A repaint requested <em>during</em> a style swap therefore never happened: the map
+came back <strong>empty from a theme switch</strong>, and a table-row selection stayed unhighlighted — both with
+every non-visual assertion green, because the DOM and the arithmetic were right. Waiting for the next
+<code>idle</code> is not a fix either: if the map has already settled, no further <code>idle</code> fires. <strong>Guard:</strong> hydrate
+always <em>attempts</em> a paint even when it rebuilds nothing, and a paint deferred for an unloaded style
+<strong>re-arms itself on a timer</strong>. Only the browser suite sees this.</p>
+<p><strong><code>min-height:0</code> is what makes a fixed layout work and what silently clips a collapsed one.</strong> <code>[app]</code>
+<em>(2026-08-13, catchment &amp; market-share)</em> A <code>responsive.small</code> rule stacked the columns but left the
+flex chain (<code>flex:1 1 auto</code> + <code>min-height:0</code>) in place, so the container shrank <strong>below its own
+content</strong> and the app's headline card was clipped off the top of the page. <code>getBoundingClientRect()</code>
+still reported a healthy 792×174, so the assertion written specifically to catch this passed, as did a
+clipping-aware visibility helper — the element was genuinely rendered, just above the scroll origin.
+<strong>Guard:</strong> collapse to plain <strong>block flow</strong> below the breakpoint (<code>display:block</code>, <code>height:auto</code>,
+<code>overflow:visible</code>) rather than re-pointing the flex axis, and confirm by <strong>screenshot</strong> that the
+signature is on the first screen at the narrow width.</p>
+<p><strong>A basemap that never arrives must not take the data with it.</strong> <code>[app]</code>
+After a timeout, fall back to a blank style that still draws the operational layers, with a note saying
+the basemap is missing and the numbers are unaffected. A tile host having a bad day is not a reason to
+show an empty screen.</p>
+<p><strong>Jump, don't fly, when the camera must arrive.</strong> <code>[app]</code>
+An animation that never runs leaves the camera on the previous subject — so a scope change that <em>must</em>
+land uses a jump, not <code>flyTo</code>.</p>
+<p><strong>An empty state has to look rendered.</strong> <code>[app]</code>
+A 16 %-opacity wash on a dark basemap made the one campus with published buildings look like the only one
+that had drawn at all. <strong>Guard:</strong> step the fill up when there is nothing to read through, add a casing to
+the boundary, and put the "no data here" offer <em>on the map</em>, where the emptiness is.</p>
+<p><strong>A legend row must filter, not fade.</strong> <code>[app]</code>
+A faded-out class is still clickable, so a "hidden" feature can still be selected through it. Filter the
+layer instead.</p>
+<p><strong>A basemap drawer that ticks nothing leaves the reader unable to name what they see.</strong> <code>[app]</code>
+The tick tested <code>b.id === chosen &amp;&amp; !auto</code> — and "Follow the theme" is the <strong>default</strong>, so opening the
+drawer for the first time showed five options and none selected. "Follow the theme" says HOW the choice
+is made; it does not stop there being a choice. <strong>Guard:</strong> tick the <strong>effective</strong> basemap, so both the
+auto row and the basemap it is choosing are marked. Shipped in <code>BasemapPanel</code>/<code>MapChrome</code>; assert that at
+least one row is ticked on first open.</p>
+<p><strong>Two open drawers, or a drawer over the cluster.</strong> <code>[app]</code>
+A second drawer request must <em>switch</em> mode, not stack, and the panel opens <strong>beside</strong> the cluster
+(<code>right:47px</code> against a 32px cluster at <code>right:9px</code>) — a drawer covering the buttons that opened it
+strands the user. <strong>Guard:</strong> one <code>drawer</code> element with a <code>which</code> attribute, and a browser assertion that
+the drawer's box does not intersect the cluster's.</p>
+<p><strong>A row that selects but cannot deselect.</strong> <code>[app]</code>
+Whatever adopts must also release, by the same gesture — otherwise a user who clicked by accident has no
+route back to the whole population. And the release must reach <strong>every</strong> sink: an empty <code>oids</code> clears the
+store selection, drops the highlight <strong>and closes the popup</strong>. A popup left open over a cleared selection
+is the app disagreeing with itself. <strong>Guard:</strong> in the bus contract an empty <code>oids</code> is a release, never a
+no-op (<code>@strata/actions</code> <code>FeatureSelectPayload</code>); assert both the adopt and the release.</p>
+<p><strong>Zooming to a selected row fits the whole layer.</strong> <code>[core: fixed]</code> <code>[app]</code>
+<code>featureSelect{zoom:true}</code> used to fit the layer's extent, so clicking one row gave the reader the view
+they already had. Fixed in <code>storeBinding</code> — it flies to the <strong>record's</strong> own geometry, resolved by the
+layer's real OID field, and falls back to the layer extent only when the record cannot be located.</p>
+<p><strong>A resized panel leaves the map canvas at its old width.</strong> <code>[app]</code>
+MapLibre does not watch its container: widen a docked panel and the map's box shrinks while its canvas
+keeps the old size — a stripe of dead space, or a canvas overflowing its parent. <strong>Guard:</strong> call
+<code>map.resize()</code> after the box changes. In the React path <code>&lt;StrataMap&gt;</code> observes its own container and does
+this itself, so a <code>panel</code>/<code>PanelShell</code> resize beside it needs no wiring; a hand-built app must call it
+(<code>strata-app-build</code> §2). Both non-visual harnesses report green while this is broken — the DOM width is
+correct and the arithmetic is correct. Assert canvas-matches-container <strong>after</strong> a drag, in the browser
+suite.</p>
+<p><strong>A resize that clamps against the live size lags the pointer.</strong> <code>[app]</code>
+Each move re-clamps an already-clamped number, so a drag past the ceiling and back trails by the whole
+overshoot. <strong>Guard:</strong> capture the size once at <code>pointerdown</code> and apply the total delta to <em>that</em> — the
+<code>resizePanel</code> helper in <code>@strata/core-map</code> takes <code>start</code> for exactly this reason, and its suite asserts
+the return trip.</p>
+<p><strong>A panel built inside a hidden container measures zero.</strong> <code>[app]</code>
+<code>getBoundingClientRect()</code> on a <code>display:none</code> ancestor returns 0, so the first drag snaps the panel to its
+minimum. <strong>Guard:</strong> measure at the start of the gesture (not at construction), and treat a non-finite
+measurement as the floor rather than as zero.</p>
+<p><strong>A pointer-only resize grip is not an affordance for everyone.</strong> <code>[app]</code>
+A 6 px hit target with no keyboard path excludes keyboard users, is awkward on touch, and is invisible to
+a screen reader. <strong>Guard:</strong> <code>role="separator"</code>, <code>tabIndex=0</code>, an <code>aria-label</code> naming the panel, and arrow
+keys sizing it (<code>Shift</code> for a coarser step). The shipped grips do this; a hand-built one must too.</p>
+<p><strong>Exotic glyphs render as tofu in headless Chrome.</strong> <code>[browser]</code>
+Circled numerals (①②③) become boxes. Plain digits in a CSS circle look better anyway.</p>
+<p><strong><code>exportImage</code> returns a blank image.</strong> Create the MapLibre map with <code>preserveDrawingBuffer: true</code>.</p>
+<p><strong>Heatmap floods the canvas.</strong> Ensure a ratio-0 transparent colour stop (the style compiler adds one if
+missing).</p>
+<h2 id="8-colour-theme-and-contrast">8 · Colour, theme and contrast</h2>
+<p><strong>Measure the theme; do not argue about it.</strong> <code>[app]</code>
+<code>#f59e0b</code> as text on a white panel is <strong>2.15:1</strong> — under WCAG AA's 4.5 — and it marked the app's biggest
+finding. Split into a fill token and <code>#b45309</code> (5.02:1) for text. In another build an amber read 3.77:1
+light against 7.12:1 dark and looked like proof the app should be dark — until every other state measured
+5.57–8.34:1 and the amber turned out to be the <strong>outlier, not the theme</strong>. <code>#b06f00</code> → <code>#8a5700</code> put it at
+5.60:1 and the decision returned to fitness for purpose.</p>
+<p><strong>Data colours are identical in both themes.</strong> <code>[app]</code>
+A dark-mode override painted light text onto a light amber fill and made a whole navigation band
+unreadable. Only the halo changes.</p>
+<p><strong>Mix surface tints against the panel, not <code>transparent</code>.</strong> <code>[app]</code>
+On a dark surface a tint mixed against <code>transparent</code> resolves toward the tint itself and produces mud.</p>
+<p><strong>Fill opacity must follow the basemap.</strong> <code>[app]</code>
+Alpha tuned for pale CARTO Positron is invisible on OpenTopoMap — the basemap a user picks <em>precisely</em> to
+see terrain context.</p>
+<p><strong>Semantic roles must not conflate two different facts.</strong> <code>[app]</code>
+"An authority answered" and "an authority answered, and the answer is a hazard" cannot share ink. Painting
+<em>evidenced</em> in the danger role made a plain factual value draw as a full-width blood-red bar. No assertion
+could catch it — the ink was internally consistent and semantically inverted.</p>
+<p><strong>A network-wide verdict is a false statement about a specific asset.</strong> <code>[app]</code>
+Stamping "unverifiable" on every line because 28.3 % of network mileage is unparseable libels the lines
+that file a plain value. Decide per feature and print the reason on the row.</p>
+<p><strong>A caveat that outlives a toast belongs in a persistent notice, not a status line.</strong> <code>[app]</code>
+A vintage field-rename warning written to a status line was overwritten by load progress and never reached
+anyone.</p>
+<p><strong>A theme swap must not discard an explicit basemap choice.</strong> <code>[app]</code>
+Re-pair the basemap only while the user has not chosen one; an unknown basemap id falls back rather than
+blanking the map.</p>
+<h2 id="9-suites-and-verification">9 · Suites and verification</h2>
+<p>The three-harness standard and its rationale live in
+<a href="..\guide\building-apps.md"><code>guide/building-apps.md</code></a> §3; the manual browser checklist is
+<a href="..\maintainers\testing\browser-smoke-test.md"><code>maintainers/testing/browser-smoke-test.md</code></a>. The traps:</p>
+<p><strong>A markup-grepping suite cannot see whether the app runs.</strong> <code>[app]</code>
+A duplicate <code>const</code> introduced a SyntaxError, so the inline module never executed and the page rendered as
+a blank shell — and the offline suite found every string it expected and reported <strong>99/99 green</strong>.
+<strong>Guard:</strong> <code>node --check</code> the shipped module before asserting anything about it, and negative-test that
+guard — inject a duplicate <code>const</code> and confirm the check fails and names the line. A guard nobody has
+watched fail is a guard nobody knows works.</p>
+<p><strong>A suite that greps markup and asserts numbers cannot see what a screen means.</strong> <code>[app]</code>
+297 passing assertions missed four defects that one screenshot made obvious — all semantic or spatial.</p>
+<p><strong>"Visible" means visible to a reader — check the clipping ancestors, not just the window.</strong> <code>[app]</code>
+<em>(2026-08-12, broadband gap matrix)</em>
+A browser-suite visibility helper compared <code>getBoundingClientRect()</code> against the viewport only, so an
+element scrolled out of its own <code>overflow:auto</code> container measured as visible. The app opened with the
+matrix band 30 px too short and its <strong>amber "nobody measured" row — the entire finding — below the
+fold</strong>, and the assertion written specifically to catch that passed. The screenshot did not.
+<strong>Guard:</strong> walk every scrolling ancestor and intersect; and where a region must fit its content,
+size it from the content's measured height rather than an authored constant, because a constant
+cannot know how tall the rows render at the reader's font size.</p>
+<p><strong>An "offline" suite is only offline if EVERY call routes through the injectable seam.</strong> <code>[app]</code>
+One function reached for the module-level <code>net</code> instead of the injected one, so the offline harness
+silently geocoded against the live internet — it returned a real place for a synthetic fixture, which is
+the only reason anyone noticed. A suite that quietly depends on the network is not deterministic and its
+green is worth nothing. <strong>Guard:</strong> hold the seam in state (<code>S.net</code>), never a module-level default, and
+assert in the offline suite that a synthetic fixture produces synthetic answers. <em>(nearby)</em></p>
+<p><strong>Assert behaviour, not prose — and strip comments before you scan.</strong> <code>[app]</code>
+A keyless-basemap guard grepped <code>server.mjs</code> for <code>proxy</code> and matched the file's own explanatory comment.
+<strong>It happened again</strong>, in a later build, to a guard checking the same file for <code>createConnection</code> — which
+appeared only in the sentence declaring that the server does not use one. Assert that the server opens no
+sockets, and strip comments from the source before any textual scan. Twice is a pattern: a doc entry does
+not prevent this, the assertion does. <em>(pipeline, nearby)</em></p>
+<p><strong>A retry added to the app does not cover the suite's own probes.</strong> <code>[app]</code>
+<em>(2026-08-12, broadband gap matrix)</em>
+After a long run was killed by one transient timeout, a bounded retry went into the domain's fetch
+helper — and the next run died at the <strong>first</strong> request with <code>UND_ERR_CONNECT_TIMEOUT</code>, because the
+suite's own <code>raw()</code>/<code>j()</code> helpers called <code>fetch</code> directly and bypassed it entirely. The host was fine:
+five probes answered 200, but its connect latency swings 0.3–3.7 s against undici's 10 s default.
+<strong>Guard:</strong> when you add resilience, enumerate <strong>every</strong> path that talks to the network — the domain,
+the suite's probes, and the CORS/preflight checks — and fix them together. A partial fix reads as a
+fix and fails in a new place.</p>
+<p><strong>The harness accommodates the app, not the reverse.</strong> <code>[app]</code>
+An id-only DOM scan broke on ordinary descendant selectors; a flat tag-only parse returned <code>""</code> from
+<code>textContent</code> so a passing app read as a failure. Both were replaced with one stack-based parser used for
+the body <em>and</em> every dynamic <code>innerHTML</code>. The harness must also mount the page's real <code>&lt;body&gt;</code> and model
+<code>window</code> as the global object.</p>
+<p><strong>The MapLibre stub must be faithful where the bugs live.</strong> <code>[app]</code>
+<code>setStyle</code> fires <code>styledata</code> synchronously and <em>then</em> drops every source and layer; a finished render
+fires <code>idle</code>, so <code>idle → hydrate → paint → setData → idle</code> is a real loop.</p>
+<p><strong>Derive counts from state; never hardcode them.</strong> <code>[app]</code>
+A hardcoded constant meant adding a row silently moved the number on the splash screen — and a test
+asserting the constant was itself wrong.</p>
+<p><strong>Regex word boundaries are not semantic boundaries.</strong> <code>[app]</code>
+A role-tagger matched <code>\bfass\b</code> against <code>CalifAssemSenDists</code>.</p>
+<p><strong>A noisy console is where a real error goes to hide.</strong> <code>[app]</code> Fix the favicon 404.</p>
+<h2 id="10-environment">10 · Environment</h2>
+<p><strong>A stale sibling dev server serves <em>its</em> app while looking like yours.</strong> <code>[app]</code>
+The give-away is that your domain module 404s while <code>layers.mjs</code> 200s — because the other app has a
+<code>layers.mjs</code> too. <strong>Check the <code>&lt;title&gt;</code> before believing a page.</strong></p>
+<p><strong>A crash dump on the first command of a demo is a bad first impression.</strong> <code>[app]</code>
+<code>node server.mjs</code> should step to the next free port, bounded, and say so.</p>
+<p><strong><code>pnpm test</code> fails on a fresh clone until you build.</strong> <code>[app]</code>
+Workspace packages resolve from <code>dist/</code>, which does not exist until <code>pnpm -r build</code> runs — so the first
+<code>pnpm test</code> dies with <em>"Failed to resolve entry for package <code>@strata/state</code>"</em>, which reads like a broken
+package rather than a missing build step. <strong>Order:</strong> <code>pnpm install</code> → <code>pnpm -r build</code> → <code>pnpm test</code>.
+Verified 2026-08-12: 796 tests, 0 failures, across the 18 of 20 packages that carry suites.</p>
+<p><strong>A fresh <code>pnpm install</code> needs <code>.npmrc</code>.</strong> <code>[core: fixed]</code>
+The Esri libraries behind <code>@strata/feature-arcgis</code> are optional lazily-loaded peers, not published for
+public install, so auto-install 404s. <code>strata/.npmrc</code> sets <code>auto-install-peers=false</code> and
+<code>strict-peer-dependencies=false</code>. Workspace packages resolve from <code>dist/</code>, so <code>pnpm -r build</code> must run
+before any example's <code>vite dev</code>.</p>
+<h2 id="11-fixed-in-core-do-not-apply-the-old-workaround">11 · Fixed in core — do <strong>not</strong> apply the old workaround</h2>
+<p>Verified against <code>strata/packages/core-map</code> on 2026-08-11. Early builds carry workarounds that are now
+wrong.</p>
+<table>
+<thead>
+<tr>
+<th>Trap</th>
+<th>Old workaround, now obsolete</th>
+<th>Fix in core</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>layerList</code> / <code>basemapSwitcher</code> flags ignored</td>
+<td>hand-mount the panels</td>
+<td><code>react/StrataMap.tsx</code> renders them store-driven</td>
+</tr>
+<tr>
+<td>ArcGIS <code>{error}</code> blanked the layer</td>
+<td>app-level re-check</td>
+<td><code>engine/arcgisSource.ts</code> throws</td>
+</tr>
+<tr>
+<td>Popups showed labels with blank values on MapServer</td>
+<td>lower-case the <code>popupInfo</code></td>
+<td><code>engine/popups.ts</code> <code>propValue()</code></td>
+</tr>
+<tr>
+<td>Renderers matched nothing on MapServer fields</td>
+<td>author against lower-cased keys</td>
+<td><code>engine/styleCompiler.ts</code> <code>getField()</code> coalesce</td>
+</tr>
+<tr>
+<td>Measure/sketch silently no-op in Vite</td>
+<td>—</td>
+<td><code>controls/terraDraw.ts</code> literal dynamic imports</td>
+</tr>
+<tr>
+<td><code>onReady</code> waited on every layer's full load</td>
+<td>keep heavy layers out of <code>layers.json</code></td>
+<td><code>engine/layers.ts</code> streams pages fire-and-forget</td>
+</tr>
+<tr>
+<td>Canvas stuck at 400×300 in a flex container</td>
+<td>call <code>resize()</code> by hand</td>
+<td><code>StrataMap.tsx</code> observes its container</td>
+</tr>
+<tr>
+<td><code>&lt;React.StrictMode&gt;</code> tore the map down mid-load</td>
+<td><strong>don't use StrictMode</strong></td>
+<td>disposal is abort-safe</td>
+</tr>
+<tr>
+<td>No in-place server-side filtering</td>
+<td>remount the map</td>
+<td><code>store.setDefinition()</code> → <code>LayerRegistry.setDefinition</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="adding-to-this-file">Adding to this file</h2>
+<p>An entry earns its place by having cost something. Record <strong>symptom → cause → guard</strong>, and mark it. If it
+is a core defect, fix the core first and move the entry to §11 with the workaround marked obsolete — the
+value of this file is that it does not accumulate lies.</p><div class="pager"><a class="prev" href="reference-commands.html"><small>Previous</small>Command reference</a><span></span></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

@@ -9,6 +9,13 @@
  *   - "floating": an absolutely-positioned card overlaid on the map; drag the HEADER to
  *                 move it (pointer events, clamped to the viewport), with a close (×) button.
  *
+ * Resize: every panel is **resizable by default** (`resizable={false}` locks one). A docked panel
+ * gets a width grip on its trailing edge; a floating panel also gets a height grip and a corner.
+ * Grips are keyboard-operable (focus, then arrow keys) because a pointer-only affordance is not an
+ * affordance for everyone. The size lives in component state for the session — the authored
+ * `defaultWidth` stays the source of truth and a remount returns to it. Callers that must react to
+ * the new box (a MapLibre map beside the panel needs `map.resize()`) pass `onResize`.
+ *
  * Context menu: a `⋯` header button AND right-click on the header open a small menu that
  * always includes "Open" (calls `onOpen`) and "Remove" (calls `onClose`, styled danger),
  * followed by any caller-supplied `contextMenuItems`.
@@ -17,6 +24,7 @@
  * live map. All map-facing behaviour is passed down by the panel via callbacks.
  */
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { resizePanel } from "../app/splitterMath.js";
 
 /** One entry in the header context menu. */
 export interface PanelMenuItem {
@@ -28,6 +36,9 @@ export interface PanelMenuItem {
 
 export type PanelMode = "floating" | "fixed";
 
+/** Which edge a resize grip drives: `e` = width, `s` = height, `se` = both (the corner). */
+export type ResizeAxis = "e" | "s" | "se";
+
 export interface PanelShellProps {
   /** Header title text. */
   title: React.ReactNode;
@@ -37,8 +48,25 @@ export interface PanelShellProps {
   initialX?: number;
   /** Initial top offset in px when floating. */
   initialY?: number;
-  /** Fixed width in px (applies to both modes). */
+  /** Starting width in px (applies to both modes). The user can resize from here unless locked. */
   defaultWidth?: number;
+  /** Starting height in px. Floating only — a docked panel is sized by its container. */
+  defaultHeight?: number;
+  /** Let the user drag (or arrow-key) the panel's edges. Default true; `false` locks the size. */
+  resizable?: boolean;
+  /** Smallest width the user can drag to, in px. Default 200. */
+  minWidth?: number;
+  /** Largest width the user can drag to, in px. Default 960. */
+  maxWidth?: number;
+  /** Smallest height the user can drag to, in px (floating). Default 120. */
+  minHeight?: number;
+  /** Largest height the user can drag to, in px (floating). Default 900. */
+  maxHeight?: number;
+  /**
+   * Called after each resize with the new box. Not for persistence — the size is session state — but
+   * for side effects the panel cannot know about, above all `map.resize()` on an adjacent MapLibre map.
+   */
+  onResize?: (size: { width: number; height?: number }) => void;
   /** Called by the "Remove" menu item and the floating close (×) button. */
   onClose?: () => void;
   /** Called by the "Open" menu item. */
@@ -67,9 +95,15 @@ export function PanelShell(props: PanelShellProps): React.ReactElement {
     y: props.initialY ?? 24,
   });
   const [menu, setMenu] = useState<{ x: number; y: number } | null>(null);
+  // Session size. Undefined = "as authored / as laid out"; a number = the user has dragged it.
+  const [size, setSize] = useState<{ w?: number; h?: number }>({
+    w: props.defaultWidth,
+    h: props.defaultHeight,
+  });
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const dragRef = useRef<{ dx: number; dy: number } | null>(null);
+  const resizeRef = useRef<{ axis: ResizeAxis; x: number; y: number; w: number; h: number } | null>(null);
 
   // --- header drag (floating only), via pointer events -----------------------
   const onHeaderPointerDown = useCallback(
@@ -107,6 +141,90 @@ export function PanelShell(props: PanelShellProps): React.ReactElement {
     dragRef.current = null;
     (e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId);
   }, []);
+
+  // --- resize (both modes; width docked, width + height floating) -------------
+  const resizable = props.resizable !== false;
+  const minW = props.minWidth ?? 200;
+  const maxW = props.maxWidth ?? 960;
+  const minH = props.minHeight ?? 120;
+  const maxH = props.maxHeight ?? 900;
+  const { onResize } = props;
+
+  /** Apply a delta to the axis being dragged and report the new box. */
+  const applyResize = useCallback(
+    (axis: ResizeAxis, from: { w: number; h: number }, dx: number, dy: number): void => {
+      const w = axis === "s" ? from.w : resizePanel(from.w, dx, minW, maxW);
+      const h = axis === "e" ? from.h : resizePanel(from.h, dy, minH, maxH);
+      setSize({ w, h: floating ? h : undefined });
+      onResize?.({ width: w, ...(floating ? { height: h } : null) });
+    },
+    [floating, minW, maxW, minH, maxH, onResize],
+  );
+
+  /** The box a drag starts from — the measured element, so an unsized panel resizes from where it is. */
+  const startBox = useCallback((): { w: number; h: number } => {
+    const rect = rootRef.current?.getBoundingClientRect();
+    return { w: size.w ?? rect?.width ?? minW, h: size.h ?? rect?.height ?? minH };
+  }, [size.w, size.h, minW, minH]);
+
+  const onGripPointerDown = useCallback(
+    (axis: ResizeAxis) =>
+      (e: React.PointerEvent<HTMLDivElement>): void => {
+        if (!resizable) return;
+        const from = startBox();
+        resizeRef.current = { axis, x: e.clientX, y: e.clientY, w: from.w, h: from.h };
+        (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+        e.preventDefault();
+        e.stopPropagation();
+      },
+    [resizable, startBox],
+  );
+
+  const onGripPointerMove = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>): void => {
+      const r = resizeRef.current;
+      if (!r) return;
+      applyResize(r.axis, { w: r.w, h: r.h }, e.clientX - r.x, e.clientY - r.y);
+    },
+    [applyResize],
+  );
+
+  const endResize = useCallback((e: React.PointerEvent<HTMLDivElement>): void => {
+    resizeRef.current = null;
+    (e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId);
+  }, []);
+
+  /** Arrow keys resize a focused grip — a pointer-only grip is unusable by keyboard and touch alike. */
+  const onGripKeyDown = useCallback(
+    (axis: ResizeAxis) =>
+      (e: React.KeyboardEvent<HTMLDivElement>): void => {
+        if (!resizable) return;
+        const step = e.shiftKey ? 48 : 16;
+        const dx = e.key === "ArrowRight" ? step : e.key === "ArrowLeft" ? -step : 0;
+        const dy = e.key === "ArrowDown" ? step : e.key === "ArrowUp" ? -step : 0;
+        if (!dx && !dy) return;
+        e.preventDefault();
+        applyResize(axis, startBox(), dx, dy);
+      },
+    [resizable, applyResize, startBox],
+  );
+
+  /** One grip: an edge (or corner) separator that is draggable and arrow-key operable. */
+  const grip = (axis: ResizeAxis): React.ReactElement => (
+    <div
+      role="separator"
+      tabIndex={0}
+      data-strata-panel-resize={axis}
+      aria-orientation={axis === "s" ? "horizontal" : "vertical"}
+      aria-label={axis === "e" ? "Resize panel width" : axis === "s" ? "Resize panel height" : "Resize panel"}
+      onPointerDown={onGripPointerDown(axis)}
+      onPointerMove={onGripPointerMove}
+      onPointerUp={endResize}
+      onPointerCancel={endResize}
+      onKeyDown={onGripKeyDown(axis)}
+      style={gripStyle(axis)}
+    />
+  );
 
   // --- context menu ----------------------------------------------------------
   const openMenuAt = useCallback((x: number, y: number): void => {
@@ -157,7 +275,11 @@ export function PanelShell(props: PanelShellProps): React.ReactElement {
 
   const rootStyle: React.CSSProperties = {
     ...baseShellStyle,
-    width: props.defaultWidth,
+    // position:relative so the edge grips have this card as their containing block when docked.
+    position: "relative",
+    width: size.w ?? props.defaultWidth,
+    // An explicit height must beat the shell's `maxHeight:100%`, or a dragged-taller panel snaps back.
+    ...(floating && size.h ? { height: size.h, maxHeight: "none" } : null),
     ...(floating
       ? { position: "absolute", left: pos.x, top: pos.y, zIndex: 1000, boxShadow: "0 8px 28px rgba(0,0,0,.18)" }
       : null),
@@ -199,6 +321,11 @@ export function PanelShell(props: PanelShellProps): React.ReactElement {
       </div>
 
       <div style={bodyStyle}>{props.children}</div>
+
+      {/* Width on both modes; height and the corner only where the card owns its own box. */}
+      {resizable && grip("e")}
+      {resizable && floating && grip("s")}
+      {resizable && floating && grip("se")}
 
       {menu && items.length > 0 && (
         <div
@@ -269,6 +396,27 @@ const bodyStyle: React.CSSProperties = {
   minHeight: 0,
   overflow: "auto",
 };
+/**
+ * A resize grip: a thin hit target on the edge it drives, transparent until hovered or focused so the
+ * card's chrome stays clean. `touchAction:"none"` is required or a touch drag scrolls the page instead.
+ */
+function gripStyle(axis: ResizeAxis): React.CSSProperties {
+  const base: React.CSSProperties = {
+    position: "absolute",
+    touchAction: "none",
+    background: "transparent",
+    zIndex: 1,
+  };
+  if (axis === "e") {
+    return { ...base, top: 0, bottom: 0, right: 0, width: 6, cursor: "col-resize" };
+  }
+  if (axis === "s") {
+    return { ...base, left: 0, right: 0, bottom: 0, height: 6, cursor: "row-resize" };
+  }
+  // The corner sits above both edge grips so a diagonal drag is not stolen by whichever edge is on top.
+  return { ...base, right: 0, bottom: 0, width: 14, height: 14, cursor: "nwse-resize", zIndex: 2 };
+}
+
 const menuStyle: React.CSSProperties = {
   position: "fixed",
   zIndex: 2000,

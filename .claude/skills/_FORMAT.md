@@ -25,7 +25,8 @@ excerpts, not a dump.
 
 ## 4. Known traps
 The mistakes this domain invites, stated as rules (mirror strata-app-builder CLAUDE.md "Known traps"):
-  - `objectIdField` is always `OBJECTID`; a string source id ⇒ omit it so the OID is synthesised.
+  - When publishing, `objectIdField` is always `OBJECTID`; a string source id ⇒ omit it so the OID is
+    synthesised. When consuming a service you did not publish, read `objectIdFieldName` — never assume.
   - Polygon fills need low alpha (~40/255) so overlapping layers stay readable.
   - Don't use `esriSMSPath`; use `esriSMSCircle`/`Square`/…
 

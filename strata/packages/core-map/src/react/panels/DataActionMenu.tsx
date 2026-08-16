@@ -24,7 +24,7 @@ export interface DataActionMenuProps {
   /** The shared action bus (injected by `<StrataApp>` as `bus`). */
   bus: ActionBus;
   /** Controlled selection. Omit to auto-track `featureSelect`/`rowSelect` from the bus. */
-  selection?: { layerId: string; oids: number[] } | null;
+  selection?: { layerId: string; oids: Array<number | string> } | null;
   /** Actions to offer (default: `defaultDataActions`). */
   actions?: DataAction[];
   /** Called after an action runs (e.g. to close a popover). */
@@ -38,7 +38,7 @@ export interface DataActionMenuProps {
 export function DataActionMenu(props: DataActionMenuProps): React.ReactElement | null {
   const { bus, actions = defaultDataActions, hideWhenEmpty = true } = props;
   const controlled = props.selection !== undefined;
-  const [tracked, setTracked] = useState<{ layerId: string; oids: number[] } | null>(null);
+  const [tracked, setTracked] = useState<{ layerId: string; oids: Array<number | string> } | null>(null);
 
   useEffect(() => {
     if (controlled) return;

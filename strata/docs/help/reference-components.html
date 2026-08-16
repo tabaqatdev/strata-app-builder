@@ -89,9 +89,11 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
 <a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
 <a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
 <a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
@@ -104,8 +106,8 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 </nav><main><div class="crumb">Reference</div><h1>Components &amp; widgets</h1><p class="lede">Purpose and scope of every package, panel, widget, and skill.</p><p>strata-app-builder is layered: <strong>packages</strong> (the code), <strong>map controls + panels + widgets</strong> (the UI you compose),
 <strong>skills</strong> (how Claude authors each thing), and <strong>commands</strong> (what you type). This page is the map of all of
 it — the <em>purpose and scope</em> of every piece and <em>how they work together</em>. For the exact phrase to ask for
-each one, see the <strong><a href="reference-human-language.html">Human Language Reference</a></strong>; for the full command list, see
-<a href="reference-commands.html">Command reference</a>.</p>
+each one, see the <strong><a href="..\reference\human-language.md">Human Language Reference</a></strong>; for the full command list, see
+<a href="..\reference\commands.md">Command reference</a>.</p>
 <hr />
 <h2 id="the-big-picture-how-a-request-flows">The big picture (how a request flows)</h2>
 <pre><code>You describe a map/app  ─▶  a /command or /recipe  ─▶  Claude follows a skill
@@ -220,9 +222,21 @@ colors from <code>theme</code>, expressions from <code>arcade</code>, analysis f
 (visibility/opacity/order/basemap/highlight/<strong>filter</strong>). When also given a <code>bus</code>, it is a <strong>WIF sink</strong> —
 selections and flashes from other widgets light up on it. Controls layered on the canvas:</p>
 <ul>
+<li><strong>MapChrome — the house control cluster.</strong> One 32 px round-rect stack in the corner (<strong>zoom in ·
+  zoom out · fit · layers · basemap · legend</strong>, six inline-SVG glyphs on <code>currentColor</code>), with
+  MapLibre's own zoom suppressed so there is exactly one set, and <strong>one drawer</strong> opening <em>beside</em> the
+  cluster — never over it, never two at once. Layers and basemap belong <strong>on the map</strong>: a reader looking
+  at the map should not travel to a page header to change what it shows. <code>L</code> · <code>B</code> · <code>G</code> · <code>F</code> ·
+  <code>Esc</code>. It is the default whenever <code>navigation</code>, <code>layerList</code> or <code>basemapSwitcher</code> is on
+  (<code>controls.cluster = false</code> restores the older always-open boxes).</li>
 <li><strong>Navigation / Geolocate / Fullscreen / Scalebar / StatusBar</strong> — the standard map furniture. Set
-  <code>controls.position</code> (<code>top-left</code>/<code>top-right</code>/…) so the native cluster <strong>honors a docked/floating panel</strong>.</li>
-<li><strong>Legend</strong> — swatches from each layer's <code>drawingInfo</code>.</li>
+  <code>controls.position</code> (<code>top-left</code>/<code>top-right</code>/…) so the cluster <strong>honors a docked/floating panel</strong>;
+  geolocate/fullscreen take the opposite corner.</li>
+<li><strong>Legend</strong> — swatches from each layer's <code>drawingInfo</code>, and <strong>a control surface, not a caption</strong>:
+  click a class to hide it · shift-click to isolate · <code>Esc</code> clears. Hiding builds a real
+  <code>definitionExpression</code> on the renderer's own field and applies it in place, because a legend row
+  <strong>filters, it does not fade</strong> — a faded class is still clickable, so a "hidden" feature can be
+  selected through it. Counts keep their denominator (<code>8,340 of 12,728</code>).</li>
 <li><strong>Measure</strong> (distance/area) and <strong>Sketch</strong> (point/line/polygon) — revert to <em>identify</em> when closed.</li>
 <li><strong>TimeSlider</strong> — play/pause a <code>definitionExpression</code> on a time field.</li>
 <li><strong>Identify → popup</strong> — a click enriches the top/active feature and shows its <code>popupInfo</code>.</li>
@@ -236,6 +250,11 @@ selections and flashes from other widgets light up on it. Controls layered on th
 <h2 id="panels-stratacore-mapreactpanels-dockedfloating-tools">Panels (<code>@strata/core-map/react/panels</code>) — docked/floating tools</h2>
 <p>All render inside a shared <strong><code>PanelShell</code></strong> (fixed or floating, with an Open/Remove menu). Add them with
 <code>/panel &lt;type&gt;</code>.</p>
+<p><strong>Every panel is resizable</strong> — that is chrome, not a per-panel feature. A docked panel carries a width grip
+on its trailing edge; a floating one adds a height grip and a corner. Grips are draggable <em>and</em> arrow-key
+operable, clamped to <code>minWidth</code>/<code>maxWidth</code> (defaults 200–960 px), and <code>resizable={false}</code> locks a panel
+whose size is load-bearing. <code>defaultWidth</code> is a <strong>starting</strong> size: the drag is session state, so a reload
+returns to what the app authored.</p>
 <table>
 <thead>
 <tr>
@@ -250,11 +269,11 @@ selections and flashes from other widgets light up on it. Controls layered on th
 </tr>
 <tr>
 <td><strong>BasemapPanel</strong></td>
-<td>Switch basemaps (genuine ESRI <code>BaseMap</code>), plus a <strong>Manage</strong> pill: add / remove / <strong>set-default</strong>, persisted to the map spec via <code>onLibraryChange</code>.</td>
+<td>Switch basemaps (genuine ESRI <code>BaseMap</code>) — a <strong>radiogroup</strong>: one is always in force and always ticked, each row carrying a <strong>live tile of the current area in that style</strong> (a colour swatch cannot tell Positron from Voyager) and an optional <strong>Follow the theme</strong> row. Plus a <strong>Manage</strong> pill: add / remove / <strong>set-default</strong>, persisted to the map spec via <code>onLibraryChange</code>.</td>
 </tr>
 <tr>
 <td><strong>AttributeTablePanel</strong></td>
-<td>Sortable table: header filters, column show/hide, row→map select, <strong>CSV / TSV / JSON / GeoJSON export</strong>, <strong>server paging</strong>, auto <strong>row-windowing</strong>. Emits <code>rowSelect</code>.</td>
+<td>Sortable table: header filters, column show/hide, <strong>CSV / TSV / JSON / GeoJSON export</strong>, <strong>server paging</strong>, auto <strong>row-windowing</strong>. A row click <strong>adopts</strong> that record — the map flies to it and opens its popup; <strong>clicking it again releases it</strong>, clearing the selection and closing the popup. Emits <code>rowSelect</code> (an empty <code>oids</code> <strong>is</strong> the release).</td>
 </tr>
 <tr>
 <td><strong>ChartPanel</strong></td>
@@ -298,7 +317,8 @@ selections and flashes from other widgets light up on it. Controls layered on th
 <h2 id="layout-widgets-defaultwidgetregistry-the-applayout-building-blocks">Layout widgets (<code>defaultWidgetRegistry</code>) — the <code>AppLayout</code> building blocks</h2>
 <p><code>&lt;StrataApp&gt;</code> renders a tree of <strong>containers</strong> holding <strong>widgets</strong>. Containers: <code>row</code> · <code>column</code> · <code>grid</code> ·
 <code>section</code> · <code>card</code> · <strong><code>accordion</code></strong> · <strong><code>flow-row</code></strong> · <strong><code>splitter</code></strong> (resizable) · <strong><code>window</code></strong> (modal
-dialog) · <strong><code>panel</code></strong> (dockable/collapsible), plus a <strong><code>views</code></strong> node (tabs / slide stepper, each view
+dialog) · <strong><code>panel</code></strong> (dockable/collapsible/<strong>resizable</strong> — a grip on the edge facing the content drags it
+along its dock axis, bounded by <code>minWidth</code>/<code>maxWidth</code>), plus a <strong><code>views</code></strong> node (tabs / slide stepper, each view
 carrying a saved <code>mapState</code>, with optional <code>autoPlay</code>) and an <code>animate</code>
 (<code>fade</code>/<code>slide</code>/<code>scroll-reveal</code>/<code>fly</code>/<code>zoom</code>/<code>rotate</code> + <code>animateOptions</code>). Pages also take <code>header</code>/<code>footer</code>
 regions and an app <code>splash</code>. Widgets (registry <code>type</code>), grouped by what they do:</p>
@@ -317,7 +337,7 @@ regions and an app <code>splash</code>. Widgets (registry <code>type</code>), gr
 registry. An <code>AppLayout.connections</code> array declares <em>"when <code>from</code> emits <code>trigger</code>, run <code>action</code> on <code>to</code>"</em> —
 <code>&lt;StrataApp&gt;</code> wires the bus at mount, so a chart click filters the map + table, a category cross-filters
 every widget, a row zooms the map. Filters apply <strong>in place</strong> (<code>store.setDefinition</code>, no remount). See the
-<a href="reference-human-language.html#8-widget-interactivity-the-wif"><code>strata-interactivity</code></a> skill.</p>
+<a href="..\reference\human-language.md#8-widget-interactivity-the-wif"><code>strata-interactivity</code></a> skill.</p>
 <hr />
 <h2 id="skills-claudeskills-how-claude-authors-each-thing">Skills (<code>.claude/skills/*</code>) — how Claude authors each thing</h2>
 <p>A skill is a cheatsheet + recipes + ESRI reference + traps that Claude loads for a task. Each maps to a
@@ -388,11 +408,11 @@ surface above:</p>
 <p>Onboarding (<code>/new-app</code>, <code>/guide</code>, <code>/help</code>, <code>/what-can-i-do</code>, <code>/recipe</code>), map authoring (<code>/create-map</code>,
 <code>/add-data</code>, <code>/symbology</code>, <code>/popup</code>, <code>/panel</code>, <code>/timeslider</code>, <code>/app</code>, <code>/edit</code>, <code>/attachments</code>, <code>/analyze</code>),
 data (<code>/convert</code>, <code>/publish</code>, <code>/update-metadata</code>), and <code>/export</code>. Full list with arguments:
-<a href="reference-commands.html">Command reference</a>.</p>
+<a href="..\reference\commands.md">Command reference</a>.</p>
 <hr />
 <h2 id="see-also">See also</h2>
 <ul>
-<li><strong><a href="reference-human-language.html">Human Language Reference</a></strong> — the phrase to ask for each component (recipe fuel).</li>
-<li><strong><a href="guide-creating-components.html">Creating a new component/widget/plugin</a></strong> — prerequisites + the recipe.</li>
-<li><strong><a href="guide-anatomy.html">Repository anatomy</a></strong> — where every file lives.</li>
+<li><strong><a href="..\reference\human-language.md">Human Language Reference</a></strong> — the phrase to ask for each component (recipe fuel).</li>
+<li><strong><a href="..\guide\creating-components.md">Creating a new component/widget/plugin</a></strong> — prerequisites + the recipe.</li>
+<li><strong><a href="..\guide\anatomy.md">Repository anatomy</a></strong> — where every file lives.</li>
 </ul><div class="pager"><a class="prev" href="how-to-using-recipes.html"><small>Previous</small>Using recipes</a><a class="next" href="reference-human-language.html"><small>Next</small>Human Language Reference</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

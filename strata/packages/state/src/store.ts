@@ -16,7 +16,8 @@ import type { OperationalLayer, LayersJson, BaseMap } from "@strata/schema";
 /** The current attribute selection: a set of OBJECTIDs within one layer. */
 export interface Selection {
   layerId: string;
-  oids: number[];
+  /** Object ids as the service publishes them — string keys are real (troubleshooting.md §1). */
+  oids: Array<number | string>;
 }
 
 /** The map view: center [lng, lat] and zoom. */

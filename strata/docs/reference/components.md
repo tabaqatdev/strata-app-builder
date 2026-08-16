@@ -62,9 +62,21 @@ colors from `theme`, expressions from `arcade`, analysis from `processing`, imag
 (visibility/opacity/order/basemap/highlight/**filter**). When also given a `bus`, it is a **WIF sink** —
 selections and flashes from other widgets light up on it. Controls layered on the canvas:
 
+- **MapChrome — the house control cluster.** One 32 px round-rect stack in the corner (**zoom in ·
+  zoom out · fit · layers · basemap · legend**, six inline-SVG glyphs on `currentColor`), with
+  MapLibre's own zoom suppressed so there is exactly one set, and **one drawer** opening *beside* the
+  cluster — never over it, never two at once. Layers and basemap belong **on the map**: a reader looking
+  at the map should not travel to a page header to change what it shows. `L` · `B` · `G` · `F` ·
+  `Esc`. It is the default whenever `navigation`, `layerList` or `basemapSwitcher` is on
+  (`controls.cluster = false` restores the older always-open boxes).
 - **Navigation / Geolocate / Fullscreen / Scalebar / StatusBar** — the standard map furniture. Set
-  `controls.position` (`top-left`/`top-right`/…) so the native cluster **honors a docked/floating panel**.
-- **Legend** — swatches from each layer's `drawingInfo`.
+  `controls.position` (`top-left`/`top-right`/…) so the cluster **honors a docked/floating panel**;
+  geolocate/fullscreen take the opposite corner.
+- **Legend** — swatches from each layer's `drawingInfo`, and **a control surface, not a caption**:
+  click a class to hide it · shift-click to isolate · `Esc` clears. Hiding builds a real
+  `definitionExpression` on the renderer's own field and applies it in place, because a legend row
+  **filters, it does not fade** — a faded class is still clickable, so a "hidden" feature can be
+  selected through it. Counts keep their denominator (`8,340 of 12,728`).
 - **Measure** (distance/area) and **Sketch** (point/line/polygon) — revert to *identify* when closed.
 - **TimeSlider** — play/pause a `definitionExpression` on a time field.
 - **Identify → popup** — a click enriches the top/active feature and shows its `popupInfo`.
@@ -81,11 +93,17 @@ selections and flashes from other widgets light up on it. Controls layered on th
 All render inside a shared **`PanelShell`** (fixed or floating, with an Open/Remove menu). Add them with
 `/panel <type>`.
 
+**Every panel is resizable** — that is chrome, not a per-panel feature. A docked panel carries a width grip
+on its trailing edge; a floating one adds a height grip and a corner. Grips are draggable *and* arrow-key
+operable, clamped to `minWidth`/`maxWidth` (defaults 200–960 px), and `resizable={false}` locks a panel
+whose size is load-bearing. `defaultWidth` is a **starting** size: the drag is session state, so a reload
+returns to what the app authored.
+
 | Panel | Purpose |
 |---|---|
 | **LayerPanel** | **One-line rows** (drag-reorder, visibility toggle) + a `⋯`/right-click **context menu**: Show table · Zoom · **Filter…** · **Symbology…** · **Popup…** · Rename · Show metadata · Remove. Add-from-URL header button. |
-| **BasemapPanel** | Switch basemaps (genuine ESRI `BaseMap`), plus a **Manage** pill: add / remove / **set-default**, persisted to the map spec via `onLibraryChange`. |
-| **AttributeTablePanel** | Sortable table: header filters, column show/hide, row→map select, **CSV / TSV / JSON / GeoJSON export**, **server paging**, auto **row-windowing**. Emits `rowSelect`. |
+| **BasemapPanel** | Switch basemaps (genuine ESRI `BaseMap`) — a **radiogroup**: one is always in force and always ticked, each row carrying a **live tile of the current area in that style** (a colour swatch cannot tell Positron from Voyager) and an optional **Follow the theme** row. Plus a **Manage** pill: add / remove / **set-default**, persisted to the map spec via `onLibraryChange`. |
+| **AttributeTablePanel** | Sortable table: header filters, column show/hide, **CSV / TSV / JSON / GeoJSON export**, **server paging**, auto **row-windowing**. A row click **adopts** that record — the map flies to it and opens its popup; **clicking it again releases it**, clearing the selection and closing the popup. Emits `rowSelect` (an empty `oids` **is** the release). |
 | **ChartPanel** | Bar/line/pie via **ECharts** (optional) or an SVG fallback; **clicking a category cross-filters** (emits `categorySelect`). |
 | **CartoPanel** | CARTO-style layer list + cross-filter widgets (category/formula/histogram/time). Emits `categorySelect`. |
 | **FilterPanel** | Interactive query builder → `definitionExpression` (emits `filterChange`). |
@@ -102,7 +120,8 @@ All render inside a shared **`PanelShell`** (fixed or floating, with an Open/Rem
 
 `<StrataApp>` renders a tree of **containers** holding **widgets**. Containers: `row` · `column` · `grid` ·
 `section` · `card` · **`accordion`** · **`flow-row`** · **`splitter`** (resizable) · **`window`** (modal
-dialog) · **`panel`** (dockable/collapsible), plus a **`views`** node (tabs / slide stepper, each view
+dialog) · **`panel`** (dockable/collapsible/**resizable** — a grip on the edge facing the content drags it
+along its dock axis, bounded by `minWidth`/`maxWidth`), plus a **`views`** node (tabs / slide stepper, each view
 carrying a saved `mapState`, with optional `autoPlay`) and an `animate`
 (`fade`/`slide`/`scroll-reveal`/`fly`/`zoom`/`rotate` + `animateOptions`). Pages also take `header`/`footer`
 regions and an app `splash`. Widgets (registry `type`), grouped by what they do:

@@ -20,6 +20,58 @@ Design in this order, and resist skipping ahead to widgets:
 6. **Theme** — one `ThemeSpec`, one accent, deliberate dark-or-light.
 7. **Verify** — the checklist at the end of this page.
 
+## 0 · The house defaults, and when to break them
+
+These are what every app gets unless its business need genuinely conflicts. **They are defaults, not
+laws** — a recipe may override any of them, in writing, with the reason. What it may not do is depart
+silently: an unexplained deviation is indistinguishable from an oversight, and the next reader cannot
+tell which it was.
+
+**Shell.** A header carrying the title and the controls that change the *reading*; a **persistent notice
+bar** for anything true as long as the data is on screen; a **status line** for transient progress. Never
+put a lasting caveat in the status line — load progress overwrites it and it never reaches anyone.
+
+**Map chrome.** One inline-SVG control cluster, top-right, 32 px buttons on `currentColor` — **zoom in ·
+zoom out · fit · layers · basemap · legend**. MapLibre's own zoom control suppressed so there is exactly
+one set. Drawers (layers · basemap) open **beside** the cluster, never over it, and **one at a time**.
+Layer rows are checkboxes; **basemap rows are radios** carrying a live tile of the current area in that
+style, and the tick names the **effective** basemap even when the theme is choosing it. Legend
+bottom-left as its own control surface with live counts; coordinate/zoom/CRS readout bottom-right. Layers
+and basemap belong **on the map** — a reader looking at the map should not travel to a page header to
+change what it shows. On the React path this is `MapChrome`, on by default.
+
+**The legend filters; it does not fade.** Click a class to hide it, shift-click to isolate, `Esc` clears
+— applied as a real `definitionExpression`, because a faded class is still clickable and a "hidden"
+feature can be selected through it. Every count keeps its denominator, and the panel says in words that
+isolating changes the map, not the reading.
+
+**Panels size to the reader.** Every drawer, rail and docked panel carries a resize grip on the edge
+facing the content — draggable and arrow-key operable — bounded by a floor at which the panel is still
+readable. The authored width is where it *opens*, not where it must stay: the same rail is generous on a
+laptop, truncated on a projector, and eats the map on a tablet, and only the reader knows which they have.
+
+**Keyboard.** `L` layers · `B` basemap · `G` legend · `F` fit · `←`/`→` step the signature dimension ·
+`Esc` unwinds **one thing at a time** (clear the filter first, only then climb a level). A focused resize
+grip takes `←`/`→` (or `↑`/`↓`) to size the panel, `Shift` for a bigger step.
+
+**Interaction floor.** ≥3 live `connections` on first render. The signature loop works end-to-end and
+**bidirectionally** where it is master–detail. Whatever adopts also **releases**, with a visible
+affordance — a table row is the canonical case: click it and the map flies to *that record* and opens its
+popup; click it again and the selection clears and the popup closes. Exactly one population selected at a
+time. A deep link round-trips the reading.
+
+**Honesty surfaces.** Every cap visible (`+N more`, `Capped, not complete`). Every filtered count keeps its
+denominator (`2 of 7`). Every active filter shown as a labelled chip with an `×` and a **Clear all**.
+Layers labelled with their real state — *off* · *N in view* · *none in this view* · *capped* ·
+*not mappable*.
+
+**Theme.** One `--strata-*` token set; both modes clear **4.5:1** on every informational state, measured
+rather than eyeballed. Data colours identical in both themes. Semantic roles carry meaning, not emphasis.
+
+**Non-negotiable regardless of business need:** keyless basemaps · EPSG:4326 · verified field names only ·
+nothing fabricated · read-only unless the recipe names a writable authenticated backend. These are not
+defaults; they are the contract.
+
 ## 1 · Choose the silhouette first
 
 Apps read as one of four families. Within a product suite or demo gallery, adjacent apps should come from
@@ -41,6 +93,41 @@ Two hard rules from the template roster:
   all render as "map + left panel". Use at most two of them per suite, and let each lead with its signature
   accent (the buffer ring, the rank numerals, the clickable legend chips, the brushable charts).
 
+### Named archetypes and their signature loops
+
+A silhouette is a shape; an archetype is a shape **plus the one interaction that justifies it**. Pick the
+loop first — it is what a client recognises in ten seconds — then the shape follows. Templates marked with
+a file are already serialized in [`templates/`](../../templates/README.md); the rest you compose.
+
+| Archetype | The signature loop — the thing that *is* the app | Template |
+|---|---|---|
+| Sidebar explorer | legend class chip → `filter` via `setDefinition`, with live counts | `foldable` |
+| Launchpad | tools open as floating cards over a full-bleed map; nothing docked | `launchpad` |
+| Ops command | header selectors → `filter` everything; `extentChange` → recompute KPIs | `monitor` |
+| Split dashboard | the general-purpose default — pick something more specific unless nothing fits | `dash`, `collage` |
+| Extent scoreboard | every pan/zoom recomputes the stat strip (`extentChange` → `showStatistics`) | `summary` |
+| Scroll story | section scrolls into view → apply a map state diff | `parallax` |
+| Time player | slider → time `definitionExpression`; `featureSelect` → that feature's series | `timeline` |
+| Insets grid | shared `filterChange` → every pane; inset click → main `zoomTo` | `multiverse` |
+| Portfolio hub | card → `navigate`; the front door that makes a family of apps a product | `gallery`, `epic` |
+| Ranked list | **the rank ORDER is the app**; `rowSelect` ⇄ `featureSelect`, pin-to-compare tray | — |
+| Nearby finder | search → geocode → buffer → `selectByGeometry` on N layers; **the ring is the signature** | `leaflet` (partial) |
+| Zone lookup | address → point-in-polygon → zoom, dim all others, one result card. One question, one answer | — |
+| Chart board | brushable charts cross-filter the map and each other; filters stack into a chip row | — |
+| Triage console | `rowSelect` ⇄ `featureSelect` bidirectional; **the table is the protagonist** | `dart` (partial) |
+| Media pager | media pane ~70 %, map demoted to a locator; pager steps features | — |
+| Compare / swipe | two panes or a draggable divider; `extentChange` syncs the sibling both ways | `checkerboard` (partial) |
+| Select & export | sketch → select → accumulating tray → **the output document is the product** | — |
+| Exhibit slides | each slide is a saved map state; `pageChange` applies the diff | `vacation`, `ribbon` |
+| Atlas workbench | the user composes the view from a catalog panel. The kitchen sink — use sparingly | `tab`, `jewelry-box` |
+| Reporter | public submit form + browse. **Capture needs a writable, authenticated ESRI backend** | — |
+| Field trio | composite: capture + triage + monitor as three pages behind a hub. Backend caveat as above | — |
+
+Two findings behind this list, from inventorying a large published solutions catalogue: **~151 solutions
+collapse to about 14 UI archetypes** — differentiation lives in the data model, not the UI — and nearly
+every solution pairs an internal surface (console, dashboard) with a public one (lookup, transparency
+page). Reach for that two-persona symmetry before inventing a third shape.
+
 ## 2 · Layout rules
 
 The `LayoutNode` tree gives you `row`, `column`, `grid`, `section`, `card`, `accordion`, `flow-row`,
@@ -53,8 +140,14 @@ The `LayoutNode` tree gives you `row`, `column`, `grid`, `section`, `card`, `acc
   overlays (status bars, floating cards, windows) can be absolutely placed inside it. In scroll pages, give
   embedded map sections an explicit height and rounded corners — a full-bleed map inside prose reads as a
   bug, a framed one as a figure.
-- **Panels vs splitters.** Use `panel` (dockable, collapsible, fixed width) for tool drawers the user may
-  dismiss; use `splitter` when both sides are content the user will want to resize.
+- **Panels vs splitters.** Use `panel` (dockable, collapsible, resizable) for tool drawers the user may
+  dismiss; use `splitter` when both sides are content and neither is subordinate. Both resize — the choice
+  is about *what the region is*, not about which one the user can drag.
+- **A panel width is a starting position, not a decision.** Panels resize by default, so author `width` as
+  where the panel opens and `minWidth`/`maxWidth` as the range it stays useful in. Set the floor at the
+  width the panel is still readable at — that is the honest alternative to truncating labels to fit a size
+  the user could have fixed. Lock one with `resizable:false` only where the size is load-bearing, and say
+  so in the recipe.
 - **Windows** are for tools summoned on demand (launchpad pattern): declare them `open:false` and toggle
   them with a `showHide` connection from a `controller` or `button`.
 - **`views` is the state machine.** Tabs for facets, `nav:"slides"` for guided sequences; attach a
@@ -133,12 +226,30 @@ Match ambition to need — an app should be as simple as its sentence allows:
 - [ ] ≥3 connections fire; the signature loop works end-to-end.
 - [ ] Every `layerId` and field name is verified against the webmap.
 - [ ] `responsive.small` collapses every side-by-side row; tested at phone width.
+- [ ] Every panel resizes, from the pointer **and** the keyboard, within a floor that keeps it readable;
+      each `resizable:false` has its reason in the recipe.
+- [ ] One control cluster on the map (zoom · fit · layers · basemap · legend), one drawer at a time, and
+      MapLibre's own zoom suppressed. The basemap drawer ticks the basemap actually in force.
+- [ ] The legend filters rather than fades, isolates on shift-click, clears on `Esc`, and keeps every
+      denominator.
+- [ ] A table row adopts its record (fly + popup) and **releases it on a second click** — nothing is left
+      selected on the map with nothing selected in the table.
 - [ ] Theme: one accent, deliberate mode, semantic status colors where statuses exist.
 - [ ] Basemap keyless; nothing blocks first paint on a slow tile.
 - [ ] Write paths (if any) guarded behind an ESRI backend and degrade to read-only.
 - [ ] Layout validates: registry widget types only — or a bespoke widget added under the freestyle
       charter in `recipes/COMPONENT-MANIFEST.md` §10 (app-local `registry` override honoring the
       widget contract), with a named fallback until it ships (`pnpm test` keeps the roster suite green).
+- [ ] The app **opens on a view where its own signature is visible.** Confirmed by screenshot, not by
+      reasoning — an app has shipped that opened on the one view where its argument was invisible, with
+      every non-visual test green.
+- [ ] Contrast measured, not eyeballed: every informational state ≥ 4.5:1 **in both themes**. Where one
+      hue must serve as both a fill and text, it is two tokens.
+- [ ] Nothing synthesized. A lane with no data renders empty with its citation; every cap says so on
+      screen (`+N more`, `Capped, not complete`).
+
+*Building the app, rather than designing it, has its own gate — the data-honesty, suite and runtime
+checks in [`building-apps.md`](building-apps.md) §7, which starts from this checklist.*
 
 ## 8 · Harvest what works
 

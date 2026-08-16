@@ -89,9 +89,11 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
 <a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
 <a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
 <a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
@@ -144,13 +146,7 @@ component-config reference).</p>
   have them.</li>
 </ul>
 <h2 id="anatomy-of-a-recipe">Anatomy of a recipe</h2>
-<p>Every recipe follows six stages plus the wizard:</p>
-<ol>
-<li><strong>Research</strong> — the domain and the reference apps (cited).</li>
-<li><strong>UI design spec</strong> — layout, KPIs, charts, tables, infographics, theme, typography (front-loaded).</li>
-<li><strong>Data sources</strong> — the exact feature-service URLs and how each maps to the app.</li>
-<li><strong>Prompt-script</strong> — the consecutive <code>/…</code> prompts that build and style the app.</li>
-<li><strong>Verify</strong> — pass criteria, benchmarked against the reference app.</li>
-<li><strong>Harvest</strong> — any gaps found become strata-app-builder issues/PRs.</li>
-</ol>
-<p>And the <strong><code>## Guided wizard</code></strong> section — the configuration questions Claude runs at launch.</p><div class="pager"><a class="prev" href="how-to-cors-and-proxy.html"><small>Previous</small>CORS &amp; proxy</a><a class="next" href="reference-components.html"><small>Next</small>Components &amp; widgets</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>
+<p>A recipe's required sections — and the rule that <code>/recipe</code> will <strong>refuse to build</strong> one whose §3 Data or
+§4 Verify is missing — are defined once, normatively, in
+<a href="..\..\..\recipes\README.md"><code>../../../recipes/README.md</code></a> <em>"Recipe anatomy — the contract"</em>. Read it
+before writing one; don't re-derive the shape from an existing recipe.</p><div class="pager"><a class="prev" href="how-to-cors-and-proxy.html"><small>Previous</small>CORS &amp; proxy</a><a class="next" href="reference-components.html"><small>Next</small>Components &amp; widgets</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

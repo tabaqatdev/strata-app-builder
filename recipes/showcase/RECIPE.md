@@ -128,6 +128,46 @@ alerts; motion is short and functional, so the app reads as an instrument, not a
 | `queryBuilder` → `queryTable` (`fromWidget`) | `dc-crashes` | user-built WHERE | runtime |
 | `feature-info` | tracks bus `featureSelect` / active source | popup fields | `popupInfo` |
 
+## 7b · Verify each source first (terminal)
+
+**Reference recipe** (`../README.md` -> Two classes) — universal keyless sources, still probed.
+Literal output recorded **2026-08-11**.
+
+```bash
+B=https://maps2.dcgis.dc.gov/dcgis/rest/services
+
+#  layer                  path                                            oidField   geom      wkid    count
+#  dc-wards               OP/ACS_Economic_Characteristics/MapServer/57    null (!)   Polygon   26985       8
+#  dc-zip-codes           DCGIS_DATA/Location_WebMercator/FS/4            OBJECTID   Polygon    3857     172
+#  dc-bike-routes         DCGIS_DATA/Transportation_WebMercator/FS/6      OBJECTID   Polyline   3857   1,024
+#  dc-crashes             DCGIS_DATA/Public_Safety_WebMercator/FS/24      OBJECTID   Point      3857 352,414
+#  dc-affordable-housing  DCGIS_DATA/Property_and_Land_WebMercator/FS/62  OBJECTID   Point      3857     923
+#  dc-crash-details       DCGIS_DATA/Public_Safety_WebMercator/FS/25      OBJECTID   null      -      897,159
+
+# TRAP D1 - dc-wards reports objectIdField: null though an OBJECTID field exists. Bind READ-ONLY.
+# TRAP D2 - dc-wards is wkid 26985 (NAD83 / MD State Plane); its siblings are 3857. One server does
+#           NOT mean one spatial reference. Reproject on the way in; everything renders 4326.
+# TRAP D3 - dc-crashes is 352,414 features at maxRecordCount=1000 -> 353 pages. The map's
+#           definitionExpression narrows it to one quarter; never load it whole.
+curl -s "$B/DCGIS_DATA/Public_Safety_WebMercator/FeatureServer/24/query?where=1%3D1&returnCountOnly=true&f=json"
+#  -> {"count":352414}
+# TRAP D4 - dc-crash-details is a TABLE (geometryType null), 897,159 rows. Related records only.
+# TRAP D5 - dc-wards publishes 147 fields. A popup or table MUST name an explicit subset.
+# TRAP D6 - CORS REFLECTS THE ORIGIN; it does not send "*".
+curl -sI "$B/.../FeatureServer/24?f=json" | grep -i access-control
+#  -> (nothing)                      <- a HEAD with no Origin looks CORS-CLOSED
+curl -s -D- -o /dev/null -H "Origin: http://localhost:8042" "$B/.../FeatureServer/24?f=json" | grep -i access-control
+#  -> Access-Control-Allow-Origin: http://localhost:8042
+#     Always probe with an Origin header, or you will proxy a host that never needed one.
+```
+
+**Vintage:** DC open data refreshes continuously. Assert the *shape* — oid field, geometry type, spatial
+reference, field presence — and treat counts as order-of-magnitude.
+
+> The **universal adjuncts** (Natural Earth, USGS earthquakes) are probed in
+> [`../nearby/RECIPE.md`](../nearby/RECIPE.md) §4 — the USGS feed's ids are **strings** and its
+> `time` is epoch **milliseconds**. Do not re-derive; cite it.
+
 ## 8 · Capability sweep — every registry key → a page
 
 | Family | Widgets / nodes exercised | Page |
@@ -159,9 +199,10 @@ A. /new-app — "DC Operations Center" on <StrataApp>. Structured theme mode:"au
    violet, warning amber, danger red; light + hazard presets via theme-switch; EN/AR RTL), a header with a
    page-nav tab bar + theme-switch + lang-switch + share, a per-page footer (attribution + a controller with
    measure/draw/coordinates), and a splash (once). Reference WebMaps/dc.json. Install deps + run command.
-B. Command page: a docked left `panel` (layer-panel with context menu: table/zoom/filter/symbology/popup/
-   rename/remove; basemap gallery with Manage→set-default; legend) + the shared map (navigation/geolocate/
-   fullscreen/scale + measure/draw/coordinates/search/print) + a floating feature-info. /popup each layer.
+B. Command page: a docked left `panel` (`width:300`, `minWidth:240`, `maxWidth:560` — resizable, as every
+   panel is by default; layer-panel with context menu: table/zoom/filter/symbology/popup/rename/remove;
+   basemap gallery with Manage→set-default; legend) + the shared map (navigation/geolocate/fullscreen/scale
+   + measure/draw/coordinates/search/print) + a floating feature-info. /popup each layer.
 C. Panels page: a resizable splitter — map + floating carto on one side; filter, date-filter, a paging table
    (CSV/GeoJSON), and a data-actions menu on the other.
 D. Dashboard page: kpi row + gauge + wardChart (bar, income by ward) + severityChart (pie, crashes by
@@ -182,7 +223,12 @@ I. Design page (scroll): theme-switch + lang-switch, an embed + video, a gallery
 ## 11 · Verify · gaps · risks
 
 **Verify:** every page renders its family with **no console errors** · controls function and measure/draw
-**revert to identify** · panels dock *and* float; the table exports CSV/GeoJSON · KPIs/gauge/table on one
+**revert to identify** · panels dock *and* float **and resize** — drag the left rail's grip and the map
+follows without a reload, then `Tab` to the grip and size it with the arrow keys · **one** control cluster
+on the map (zoom · fit · layers · basemap · legend) with **one** drawer beside it, the basemap drawer
+ticking what is actually in force and each row showing a live tile · the legend **filters** on click,
+isolates on shift-click and clears on `Esc` · a **table row flies the map to that record and opens its
+popup, and the same row clicked again clears both** · the table exports CSV/GeoJSON · KPIs/gauge/table on one
 `sourceId` link with **no connections** · a chart category **cross-filters the map + table in place** (no
 remount) and a row zooms+flashes · the nested AND/OR query builds a real WHERE and feeds a `fromWidget` table
 · `date-filter` play animates crashes · `views` slides + `swipe` + `splitter` + `bookmarks` work ·

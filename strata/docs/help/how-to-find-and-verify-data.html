@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Find &amp; verify data · strata-app-builder help</title><style>
+:root{--navy:#0c2b38;--navy2:#123c4d;--teal:#1ba7a6;--teal600:#178f8e;--teal50:#e9f7f7;
+--ink:#12303c;--slate:#5b6b76;--slate400:#94a3b8;--line:#e4ebee;--panel:#f6f9fa;--white:#fff;
+--code-bg:#f4f7f8;--font:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+--mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--white);line-height:1.6}
+a{color:var(--teal600);text-decoration:none}
+a:hover{text-decoration:underline}
+/* top bar */
+.top{position:sticky;top:0;z-index:20;height:58px;display:flex;align-items:center;gap:14px;
+padding:0 20px;background:var(--navy);color:#fff}
+.top .mk{width:26px;height:26px}
+.top .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.01em}
+.top .brand b{color:#fff}.top .brand span{color:var(--teal);font-weight:700}
+.top .brand small{color:#9fc7cd;font-weight:600;margin-left:6px;font-size:.8rem;letter-spacing:.04em}
+.top .spacer{flex:1}
+.top .home{color:#cfe6e6;font-size:.9rem}
+.filter{display:flex;align-items:center}
+.filter input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;
+border-radius:8px;padding:.4rem .7rem;font-size:.85rem;width:190px;outline:none}
+.filter input::placeholder{color:#9fc7cd}
+/* layout */
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1200px;margin:0 auto}
+nav.side{border-right:1px solid var(--line);padding:22px 14px 60px;height:calc(100vh - 58px);
+position:sticky;top:58px;overflow:auto}
+nav.side .grp{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+color:var(--slate400);margin:18px 10px 6px}
+nav.side a{display:block;padding:.4rem .7rem;border-radius:8px;color:var(--ink);font-size:.92rem;font-weight:500}
+nav.side a:hover{background:var(--panel);text-decoration:none}
+nav.side a.active{background:var(--teal50);color:var(--teal600);font-weight:700}
+/* content */
+main{padding:34px 44px 80px;min-width:0;max-width:860px}
+main .crumb{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal600);font-weight:800}
+main h1{font-size:2.15rem;line-height:1.15;color:var(--navy);letter-spacing:-.02em;margin:.2rem 0 .2rem}
+main .lede{color:var(--slate);font-size:1.05rem;margin:0 0 1.4rem}
+main h2{font-size:1.5rem;color:var(--navy);margin:2rem 0 .6rem;padding-top:.4rem;border-top:1px solid var(--line)}
+main h3{font-size:1.16rem;color:var(--navy2);margin:1.4rem 0 .4rem}
+main h4{font-size:1rem;color:var(--navy2);margin:1.1rem 0 .3rem}
+main p,main li{color:#243b45}
+main code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);color:#0a3a44;
+padding:.12em .38em;border-radius:5px}
+main pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+overflow:auto}
+main pre code{background:none;padding:0;color:#123}
+main table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem;display:block;overflow:auto}
+main th,main td{border:1px solid var(--line);padding:.5rem .7rem;text-align:left;vertical-align:top}
+main thead th{background:var(--panel);color:var(--navy);font-size:.82rem;letter-spacing:.02em}
+main blockquote{margin:1.1rem 0;padding:.7rem 1rem;background:var(--teal50);border-radius:0 10px 10px 0;
+border-left:4px solid var(--teal);color:#134}
+main blockquote p{margin:.3rem 0}
+main hr{border:none;border-top:1px solid var(--line);margin:2rem 0}
+main ul,main ol{padding-left:1.3rem}main li{margin:.25rem 0}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:3rem;border-top:1px solid var(--line);padding-top:1.2rem}
+.pager a{flex:1;padding:.8rem 1rem;border:1px solid var(--line);border-radius:12px;font-weight:600}
+.pager a:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.pager a.next{text-align:right}
+.pager small{display:block;color:var(--slate400);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;padding:22px 44px;max-width:860px}
+/* landing */
+.hero{background:linear-gradient(135deg,var(--navy),#164a5c);color:#fff;border-radius:18px;padding:40px 40px}
+.hero h1{color:#fff;font-size:2.4rem;margin:.4rem 0 .5rem;letter-spacing:-.02em}
+.hero p{color:#cfe6e6;font-size:1.1rem;max-width:44ch;margin:0}
+.hero .mk{width:34px;height:34px;vertical-align:middle}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:block;color:inherit}
+.card:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.card b{color:var(--navy);font-size:1.02rem}
+.card p{color:var(--slate);font-size:.9rem;margin:.3rem 0 0}
+.sec-h{font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal600);margin:26px 0 4px}
+.menu-btn{display:none}
+@media(max-width:860px){
+ .wrap{grid-template-columns:1fr}
+ nav.side{position:fixed;left:0;top:58px;bottom:0;width:280px;background:#fff;transform:translateX(-100%);
+ transition:.2s;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+ nav.side.open{transform:none}
+ .menu-btn{display:inline-flex}.filter{display:none}
+ main{padding:24px 20px 60px}.cards{grid-template-columns:1fr}.hero{padding:28px 22px}
+}
+</style></head><body><header class="top"><button class="menu-btn" onclick="document.getElementById('side').classList.toggle('open')" aria-label="Menu" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer">☰</button><a class="brand" href="index.html"><svg class="mk" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="6" y="7" width="20" height="4.2" rx="2.1" fill="#0c2b38"/><rect x="4" y="14" width="24" height="4.2" rx="2.1" fill="#1ba7a6"/><rect x="8" y="21" width="16" height="4.2" rx="2.1" fill="#5cc7c5"/></svg><b>tabaqat</b><span>· Strata</span><small>HELP &amp; DOCS</small></a><div class="spacer"></div><div class="filter"><input id="q" type="search" placeholder="Filter topics…" oninput="filterNav(this.value)"></div><a class="home" href="index.html">Home</a></header><div class="wrap"><nav class="side" id="side">
+<div class="grp">Start here</div>
+<a class="nav-link" data-title="overview" href="README.html">Overview</a>
+<a class="nav-link" data-title="getting started" href="getting-started.html">Getting started</a>
+<a class="nav-link" data-title="faq" href="faq.html">FAQ</a>
+<div class="grp">Guide</div>
+<a class="nav-link" data-title="repository anatomy" href="guide-anatomy.html">Repository anatomy</a>
+<a class="nav-link" data-title="sample map templates" href="guide-map-templates.html">Sample map templates</a>
+<a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
+<a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
+<a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
+<div class="grp">How-to</div>
+<a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
+<a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link active" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
+<a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
+<a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
+<a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
+<a class="nav-link" data-title="using recipes" href="how-to-using-recipes.html">Using recipes</a>
+<div class="grp">Reference</div>
+<a class="nav-link" data-title="components &amp; widgets" href="reference-components.html">Components &amp; widgets</a>
+<a class="nav-link" data-title="human language reference" href="reference-human-language.html">Human Language Reference</a>
+<a class="nav-link" data-title="command reference" href="reference-commands.html">Command reference</a>
+<a class="nav-link" data-title="troubleshooting" href="troubleshooting.html">Troubleshooting</a>
+</nav><main><div class="crumb">How-to</div><h1>Find &amp; verify data</h1><p>How to get from "this app needs flood data" to a layer you can safely put a number on screen from.</p>
+<p><strong>The one rule:</strong> a field name never enters an app until a response has shown it. Not the catalogue's
+claim about the field, not the metadata's alias — a real response, in the terminal, before any app code
+exists. Every headline figure that shipped wrong across the last twenty builds failed this rule.</p>
+<p>Companions: <strong><a href="troubleshooting.html"><code>troubleshooting.md</code></a></strong> (what goes wrong, with the guard for
+each) · <strong><a href="..\guide\building-apps.md"><code>guide/building-apps.md</code></a></strong> (what to do with it once verified).</p>
+<hr />
+<h2 id="0-the-house-defaults">0 · The house defaults</h2>
+<p>Every app starts here. A recipe may override any of these <strong>with a stated reason</strong> — a business need that
+genuinely conflicts — but the default is what you get when nobody argues, and it is what makes twenty apps
+behave like one product.</p>
+<table>
+<thead>
+<tr>
+<th>Default</th>
+<th>Why it is the default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Keyless sources only</strong></td>
+<td>An app that needs a key cannot be handed to anyone. No keyed basemap, no keyed provider, ever — OSM / CARTO raster only</td>
+</tr>
+<tr>
+<td><strong>Browser-direct fetching</strong></td>
+<td>The layer answers with <code>Access-Control-Allow-Origin</code>, so the app stays a static bundle with nothing to operate. Every recent build is this</td>
+</tr>
+<tr>
+<td><strong>EPSG:4326 everywhere</strong></td>
+<td>Reproject on the way in. No exceptions, no per-layer variance</td>
+</tr>
+<tr>
+<td><strong>Verify before you bind</strong></td>
+<td>A field name never enters the app until a response has shown it (§2). This is the rule the other defaults protect</td>
+</tr>
+<tr>
+<td><strong>Live assertions, not fixtures</strong></td>
+<td>Bind the suite to the real service so a changed register goes red instead of quietly stale</td>
+</tr>
+<tr>
+<td><strong>Full resolution to measure, generalised to draw</strong></td>
+<td>Drawing tolerance is for paint only</td>
+</tr>
+<tr>
+<td><strong>Read the OID, never assume it</strong></td>
+<td><code>objectIdFieldName</code> from the service, per layer</td>
+</tr>
+<tr>
+<td><strong>The page size is what the server returns</strong></td>
+<td>Never what you requested</td>
+</tr>
+<tr>
+<td><strong>Nothing silently truncated or fabricated</strong></td>
+<td>Every cap named on screen; no source ⇒ render empty with the citation</td>
+</tr>
+<tr>
+<td><strong>Read-only</strong></td>
+<td>No write path unless the recipe explicitly targets a writable, authenticated ESRI backend</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When a default must break</strong>, say so where the reader is: name the exception in the recipe's §3 and on
+the screen it affects. A silent departure from these is indistinguishable from a bug.</p>
+<hr />
+<h2 id="1-finding-it">1 · Finding it</h2>
+<p><strong>Start from the vertical, not the server.</strong> Ask what authority is obliged to publish this, then find
+that authority's server. A layer that no one is required to maintain will be stale in a way nothing in
+the response tells you.</p>
+<p><strong>Crawl the catalogue, don't browse it.</strong> Every ArcGIS host enumerates itself:</p>
+<pre><code class="language-bash">ROOT=https://gis.example.gov/arcgis/rest/services
+curl -s &quot;$ROOT?f=json&quot; | jq '{folders, services: [.services[].name]}'
+curl -s &quot;$ROOT/&lt;folder&gt;?f=json&quot; | jq '[.services[] | {name, type}]'
+</code></pre>
+<p>Record what you crawled and when. The California catalogue was built this way — 2,569 endpoints across
+10 servers — and it states its own crawl date, because a catalogue without one is a rumour.</p>
+<p><strong>When a vertical looks empty, the server probably wasn't crawled.</strong> This is the highest-yield move in
+the whole document. California's entire broadband subject area appeared to be missing until someone read
+the <code>config.js</code> of the public map at <code>broadbandmap.ca.gov</code> — a <em>Leaflet</em> app that happens to load
+<code>esri-leaflet</code> — and found a 36-service ArcGIS server nobody had enumerated. If a public agency has a
+web map about your subject, open its network tab or its config: the endpoint it calls is the endpoint you
+want.</p>
+<p><strong>Some gaps are structural, and saying so is the finding.</strong> A sweep of every catalogued California
+service for municipal public-information roles returns <strong>zero</strong> — no street-works registry, no hearing
+calendar, no 311 — because servers #1–#8 are all state agencies. California has 483 incorporated cities.
+For a local-government vertical the state catalogue is empty <em>by construction</em>, and the right conclusion
+is "go to the city's own server", not "this data does not exist".</p>
+<p><strong>Never claim completeness.</strong> Record what a crawl found, on what date, and that it is what the <em>known</em>
+hosts publish.</p>
+<hr />
+<h2 id="2-characterising-a-layer-the-probe">2 · Characterising a layer — the probe</h2>
+<p>Run this before designing anything. Paste the real output into the recipe's §4. Each step names what
+would disqualify the layer.</p>
+<pre><code class="language-bash">L=&quot;https://gis.example.gov/arcgis/rest/services/Folder/Service/FeatureServer/0&quot;
+
+# ── 1. IDENTITY. Read, never assume.
+curl -s &quot;$L?f=json&quot; | jq '{
+  objectIdField: .objectIdFieldName,     # NOT necessarily OBJECTID — troubleshooting.md §1
+  geometryType, maxRecordCount, capabilities,
+  sr: .extent.spatialReference.wkid,
+  fields: [.fields[] | {name, type, alias}]
+}'
+#  ⚠ geometryType null + /query 400  → this is a GROUP layer; use its children
+#  ⚠ objectIdFieldName null          → bind read-only
+#  ⚠ sr 102100                       → Web Mercator: never measure Shape__Length here
+
+# ── 2. COUNT, and whether the count is honest.
+curl -s &quot;$L/query?where=1%3D1&amp;returnCountOnly=true&amp;f=json&quot;
+curl -s &quot;$L/query?where=1%3D1&amp;returnIdsOnly=true&amp;f=json&quot; | jq '.objectIds | length'
+#  The two must agree. A count of 0 against real ids is a lying layer (troubleshooting.md §2).
+
+# ── 3. THE REAL PAGE SIZE. Ask for more than maxRecordCount and see what comes back.
+curl -s &quot;$L/query?where=1%3D1&amp;returnIdsOnly=true&amp;resultRecordCount=5000&amp;f=json&quot; \
+  | jq '{returned: (.objectIds|length), exceeded: .exceededTransferLimit}'
+#  Whatever this returns IS your page size. Paging against the size you *asked* for
+#  silently truncates — the most expensive bug in troubleshooting.md.
+
+# ── 4. FIELD REALITY. For every field the design depends on:
+F=EventType
+curl -s &quot;$L/query?where=$F+IS+NOT+NULL+AND+$F+%3C%3E+%27%27&amp;returnCountOnly=true&amp;f=json&quot;
+#  A published field can be blank on every row. Compare against the total from step 2.
+
+# ── 5. VALUE SHAPE. Before treating a column as a measure or a category:
+curl -s &quot;$L/query?where=1%3D1&amp;outFields=$F&amp;returnDistinctValues=true&amp;f=json&quot; \
+  | jq '[.features[].attributes] | length'
+#  84 distinct forms of a &quot;diameter&quot; means it is a string, not a number (troubleshooting.md §3).
+#  Padded CHAR columns need trimming on every comparison.
+
+# ── 6. EXTENT — does it actually cover your area of interest?
+curl -s &quot;$L/query?where=1%3D1&amp;returnExtentOnly=true&amp;f=json&quot; | jq '.extent'
+
+# ── 7. CORS POSTURE — decides the delivery route in §3.
+curl -sI -H &quot;Origin: http://localhost:8041&quot; &quot;$L?f=json&quot; | grep -i access-control-allow-origin
+curl -sI -X OPTIONS -H &quot;Origin: http://localhost:8041&quot; \
+     -H &quot;Access-Control-Request-Method: GET&quot; &quot;$L/query&quot;
+#  No ACAO header, or a 403 on preflight, means curl works and the browser will not.
+</code></pre>
+<p><strong>Spatial questions go in a POST body.</strong> A long geometry blows past the shell's <code>ARG_MAX</code> — a
+1,352-vertex polyline cannot ride in a query string. Use <code>--data-urlencode</code> against <code>/query</code> with
+<code>geometry</code>, <code>geometryType</code> and <code>spatialRel</code>.</p>
+<p><strong>Probe more than once before declaring anything dead.</strong> Three consecutive 500s and three consecutive
+successes an hour later is one intermittent endpoint, not one broken one. Write the suite so it passes on
+either outcome, and say "intermittent" in the recipe.</p>
+<hr />
+<h2 id="3-three-ways-to-deliver-it-in-order-of-preference">3 · Three ways to deliver it, in order of preference</h2>
+<p><strong>The full decision — including the SSRF and open-relay rules any proxy must follow — is
+<a href="..\how-to\cors-and-proxy.md"><code>cors-and-proxy.md</code></a>.</strong> Read it before writing a proxy.
+The app-level summary:</p>
+<ol>
+<li><strong>Browser-direct</strong> — the layer answers with <code>Access-Control-Allow-Origin</code>. Nothing to run, nothing to
+   operate, and the app stays a static bundle. <strong>Every recent build is this. Prefer it.</strong></li>
+<li><strong>A narrow allowlisted proxy</strong> — only when the host answers keyless GETs with 200 and no ACAO, and 403
+   to the preflight (curl works, the browser cannot). Allowlist the clients; everything else gets a 403.
+   <strong>Design the app to survive the route being deleted</strong> — one build falls back to another register and
+   says on screen that the calendar is not published as data. A proxy the app cannot live without is an
+   operational dependency you have handed the user.</li>
+<li><strong>Convert and publish to Strata Serve</strong> — when the source is a bulk download, too large to fetch live,
+   needs a join REST cannot express, or is a file rather than a service. <code>/convert</code> → GeoParquet →
+   <code>/publish</code>, per <a href="..\how-to\publish-data.md"><code>publish-data.md</code></a>. Also the escape
+   hatch when a live host is an undocumented VM that may move — check whether a bulk FGDB or SHP carries
+   the same data.</li>
+</ol>
+<p><strong>Never</strong> offer a keyed basemap or a keyed provider as part of the answer. Keyless OSM/CARTO only.</p>
+<hr />
+<h2 id="4-the-catalogue-artifact">4 · The catalogue artifact</h2>
+<p>Each researched recipe produces one machine-readable catalogue, <code>&lt;name&gt;-catalog-&lt;region&gt;.json</code>, which is
+the contract between research and code. Never hand-edit a generated one.</p>
+<pre><code class="language-jsonc">{
+  &quot;meta&quot;:   { &quot;verified&quot;: &quot;2026-08-09&quot;, &quot;region&quot;: &quot;California&quot;, &quot;crawl&quot;: &quot;…&quot; },
+
+  // Feeds this recipe verified on the internet — the part that gets harvested back
+  // into whatever shared catalogue your recipe library keeps
+  &quot;external&quot;: [{
+    &quot;id&quot;: &quot;ext:cpuc-adoption-100-20&quot;,
+    &quot;role&quot;: &quot;adoption&quot;,
+    &quot;region&quot;: &quot;California&quot;,
+    &quot;title&quot;: &quot;CPUC EOY2024 Broadband Adoption — 100/20 Mbps&quot;,
+    &quot;url&quot;: &quot;https://…/MapServer/0&quot;,
+    &quot;status&quot;: &quot;verified-live&quot;,          // verified-live | intermittent | dead | not-mappable
+    &quot;count&quot;: 264137,                     // from the probe, not from the metadata
+    &quot;vintage&quot;: &quot;EOY 2024&quot;,
+    &quot;fields&quot;: [&quot;GEOID20&quot;, &quot;HH_2020&quot;, &quot;ACAT_100_20&quot;],
+    &quot;gotcha&quot;: &quot;field renamed ACAT_100_20 → ACAT_10020 between vintages&quot;
+  }],
+
+  // The crawled estate this app can offer in a layer drawer
+  &quot;library&quot;: [{
+    &quot;id&quot;: &quot;calfire-agol:AEU_Admin_Boundary&quot;,
+    &quot;title&quot;: &quot;AEU Admin Boundary&quot;,
+    &quot;service&quot;: &quot;AEU_Admin_Boundary&quot;,
+    &quot;server&quot;: &quot;calfire-agol&quot;,
+    &quot;agency&quot;: &quot;CAL FIRE (hosted)&quot;,
+    &quot;shelf&quot;: &quot;Boundaries &amp; Admin&quot;,
+    &quot;role&quot;: &quot;reporting-frame&quot;,
+    &quot;queryable&quot;: true,                   // ONLY queryable FeatureServers reach a drawer
+    &quot;endpoints&quot;: { &quot;featureServer&quot;: &quot;https://…/FeatureServer&quot; }
+  }]
+}
+</code></pre>
+<p><code>status</code> and <code>gotcha</code> are not decoration — they are how a trap discovered once stops being rediscovered.
+Harvest the <code>external</code> array back into your shared regional catalogue after adding feeds — a discovery
+that stays siloed in one recipe folder gets rediscovered by the next recipe. Make the harvest idempotent
+(replace a delimited block) so it can be re-run whenever a feed is added or re-verified.</p>
+<hr />
+<h2 id="5-roles-shelves-and-drawers">5 · Roles, shelves and drawers</h2>
+<p>Tag every library entry with a <strong>role</strong> (what question it answers) and a <strong>shelf</strong> (where it sits in a
+list). Roles are what let a layer drawer group 264 services into something navigable, and what lets a
+sibling recipe find the layer you already verified.</p>
+<p>Two rules the watershed build settled:</p>
+<ul>
+<li><strong>Only queryable FeatureServers reach a drawer.</strong> A MapServer or a WAF-blocked host is a checkbox that
+  ticks and paints nothing.</li>
+<li><strong>Nothing is silently truncated.</strong> The list says <code>+N more, narrow the search to reach them</code>; a capped
+  fetch says <code>Capped, not complete</code>.</li>
+</ul>
+<p>And one caution: an automated role-tagger matched <code>\bfass\b</code> against <code>CalifAssemSenDists</code>. Word
+boundaries are not semantic boundaries — spot-check the tagger's output.</p>
+<hr />
+<h2 id="6-what-disqualifies-a-layer">6 · What disqualifies a layer</h2>
+<p>Stop and find another source when:</p>
+<ul>
+<li>The fields the design depends on are blank on every row <em>(and say so — that finding often reshapes the
+  app: it is why one build is a map and not a search box)</em>.</li>
+<li>It publishes no coordinates at all. Mark it <strong>not mappable</strong> and refuse to toggle it.</li>
+<li>It is a group layer. Use the children.</li>
+<li>Its count and its ids disagree.</li>
+<li>Its licence does not permit redistribution, or it needs a key. Keyless or nothing.</li>
+</ul>
+<p>None of these is a reason to fabricate. A lane with no data renders <strong>empty with its citation</strong>. Nine of
+fourteen lanes in the pipeline pack render empty, because fabricating them in an app whose whole argument
+is provenance would be self-defeating.</p>
+<hr />
+<h2 id="7-recording-it">7 · Recording it</h2>
+<p>The recipe's data section carries, per layer: the URL, the authority, the count and date from the probe,
+the OID field, the CORS posture, the fields actually used, and the trap. Paste the literal terminal
+output — a figure that cannot be reproduced from the recipe is a figure nobody can defend when the
+service changes.</p>
+<p>Then write the assertions. <strong>Live assertions are deliberate</strong>: if the register changes, the suite goes
+red and the constants are known stale rather than quietly wrong.</p><div class="pager"><a class="prev" href="how-to-symbology.html"><small>Previous</small>Symbology</a><a class="next" href="how-to-publish-data.html"><small>Next</small>Publish data</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

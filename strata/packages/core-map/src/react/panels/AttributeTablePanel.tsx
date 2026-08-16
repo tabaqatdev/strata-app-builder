@@ -154,6 +154,9 @@ export function AttributeTablePanel(props: AttributeTablePanelProps): React.Reac
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [menuOpen, setMenuOpen] = useState(false);
+  // The adopted row. Held here so the row can be released by clicking it again, and so the table
+  // shows *which* record the map is flying to — a selection with no visible anchor reads as a bug.
+  const [selectedOid, setSelectedOid] = useState<number | string | null>(null);
 
   const columns = useMemo(() => allColumns.filter((c) => !hidden[c]), [allColumns, hidden]);
 
@@ -335,17 +338,28 @@ export function AttributeTablePanel(props: AttributeTablePanelProps): React.Reac
             )}
             {windowRows.map((row, i) => {
               const oid = (row[oidField] as number | string | undefined) ?? windowStart + i;
+              const isSelected = selectedOid != null && String(selectedOid) === String(oid);
               return (
                 <tr
                   key={String(oid)}
-                  style={trStyle}
+                  style={{ ...trStyle, ...(isSelected ? trSelectedStyle : null) }}
+                  data-oid={String(oid)}
+                  aria-selected={isSelected}
                   onClick={() => {
+                    // A row is a toggle. Clicking the selected row again releases it — whatever
+                    // adopts must also release, with the same gesture that adopted it, or a user
+                    // who selected by accident has no way back to the whole population.
+                    const next = isSelected ? null : oid;
+                    setSelectedOid(next);
                     onRowSelect?.(oid);
-                    if (typeof oid === "number") {
-                      props.bus?.emit({ type: "rowSelect", source: "table", payload: { layerId: props.layerId ?? "", oids: [oid], zoom: true } });
-                      // Phase 1: also select into the bound source so linked widgets react.
-                      props.source?.setSelection({ layerId: props.layerId ?? "", oids: [oid] });
-                    }
+                    const oids = next == null ? [] : [next];
+                    props.bus?.emit({
+                      type: "rowSelect",
+                      source: "table",
+                      payload: { layerId: props.layerId ?? "", oids, zoom: next != null, popup: next != null },
+                    });
+                    // Also select into the bound source so linked widgets react — and clear it on release.
+                    props.source?.setSelection({ layerId: props.layerId ?? "", oids });
                   }}
                 >
                   {columns.map((c) => (
@@ -475,6 +489,7 @@ const filterInputStyle: React.CSSProperties = {
   borderRadius: 3,
 };
 const trStyle: React.CSSProperties = { height: ROW_HEIGHT, cursor: "pointer" };
+const trSelectedStyle: React.CSSProperties = { background: "#eef5ff", outline: "1px solid #b7d3ff" };
 const tdStyle: React.CSSProperties = {
   padding: "6px 8px",
   borderBottom: "1px solid #f2f2f2",

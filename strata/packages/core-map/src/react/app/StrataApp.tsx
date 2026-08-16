@@ -45,7 +45,7 @@ import type { StrataStore } from "@strata/state";
 import { defaultWidgetRegistry, type WidgetComponent } from "./registry.js";
 import { StrataAppProvider, useStrataAppEnv, MapRegistry, type StrataAppEnv } from "./interactivity.js";
 import { registerAppDataSources } from "./dataSources.js";
-import { initialSizes, resizeSplit } from "./splitterMath.js";
+import { initialSizes, resizePanel, resizeSplit } from "./splitterMath.js";
 import { collectClosedWindowIds } from "./windowScan.js";
 import { animatedStyle, nextViewIndex } from "./animation.js";
 
@@ -681,6 +681,10 @@ function WindowContainer(props: {
 /**
  * A dockable, collapsible panel: a titled region anchored to an edge (left/right/top/bottom) or floating.
  * Generalizes the per-widget floating chrome — any layout can live in a dockable panel.
+ *
+ * Resizable by default (`resizable:false` locks it): a grip on the inner edge drags the panel along its
+ * dock axis — width for left/right, height for top/bottom — clamped to `[minWidth, maxWidth]`. The size
+ * is session state; the authored `width` remains the source of truth and a remount returns to it.
  */
 function PanelContainer(props: {
   node: ContainerNode;
@@ -689,10 +693,47 @@ function PanelContainer(props: {
   const { node } = props;
   const dock = node.dock ?? "left";
   const collapsible = node.collapsible !== false;
+  const resizable = node.resizable !== false;
   const [open, setOpen] = useState(node.open ?? true);
+  const [size, setSize] = useState<number | undefined>(node.width);
+  const rootRef = React.useRef<HTMLDivElement>(null);
   const float = dock === "float";
   const horizontal = dock === "left" || dock === "right";
   const edge = "1px solid var(--strata-border, rgba(255,255,255,0.08))";
+
+  // The grip sits on the edge that faces the content, so dragging it toward the content grows the panel:
+  // a left-docked panel grows rightwards, a right-docked one leftwards. `float` grows down-right.
+  const growSign = dock === "right" || dock === "bottom" ? -1 : 1;
+  const onGripDown = (e: React.PointerEvent<HTMLDivElement>): void => {
+    if (!resizable) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const rect = rootRef.current?.getBoundingClientRect();
+    const start = size ?? (horizontal || float ? rect?.width : rect?.height) ?? 0;
+    const from = horizontal || float ? e.clientX : e.clientY;
+    const onMove = (ev: PointerEvent): void => {
+      const cur = horizontal || float ? ev.clientX : ev.clientY;
+      setSize(resizePanel(start, (cur - from) * (float ? 1 : growSign), node.minWidth ?? 120, node.maxWidth ?? Infinity));
+    };
+    const onUp = (): void => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+  };
+
+  const onGripKey = (e: React.KeyboardEvent<HTMLDivElement>): void => {
+    if (!resizable) return;
+    const step = (e.shiftKey ? 48 : 16) * (float ? 1 : growSign);
+    const along = horizontal || float ? { more: "ArrowRight", less: "ArrowLeft" } : { more: "ArrowDown", less: "ArrowUp" };
+    const delta = e.key === along.more ? step : e.key === along.less ? -step : 0;
+    if (!delta) return;
+    e.preventDefault();
+    const rect = rootRef.current?.getBoundingClientRect();
+    const start = size ?? (horizontal || float ? rect?.width : rect?.height) ?? 0;
+    setSize(resizePanel(start, delta, node.minWidth ?? 120, node.maxWidth ?? Infinity));
+  };
   const dockBorder: React.CSSProperties =
     dock === "left" ? { borderRight: edge }
       : dock === "right" ? { borderLeft: edge }
@@ -707,8 +748,11 @@ function PanelContainer(props: {
     color: "var(--strata-fg, #e8ecf1)",
     minWidth: 0,
     minHeight: 0,
-    ...(horizontal && node.width && open ? { width: node.width, flex: "0 0 auto" } : {}),
-    ...(!horizontal && node.width && open ? { height: node.width, flex: "0 0 auto" } : {}),
+    // position:relative so the grip has this panel as its containing block (float already positions).
+    position: "relative",
+    ...(horizontal && size && open ? { width: size, flex: "0 0 auto" } : {}),
+    ...(!horizontal && size && open ? { height: size, flex: "0 0 auto" } : {}),
+    ...(float && size ? { width: size } : {}),
     ...dockBorder,
     ...(float
       ? {
@@ -727,7 +771,28 @@ function PanelContainer(props: {
   };
 
   return (
-    <div data-strata-panel="" data-strata-dock={dock} style={style}>
+    <div ref={rootRef} data-strata-panel="" data-strata-dock={dock} style={style}>
+      {/* A collapsed panel is a header strip — there is no size left to drag. */}
+      {resizable && open && (
+        <div
+          role="separator"
+          tabIndex={0}
+          data-strata-panel-resize={horizontal || float ? "x" : "y"}
+          aria-orientation={horizontal || float ? "vertical" : "horizontal"}
+          aria-label={`Resize ${node.title ?? "panel"}`}
+          onPointerDown={onGripDown}
+          onKeyDown={onGripKey}
+          style={{
+            position: "absolute",
+            touchAction: "none",
+            zIndex: 1,
+            cursor: horizontal || float ? "col-resize" : "row-resize",
+            ...(horizontal || float
+              ? { top: 0, bottom: 0, width: 6, ...(dock === "right" ? { left: 0 } : { right: 0 }) }
+              : { left: 0, right: 0, height: 6, ...(dock === "bottom" ? { top: 0 } : { bottom: 0 }) }),
+          }}
+        />
+      )}
       {(node.title || collapsible) && (
         <div
           style={{

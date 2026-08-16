@@ -412,7 +412,7 @@ export class LayerRegistry {
    * overlay is heavier than we need; instead we set a MapLibre `filter`-based emphasis via a
    * dedicated highlight paint using `case`. Passing an empty `oids` clears the highlight.
    */
-  highlight(layerId: string, oids: number[], oidField = "OBJECTID"): void {
+  highlight(layerId: string, oids: Array<number | string>, oidField = "OBJECTID"): void {
     const srcId = `lyr:${layerId}`;
     const has = oids.length > 0;
     const inSet: any = has ? ["in", ["get", oidField], ["literal", oids]] : false;

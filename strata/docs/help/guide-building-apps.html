@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Building an app · strata-app-builder help</title><style>
+:root{--navy:#0c2b38;--navy2:#123c4d;--teal:#1ba7a6;--teal600:#178f8e;--teal50:#e9f7f7;
+--ink:#12303c;--slate:#5b6b76;--slate400:#94a3b8;--line:#e4ebee;--panel:#f6f9fa;--white:#fff;
+--code-bg:#f4f7f8;--font:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+--mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--white);line-height:1.6}
+a{color:var(--teal600);text-decoration:none}
+a:hover{text-decoration:underline}
+/* top bar */
+.top{position:sticky;top:0;z-index:20;height:58px;display:flex;align-items:center;gap:14px;
+padding:0 20px;background:var(--navy);color:#fff}
+.top .mk{width:26px;height:26px}
+.top .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.01em}
+.top .brand b{color:#fff}.top .brand span{color:var(--teal);font-weight:700}
+.top .brand small{color:#9fc7cd;font-weight:600;margin-left:6px;font-size:.8rem;letter-spacing:.04em}
+.top .spacer{flex:1}
+.top .home{color:#cfe6e6;font-size:.9rem}
+.filter{display:flex;align-items:center}
+.filter input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;
+border-radius:8px;padding:.4rem .7rem;font-size:.85rem;width:190px;outline:none}
+.filter input::placeholder{color:#9fc7cd}
+/* layout */
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1200px;margin:0 auto}
+nav.side{border-right:1px solid var(--line);padding:22px 14px 60px;height:calc(100vh - 58px);
+position:sticky;top:58px;overflow:auto}
+nav.side .grp{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+color:var(--slate400);margin:18px 10px 6px}
+nav.side a{display:block;padding:.4rem .7rem;border-radius:8px;color:var(--ink);font-size:.92rem;font-weight:500}
+nav.side a:hover{background:var(--panel);text-decoration:none}
+nav.side a.active{background:var(--teal50);color:var(--teal600);font-weight:700}
+/* content */
+main{padding:34px 44px 80px;min-width:0;max-width:860px}
+main .crumb{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal600);font-weight:800}
+main h1{font-size:2.15rem;line-height:1.15;color:var(--navy);letter-spacing:-.02em;margin:.2rem 0 .2rem}
+main .lede{color:var(--slate);font-size:1.05rem;margin:0 0 1.4rem}
+main h2{font-size:1.5rem;color:var(--navy);margin:2rem 0 .6rem;padding-top:.4rem;border-top:1px solid var(--line)}
+main h3{font-size:1.16rem;color:var(--navy2);margin:1.4rem 0 .4rem}
+main h4{font-size:1rem;color:var(--navy2);margin:1.1rem 0 .3rem}
+main p,main li{color:#243b45}
+main code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);color:#0a3a44;
+padding:.12em .38em;border-radius:5px}
+main pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+overflow:auto}
+main pre code{background:none;padding:0;color:#123}
+main table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem;display:block;overflow:auto}
+main th,main td{border:1px solid var(--line);padding:.5rem .7rem;text-align:left;vertical-align:top}
+main thead th{background:var(--panel);color:var(--navy);font-size:.82rem;letter-spacing:.02em}
+main blockquote{margin:1.1rem 0;padding:.7rem 1rem;background:var(--teal50);border-radius:0 10px 10px 0;
+border-left:4px solid var(--teal);color:#134}
+main blockquote p{margin:.3rem 0}
+main hr{border:none;border-top:1px solid var(--line);margin:2rem 0}
+main ul,main ol{padding-left:1.3rem}main li{margin:.25rem 0}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:3rem;border-top:1px solid var(--line);padding-top:1.2rem}
+.pager a{flex:1;padding:.8rem 1rem;border:1px solid var(--line);border-radius:12px;font-weight:600}
+.pager a:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.pager a.next{text-align:right}
+.pager small{display:block;color:var(--slate400);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;padding:22px 44px;max-width:860px}
+/* landing */
+.hero{background:linear-gradient(135deg,var(--navy),#164a5c);color:#fff;border-radius:18px;padding:40px 40px}
+.hero h1{color:#fff;font-size:2.4rem;margin:.4rem 0 .5rem;letter-spacing:-.02em}
+.hero p{color:#cfe6e6;font-size:1.1rem;max-width:44ch;margin:0}
+.hero .mk{width:34px;height:34px;vertical-align:middle}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:block;color:inherit}
+.card:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.card b{color:var(--navy);font-size:1.02rem}
+.card p{color:var(--slate);font-size:.9rem;margin:.3rem 0 0}
+.sec-h{font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal600);margin:26px 0 4px}
+.menu-btn{display:none}
+@media(max-width:860px){
+ .wrap{grid-template-columns:1fr}
+ nav.side{position:fixed;left:0;top:58px;bottom:0;width:280px;background:#fff;transform:translateX(-100%);
+ transition:.2s;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+ nav.side.open{transform:none}
+ .menu-btn{display:inline-flex}.filter{display:none}
+ main{padding:24px 20px 60px}.cards{grid-template-columns:1fr}.hero{padding:28px 22px}
+}
+</style></head><body><header class="top"><button class="menu-btn" onclick="document.getElementById('side').classList.toggle('open')" aria-label="Menu" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer">☰</button><a class="brand" href="index.html"><svg class="mk" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="6" y="7" width="20" height="4.2" rx="2.1" fill="#0c2b38"/><rect x="4" y="14" width="24" height="4.2" rx="2.1" fill="#1ba7a6"/><rect x="8" y="21" width="16" height="4.2" rx="2.1" fill="#5cc7c5"/></svg><b>tabaqat</b><span>· Strata</span><small>HELP &amp; DOCS</small></a><div class="spacer"></div><div class="filter"><input id="q" type="search" placeholder="Filter topics…" oninput="filterNav(this.value)"></div><a class="home" href="index.html">Home</a></header><div class="wrap"><nav class="side" id="side">
+<div class="grp">Start here</div>
+<a class="nav-link" data-title="overview" href="README.html">Overview</a>
+<a class="nav-link" data-title="getting started" href="getting-started.html">Getting started</a>
+<a class="nav-link" data-title="faq" href="faq.html">FAQ</a>
+<div class="grp">Guide</div>
+<a class="nav-link" data-title="repository anatomy" href="guide-anatomy.html">Repository anatomy</a>
+<a class="nav-link" data-title="sample map templates" href="guide-map-templates.html">Sample map templates</a>
+<a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
+<a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
+<a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link active" data-title="building an app" href="guide-building-apps.html">Building an app</a>
+<div class="grp">How-to</div>
+<a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
+<a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
+<a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
+<a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
+<a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
+<a class="nav-link" data-title="using recipes" href="how-to-using-recipes.html">Using recipes</a>
+<div class="grp">Reference</div>
+<a class="nav-link" data-title="components &amp; widgets" href="reference-components.html">Components &amp; widgets</a>
+<a class="nav-link" data-title="human language reference" href="reference-human-language.html">Human Language Reference</a>
+<a class="nav-link" data-title="command reference" href="reference-commands.html">Command reference</a>
+<a class="nav-link" data-title="troubleshooting" href="troubleshooting.html">Troubleshooting</a>
+</nav><main><div class="crumb">Guide</div><h1>Building an app</h1><p>What a finished strata-app-builder application <strong>is</strong> — the artifact you hand back, how it is put
+together, and the gate it must pass. <code>app-design.md</code> covers how to design one; this page covers how to
+build and verify it.</p>
+<p>Companions: <strong><a href="..\how-to\find-and-verify-data.md"><code>help/find-and-verify-data.md</code></a></strong> (before you write
+code) · <strong><a href="troubleshooting.html"><code>troubleshooting.md</code></a></strong> (what goes wrong) ·
+<strong><a href="..\guide\app-design.md"><code>app-design.md</code></a></strong> (how to design what you are building) ·
+<strong><a href="..\..\..\recipes\README.md"><code>recipes/README.md</code></a></strong> (what a recipe must supply).
+The build gate is §7 of this page.</p>
+<hr />
+<h2 id="1-the-deliverable">1 · The deliverable</h2>
+<p>A <strong>self-contained application</strong>: MapLibre from a CDN, no bundler, no dependencies, no API keys. It
+runs from a folder with <code>node server.mjs</code>.</p>
+<pre><code>app/
+  index.html            the shipped app — theme tokens, the shell, one inline module
+  &lt;domain&gt;.mjs          the domain. DOM-free. Every network call through an injectable `net.fetch`
+  layers.mjs            presentation — the map spec as genuine ESRI Web Map JSON, palette, Esri→GeoJSON
+  server.mjs            zero-dependency static server. Opens no sockets of its own
+  test-&lt;domain&gt;.mjs     LIVE suite     — arithmetic, service contracts, the traps
+  test-render.mjs       OFFLINE suite  — boots the shipped module against a DOM + MapLibre stub
+  drive.mjs             BROWSER suite  — real headless Chrome over CDP, no dependencies
+  README.md             the record (§5)
+  &lt;name&gt;-catalog-&lt;region&gt;.json   generated, never hand-edited
+</code></pre>
+<p>Why this shape and not <code>&lt;StrataApp&gt;</code>: the React path needs <code>strata/packages/*</code> installed and built. When
+that is available, render the <code>AppLayout</code> the recipe authors. When it is not, this is the house pattern —
+and the recipe must say which one it shipped, because the two must eventually be reconciled.</p>
+<hr />
+<h2 id="1b-the-shell-every-app-inherits">1b · The shell every app inherits</h2>
+<p><code>index.html</code> carries the same skeleton in every build, so a reader who has used one recognises the next:</p>
+<pre><code>┌ header — title · the controls that change the reading ───────────────┐
+├ #notice — persistent caveats (vintage, banding, &quot;advertised not measured&quot;) ┤
+├──────────────────╥───────────────────────────────────────────────────┤
+│ the reading      ║  MAP  ── control cluster top-right                │
+│ (KPIs, gauge,    ║        drawer opens beside it, one at a time      │
+│  derivation)     ║        legend bottom-left · lon/lat/zoom bottom-right │
+├──────────────────╨───────────────────────────────────────────────────┤
+│ table / detail — scoped to the current reading, re-titled with it     │
+└ #status — transient progress only ───────────────────────────────────┘
+                   ╨ every panel edge is a grip: drag or arrow-key it
+</code></pre>
+<p><strong>Panels are resizable — the reading column, the drawers, the table.</strong> The width you author is where a
+panel <em>opens</em>; the reader decides where it sits. A grip on the edge facing the content, a floor below
+which the panel stops being readable, arrow keys on the focused grip, and <code>map.resize()</code> after the box
+changes. In the React path this is the shell's own behaviour (<code>resizable</code> defaults true on <code>PanelShell</code>
+and on the <code>panel</code> node); in the house pattern below you write it, and §3's harnesses assert it.</p>
+<p><strong>The map chrome is one cluster and one drawer.</strong> Six glyphs in a 32 px stack — zoom in · zoom out ·
+fit · layers · basemap · legend — MapLibre's own zoom suppressed, and a single drawer opening <em>beside</em>
+the cluster, never over it, never two at once. Layers are square checkboxes (multi-select, each row
+saying <em>off</em> / <em>N in view</em> / <em>none in this view</em>); basemaps are <strong>round radios</strong> with a live tile of the
+current area in each style, because a colour swatch cannot tell Positron from Voyager. <code>L</code> · <code>B</code> · <code>G</code> ·
+<code>F</code>, <code>Esc</code> closes one thing. The React path ships this as <code>MapChrome</code>; the house pattern writes it, and
+the two use the same class vocabulary so they look identical.</p>
+<p><strong>The legend is a control surface, and the table row is a toggle.</strong> Click a legend class to hide it,
+shift-click to isolate, <code>Esc</code> clears — filtering the layer, never fading it, with counts that keep their
+denominator. Click a table row to <strong>adopt</strong> the record: the map flies to <em>that feature</em> and opens its
+popup. Click it again to <strong>release</strong>: selection cleared, popup closed. Whatever adopts must also release,
+by the same gesture.</p>
+<p>Deviate when the business needs it, and say so in the recipe. The full default set — chrome, keyboard,
+interaction floor, honesty surfaces, theme — is <a href="..\guide\app-design.md"><code>app-design.md</code></a> §0.</p>
+<h2 id="2-the-rules-that-make-the-numbers-trustworthy">2 · The rules that make the numbers trustworthy</h2>
+<p><strong>One domain module, imported unchanged by the browser and by both suites.</strong> No number can reach the
+screen that the suite has not asserted. If the app computes it, the test computes it from the same code.</p>
+<p><strong>The domain is DOM-free and its network is injectable.</strong> <code>net.fetch</code> is a parameter, which is what lets
+the offline suite run a synthetic dataset through the real logic in a second.</p>
+<p><strong>Derive counts from state; never hardcode them.</strong> A hardcoded total means adding a row silently moves
+the number on the splash screen — and a test asserting the constant is itself wrong.</p>
+<p><strong>Assert against live services on purpose.</strong> If the register changes, the suite goes red and the
+constants are known stale rather than quietly wrong. A quarterly republication <em>should</em> make you re-read
+the numbers.</p>
+<p><strong>Nothing is synthesized.</strong> A lane with no data renders <strong>empty with its citation</strong>.
+<em>The one legitimate exception is a demo inventory the app openly generates</em> — and it earns that only by
+being <strong>seeded</strong> (so it is stable across runs), <strong>derived from statutory or published figures rather than
+from geometry</strong>, <strong>filtered</strong> so it cannot attach to the wrong features, and <strong>labelled on screen</strong> as
+generated. It is never presented as measured, and never mixed into a figure that is. Nine of fourteen
+lanes in one shipped pack render empty, because fabricating them in an app whose argument is provenance
+would be self-defeating. No sample data, no mock rows, no plausible placeholder.</p>
+<p><strong>Nothing is silently truncated.</strong> Every cap says so on screen: <code>+N more</code>, <code>Capped, not complete</code>,
+<code>250 of 1,975 rows</code>. A silent top-N reads as "this is everything."</p>
+<p><strong>No write path.</strong> Reads only, so the app runs identically on Strata and on ArcGIS.</p>
+<p><strong>Keyless basemaps only</strong> — OSM / CARTO raster. EPSG:4326 everywhere.</p>
+<hr />
+<h2 id="3-three-harnesses-because-each-is-blind-to-what-the-next-one-sees">3 · Three harnesses, because each is blind to what the next one sees</h2>
+<p>Run all three. They are not redundant; each caught defects the others reported green.</p>
+<blockquote>
+<p><strong>How to write them</strong> — the injectable seam, the stack-based DOM stub, the faithful MapLibre stub, the
+hand-rolled CDP driver, and what each harness must assert — is the <strong><code>strata-app-build</code></strong> skill
+(<code>.claude/skills/strata-app-build/</code>). It is instructions, not a library: there is nothing to import.
+This section says what the harnesses are <em>for</em>; the skill says how to build them.</p>
+</blockquote>
+<h3 id="test-domainmjs-live"><code>test-&lt;domain&gt;.mjs</code> — live</h3>
+<p>Arithmetic, the join, the reading, <strong>the traps inverted on purpose</strong>, service contracts, geometry,
+context layers. Assert each trap's <em>presence</em>, so the day a service fixes itself you find out.
+Typical size: 130–360 assertions.</p>
+<h3 id="test-rendermjs-offline-deterministic"><code>test-render.mjs</code> — offline, deterministic</h3>
+<p>Boots the <strong>shipped</strong> module against a minimal DOM + MapLibre stub over synthetic data and drives every
+gesture. Four requirements learned the hard way:</p>
+<ul>
+<li><strong><code>node --check</code> the shipped module before asserting anything about it.</strong> A duplicate <code>const</code> made an
+  app a blank shell while this suite grepped the markup and reported <strong>99/99 green</strong>. Negative-test the
+  guard: injecting a duplicate <code>const</code> must fail and name the line.</li>
+<li><strong>Mount the page's real <code>&lt;body&gt;</code>,</strong> not just what the script creates — a harness that only sees
+  generated DOM cannot see the app's static chrome.</li>
+<li><strong>Model <code>window</code> as the global object.</strong> A separate <code>window</code> silently swallows the app's export hook.</li>
+<li><strong>One stack-based parser</strong> for the body <em>and</em> every dynamic <code>innerHTML</code>, supporting ordinary descendant
+  selectors. An id-only scan forces you to rewrite the app to suit its test, which is backwards.</li>
+</ul>
+<p>The MapLibre stub is deliberately dumb — it records calls — <strong>except where the bugs live, where it must
+be faithful</strong>: <code>setStyle</code> fires <code>styledata</code> synchronously and <em>then</em> drops every source and layer; a
+finished render fires <code>idle</code>, so <code>idle → hydrate → paint → setData → idle</code> is a real loop. A stub that
+fires <code>idle</code> once from a timer reproduces neither.</p>
+<h3 id="drivemjs-real-headless-chrome-over-cdp"><code>drive.mjs</code> — real headless Chrome over CDP</h3>
+<p>No dependencies; a hand-rolled CDP client is ~200 lines. This is not optional. <strong>297 passing assertions
+once missed four defects that a single screenshot made obvious</strong> — all semantic or spatial. The static
+and render harnesses catch <em>wiring and arithmetic</em>; only rendering catches <em>meaning</em>.</p>
+<p>Drive: the signature loop, the map chrome geometry (that a drawer clears the cluster), both themes,
+every toggle, that a resized panel actually changes the map's box (the canvas follows, and no chrome is
+stranded), and that the app opens on a view where its own signature is visible.</p>
+<blockquote>
+<p><strong>Assert behaviour, not prose.</strong> A keyless-basemap guard once grepped <code>server.mjs</code> for <code>proxy</code> and
+matched the file's own explanatory comment. Narrowing the regex weakens the guard — instead assert that
+the server opens no sockets: no <code>fetch(</code>, no <code>http.request</code>, no <code>createConnection</code>, and it imports only
+<code>fs</code>/<code>http</code>/<code>path</code>/<code>url</code>.</p>
+</blockquote>
+<hr />
+<h2 id="4-the-app-must-survive-first-contact">4 · The app must survive first contact</h2>
+<ul>
+<li><strong><code>server.mjs</code> steps to the next free port</strong>, bounded, and says so. A stack trace on the first command
+  of a demo is a bad first impression — and the port <em>will</em> be busy, because sibling dev servers are
+  often still listening.</li>
+<li><strong>Path-traversal guard</strong>, verified against encoded payloads.</li>
+<li><strong>A global error handler.</strong> An app that throws during boot otherwise shows a confident dash where a
+  number should be, with nothing in the console.</li>
+<li><strong>Fix the favicon 404.</strong> A noisy console is where a real error goes to hide.</li>
+<li><strong>Report your own state.</strong> A status readout that distinguishes <code>130 drawn</code> from <code>130 drawn of 874</code>
+  from <code>layer not installed</code> turns a support question into a glance.</li>
+</ul>
+<hr />
+<h2 id="5-the-readme-is-part-of-the-deliverable">5 · The README is part of the deliverable</h2>
+<p>Not a description of the code — the record of what was built and what it cost. In this order:</p>
+<ol>
+<li><strong>How to run</strong> — the four commands, with assertion counts and timings.</li>
+<li><strong>The question</strong> the app answers, in one sentence.</li>
+<li><strong>The silhouette</strong> — how the design works, and what the signature interaction is.</li>
+<li><strong>The interaction surface</strong> — every wired behaviour, <strong>numbered</strong>, each exercised by a named suite.
+   <em>Enumerating them is not bookkeeping; it is what makes the count visible and therefore honest.</em></li>
+<li><strong>Files</strong> — one line each, what it owns.</li>
+<li><strong>What building it changed</strong> — the corrections, with the mechanism. This is the most valuable
+   section in the file and the source the next build harvests.</li>
+<li><strong>Theme rationale</strong> — measured, not asserted (see <a href="troubleshooting.html"><code>troubleshooting.md</code></a> §8).</li>
+<li><strong>Honest limits</strong> — what is not built, what is not measurable, what needs a subscriber file.</li>
+</ol>
+<h3 id="the-floor-is-3-the-shipped-bar-is-40">The floor is 3. The shipped bar is 40.</h3>
+<p><code>app-design.md</code> §0 sets <strong>≥3 live connections</strong> as the minimum an app may ship with. That is a floor, and
+a floor is not a target — an app that clears it and stops reads as a demo.</p>
+<p>Recent builds land at <strong>40–51 numbered behaviours</strong>, and they got there because §5.4 forces the count to be
+written down: a table you must fill in is a target you can see yourself missing. Before calling an app
+done, read your own §5.4 and ask what a user would reach for next that is not on the list — the KPI that
+should be clickable, the row that should drive the map back, the legend class that should isolate, the
+reading that should be shareable as a link.</p>
+<p><strong>The shape of that surface, from the shipped apps:</strong> the signature loop and its release · a second way in
+(map click ⇄ list click) · keyboard for the primary dimension · every filter chipped and clearable ·
+each KPI selecting the population it counts · legend isolate · layers and basemap drawers · <strong>each panel
+resizable, by pointer and by keyboard</strong> · theme · export carrying its caveat · a deep link · <code>Esc</code>
+unwinding one thing at a time. That is already ~20 before any domain-specific behaviour.</p>
+<hr />
+<h2 id="7-the-build-gate">7 · The build gate</h2>
+<p>Run this before reporting an app finished. Every line is checkable; none is a judgement call. If a line
+fails, the app is not done — fix it or state the failure in the handback. <strong>Never report a partial pass
+as a pass.</strong></p>
+<p><strong>Design acceptance is a separate, earlier gate:</strong> the ship checklist in
+<a href="..\guide\app-design.md"><code>app-design.md</code></a> §7. Both must pass; this one covers what only exists once the app is
+<em>built</em>.</p>
+<h3 id="the-handback">The handback</h3>
+<p>State plainly:</p>
+<blockquote>
+<p><strong>N assertions green</strong> (a live + b offline + c browser), verified <code>&lt;date&gt;</code>. Runs at
+<code>node server.mjs</code> → <code>http://localhost:&lt;port&gt;/</code>.
+<strong>Honest limits:</strong> …
+<strong>Unverified:</strong> …</p>
+</blockquote>
+<p>If any section failed, say which and why. A build that reports green while a section failed is worse than
+one that reports the failure — the point of this file is that the numbers on the screen can be defended.</p><div class="pager"><a class="prev" href="guide-app-design.html"><small>Previous</small>Application design</a><a class="next" href="how-to-create-app-layouts.html"><small>Next</small>Create an app layout</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

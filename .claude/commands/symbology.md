@@ -38,3 +38,18 @@ expression automatically; anything outside the subset falls back to the default 
 For `--generate`, you may query distinct values / statistics from the service (`.../query?...&f=json`) to
 choose classes/breaks. Confirm the field exists first. Show the renderer JSON you wrote and note that
 `@strata/core-map`'s style compiler maps it to MapLibre paint.
+
+## Before you call the palette done
+
+- **Measure contrast in both themes; don't eyeball it.** Every informational state clears **4.5:1**.
+  Amber `#f59e0b` is 2.15:1 as text on a white panel and shipped that way twice — where one hue is both
+  a fill and a text colour, make it **two tokens**.
+- **Roles carry meaning, not emphasis.** Two different facts must not share ink; ration red to what
+  genuinely is a hazard. Painting "an authority answered" in the danger role made a plain factual value
+  draw as the most alarming thing on screen.
+- **Fill opacity follows the basemap** — alpha tuned for pale CARTO Positron vanishes on OpenTopoMap.
+- **Data colours are identical in both themes**; only the halo changes.
+- **On a MapServer layer the renderer field needs case tolerance** — `f=geojson` lower-cases every field
+  name, so a canonically-cased renderer matches nothing and draws only the default symbol.
+- **Decide per feature, not per network.** A dataset-wide verdict ("unverifiable") stamped on every row
+  is a false statement about the rows that carry a clean value.

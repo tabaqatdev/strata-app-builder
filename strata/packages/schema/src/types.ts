@@ -292,7 +292,12 @@ export interface ContainerNode {
   sizes?: number[];
   /** For `kind:"splitter"`: minimum size percentage per child while dragging. Default 5. */
   minSizes?: number[];
-  /** For `kind:"splitter"`: whether the divider(s) can be dragged. Default true. */
+  /**
+   * Whether the user can resize this container. Default **true**.
+   *  - `kind:"splitter"`: the divider(s) can be dragged.
+   *  - `kind:"panel"`: a grip on the panel's inner edge drags it along its dock axis.
+   * Set `false` to lock a size the design depends on.
+   */
   resizable?: boolean;
   /** For `kind:"window"`: a stable id so a `showHide`/`navigate` action can open/close it. */
   id?: string;
@@ -307,8 +312,14 @@ export interface ContainerNode {
   dock?: "left" | "right" | "top" | "bottom" | "float";
   /** For `kind:"panel"`: show a collapse toggle in the header. Default true. */
   collapsible?: boolean;
-  /** For `kind:"panel"`: fixed size in px (width for left/right docks, height for top/bottom). */
+  /** For `kind:"panel"`: starting size in px (width for left/right docks, height for top/bottom).
+   *  The user can resize from here unless `resizable:false`; the drag is session state, so a reload
+   *  returns to this authored value. */
   width?: number;
+  /** For `kind:"panel"`: smallest size the user can drag to, in px (along the dock axis). Default 120. */
+  minWidth?: number;
+  /** For `kind:"panel"`: largest size the user can drag to, in px (along the dock axis). Default none. */
+  maxWidth?: number;
   /** Column count for `kind:"grid"`. */
   columns?: number;
   /** Gap between children (px). */

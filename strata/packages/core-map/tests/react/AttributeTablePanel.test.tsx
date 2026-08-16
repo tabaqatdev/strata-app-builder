@@ -119,4 +119,60 @@ describe("AttributeTablePanel — #5 table depth", () => {
       expect(screen.getByText("Charlie")).toBeInTheDocument();
     });
   });
+
+  it("a row adopts the record — fly there and open its popup", () => {
+    const bus = { emit: vi.fn() };
+    render(<AttributeTablePanel rows={rows} layerId="cities" bus={bus} />);
+
+    fireEvent.click(screen.getByText("Bravo"));
+    expect(bus.emit).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        type: "rowSelect",
+        payload: { layerId: "cities", oids: [2], zoom: true, popup: true },
+      }),
+    );
+    // The adopted row is marked, so the table shows WHICH record the map flew to.
+    expect(screen.getByText("Bravo").closest("tr")).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("clicking the same row again RELEASES it — empty oids, no zoom, popup closed", () => {
+    const bus = { emit: vi.fn() };
+    render(<AttributeTablePanel rows={rows} layerId="cities" bus={bus} />);
+
+    fireEvent.click(screen.getByText("Bravo"));
+    fireEvent.click(screen.getByText("Bravo"));
+
+    expect(bus.emit).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        type: "rowSelect",
+        payload: { layerId: "cities", oids: [], zoom: false, popup: false },
+      }),
+    );
+    expect(screen.getByText("Bravo").closest("tr")).toHaveAttribute("aria-selected", "false");
+  });
+
+  it("moves the selection when a DIFFERENT row is clicked (one record at a time)", () => {
+    const bus = { emit: vi.fn() };
+    render(<AttributeTablePanel rows={rows} layerId="cities" bus={bus} />);
+
+    fireEvent.click(screen.getByText("Bravo"));
+    fireEvent.click(screen.getByText("Charlie"));
+
+    expect(bus.emit).toHaveBeenLastCalledWith(
+      expect.objectContaining({ payload: expect.objectContaining({ oids: [3], popup: true }) }),
+    );
+    expect(screen.getByText("Bravo").closest("tr")).toHaveAttribute("aria-selected", "false");
+    expect(screen.getByText("Charlie").closest("tr")).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("releases the bound source's selection too, so linked widgets un-filter", () => {
+    const store = createStrataStore();
+    const source = new FeatureLayerDataSource({ id: "parcels", layerId: "parcels", store, rows });
+    render(<AttributeTablePanel source={source} layerId="parcels" />);
+
+    fireEvent.click(screen.getByText("Bravo"));
+    expect(source.getSelection()).toEqual({ layerId: "parcels", oids: [2] });
+    fireEvent.click(screen.getByText("Bravo"));
+    expect(source.getSelection()).toEqual({ layerId: "parcels", oids: [] });
+  });
 });

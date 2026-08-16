@@ -25,7 +25,7 @@
 - Declarative apps: an AppLayout JSON drives <StrataApp> (J.5 layout engine) — pages -> row/column/grid/
   section/card containers -> widgets (KPI, gauge, sparkline, stacked-bar, time-series, cards, gallery).
 - Panels: layer, basemap, attribute table, chart, CARTO cross-filter, edit, attachments, and an "Ask" chat
-  seam. A data-action bus (@strata/actions) lets widgets/panels cross-filter each other and the map.
+  seam. Every panel is user-resizable by default (drag grip + arrow keys; minWidth/maxWidth bound it). A data-action bus (@strata/actions) lets widgets/panels cross-filter each other and the map.
 - Export: map image (PNG/JPEG), print/PDF, shareable web map spec, layer data (GeoJSON/CSV; GeoParquet
   server-side). i18n: EN/AR with RTL.
 - License: MIT.
@@ -37,7 +37,7 @@
   /update-metadata, /export (image|pdf|map|layer)
 
 ## Status: shipped vs planned (be precise)
-- Shipped & working (v0.3.0, 15 packages, 166 unit tests): the ESRI drawingInfo->MapLibre style compiler;
+- Shipped & working (v0.3.0, 20 packages, 796 unit tests): the ESRI drawingInfo->MapLibre style compiler;
   ArcGIS REST + GeoJSON source loaders (tile/WMS/cluster/refresh); <StrataMap> with a store-bound live map;
   map interaction (active layer -> identify -> popup; measure/sketch); controls (nav/geolocate/fullscreen/
   scale/legend/status bar/time slider); management panels; the <StrataApp> J.5 layout engine + widgets; the
@@ -50,7 +50,7 @@
   are not yet supported. See strata/docs/maintainers/ for the roadmap.
 
 ## Recipes (recipes/ — the user workspace at the repo root)
-- Two example recipes: recipes/mapviewer/ (map-centric authoring) and recipes/showcase/ (kitchen-sink
+- Three example recipes: recipes/nearby/ (search + proximity), recipes/mapviewer/ (map-centric authoring) and recipes/showcase/ (kitchen-sink
   multi-page app), plus recipes/COMPONENT-MANIFEST.md (component-config reference). Proprietary business
   solution recipes are kept private (gitignored .private/solution_recipes/) and are not part of this repo.
 

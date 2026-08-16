@@ -42,7 +42,7 @@ demonstrated against `WebMaps/dc.json` / `md.json` and validated by `packages/sc
 See [`templates/README.md`](../../templates/README.md) and the
 [application design guideline](app-design.md).
 
-## `strata/packages/` — the code (18 packages)
+## `strata/packages/` — the code (20 packages)
 See **[Components, widgets & skills](../reference/components.md)** for the purpose/scope of each and how they
 compose.
 - **`@strata/schema`** — the contract: `layers.json` (ESRI Web Map) + the `AppLayout` (containers, `ViewsNode`,

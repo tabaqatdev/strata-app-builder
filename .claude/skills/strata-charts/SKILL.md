@@ -50,3 +50,16 @@ the first build. Use `dashboardTemplate` (it emits the `connections`); palettes 
 Aggregate server-side (ArcGIS `outStatistics` / `groupByFieldsForStatistics`); the chart renders returned
 `[{label,value}]`. `TimeSeries` expects a sorted `t`-ordered series (epoch millis). ECharts is optional —
 don't assume it's installed; the SVG fallback keeps everything working.
+
+- **Recompute the reading before you repaint.** One app's adopt-handler repainted the map and re-scoped
+  the table but left the derived reading stale, so the headline number and both KPIs kept the *previous*
+  selection's figures. The map looked right, the table looked right, and the big number lied. Recompute
+  the reading **first**, in the same handler.
+- **Derive every count from state; never hardcode one.** A hardcoded total meant adding a category
+  silently moved the number on the splash screen — and the test asserting the constant was itself wrong.
+- **Two similar numbers are often not parameterised the same way.** A published share and a locally
+  computed one may respond to different inputs; conflating them made a toggle appear to move a figure it
+  has no business moving. Keep them separate fields and assert the distinction.
+- **A KPI that filters must say what it filtered** — pair it with a labelled chip and a visible
+  denominator (`2 of 7`), so a narrowed view never reads as the whole.
+- Use tabular numerals (`font-variant-numeric: tabular-nums`) wherever figures stack in a column.

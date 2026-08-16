@@ -75,6 +75,8 @@
             "kind": "panel",
             "dock": "left",
             "width": 300,
+            "minWidth": 240,
+            "maxWidth": 560,
             "collapsible": true,
             "open": true,
             "children": [

@@ -40,3 +40,22 @@ theme and stays colorblind-safe:
 - Never `esriSMSPath` (won't render) — use `esriSMSCircle`/`Square`/`Diamond`/`Triangle`.
 - Low polygon alpha so layers don't block each other.
 - Colors are `[r,g,b,a]` with a **0–255** alpha.
+- **Measure contrast; do not argue about it.** `#f59e0b` as text on a white panel is **2.15:1**, under
+  WCAG AA's 4.5 — and it marked one app's biggest finding. Where one hue must serve as both fill and
+  text, make it **two tokens** (`#b45309` = 5.02:1 for text). In another build an amber read 3.77:1 light
+  vs 7.12:1 dark and looked like proof the app should be dark — until every other state measured
+  5.57–8.34:1 and the amber turned out to be the **outlier, not the theme**.
+- **Semantic roles must not conflate two different facts.** "An authority answered" and "an authority
+  answered, and the answer is a hazard" cannot share ink. Painting *evidenced* in the danger role made a
+  plain factual value draw as a full-width blood-red bar. No assertion catches this — the ink is
+  internally consistent and semantically inverted.
+- **A network-wide verdict is a false statement about a specific asset.** Stamping "unverifiable" on
+  every feature because 28 % of the network is unparseable libels the ones that file a plain value.
+  Decide per feature and print the reason on the row.
+- **Fill opacity must follow the basemap.** Alpha tuned for pale CARTO Positron is invisible on
+  OpenTopoMap — the basemap a user picks *precisely* to see terrain context.
+- **A renderer field on a MapServer layer needs case tolerance.** `f=geojson` lower-cases every field
+  name (FeatureServer preserves case); the style compiler emits a `coalesce` over exact/lower/upper.
+- **Data colours are identical in both themes**; only the halo changes. A dark-mode override once painted
+  light text onto a light amber fill and made a whole navigation band unreadable.
+- Full catalogue: `strata/docs/troubleshooting.md` §8.

@@ -57,6 +57,7 @@ Claude also reads this to reach for the right component by default. Pair it with
 |---|---|
 | "Add a layer list I can toggle and reorder." | LayerPanel. |
 | "Show the data in a sortable table under the map." ✅ | AttributeTablePanel (paging + windowing + CSV/GeoJSON export). |
+| "Clicking a row should fly the map there and open the popup — clicking again clears it." ✅ | Already shipped — that is the row gesture: adopt (fly + popup), click again to release (selection cleared, popup closed). |
 | "Add a panel of charts beside the map." ✅ | ChartPanel (ECharts/SVG; click cross-filters). |
 | "Add CARTO-style widgets that filter the map when I click a category." | CartoPanel. |
 | "Add a filter panel so users can narrow by field values." ✅ | FilterPanel (query builder). |
@@ -65,13 +66,22 @@ Claude also reads this to reach for the right component by default. Pair it with
 | "When I select a feature, give me quick actions — zoom, flash, view in table, export." ✅ | DataActionMenu. |
 | "Let me edit these features' attributes." 🔶 | EditPanel. |
 | "Add an attachment viewer to page through photos." 🔶-write / ✅-read | AttachmentViewer. |
+| "Let me drag the panel wider." / "Make the table panel resizable." ✅ | Already shipped — every panel resizes by default (drag the edge grip, or focus it and use the arrow keys). |
+| "Start the layer panel at 320px but let it go to 600." ✅ | `defaultWidth: 320` + `maxWidth: 600` on the panel (`minWidth` for the floor). |
+| "Don't let users resize this one." ✅ | `resizable: false` — for a panel whose size the design depends on. |
 
 ## 5 · Map controls & tools
 
 | Say this | You get |
 |---|---|
 | "Add zoom buttons / a scale bar / a status bar with live coordinates." | Navigation / ScaleControl / StatusBar. |
-| "Add a legend." | Legend. |
+| "Put the zoom, fit, layers, basemap and legend controls on the map." ✅ | Already shipped — `MapChrome`, the house cluster, is the default whenever `navigation`/`layerList`/`basemapSwitcher` is on. |
+| "Move the controls to the other corner." ✅ | `controls.position` (`top-left`) — the drawer follows, geolocate/fullscreen take the opposite corner. |
+| "Give me back the old always-open layer and basemap boxes." ✅ | `controls.cluster: false`. |
+| "Add a legend." | Legend — interactive by default. |
+| "Let me click the legend to hide a class, and isolate one." ✅ | Built in: click hides · shift-click isolates · `Esc` clears (a real `definitionExpression`, applied in place). |
+| "Show how many features are in each legend class." ✅ | `counts` on the Legend — rows render `n of N`, keeping the denominator. |
+| "Make the legend a plain caption, not a control." ✅ | `interactive: false`. |
 | "Let me measure distances and areas." / "Let me draw shapes." | Measure / Sketch. |
 | "Add a time slider that animates the data over the month." | TimeSlider (`/timeslider`). |
 | "Put all the tools behind a toolbar so it's not cluttered." ✅ | The `controller` tool dock. |
@@ -114,7 +124,7 @@ Claude also reads this to reach for the right component by default. Pair it with
 | "Auto-advance the slideshow every few seconds." ✅ | A `views` node with `autoPlay: { intervalMs }`. |
 | "Split the screen with a draggable divider." ✅ | A `splitter` container (resizable). |
 | "Pop up a modal window when I click this." ✅ | A `window` node (opened by a `showHide`/`navigate` action). |
-| "Dock a collapsible panel on the left." ✅ | A `panel` node (`dock` left/right/top/bottom/float). |
+| "Dock a collapsible panel on the left." ✅ | A `panel` node (`dock` left/right/top/bottom/float) — resizable by default; bound it with `minWidth`/`maxWidth`. |
 | "Add a header and footer." / "Show a splash intro on load." ✅ | Page `header`/`footer` regions + an app `splash`. |
 | "Give it my brand colors / a spacious type scale." ✅ | A structured `theme` (`{ mode, colors, fonts, variables, overrides }`) compiled to `--strata-*` + states. |
 | "Make it bilingual EN/AR, right-to-left." | i18n + RTL. |

@@ -57,7 +57,6 @@ chosen layout/panels/plugins/proxy/auth, install exactly the needed dependencies
   **`share`** button, and **`bookmarks`** when there are notable places. For compare apps use a **`swipe`**;
   for exhibits use a **`views`** node with per-slide `mapState`.
 - If **bilingual**, wrap the app in `I18nProvider` (`@strata/i18n`, EN/AR) and enable **RTL**.
-- If starting from a sample map, copy one of the `WebMaps/` maps (world/usa/country/state) as the base `layers.json`.
 - Install exactly the deps implied (`maplibre-gl`, `@strata/core-map`, `@strata/schema`, and any of
   `@strata/processing`, `@strata/plugins`, `@strata/plugin-search`, `@strata/plugin-routing`,
   `@strata/plugin-timeslider`, `@strata/plugin-statusbar`, `@strata/state`, `@strata/actions`,
@@ -66,3 +65,21 @@ chosen layout/panels/plugins/proxy/auth, install exactly the needed dependencies
   (point to `/guide` and `/help`).
 
 Preserve the ESRI Web Map JSON contract on every path. Never invent a styling DSL.
+
+## Scaffolded is not finished
+
+`/new-app` produces a working app; it does not produce a *defensible* one. Before calling it done:
+
+- **Verify every service before binding to it** — the probe in
+  `strata/docs/how-to/find-and-verify-data.md` §2. A field name must never enter the app until a response
+  has shown it. This is the rule the others exist to protect.
+- **Walk the design checklist** — `strata/docs/guide/app-design.md` §7.
+- **Walk the build gate** — `strata/docs/guide/building-apps.md` §7: three suites green (live, offline
+  render, real headless Chrome), no hardcoded counts, contrast measured in both themes, nothing
+  synthesized, every cap visible on screen.
+- **Look at it.** Screenshot the first paint and confirm the app opens on a view where its own signature
+  is visible. Suites that grep markup cannot see what a screen means — 297 green assertions once missed
+  four defects one screenshot made obvious.
+
+When the user has a **recipe**, use **`/recipe`** instead: it runs this whole path in order, refuses to
+build a recipe whose data section is unverified, and reports the assertion counts at the end.

@@ -26,7 +26,10 @@ export interface FeatureInfoPanelProps {
     on: (type: string, handler: (t: { source?: string; payload: any }) => void) => () => void;
   };
   /** Resolve a selected feature's attributes (and popupInfo) for bus-driven mode. */
-  onResolve?: (layerId: string, oid: number) => Promise<FeatureInfoValue | null> | FeatureInfoValue | null;
+  onResolve?: (
+    layerId: string,
+    oid: number | string,
+  ) => Promise<FeatureInfoValue | null> | FeatureInfoValue | null;
   /**
    * A first-class DataSource (Phase 1). When set with `onResolve`, the panel tracks the source's
    * selection directly — so any widget that selects into the shared source fills this panel, no bus needed.

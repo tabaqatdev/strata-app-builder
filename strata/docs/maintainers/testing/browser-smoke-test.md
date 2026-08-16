@@ -36,6 +36,8 @@ Then open the URL in a browser (or the in-app Browser pane).
 | Layers render | Screenshot | The app's operational layers are visibly painted (styled per `drawingInfo`) |
 | Chrome renders | Screenshot | Nav control (＋／－／compass), scale bar, "© OpenStreetMap \| MapLibre" attribution |
 | Map fills container | JS below | canvas CSS size ≈ container size (see finding ⚠️ below) |
+| Panels resize | Drag a panel's edge grip, then re-run the probe | The panel width changes, and the canvas **still** matches its (now different) container — the `ResizeObserver` did its job |
+| Grips are keyboard-operable | `Tab` to a grip, then `←`/`→` (`↑`/`↓` on a top/bottom dock) | The panel resizes in 16 px steps, 48 px with `Shift` |
 
 Canvas-vs-container probe (paste in the console):
 
@@ -46,7 +48,17 @@ const m = document.querySelector('.maplibregl-map');
 // PASS when canvas ≈ container. FAIL if canvas is stuck at 400×300 in a larger container.
 ```
 
-## Known finding ⚠️ — the map does not fill a late-sized container
+## Resolved finding ✅ — the map does not fill a late-sized container
+
+**Fixed. Verified against `packages/core-map` on 2026-08-11 — do not re-apply the old workaround.**
+`StrataMap.tsx` now observes its container and calls `controller.resize()` on every size change, plus once
+after the first paint. Keep the check in the runbook: the *symptom* still appears when a map is built
+inside a `hidden` container, where the boot-time `fitBounds` computes against nothing and revealing the
+page resizes but never re-fits — **fit on first reveal**. A canvas reporting `[0, 0]` is a layout problem,
+not a data one. Other core defects this runbook once tracked (StrictMode double-mount, `onReady` blocking,
+MapServer field-case) are also fixed — see [`../../troubleshooting.md`](../../troubleshooting.md) §11.
+
+The original finding, for the record:
 
 Observed during the first Layer-3 run: the MapLibre canvas stayed at **400×300** (MapLibre's default for a
 zero-size container at construction) inside a full-size `.maplibregl-map` container, so the map only painted
@@ -69,6 +81,17 @@ asserts the observer is created and `resize()` is invoked on a size change.
 
 ## Toward automation
 
-This runbook is currently semi-manual (WebGL can't run in jsdom). To make it CI-gating, add **Playwright**
-with a headed/GPU-enabled runner: launch `vite preview`, assert the canvas fills its container, that the two
-GeoJSON requests return 200, and that the console has no errors. Not set up yet — proposed follow-up.
+This runbook is semi-manual because WebGL can't run in jsdom. **The app side has already solved it without
+adding a dependency:** the most recent builds ship a `drive.mjs` that talks to headless Chrome over the
+DevTools Protocol with a hand-rolled client — roughly 200 lines, no Playwright, no Puppeteer — and asserts
+the loop, the map-chrome geometry, both themes and the console. One build's driver runs 89 assertions
+against the live page.
+
+That is now the house standard, alongside a live suite and an offline render suite: see
+[`../../guide/building-apps.md`](../../guide/building-apps.md) §3. The case for it is
+blunt — in one build **297 passing assertions missed four defects that a single screenshot made obvious**,
+all of them semantic or spatial. The static and render harnesses catch wiring and arithmetic; only
+rendering catches meaning.
+
+For CI-gating `@strata/core-map` itself, the same CDP approach applies: launch `vite preview`, assert the
+canvas fills its container, that the GeoJSON requests return 200, and that the console is clean.

@@ -57,10 +57,24 @@ export interface StrataTrigger<P = unknown> {
 export type ActionHandler<P = any> = (trigger: StrataTrigger<P>) => void;
 
 // --- common payloads ---------------------------------------------------------------------------
+/**
+ * A feature selection.
+ *
+ * `oids` are **`number | string`** because an object id is whatever the service says it is: real
+ * layers publish string keys, and one reports `objectIdFieldName: null` while carrying a usable id
+ * column (`strata/docs/troubleshooting.md` §1). Coercing those to numbers addresses the wrong rows
+ * with no error.
+ *
+ * An **empty `oids` is a release**, not a no-op — the widget that adopted this record has let it
+ * go, and every sink should clear: drop the highlight, close the popup, restore the full population.
+ */
 export interface FeatureSelectPayload {
   layerId: string;
-  oids: number[];
+  oids: Array<number | string>;
+  /** Fly the map to the record (not to its layer's extent). */
   zoom?: boolean;
+  /** Open that record's popup on arrival; a release closes whatever popup is open. */
+  popup?: boolean;
 }
 export interface CategorySelectPayload {
   layerId: string;
@@ -84,7 +98,7 @@ export interface ExtentChangePayload {
 /** A hovered/flashed feature (linked highlight across widgets). */
 export interface HoverPayload {
   layerId: string;
-  oids: number[];
+  oids: Array<number | string>;
 }
 /** A widget publishing a derived record set others can consume (W2 output data sources). */
 export interface RecordsChangePayload {
@@ -163,7 +177,7 @@ export class ActionBus {
 /** The selection a data action operates on. */
 export interface DataActionContext {
   bus: ActionBus;
-  selection: { layerId: string; oids: number[] };
+  selection: { layerId: string; oids: Array<number | string> };
 }
 
 /**
@@ -506,7 +520,7 @@ export interface ConnectOptions {
   /** apply a `definitionExpression` to a layer + the live map (usually a `LayerRegistry`/StrataMap call). */
   onFilter?: (layerId: string, where: string | null) => void;
   /** zoom/highlight a set of features. */
-  onSelect?: (layerId: string, oids: number[], zoom?: boolean) => void;
+  onSelect?: (layerId: string, oids: Array<number | string>, zoom?: boolean) => void;
 }
 
 /**
