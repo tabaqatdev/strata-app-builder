@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
 import { createStrataStore } from "@strata/state";
 import { Legend, legendRows, legendWhere } from "../../src/react/controls/Legend.js";
 import { MapChrome } from "../../src/react/controls/MapChrome.js";
@@ -75,6 +75,79 @@ describe("Legend (component)", () => {
   it("includes hidden layers when visibleOnly is false", () => {
     render(<Legend layers={[layer("l1", "Hidden", simple, false)]} visibleOnly={false} />);
     expect(screen.getByText("Hidden")).toBeInTheDocument();
+  });
+});
+
+/**
+ * The legend must agree with the map. Two ways it used to disagree: it was handed a static array it
+ * could never re-read, and it silently dropped any layer it could not break into classes.
+ */
+describe("Legend — reflects what is actually on the map", () => {
+  /** Add a layer to a store, carrying an optional renderer. */
+  function seed(store: any, id: string, title: string, renderer?: any): void {
+    store.getState().addLayer({
+      id,
+      title,
+      source: { kind: "geojson" },
+      visibility: true,
+      ...(renderer ? { layerDefinition: { drawingInfo: { renderer } } } : {}),
+    } as any);
+  }
+
+  it("reads the store's layers when given no `layers` prop", () => {
+    const store = createStrataStore();
+    seed(store, "zones", "Zones", uniqueValue);
+    render(<Legend store={store} />);
+    expect(screen.getByText("Zones")).toBeInTheDocument();
+    expect(screen.getByText("Class A")).toBeInTheDocument();
+  });
+
+  it("drops a layer from the legend the moment the layer panel hides it", () => {
+    const store = createStrataStore();
+    seed(store, "zones", "Zones", uniqueValue);
+    seed(store, "roads", "Roads", simple);
+    render(<Legend store={store} />);
+    expect(screen.getByText("Roads")).toBeInTheDocument();
+
+    // Exactly what the layer panel / map-controls drawer calls.
+    act(() => store.getState().setVisibility("roads", false));
+    expect(screen.queryByText("Roads")).not.toBeInTheDocument();
+    expect(screen.getByText("Zones")).toBeInTheDocument();
+
+    act(() => store.getState().setVisibility("roads", true));
+    expect(screen.getByText("Roads")).toBeInTheDocument();
+  });
+
+  it("lists a layer that has no renderer — it is on the map, so it is in the legend", () => {
+    // The service owns the symbology (or the renderer has no discrete classes). An absent row here
+    // reads as an absent layer, which is the more expensive lie.
+    render(<Legend layers={[{ id: "sat", title: "Imagery", visibility: true } as any]} />);
+    expect(screen.getByText("Imagery")).toBeInTheDocument();
+  });
+
+  it("renders the stand-in row as a caption — it has no classes to filter", () => {
+    render(<Legend layers={[{ id: "sat", title: "Imagery", visibility: true } as any]} />);
+    expect(screen.queryByRole("button", { name: /Imagery/ })).not.toBeInTheDocument();
+  });
+
+  it("still renders nothing when there are no visible layers at all", () => {
+    const { container } = render(<Legend layers={[]} />);
+    expect(container.firstChild).toBeNull();
+  });
+
+  it("includeUnstyled={false} restores the strict symbology-key reading", () => {
+    const { container } = render(
+      <Legend layers={[{ id: "sat", title: "Imagery", visibility: true } as any]} includeUnstyled={false} />,
+    );
+    expect(container.firstChild).toBeNull();
+  });
+
+  it("an explicit `layers` prop still outranks the store", () => {
+    const store = createStrataStore();
+    seed(store, "zones", "Zones", uniqueValue);
+    render(<Legend store={store} layers={[layer("only", "Only this", simple)]} />);
+    expect(screen.getByText("Only this")).toBeInTheDocument();
+    expect(screen.queryByText("Zones")).not.toBeInTheDocument();
   });
 });
 
@@ -229,6 +302,17 @@ describe("MapChrome", () => {
     expect(store.getState().layers[0].visibility).toBe(false);
   });
 
+  it("a layer row shows EVERY class it draws in, not just the first", () => {
+    // One swatch off a uniqueValue renderer names one of its colours and implies the layer is that
+    // colour — so the row carries the whole set (past the cap, a +N).
+    const { container } = render(
+      <MapChrome map={fakeMap} layers={[layer("zones", "Zones", uniqueValue)]} />,
+    );
+    fireEvent.click(container.querySelector('button[data-key="layers"]')!);
+    const swatches = container.querySelectorAll('.opt[data-layer="zones"] .sw2');
+    expect(swatches.length).toBe(3); // Class A · Class B · Other
+  });
+
   it("basemap rows are RADIOS, never checkboxes", () => {
     const { container } = render(<MapChrome map={fakeMap} layers={layers} themeMode="light" />);
     fireEvent.click(container.querySelector('button[data-key="basemap"]')!);
@@ -267,12 +351,42 @@ describe("MapChrome", () => {
     expect(ticked).toEqual([pick.dataset.basemap]);
   });
 
-  it("each basemap row carries a live tile of the current area in that style", () => {
-    const { container } = render(<MapChrome map={fakeMap} layers={layers} />);
-    fireEvent.click(container.querySelector('button[data-key="basemap"]')!);
-    const thumb = container.querySelector(".opt .thumb") as HTMLElement;
-    // A colour swatch cannot tell Positron from Voyager; this is the basemap's own tile.
-    expect(thumb.style.backgroundImage).toMatch(/^url\(/);
+  it("every basemap row carries a preview — a live tile (raster) or the style's own colours (vector)", async () => {
+    // Since 2026-09-01 the gallery leads with VECTOR presets, which have no tile to preview: their
+    // ground is assembled by the renderer. So a vector row reads the style's own background / road
+    // / water out of the style document. What must never appear is a row with no preview at all —
+    // a wall of identical grey boxes is the failure a live preview exists to prevent, and it is
+    // what a raster-only check would have started reporting as green the day the default changed.
+    const style = {
+      layers: [
+        { id: "background", type: "background", paint: { "background-color": "#f2f3f0" } },
+        { id: "water", type: "fill", paint: { "fill-color": "#c2c8ca" } },
+        { id: "road_major", type: "line", paint: { "line-color": "#8a929a" } },
+      ],
+    };
+    const fetchSpy = vi
+      .spyOn(globalThis, "fetch" as any)
+      .mockResolvedValue({ ok: true, json: async () => style } as any);
+    try {
+      const { container } = render(<MapChrome map={fakeMap} layers={layers} />);
+      fireEvent.click(container.querySelector('button[data-key="basemap"]')!);
+
+      const thumbs = () => [...container.querySelectorAll(".opt .thumb")] as HTMLElement[];
+      await waitFor(() =>
+        expect(thumbs().every((t) => t.style.backgroundImage !== "")).toBe(true),
+      );
+
+      const backgrounds = thumbs().map((t) => t.style.backgroundImage);
+      // a raster row paints its own tile — a colour swatch cannot tell Positron from Voyager
+      expect(backgrounds.some((b) => /^url\(/.test(b))).toBe(true);
+      // a vector row paints the ground/road/water its style declares
+      expect(backgrounds.some((b) => /linear-gradient/.test(b))).toBe(true);
+      // and the style document is what supplied them, fetched once per style URL
+      expect(fetchSpy).toHaveBeenCalled();
+      expect(backgrounds.some((b) => b.includes("rgb(242, 243, 240)") || b.includes("#f2f3f0"))).toBe(true);
+    } finally {
+      fetchSpy.mockRestore();
+    }
   });
 
   it("states the keyless house rule rather than silently omitting providers", () => {

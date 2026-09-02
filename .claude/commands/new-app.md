@@ -43,7 +43,9 @@ chosen layout/panels/plugins/proxy/auth, install exactly the needed dependencies
 ## Then scaffold
 - **Apply the chosen theme coherently.** Set `AppLayout.theme = themeTokens(name)` (`@strata/theme`) and pair
   the map to it with `baseMapFromPreset(basemapForTheme(mode))` — a dark UI gets a dark vector basemap. This
-  one choice makes the whole app read as designed on the first build.
+  one choice makes the whole app read as designed on the first build. At runtime the pairing **keeps
+  itself**: switching the theme swaps the basemap to its pair, so give any `theme-switch` an `initial`
+  matching `theme.mode` (the authored basemap wins on mount, so a mismatch shows until the first click).
 - Write `layers.json` (ESRI Web Map JSON — always) via `/create-map`; set symbology/popups via `/symbology`
   and `/popup`; add panels via `/panel`; wire the chosen plugins. **Default symbology to data-driven,
   palette-backed renderers** (`@strata/theme` `categorical`/`sequential`), not a flat single color.

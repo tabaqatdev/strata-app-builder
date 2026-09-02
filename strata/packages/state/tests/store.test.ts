@@ -188,3 +188,50 @@ describe("createStrataStore — LayersJson round-trip", () => {
     expect(out.initialState.viewpoint.targetGeometry).toBeDefined();
   });
 });
+
+describe("createStrataStore — the basemap follows the theme", () => {
+  const bm = (title: string) => ({ title, baseMapLayers: [{ id: title, layerType: "WebTiledLayer" as const }] });
+
+  it("follows the theme by default, and an explicit pick turns that off", () => {
+    const store = createStrataStore();
+    expect(store.getState().baseMapFollowsTheme).toBe(true);
+    store.getState().setBaseMapFollowsTheme(false);
+    expect(store.getState().baseMapFollowsTheme).toBe(false);
+  });
+
+  it("does not push the follow flag onto the undo history — it is not an edit", () => {
+    const store = createStrataStore();
+    store.getState().setBaseMapFollowsTheme(false);
+    expect(store.getState().canUndo()).toBe(false);
+  });
+
+  it("a transient basemap swap changes the map without filling the undo stack", () => {
+    const store = createStrataStore();
+    // An authored pick IS undoable.
+    store.getState().setBaseMap(bm("Authored"));
+    const depth = store.getState()._past.length;
+    expect(depth).toBe(1);
+
+    // The theme-driven swap is not: flipping light↔dark must not read as an edit to the map spec.
+    store.getState().setBaseMap(bm("Dark"), { transient: true });
+    expect(store.getState().baseMap?.title).toBe("Dark");
+    expect(store.getState()._past.length).toBe(depth);
+
+    // Undo still lands on the state before the authored pick, not on a theme flip.
+    store.getState().undo();
+    expect(store.getState().baseMap).toBeNull();
+  });
+
+  it("a fresh map spec restores following — its basemap is an authored starting point", () => {
+    const store = createStrataStore();
+    store.getState().setBaseMapFollowsTheme(false);
+    store.getState().loadFromLayersJson({
+      version: "1.0",
+      spatialReference: { wkid: 4326 },
+      initialState: { viewpoint: { targetGeometry: { xmin: 0, ymin: 0, xmax: 1, ymax: 1, spatialReference: { wkid: 4326 } } } },
+      baseMap: { title: "Streets", baseMapLayers: [] },
+      operationalLayers: [],
+    } as LayersJson);
+    expect(store.getState().baseMapFollowsTheme).toBe(true);
+  });
+});

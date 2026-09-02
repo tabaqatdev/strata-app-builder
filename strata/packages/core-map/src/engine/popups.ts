@@ -56,6 +56,9 @@ export interface PopupSurface {
 
 export function initPopups(opts: PopupOptions): PopupSurface {
   const { map, maplibregl, target = "canvas", client = {} } = opts;
+  // Without this the popup inherits the app's text colour but keeps MapLibre's hard-coded white
+  // card — near-white on white in every dark theme. See {@link ensurePopupStyles}.
+  ensurePopupStyles(map?.getContainer?.()?.ownerDocument);
   const getLayers = typeof opts.layers === "function" ? opts.layers : () => opts.layers as OperationalLayer[];
   // ONE popup at a time. Without a tracked instance every click leaves its predecessor on the map,
   // and nothing can close a popup that was opened by a click somewhere else.
@@ -151,6 +154,67 @@ export function initPopups(opts: PopupOptions): PopupSurface {
   surface.showFeature = showFeature;
   surface.close = closeCurrent;
   return surface;
+}
+
+// ---------------------------------------------------------------------------------------------
+// The popup stylesheet — why a popup needs one at all.
+// ---------------------------------------------------------------------------------------------
+
+/**
+ * MapLibre's own `maplibre-gl.css` paints `.maplibregl-popup-content` **white and sets no `color`**,
+ * so the text colour is inherited. A Strata popup is mounted inside the map container, inside the
+ * `<StrataApp>` root, which sets `color: var(--strata-fg)` — near-white in every dark theme. The
+ * popup therefore opened, rendered, and was **invisible**: white text on a white card, with a white
+ * tip pointing at a dark map. It read as "clicking a feature does nothing".
+ *
+ * So the popup takes the app's panel tokens rather than inheriting half of them: card from
+ * `--strata-panel-bg`, text from `--strata-fg`, edge from `--strata-border`, and the tip painted to
+ * match the card so the arrow never survives the theme it was drawn for. Every token carries a light
+ * fallback, so a bare `<StrataMap>` outside a themed app looks exactly as it did before.
+ */
+const POPUP_CSS = `
+.maplibregl-popup-content{
+  background:var(--strata-panel-bg,#fff);
+  color:var(--strata-fg,#1a2230);
+  border:1px solid var(--strata-border,rgba(0,0,0,.12));
+  border-radius:var(--strata-radius-md,8px);
+  box-shadow:var(--strata-elev-2,0 6px 20px rgba(0,0,0,.18));
+  font:13px/1.45 system-ui,sans-serif;
+}
+/* The tip is a CSS triangle: MapLibre colours the side facing the card, so each anchor needs its own. */
+.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
+.maplibregl-popup-anchor-top-right .maplibregl-popup-tip{border-bottom-color:var(--strata-panel-bg,#fff)}
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip{border-top-color:var(--strata-panel-bg,#fff)}
+.maplibregl-popup-anchor-left .maplibregl-popup-tip{border-right-color:var(--strata-panel-bg,#fff)}
+.maplibregl-popup-anchor-right .maplibregl-popup-tip{border-left-color:var(--strata-panel-bg,#fff)}
+.maplibregl-popup-close-button{
+  color:var(--strata-fg,#1a2230);opacity:.65;background:transparent;border:0;
+  font-size:15px;line-height:1;padding:2px 6px;cursor:pointer;
+}
+.maplibregl-popup-close-button:hover{opacity:1;background:transparent}
+.strata-popup{max-width:100%}
+.strata-popup table{border-collapse:collapse;width:100%}
+.strata-popup th{color:var(--strata-muted,#6b7280);font-weight:600}
+.strata-popup a{color:var(--strata-accent,var(--strata-primary,#2f6fed))}
+.strata-popup img{max-width:100%}
+/* A page-slot surface (target !== "canvas") gets the same treatment; it has no MapLibre card. */
+.strata-popup-desc{margin-top:2px}
+`;
+
+/**
+ * Inject the popup stylesheet once per document. Called by {@link initPopups}, so no app has to wire
+ * it; exported for apps that render popup HTML into their own surface.
+ */
+export function ensurePopupStyles(doc?: Document): void {
+  const d = doc ?? (typeof document !== "undefined" ? document : undefined);
+  if (!d || d.querySelector("style[data-strata-popup-css]")) return;
+  const el = d.createElement("style");
+  el.setAttribute("data-strata-popup-css", "");
+  el.textContent = POPUP_CSS;
+  d.head.appendChild(el);
 }
 
 /**

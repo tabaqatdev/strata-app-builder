@@ -14,7 +14,8 @@ Start here, then dive in:
   run, and the build workflow.
 - **`/new-app`** — guided wizard: interview → scaffold → install. **`/guide`** — decide. **`/help`** — look
   up. **`/what-can-i-do`** — full capability list.
-- Basemaps default to **open-source, OpenStreetMap first** (keyless — OSM · CARTO · OpenTopoMap).
+- Basemaps default to **open-source, OpenStreetMap data first** (keyless — OpenFreeMap · Versatiles ·
+  CARTO GL, then raster OSM · OpenTopoMap). A new map opens on OpenFreeMap Positron.
 
 ## Guide (how it works, per component)
 - [Repository anatomy](guide/anatomy.md) — what every folder/file is.

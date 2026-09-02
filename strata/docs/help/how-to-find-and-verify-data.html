@@ -124,7 +124,7 @@ behave like one product.</p>
 <tbody>
 <tr>
 <td><strong>Keyless sources only</strong></td>
-<td>An app that needs a key cannot be handed to anyone. No keyed basemap, no keyed provider, ever — OSM / CARTO raster only</td>
+<td>An app that needs a key cannot be handed to anyone. No keyed basemap, no keyed provider, ever — the OpenFreeMap / Versatiles vector styles, or raster OSM / OpenTopoMap. And <strong>keyless is a behaviour</strong>: a gated host answers HTTP 200 with a placeholder, so probe it, don't pattern-match its URL</td>
 </tr>
 <tr>
 <td><strong>Browser-direct fetching</strong></td>
@@ -264,7 +264,8 @@ The app-level summary:</p>
    hatch when a live host is an undocumented VM that may move — check whether a bulk FGDB or SHP carries
    the same data.</li>
 </ol>
-<p><strong>Never</strong> offer a keyed basemap or a keyed provider as part of the answer. Keyless OSM/CARTO only.</p>
+<p><strong>Never</strong> offer a keyed basemap or a keyed provider as part of the answer — keyless OSM-derived only, and
+verified by fetching rather than by reading the URL.</p>
 <hr />
 <h2 id="4-the-catalogue-artifact">4 · The catalogue artifact</h2>
 <p>Each researched recipe produces one machine-readable catalogue, <code>&lt;name&gt;-catalog-&lt;region&gt;.json</code>, which is

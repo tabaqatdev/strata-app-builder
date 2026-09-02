@@ -58,3 +58,61 @@ describe("LayerPanel", () => {
     expect(onFilter).toHaveBeenCalledWith("Roads");
   });
 });
+
+/**
+ * A layer list that cannot tell you what a layer looks like sends the reader to the legend to work
+ * out which of five polygon layers is the blue one. The swatches come from the same `legendRows()`
+ * the Legend reads, so the two surfaces cannot disagree.
+ */
+describe("LayerPanel — symbology", () => {
+  const withRenderer = (id: string, renderer: any) =>
+    layer(id, { layerDefinition: { drawingInfo: { renderer } } } as any);
+
+  function storeOf(...layers: any[]) {
+    const store = createStrataStore();
+    layers.forEach((l) => store.getState().addLayer(l));
+    return store;
+  }
+
+  it("shows the layer's own colour, not a generic layer glyph", () => {
+    const store = storeOf(
+      withRenderer("Roads", { type: "simple", symbol: { type: "esriSLS", color: [255, 0, 0, 255] } }),
+    );
+    const { container } = render(<LayerPanel store={store} />);
+    const swatch = container.querySelector('[data-strata-symbology="Roads"] span') as HTMLElement;
+    expect(swatch).toBeTruthy();
+    // jsdom normalizes a fully-opaque rgba() to rgb().
+    expect(swatch.style.background).toBe("rgb(255, 0, 0)");
+  });
+
+  it("expands the full class list for a multi-class renderer", () => {
+    const store = storeOf(
+      withRenderer("Zones", {
+        type: "uniqueValue",
+        field: "CLASS",
+        uniqueValueInfos: [
+          { value: "A", label: "Residential", symbol: { color: [0, 255, 0, 255] } },
+          { value: "B", label: "Commercial", symbol: { color: [0, 0, 255, 255] } },
+        ],
+      }),
+    );
+    render(<LayerPanel store={store} />);
+    expect(screen.queryByText("Residential")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByLabelText(/Show the 2 symbology classes for Zones/));
+    expect(screen.getByText("Residential")).toBeInTheDocument();
+    expect(screen.getByText("Commercial")).toBeInTheDocument();
+  });
+
+  it("offers no expander for a single-class renderer — there is nothing to open", () => {
+    const store = storeOf(withRenderer("Roads", { type: "simple", symbol: { color: [1, 2, 3, 255] } }));
+    render(<LayerPanel store={store} />);
+    expect(screen.queryByLabelText(/symbology classes/)).not.toBeInTheDocument();
+  });
+
+  it("still shows a neutral swatch for a layer whose service owns the symbology", () => {
+    const store = storeOf(layer("Imagery"));
+    const { container } = render(<LayerPanel store={store} />);
+    expect(container.querySelector('[data-strata-symbology="Imagery"] span')).toBeTruthy();
+  });
+});

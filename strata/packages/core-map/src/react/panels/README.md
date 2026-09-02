@@ -10,14 +10,19 @@ TanStack/Tabulator/ECharts — with inline notes marking where those can be swap
 
 ## Implemented
 
-- **`LayerPanel`** — feature-layer management. Visibility, opacity, reorder (up/down), inline
-  rename (via the store's `renameLayer`), zoom-to, labels, identify, open attribute table, remove;
-  highlights the active/selected layer. Props: `{ store, onZoomTo?, onHighlight?, onToggleLabels?,
-  onIdentifyToggle?, onOpenTable? }`.
+- **`LayerPanel`** — feature-layer management. **One-line rows**: drag-handle reorder, a visibility
+  checkbox, the layer's **own symbology** (one swatch, or a class stack plus an `N ▸` that expands the
+  full class list — drawn from the same `legendRows()` the `Legend` reads, so the panel and the legend
+  cannot disagree), the title, and a `⋯` / right-click menu (show table · zoom-to · filter · symbology ·
+  popup · rename · metadata · remove). Inline rename goes through the store's `renameLayer`; the
+  active/selected layer is highlighted. Props: `{ store, onZoomTo?, onHighlight?, onOpenTable?,
+  onShowTable?, onFilter?, onSymbology?, onPopup?, onShowMetadata?, onAddLayer?, … }`.
 - **`BasemapPanel`** — basemap management. Lists basemaps (active highlighted), builds a genuine
   ESRI `BaseMap` on click → `store.setBaseMap` + `onApplyBasemap`; "Add basemap" row appends a
-  tile/style URL. Props: `{ store, basemaps?, onApplyBasemap? }` — `basemaps` defaults to `OPEN_BASEMAPS`
-  (open-source, **OpenStreetMap first**). Exports `buildBaseMap`.
+  tile/style URL. Props: `{ store, basemaps?, themeMode?, onApplyBasemap? }` — `basemaps` defaults to
+  `OPEN_BASEMAPS` (open-source, **OpenStreetMap first**), and `themeMode` falls back to the surrounding
+  `<StrataApp>`'s mode, which is what the **Follow the theme** row follows. An explicit pick clears
+  `store.baseMapFollowsTheme` so the theme stops choosing. Exports `buildBaseMap` and `useFollowsTheme`.
 - **`AttributeTablePanel`** — attribute table. Sortable headers, per-column filter row, column
   show/hide menu, row-click select (`onRowSelect(oid)`), inline **CSV export** (plus `onExport` for
   GeoJSON/GeoParquet). Columns inferred from rows when omitted. Props: `{ title?, columns?, rows,

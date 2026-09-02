@@ -158,7 +158,11 @@ denominator (<code>2 of 7</code>). Every active filter shown as a labelled chip 
 Layers labelled with their real state — <em>off</em> · <em>N in view</em> · <em>none in this view</em> · <em>capped</em> ·
 <em>not mappable</em>.</p>
 <p><strong>Theme.</strong> One <code>--strata-*</code> token set; both modes clear <strong>4.5:1</strong> on every informational state, measured
-rather than eyeballed. Data colours identical in both themes. Semantic roles carry meaning, not emphasis.</p>
+rather than eyeballed. Data colours identical in both themes. Semantic roles carry meaning, not emphasis.
+<strong>The map is part of the theme, not a picture inside it</strong> — flipping light↔dark swaps the basemap to its
+pair, automatically; a light UI on a dark basemap is the mismatch every reader notices first. Set the
+<code>theme-switch</code>'s <code>initial</code> to the app's own <code>theme.mode</code> so they agree at load, and let the authored
+basemap stand until the reader actually changes mode (<code>theme.basemap</code> to pin or opt out).</p>
 <p><strong>Non-negotiable regardless of business need:</strong> keyless basemaps · EPSG:4326 · verified field names only ·
 nothing fabricated · read-only unless the recipe names a writable authenticated backend. These are not
 defaults; they are the contract.</p>
@@ -403,7 +407,8 @@ power is the wiring matrix, not the vocabulary. Rules:</p>
 <li>Differentiate sibling apps with the <em>secondary levers</em>: dark vs light, header vs headerless, floating
   rounded cards vs flush docked panels, boxed vs full-bleed map — not by inventing new component styles.</li>
 <li>Numbers use tabular numerals; KPIs get big and few (3–5, not 9).</li>
-<li>Basemaps are the keyless open set (OSM · CARTO Positron/Voyager/Dark · OpenTopoMap). Never default to a
+<li>Basemaps are the keyless open set — <strong>vector first</strong>: OpenFreeMap Positron/Dark/Liberty · Versatiles
+  Colorful/Eclipse · CARTO GL, then raster OSM · OpenTopoMap. Never default to a
   keyed provider.</li>
 </ul>
 <h2 id="6-complexity-tiers">6 · Complexity tiers</h2>

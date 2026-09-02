@@ -21,7 +21,7 @@ open-data hub, and more) is built on.
 - **Status:** v0.3.0 — **20 packages**: the store, plugin spine, spatial analysis, the declarative app
   layout engine (J.5) + widgets, management panels + map interaction (active layer, identify, controls,
   legend, time slider), editing + attachments (ESRI backends), i18n (EN/AR + RTL), real export (PDF +
-  layer data), three CORS proxies, and the onboarding wizard, and **796 passing unit tests** across the 18
+  layer data), three CORS proxies, and the onboarding wizard, and **835 passing unit tests** across the 18
   packages that carry suites. Three example recipes (`nearby`, `mapviewer`, `showcase`). See `strata/CHANGELOG.md`.
 - **New here?** In Claude Code, run **`/new-app`** (guided build) — or **`/guide`** to decide, **`/help`** to
   look up.
@@ -86,7 +86,7 @@ drives it:
 | **`strata/packages/i18n`** (`@strata/i18n`) | Dependency-free EN/AR **RTL-aware** i18n; a React `I18nProvider`/`useI18n` binding lives in core-map. |
 | **`strata/packages/data-management`** (`@strata/data-management`) | Convert (File GDB / Shapefile / GeoJSON both flavors → GeoParquet) + render the publish artifacts for the Strata Serve server. |
 | **`strata/packages/export`** (`@strata/export`) | Map export: image / **PDF** / shareable spec / **layer data (GeoJSON/CSV)**. |
-| **`strata/packages/*/tests`** | **Vitest** unit suites (796 tests). Run `pnpm -r build && pnpm test` from `strata/`, or `vitest` at the root (`vitest.workspace.ts`). |
+| **`strata/packages/*/tests`** | **Vitest** unit suites (835 tests). Run `pnpm -r build && pnpm test` from `strata/`, or `vitest` at the root (`vitest.workspace.ts`). |
 | **`recipes/`** (repo root) | **Your workspace** — build here. Two example recipes ship: `mapviewer/` (map-centric authoring) and `showcase/` (kitchen-sink multi-page app), plus `COMPONENT-MANIFEST.md` (component-config reference). See `recipes/README.md`. (Proprietary business solution recipes are kept private and are not part of this repo.) |
 | **`WebMaps/`** (repo root) | Ready-to-use `layers.json` starter maps (`world` · `usa` · `country` · `state`, plus `dc`/`md`/`ca` test maps) — first run copies one in so the Layer panel is never empty. |
 | **`strata/docs/`** | `guide/` (per-component deep-dives), `how-to/` (task how-tos), `reference/` (command + schema reference), `help/` (the generated, browsable HTML help site), `maintainers/` (roadmap), `faq.md`, `troubleshooting.md`. |
@@ -117,7 +117,7 @@ layout engine + widgets (KPI / gauge / sparkline / stacked-bar / time-series / c
 **data-action bus**, **spatial analysis** (Turf), the `layers.json` + catalog-record **schema**, the
 **publish renderer** (datasource block + metadata bundle), **real export** (image / PDF / spec / layer data),
 **i18n** (EN/AR + RTL), **resizable panels** everywhere, the **house map chrome** (one control cluster +
-drawer, interactive legend, basemap radios), and the `.claude` authoring commands. **796 unit
+drawer, interactive legend, basemap radios), and the `.claude` authoring commands. **835 unit
 tests** cover the deterministic core.
 
 **Backend-gated / planned.** Feature **editing + attachments** work against a **writable, authenticated ESRI

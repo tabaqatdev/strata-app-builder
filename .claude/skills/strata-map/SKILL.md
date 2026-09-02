@@ -10,8 +10,9 @@ How to author a `layers.json` (the ESRI Web Map JSON map spec) and embed `<Strat
 ## Recipes
 1. **Full-page map from two ArcGIS services.** Verify each `?f=json`; build two `operationalLayers`
    (`arcgis-feature`); set `spatialReference {wkid:4326}`; set `initialState.viewpoint.targetGeometry` to
-   the union extent; use the default **OpenStreetMap** (open, keyless) basemap — open-source basemaps are the
-default, OSM first (`OPEN_BASEMAPS`: OSM · CARTO Positron/Voyager/Dark · OpenTopoMap). Preset `FullPage`.
+   the union extent; use the default **OpenFreeMap Positron** (open, keyless GL style) basemap — open-source
+basemaps are the default, OSM data first (`OPEN_BASEMAPS` = `VECTOR_BASEMAPS` then `RASTER_BASEMAPS`:
+OpenFreeMap Positron/Dark/Liberty · Versatiles · CARTO GL · raster OSM · OpenTopoMap). Preset `FullPage`.
 2. **Strata-served layer.** `source:{kind:"strata", dataset:"fhsz"}`; the URL resolves on the Serve
    server; pull styling from the metadata bundle.
 3. **Near-real-time layer.** Set `refreshIntervalSeconds: 300` on a live incident service.
@@ -51,6 +52,17 @@ which is why the two look identical.
 `id === chosenId` test ticks nothing, so the drawer offers five options and shows none in force, leaving
 no way to tell which basemap you are looking at. "Follow the theme" says HOW the choice is made; it does
 not stop there being a choice. **Both rows tick.**
+
+**The basemap follows the theme, by default, in every app.** Flipping light↔dark (a `theme-switch`, or
+the OS preference under `theme.mode:"auto"`) swaps the basemap to its pair — `<StrataApp>` shares the
+resolved mode and calls `store.setBaseMap(…, {transient:true})`. You do not wire this; you only respect
+its three rules: the **authored `layers.json` basemap wins on mount** (the swap fires on a *change* of
+mode, never on first paint), an **explicit pick outranks the theme** (it clears
+`store.baseMapFollowsTheme`), and the swap **never enters the undo history or the saved spec**.
+`theme.basemap` `{follow:false}` pins the authored basemap; `{light,dark}` names a specific pair. Use the
+one resolver — `basemapForThemeFrom(library, mode)` — anywhere you need to answer "which basemap for this
+mode", so the drawer's tick and the applied basemap can never disagree. Inside a `<StrataApp>` the map
+chrome reads the mode itself; pass `themeMode` only when embedding `<StrataMap>` on its own.
 
 ## Known traps
 - Extent is an **envelope** `{xmin,ymin,xmax,ymax,spatialReference}`, not a bare `[w,s,e,n]`.

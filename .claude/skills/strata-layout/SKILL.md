@@ -32,6 +32,10 @@ replaces it.
   For a bilingual or dual-theme app, put a `theme-switch` and/or `lang-switch` in a header row by default —
   `theme-switch` writes the preset tokens onto the app root at runtime; `lang-switch` toggles the
   `I18nProvider` locale and mirrors RTL. Cheap polish that makes the first build feel finished.
+  **The map follows the theme:** switching light↔dark also swaps the basemap to its pair, so set the
+  switcher's `initial` to the app's own `theme.mode` (otherwise the UI and the map disagree at load).
+  The authored `layers.json` basemap stands until the mode actually changes; `theme.basemap`
+  `{follow:false}` pins it, `{light,dark}` names the pair.
 - **Templates** (`react/app`): `dashboardTemplate`, `cardGalleryTemplate`, `scrollingStoryTemplate` — the
   starters behind the Gallery/Portfolio/Exhibit/Attachment recipes.
 - **Section + Views + slides** (`kind:"views"`): swap views via `nav:"tabs"|"slides"`; a view's `mapState`

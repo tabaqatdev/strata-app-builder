@@ -47,7 +47,7 @@ choose classes/breaks. Confirm the field exists first. Show the renderer JSON yo
 - **Roles carry meaning, not emphasis.** Two different facts must not share ink; ration red to what
   genuinely is a hazard. Painting "an authority answered" in the danger role made a plain factual value
   draw as the most alarming thing on screen.
-- **Fill opacity follows the basemap** — alpha tuned for pale CARTO Positron vanishes on OpenTopoMap.
+- **Fill opacity follows the basemap** — alpha tuned for a pale ground (OpenFreeMap Positron) vanishes on OpenTopoMap.
 - **Data colours are identical in both themes**; only the halo changes.
 - **On a MapServer layer the renderer field needs case tolerance** — `f=geojson` lower-cases every field
   name, so a canonically-cased renderer matches nothing and draws only the default symbol.

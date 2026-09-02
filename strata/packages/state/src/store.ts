@@ -72,7 +72,19 @@ export interface StrataActions {
    */
   setInteractionMode: (mode: InteractionMode) => void;
   setView: (view: MapView | null) => void;
-  setBaseMap: (bm: BaseMap | null) => void;
+  /**
+   * Set the basemap. Undoable by default. Pass `{ transient: true }` for a swap the reader did not
+   * author — the theme-driven light↔dark swap — so flipping the theme neither fills the undo history
+   * nor reads as an edit to the map spec.
+   */
+  setBaseMap: (bm: BaseMap | null, options?: { transient?: boolean }) => void;
+  /**
+   * Should the basemap track the app's theme mode (light UI → light map)? One flag shared by the
+   * basemap drawer, the `BasemapPanel`, and `<StrataApp>`'s theme→basemap effect, so all three agree
+   * on whether the theme or the reader is choosing. An explicit pick sets it false. Transient
+   * (not undoable); defaults to true.
+   */
+  setBaseMapFollowsTheme: (follow: boolean) => void;
   loadFromLayersJson: (cfg: LayersJson) => void;
   toLayersJson: () => LayersJson;
   undo: () => void;
@@ -93,6 +105,11 @@ export interface StrataState extends StrataActions {
   activeLayerId: string | null;
   /** The current interaction mode. Transient (not undoable). Defaults to `"identify"`. */
   interactionMode: InteractionMode;
+  /**
+   * Is the theme choosing the basemap? Transient (not undoable). Defaults to true; an explicit pick
+   * in the basemap drawer/panel turns it off, and the theme stops overriding the reader.
+   */
+  baseMapFollowsTheme: boolean;
   /** Internal undo/redo rings; exposed for tests/inspection only. */
   _past: Snapshot[];
   _future: Snapshot[];
@@ -160,6 +177,7 @@ export function createStrataStore(): StrataStore {
       baseMap: null,
       activeLayerId: null,
       interactionMode: "identify",
+      baseMapFollowsTheme: true,
       _past: [],
       _future: [],
 
@@ -246,10 +264,19 @@ export function createStrataStore(): StrataStore {
           draft.view = view ? clone(view) : null;
         }),
 
-      setBaseMap: (bm) =>
+      setBaseMap: (bm, options) => {
+        // A theme-driven swap is not an authoring act: it bypasses the history so the reader's undo
+        // stack still holds only the edits they made.
+        if (options?.transient) {
+          set({ baseMap: bm ? clone(bm) : null });
+          return;
+        }
         commit((draft) => {
           draft.baseMap = bm ? clone(bm) : null;
-        }),
+        });
+      },
+
+      setBaseMapFollowsTheme: (follow) => set({ baseMapFollowsTheme: follow }),
 
       loadFromLayersJson: (cfg) => {
         commit((draft) => {
@@ -264,8 +291,9 @@ export function createStrataStore(): StrataStore {
             };
           }
         });
-        // Reset transient UI state on a fresh load (not undoable).
-        set({ activeLayerId: null, interactionMode: "identify" });
+        // Reset transient UI state on a fresh load (not undoable). The freshly-loaded spec's basemap
+        // is an authored choice, so following starts on again with it as the starting point.
+        set({ activeLayerId: null, interactionMode: "identify", baseMapFollowsTheme: true });
       },
 
       toLayersJson: (): LayersJson => {

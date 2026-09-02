@@ -23,8 +23,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import type { BaseMap, OperationalLayer } from "@strata/schema";
 import type { StrataStore } from "@strata/state";
-import { OPEN_BASEMAPS } from "../../engine/basemaps.js";
-import { buildBaseMap, previewTile, tileBackground, type BasemapOption } from "../panels/BasemapPanel.js";
+import { OPEN_BASEMAPS, basemapForThemeFrom } from "../../engine/basemaps.js";
+import {
+  buildBaseMap,
+  previewTile,
+  tileBackground,
+  useStyleColors,
+  useFollowsTheme,
+  type BasemapOption,
+} from "../panels/BasemapPanel.js";
+import { useStrataAppEnv } from "../app/interactivity.js";
 import { legendRows } from "./Legend.js";
 
 /** The six glyphs, verbatim from the reference build. 24×24 stroke paths on `currentColor`. */
@@ -40,6 +48,9 @@ export const CHROME_ICONS = {
 /** Which drawer is open — only ever one. */
 export type DrawerKind = "layers" | "basemap" | null;
 
+/** How many class swatches a layer row shows before the rest become a `+N`. */
+const DRAWER_SWATCHES = 4;
+
 export interface MapChromeProps {
   /** The live MapLibre map (for zoom in/out and the basemap preview tile). */
   map?: any;
@@ -51,7 +62,11 @@ export interface MapChromeProps {
   basemaps?: BasemapOption[];
   /** Apply a chosen basemap to the live map (restyle). */
   onApplyBasemap?: (bm: BaseMap) => void;
-  /** The app's theme mode — what "Follow the theme" follows. */
+  /**
+   * The app's theme mode — what "Follow the theme" follows. Read from the surrounding `<StrataApp>`
+   * when not given (`<StrataMap>` passes it down), because a drawer that assumes "light" inside a dark
+   * app ticks the wrong basemap.
+   */
   themeMode?: "light" | "dark";
   /** Is the legend showing? Controlled; pair with `onToggleLegend`. */
   showLegend?: boolean;
@@ -69,7 +84,14 @@ export function MapChrome(props: MapChromeProps): React.ReactElement {
   const { map, store, layers, onApplyBasemap, onFit, onToggleLegend } = props;
   const left = props.position === "top-left";
   const [drawer, setDrawer] = useState<DrawerKind>(null);
-  const [auto, setAuto] = useState(true); // "Follow the theme" is the default choice-maker
+  const env = useStrataAppEnv();
+  const themeMode = props.themeMode ?? env?.themeMode ?? "light";
+  // "Follow the theme" is the default choice-maker, and the same flag the BasemapPanel and the app's
+  // theme→basemap swap read — so an explicit pick here stops the theme choosing everywhere.
+  const [auto, setAuto] = useFollowsTheme(store);
+  // The last explicit pick, so the tick still names the basemap you chose when the chrome is driven
+  // without a store (there is no `state.baseMap` to match against then).
+  const [picked, setPicked] = useState<string | null>(null);
   const legendOn = props.showLegend !== false;
 
   useEffect(() => {
@@ -158,10 +180,12 @@ export function MapChrome(props: MapChromeProps): React.ReactElement {
               map={map}
               store={store}
               basemaps={props.basemaps ?? (OPEN_BASEMAPS as BasemapOption[])}
-              themeMode={props.themeMode ?? "light"}
+              themeMode={themeMode}
               auto={auto}
+              pickedId={picked}
               onPick={(opt, isAuto) => {
                 setAuto(isAuto);
+                setPicked(isAuto ? null : (opt?.id ?? null));
                 if (!opt) return;
                 const bm = buildBaseMap(opt);
                 store?.getState().setBaseMap?.(bm);
@@ -192,7 +216,9 @@ function LayersDrawer(props: {
       <h5>Layers</h5>
       {layers.map((l, i) => {
         const on = l.visibility !== false;
-        const swatch = legendRows(l)[0]?.swatch;
+        // Every class the layer draws in, not just the first: one swatch off a `uniqueValue`
+        // renderer names one of its ten colours and implies the layer is that colour.
+        const classes = legendRows(l);
         const n = on ? renderedCount(map, l.id) : null;
         const tally = !on ? "off" : n == null ? "" : n === 0 ? "none in this view" : `${n.toLocaleString()} in view`;
         return (
@@ -205,7 +231,16 @@ function LayersDrawer(props: {
               onClick={() => store?.getState().setVisibility?.(l.id, !on)}
             >
               <span className="box">{on ? "✓" : ""}</span>
-              {swatch && <span className="sw2" style={{ background: swatch }} />}
+              {classes.length > 0 && (
+                <span className="sw2s" title={classes.map((c) => c.label).join(" · ")}>
+                  {classes.slice(0, DRAWER_SWATCHES).map((c, k) => (
+                    <span key={k} className={`sw2 ${c.shape}`} style={{ background: c.swatch }} />
+                  ))}
+                  {classes.length > DRAWER_SWATCHES && (
+                    <span className="sw2more">+{classes.length - DRAWER_SWATCHES}</span>
+                  )}
+                </span>
+              )}
               <span className="tx">
                 <span className="tl">
                   {l.title || l.id}
@@ -233,15 +268,20 @@ function BasemapDrawer(props: {
   basemaps: BasemapOption[];
   themeMode: "light" | "dark";
   auto: boolean;
+  /** The last explicit pick — the store-less fallback for "which basemap is in force". */
+  pickedId?: string | null;
   onPick: (opt: BasemapOption | null, auto: boolean) => void;
 }): React.ReactElement {
   const { basemaps, auto, themeMode, map, onPick } = props;
   const tile = previewTile(map);
+  const styleColors = useStyleColors(basemaps);
   // Tick the EFFECTIVE basemap, not just an explicitly chosen one: with "Follow the theme" on (the
   // default) an id-only test ticks nothing, so the drawer offers five options and shows none in
   // force — leaving no way to tell which basemap you are looking at.
-  const themed = basemaps.find((b) => (b as any).mode === themeMode) ?? basemaps[0];
-  const explicit = basemaps.find((b) => matchesCurrent(props.store, b));
+  const themed = basemapForThemeFrom(basemaps, themeMode) ?? basemaps[0];
+  const explicit =
+    basemaps.find((b) => matchesCurrent(props.store, b)) ??
+    basemaps.find((b) => b.id === props.pickedId);
   const active = auto ? themed : explicit ?? themed;
 
   return (
@@ -260,7 +300,7 @@ function BasemapDrawer(props: {
             onClick={() => onPick(b, false)}
           >
             <span className="box round">{on ? "✓" : ""}</span>
-            <span className="thumb" style={tileBackground(b, tile)} />
+            <span className="thumb" style={tileBackground(b, tile, styleColors.get(b.id))} />
             <span className="tx">
               <span className="tl">{b.title}</span>
               <span className="ts">{b.style ? "vector" : "raster"}</span>
@@ -353,8 +393,13 @@ const CHROME_CSS = `
 .strata-chrome .opt .box.round{border-radius:50%}
 .strata-chrome .opt.on .box{background:var(--strata-primary,#2f6fed);
   border-color:var(--strata-primary,#2f6fed);color:#fff}
-.strata-chrome .opt .sw2{flex:0 0 15px;height:15px;margin-top:2px;border-radius:3px;
+.strata-chrome .opt .sw2s{flex:0 0 auto;display:inline-flex;align-items:center;gap:2px;margin-top:2px}
+.strata-chrome .opt .sw2{flex:0 0 11px;width:11px;height:11px;border-radius:3px;
   border:1px solid var(--strata-border,rgba(0,0,0,.14))}
+/* The swatch says which GEOMETRY as well as which colour — a round dot is not a polygon. */
+.strata-chrome .opt .sw2.point{border-radius:50%}
+.strata-chrome .opt .sw2.line{height:3px;border-radius:2px;border:0}
+.strata-chrome .opt .sw2more{font-size:9.5px;color:var(--strata-muted,#6b7280);line-height:1}
 .strata-chrome .opt .thumb{flex:0 0 42px;height:42px;margin-top:1px;border-radius:5px;
   border:1px solid var(--strata-border,rgba(0,0,0,.14));background-size:cover;background-position:center;
   background-color:var(--strata-app-bg,#eef1f5);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}

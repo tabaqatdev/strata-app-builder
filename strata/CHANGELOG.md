@@ -5,6 +5,91 @@ All notable changes to `strata-app-builder` are documented here. This project ad
 
 ## [Unreleased]
 
+### Changed — the default basemap is a keyless vector style, and "keyless" is now asserted as behaviour
+
+- **`defaultBaseMap()` returns OpenFreeMap Positron.** It used to return raster
+  `tile.openstreetmap.org`, which answers **HTTP 200 with an *"Access blocked"* image** to a client it
+  judges outside the OSMF tile-usage policy. `OPEN_BASEMAPS` is now `VECTOR_BASEMAPS` (OpenFreeMap
+  Positron/Dark/Liberty · Versatiles Colorful/Eclipse · CARTO GL) followed by the new
+  **`RASTER_BASEMAPS`** (OSM, OpenTopoMap) — offered, never defaulted to. A GL style is also the only
+  form that gives a dark theme a real dark ground rather than a light one dimmed.
+- **The three CARTO *raster* presets are gone.** `basemaps.cartocdn.com/{light_all,dark_all,rastertiles}`
+  answers HTTP 200, `image/png`, with the real map and **"API KEY REQUIRED · carto.com/basemaps/apikey"
+  composited diagonally across every tile**. It passed a host check, a `!key=` check and an
+  `img.naturalWidth > 1` check; only a screenshot caught it. The CARTO **GL styles** are a different
+  product, re-verified keyless end to end, and are kept — demoted below OpenFreeMap.
+- **The basemap drawer previews a vector row.** `BasemapPanel` and `MapChrome` painted an empty box for
+  every option without a `templateUrl` — the same wall of grey boxes the live-tile rule exists to
+  prevent, arriving through a new door. New `useStyleColors` / `readStyleColors` read the style's own
+  background, water and road out of its style document; `tileBackground` takes them and paints a
+  gradient. Only a successful fetch is cached, so one bad minute on a tile host cannot blank a row for
+  the life of the page.
+- **New exports:** `RASTER_BASEMAPS`, `basemapUrl(preset)` (one place for a guard to read a preset's URL
+  in whichever form it takes), `useStyleColors`, `readStyleColors`, `type StyleColors`.
+- **The guard no longer greps for `key=`.** `tests/basemaps.test.ts` asserts the shape that cannot lie —
+  every preset resolves to exactly one keyless https URL and carries exactly one of `style`/`templateUrl`,
+  the default is a vector style, every preset credits OpenStreetMap, and a **deny-list** names every host
+  already caught serving a placeholder. Positive proof stays behavioural (two different tiles must differ
+  in bytes; a style must parse with every host it delegates to keyless too), because a unit test cannot
+  see a watermark. Full entry: `docs/troubleshooting.md` §5.
+- **Migration:** none required — `defaultBaseMap()` keeps its signature and an authored `layers.json`
+  basemap still wins on mount. An app that hard-codes `carto-positron`, `carto-voyager` or `carto-dark`
+  (the raster ids) must move to `openfreemap-positron` / `openfreemap-dark` / a `carto-*-gl` style.
+  The `WebMaps/` starters and the eleven docs that named CARTO as the keyless house set were updated.
+
+### Fixed — the legend, the layer list, and the popup now agree with the map
+
+- **The popup is readable in a dark theme.** MapLibre paints `.maplibregl-popup-content` white and sets
+  no `color`, so the text colour is inherited — `var(--strata-fg)`, which is near-white in every dark
+  theme. Clicking a feature opened a popup that rendered white-on-white with a white tip on a dark map,
+  and reported as *"the popup doesn't work"*. New **`ensurePopupStyles()`** (`engine/popups.ts`, injected
+  by `initPopups`, so no app wires it) takes the card from `--strata-panel-bg`, the text from
+  `--strata-fg`, the edge from `--strata-border`, repaints the tip for all four anchors and gives the
+  close button an explicit colour. Every token keeps a light fallback, so an unthemed `<StrataMap>` is
+  unchanged.
+- **The legend follows the store, so showing/hiding a layer reaches it.** `Legend`'s `layers` prop is now
+  **optional**: with it omitted the legend subscribes to the store — the same store the layer panel and
+  the map-controls drawer write to — via the new shared **`useStoreLayers`** hook. An app-layout
+  `{"type":"legend"}` widget previously received no `layers` at all (`<StrataApp>` threads
+  `store`/`bus`/`outputs`, never `layers`), and one authored with an explicit array was a snapshot of the
+  spec that no toggle could change. Pass an array only to list a deliberate subset.
+- **The legend lists every visible layer, not every *styled* one.** A layer whose symbology belongs to
+  the service (no authored `drawingInfo`), or one drawn by a renderer with no discrete classes, was
+  silently dropped — while still drawing on the map. It now gets a row with its title and a **neutral**
+  swatch (never an invented colour), rendered as a caption rather than a filter button since it has no
+  classes to hide. `includeUnstyled:false` restores the strict symbology-key reading.
+- **The layer panel shows each layer's symbology.** `LayerPanel` rows carried a generic `▤` glyph, so
+  identifying which of five polygon layers was the blue one meant reading the legend. Rows now render the
+  layer's own swatch — a class stack plus an `N ▸` that expands the full class list for
+  `uniqueValue`/`classBreaks` — from the same `legendRows()` the Legend reads, so the two surfaces cannot
+  disagree. `MapChrome`'s layers drawer likewise shows every class (capped, then `+N`) instead of only
+  the first, which had named one of a renderer's ten colours and implied the layer was that colour.
+- `Legend` now exports `Swatch`, `shapeForRenderer`, `shapeForGeometryType` and the `LegendRow` type, and
+  memoizes its entries (they were a dependency of the `Esc` listener, re-subscribing it every render).
+
+### Added — the map follows the theme
+- **Switching light↔dark now swaps the basemap.** `<StrataApp>` resolves the app's theme mode once
+  (`theme.mode`, with `"auto"` following `prefers-color-scheme`), shares it on `StrataAppEnv.themeMode`,
+  and swaps the basemap to its pair when the mode changes. `theme-switch` reports every switch, so the
+  UI and the map can no longer drift apart. Applies to every app with no wiring or config.
+  - **The authored basemap wins on mount** — the swap fires on a *change* of mode, never on first paint,
+    so a `layers.json` `baseMap` is never silently discarded.
+  - **An explicit pick outranks the theme** — the basemap drawer and `BasemapPanel` now share **one**
+    flag, `store.baseMapFollowsTheme`, instead of a local `auto` each.
+  - **The swap is transient** — `setBaseMap(bm, { transient: true })` keeps a theme toggle out of the
+    undo history and out of `toLayersJson()`.
+  - `theme.basemap` (`ThemeSpec`) opts out or pins the pair: `{ follow:false }` / `{ light, dark }`.
+- **`basemapForThemeFrom(library, mode)`** — the single resolver for "which basemap pairs with this
+  mode", now used by the swap, `MapChrome`'s drawer and `BasemapPanel`. They previously disagreed (the
+  drawer took the first preset of the mode, `basemapForTheme` preferred the vector one), so the drawer
+  could tick one basemap while the map drew another.
+- **`MapChrome`/`BasemapPanel` read the theme mode from the app** when no `themeMode` prop is given; the
+  drawer used to default to `"light"` and tick the light basemap inside a dark app. `<StrataMap>` takes an
+  explicit `themeMode` for use outside a `<StrataApp>`.
+- **`applyBaseMap` is race-safe.** Vector basemaps load asynchronously while `clearBasemap` is
+  synchronous, so a fast theme flip could let a superseded style paint over the winner; each application
+  now takes an epoch per map and stale loads are dropped.
+
 ### Added — the house map chrome, an interactive legend, and the row gesture
 - **`MapChrome` (`@strata/core-map` `react/controls/MapChrome.tsx`)** — the control vocabulary the shipped
   builds converged on, now in the library: one 32 px cluster (**zoom in · zoom out · fit · layers ·

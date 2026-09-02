@@ -19,7 +19,7 @@ behave like one product.
 
 | Default | Why it is the default |
 |---|---|
-| **Keyless sources only** | An app that needs a key cannot be handed to anyone. No keyed basemap, no keyed provider, ever — OSM / CARTO raster only |
+| **Keyless sources only** | An app that needs a key cannot be handed to anyone. No keyed basemap, no keyed provider, ever — the OpenFreeMap / Versatiles vector styles, or raster OSM / OpenTopoMap. And **keyless is a behaviour**: a gated host answers HTTP 200 with a placeholder, so probe it, don't pattern-match its URL |
 | **Browser-direct fetching** | The layer answers with `Access-Control-Allow-Origin`, so the app stays a static bundle with nothing to operate. Every recent build is this |
 | **EPSG:4326 everywhere** | Reproject on the way in. No exceptions, no per-layer variance |
 | **Verify before you bind** | A field name never enters the app until a response has shown it (§2). This is the rule the other defaults protect |
@@ -150,7 +150,8 @@ The app-level summary:
    hatch when a live host is an undocumented VM that may move — check whether a bulk FGDB or SHP carries
    the same data.
 
-**Never** offer a keyed basemap or a keyed provider as part of the answer. Keyless OSM/CARTO only.
+**Never** offer a keyed basemap or a keyed provider as part of the answer — keyless OSM-derived only, and
+verified by fetching rather than by reading the URL.
 
 ---
 

@@ -15,7 +15,7 @@
  * Dependency-light: plain React + CSS. Themed via CSS custom properties; `config.theme` is applied as
  * inline custom properties on the app root.
  */
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type {
   AppLayout,
   AppPage,
@@ -26,6 +26,7 @@ import type {
   MapState,
   AnimateKind,
   AnimateOptions,
+  ThemeSpec,
   WidgetSpec,
 } from "@strata/schema";
 import {
@@ -42,6 +43,7 @@ import {
 import { DataSourceManager, type DataSource } from "@strata/data-source";
 import { compileTheme, resolveThemeMode, type Theme } from "@strata/theme";
 import type { StrataStore } from "@strata/state";
+import { OPEN_BASEMAPS, baseMapFromPreset, basemapForThemeFrom } from "../../engine/basemaps.js";
 import { defaultWidgetRegistry, type WidgetComponent } from "./registry.js";
 import { StrataAppProvider, useStrataAppEnv, MapRegistry, type StrataAppEnv } from "./interactivity.js";
 import { registerAppDataSources } from "./dataSources.js";
@@ -124,6 +126,16 @@ export function StrataApp(props: StrataAppProps): React.ReactElement {
   );
   const bp = useBreakpoint();
   const prefersDark = usePrefersDark();
+
+  // The app's theme mode, resolved once and shared through the env — the map follows it, so it cannot
+  // just be CSS. Authored `mode:"auto"` follows the OS; a runtime `theme-switch` outranks both.
+  const themeSpec =
+    config.theme && typeof config.theme === "object" && "colors" in config.theme
+      ? (config.theme as ThemeSpec)
+      : undefined;
+  const [switchedMode, setSwitchedMode] = useState<"light" | "dark" | undefined>(undefined);
+  const themeMode: "light" | "dark" | undefined =
+    switchedMode ?? (themeSpec ? resolveThemeMode(themeSpec.mode, prefersDark) : undefined);
 
   // WIF: a shared bus + output registry for the whole app (props override the defaults).
   const bus = useMemo(() => props.bus ?? new ActionBus(), [props.bus]);
@@ -237,18 +249,52 @@ export function StrataApp(props: StrataAppProps): React.ReactElement {
       activePageId: active?.id,
       navigateToPage: props.page == null ? selectPage : undefined,
       maps,
+      themeMode,
+      setThemeMode: setSwitchedMode,
     }),
-    [bus, outputs, dataSources, setHidden, hidden, pages, active?.id, selectPage, props.page, maps],
+    [bus, outputs, dataSources, setHidden, hidden, pages, active?.id, selectPage, props.page, maps, themeMode],
   );
 
+  /**
+   * The map follows the theme. Flipping light↔dark swaps the basemap to the paired one, so a light UI
+   * is never left sitting on a dark map. Three rules make that safe:
+   *  - **The authored basemap wins on mount.** This fires on a *change* of mode, never on first paint,
+   *    so a `layers.json` basemap is never silently discarded.
+   *  - **An explicit pick wins over the theme** — the basemap drawer/panel clears `baseMapFollowsTheme`
+   *    and the theme stops choosing.
+   *  - **The swap is transient** (see `setBaseMap`): a theme toggle is not an edit to the map spec.
+   * `theme.basemap.follow:false` opts out; `theme.basemap.light`/`.dark` name explicit basemap ids.
+   */
+  const themeBasemap = themeSpec?.basemap;
+  const seenMode = useRef<"light" | "dark" | undefined>(undefined);
+  const themeBasemapMounted = useRef(false);
+  useEffect(() => {
+    const previous = seenMode.current;
+    seenMode.current = themeMode;
+    if (!themeBasemapMounted.current) {
+      themeBasemapMounted.current = true;
+      return;
+    }
+    if (!themeMode || previous === themeMode || !dsStore) return;
+    if (themeBasemap?.follow === false) return;
+    const state = dsStore.getState();
+    if (state.baseMapFollowsTheme === false) return;
+    const wanted = themeMode === "dark" ? themeBasemap?.dark : themeBasemap?.light;
+    const preset =
+      (wanted ? OPEN_BASEMAPS.find((p) => p.id === wanted) : undefined) ??
+      basemapForThemeFrom(OPEN_BASEMAPS, themeMode);
+    if (!preset) return;
+    state.setBaseMap?.(baseMapFromPreset(preset), { transient: true });
+  }, [themeMode, themeBasemap, dsStore]);
+
   // Phase 6: a structured theme (has `colors`) compiles to vars + a scoped stylesheet; a flat map is
-  // applied verbatim (back-compat).
+  // applied verbatim (back-compat). The compile follows the *authored* mode: a runtime `theme-switch`
+  // writes its own preset's tokens onto this same root, and recompiling here would fight it.
   const rawTheme = config.theme;
-  const structured = !!rawTheme && typeof rawTheme === "object" && "colors" in rawTheme;
-  const compiledTheme = structured
+  const compiledTheme = themeSpec
     ? compileTheme({
-        ...(rawTheme as unknown as Theme),
-        mode: resolveThemeMode((rawTheme as unknown as Theme).mode, prefersDark),
+        ...(themeSpec as unknown as Theme),
+        mode: resolveThemeMode(themeSpec.mode, prefersDark),
       })
     : null;
   const themeVars = (compiledTheme ? compiledTheme.vars : rawTheme ?? {}) as Record<string, string>;

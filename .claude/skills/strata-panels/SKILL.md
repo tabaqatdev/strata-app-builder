@@ -88,8 +88,10 @@ release**, never a no-op.
   without its denominator reads as the whole. The panel says in words that isolating changes the map,
   not the reading. `interactive:false` gives a static caption.
 - **`BasemapPanel` is a radiogroup** — round boxes, one always in force and always ticked, each row a
-  live tile of the current area in that style. Pass `map` for the thumbnails and `themeMode` for the
-  "Follow the theme" row.
+  live tile of the current area in that style. Pass `map` for the thumbnails; the **"Follow the theme"**
+  row appears whenever a mode is known, and inside a `<StrataApp>` the panel reads that mode itself
+  (pass `themeMode` only outside one). Following is **on by default** — flipping the app's theme swaps
+  the basemap — and an explicit pick here turns it off for the session (`store.baseMapFollowsTheme`).
 
 ## Cross-panel actions (`@strata/actions`)
 Each panel is a config object in `strata:extensions`, bound to a `mapId`, placeable on canvas or in a page

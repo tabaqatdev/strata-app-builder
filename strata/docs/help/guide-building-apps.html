@@ -182,7 +182,9 @@ would be self-defeating. No sample data, no mock rows, no plausible placeholder.
 <p><strong>Nothing is silently truncated.</strong> Every cap says so on screen: <code>+N more</code>, <code>Capped, not complete</code>,
 <code>250 of 1,975 rows</code>. A silent top-N reads as "this is everything."</p>
 <p><strong>No write path.</strong> Reads only, so the app runs identically on Strata and on ArcGIS.</p>
-<p><strong>Keyless basemaps only</strong> — OSM / CARTO raster. EPSG:4326 everywhere.</p>
+<p><strong>Keyless basemaps only</strong> — the OpenFreeMap / Versatiles vector styles first, raster OSM / OpenTopoMap
+behind them. EPSG:4326 everywhere. "Keyless" is asserted as a <em>behaviour</em>, never as a URL pattern: a gated
+host answers HTTP 200 with a placeholder that every URL-shaped check calls healthy.</p>
 <hr />
 <h2 id="3-three-harnesses-because-each-is-blind-to-what-the-next-one-sees">3 · Three harnesses, because each is blind to what the next one sees</h2>
 <p>Run all three. They are not redundant; each caught defects the others reported green.</p>

@@ -18,13 +18,14 @@
     }
   },
   "baseMap": {
-    "title": "OpenStreetMap",
+    "title": "OpenFreeMap Positron",
     "baseMapLayers": [
       {
-        "id": "osm",
-        "layerType": "WebTiledLayer",
-        "templateUrl": "https://tile.openstreetmap.org/{level}/{col}/{row}.png",
-        "copyright": "© OpenStreetMap contributors"
+        "id": "ofm-positron",
+        "title": "OpenFreeMap Positron",
+        "layerType": "VectorTileLayer",
+        "styleUrl": "https://tiles.openfreemap.org/styles/positron",
+        "copyright": "© OpenStreetMap contributors · OpenFreeMap"
       }
     ]
   },
@@ -39,7 +40,7 @@
         "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/3"
       },
       "visibility": true,
-      "opacity": 1.0,
+      "opacity": 1,
       "layerDefinition": {
         "drawingInfo": {
           "renderer": {
@@ -1574,7 +1575,7 @@
         "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0"
       },
       "visibility": true,
-      "opacity": 1.0,
+      "opacity": 1,
       "layerDefinition": {
         "drawingInfo": {
           "renderer": {

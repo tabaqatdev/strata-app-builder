@@ -46,9 +46,9 @@ to them from public files (a public clone won't have them).
 Tests are **Vitest**: each package with logic has a `tests/` dir + its own `vitest.config.ts` + `test`
 script, and a root `strata/vitest.workspace.ts` runs everything. **`pnpm -r build` must run first** —
 workspace packages resolve from `dist/`, so on a fresh clone `pnpm test` fails to resolve `@strata/*`
-until they are built. Verified 2026-08-12 after the resizable-panel change:
-`cd strata && pnpm install && pnpm -r build && pnpm test` → **796 tests, 0 failures**, across the **18 of
-20 packages** that carry suites (`@strata/core-map` 329, `@strata/schema` 221).
+until they are built. Verified 2026-09-02 after the map-chrome / legend / theme-basemap change:
+`cd strata && pnpm install && pnpm -r build && pnpm test` → **835 tests, 0 failures**, across the **18 of
+20 packages** that carry suites (`@strata/core-map` 364, `@strata/schema` 221).
 **Add tests for any behavior change**, especially the style/popup compilers, and list any new package in
 `strata/vitest.workspace.ts`.
 
@@ -98,11 +98,26 @@ After the user scaffolds or opts out, write a `.strata/onboarded` marker and sto
   metadata). Renders into a Strata Serve datasource + metadata bundle.
 - **Styling is genuine ESRI `drawingInfo`**; **popups are genuine ESRI `popupInfo`**. Never invent a
   styling DSL — write the ESRI JSON; `@strata/core-map`'s style compiler maps it to MapLibre.
-- **Basemaps default to open-source, OpenStreetMap first.** New maps use OSM; the basemap set
-  (`@strata/core-map` `OPEN_BASEMAPS` / `defaultBaseMap()`, and `BasemapPanel`'s default) is all keyless
-  OSM-derived tiles — OSM · CARTO Positron/Voyager/Dark · OpenTopoMap. Never default to a proprietary or
-  API-keyed provider (ESRI/Google/Mapbox); offer those only if the user asks. Basemap `templateUrl` uses the
-  ESRI Web Map tokens `{level}/{col}/{row}` (the compiler rewrites them to `{z}/{x}/{y}`).
+- **Basemaps default to open-source, OpenStreetMap data first, and to a keyless VECTOR style.** A new map
+  gets **OpenFreeMap Positron**; the set (`@strata/core-map` `OPEN_BASEMAPS` = `VECTOR_BASEMAPS` then
+  `RASTER_BASEMAPS`, backing `defaultBaseMap()` and `BasemapPanel`) is all keyless OSM-derived —
+  OpenFreeMap Positron/Dark/Liberty · Versatiles Colorful/Eclipse · CARTO GL · then raster OSM and
+  OpenTopoMap. Never default to a proprietary or API-keyed provider (ESRI/Google/Mapbox); offer those only
+  if the user asks. A vector preset carries `style` (a GL style URL) and is authored as an ESRI
+  `VectorTileLayer` + `styleUrl`; a raster preset carries `templateUrl` in the ESRI Web Map tokens
+  `{level}/{col}/{row}` (the compiler rewrites them to `{z}/{x}/{y}`).
+- **"Keyless" is a behaviour, not a URL — assert it as one.** CARTO's raster CDN and
+  `tile.openstreetmap.org` both answer **HTTP 200 with a placeholder** (an *"API KEY REQUIRED"* watermark
+  composited over the real map; an *"Access blocked"* image), and both pass a host check, a `!key=` check
+  and a `naturalWidth > 1` check. Only bytes and a human eye catch them. So: fetch **two different tiles
+  and require them to differ**, probe a GL style **as a style** (it must parse, and every host it delegates
+  to — tiles, glyphs, sprite — must itself be keyless), keep a deny-list of hosts known to be gated, and
+  **look at one tile before shipping**. Full entry: `strata/docs/troubleshooting.md` §5.
+- **The basemap follows the theme** — switching light↔dark swaps the basemap to its pair, in every app, with
+  no wiring. The **authored `layers.json` basemap wins on mount** (the swap fires on a *change* of mode),
+  an explicit pick outranks the theme, and the swap never enters the undo history or the saved spec. Give any
+  `theme-switch` an `initial` matching `theme.mode`; `theme.basemap` `{follow:false}`/`{light,dark}` opts out
+  or pins the pair. Details: `recipes/COMPONENT-MANIFEST.md` §6c.
 - **The app layout** — an `AppLayout` JSON (`@strata/schema`) driving **`<StrataApp config={AppLayout}>`**
   (the J.5 layout engine): `AppPage[]` → `LayoutNode` containers (`row`/`column`/`grid`/`section`/`card`,
   `mode:fixed|flow`, responsive) → `WidgetNode`s from `defaultWidgetRegistry`. It is **separate from**

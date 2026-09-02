@@ -140,8 +140,8 @@ Claude also reads this to reach for the right component by default. Pair it with
 <td>Clustering + a refresh interval.</td>
 </tr>
 <tr>
-<td>"Use the CARTO dark basemap." / "Give me a crisp vector basemap."</td>
-<td>A keyless raster or vector basemap.</td>
+<td>"Use the dark basemap." / "Give me a crisp vector basemap."</td>
+<td>A keyless vector or raster basemap.</td>
 </tr>
 <tr>
 <td>"Let users switch basemaps."</td>
@@ -348,6 +348,18 @@ Claude also reads this to reach for the right component by default. Pair it with
 <td><code>interactive: false</code>.</td>
 </tr>
 <tr>
+<td>"When I hide a layer, take it out of the legend." ✅</td>
+<td>Built in — the Legend reads the store, so any show/hide reaches it in the same frame. Don't author <code>legend.props.layers</code>; a static array cannot follow visibility.</td>
+</tr>
+<tr>
+<td>"The legend is missing a layer that's on the map." ✅</td>
+<td>Built in — every visible layer is listed, including one whose symbology comes from the service; it gets a neutral swatch and its title. <code>includeUnstyled: false</code> to list only styled layers.</td>
+</tr>
+<tr>
+<td>"Show each layer's symbology in the layer list." ✅</td>
+<td>Built in — LayerPanel rows carry the layer's swatch, and multi-class renderers expand to the full class list.</td>
+</tr>
+<tr>
 <td>"Let me measure distances and areas." / "Let me draw shapes."</td>
 <td>Measure / Sketch.</td>
 </tr>
@@ -424,7 +436,11 @@ Claude also reads this to reach for the right component by default. Pair it with
 </tr>
 <tr>
 <td>"Add a light/dark toggle." / "an English/Arabic switcher." ✅</td>
-<td><code>theme-switch</code> / <code>lang-switch</code></td>
+<td><code>theme-switch</code> / <code>lang-switch</code> (switching light↔dark <strong>also swaps the basemap</strong> — see below)</td>
+</tr>
+<tr>
+<td>"Make the basemap follow the theme." / "dark mode should get a dark map." ✅</td>
+<td>already the default — nothing to say. To turn it off or pin the pair: <code>theme.basemap</code> <code>{follow:false}</code> / <code>{light,dark}</code></td>
 </tr>
 <tr>
 <td>"Give me a link that reopens the app as I have it now." ✅</td>

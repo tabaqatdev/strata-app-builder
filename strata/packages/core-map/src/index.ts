@@ -29,15 +29,19 @@ export {
   applyBaseMap,
   OPEN_BASEMAPS,
   VECTOR_BASEMAPS,
+  RASTER_BASEMAPS,
+  basemapUrl,
   defaultBaseMap,
   defaultVectorBaseMap,
   basemapForTheme,
+  basemapForThemeFrom,
   baseMapFromPreset,
   prepareVectorBasemap,
   type BasemapPreset,
 } from "./engine/basemaps.js";
 export {
   initPopups,
+  ensurePopupStyles,
   renderPopup,
   enrichPopupElements,
   renderAttachments,
@@ -62,6 +66,9 @@ export type { StoreBinding, StoreBindingOptions } from "./engine/storeBinding.js
 // React
 export { StrataMap, default as default } from "./react/StrataMap.js";
 export type { StrataMapProps, StrataMapControls, StrataMapHandle } from "./react/StrataMap.js";
+
+// The one live subscription to "what layers are on the map" — shared by Legend / MapChrome / LayerPanel.
+export { useStoreLayers } from "./react/useStoreLayers.js";
 
 // Internationalization (React binding for @strata/i18n) — I18nProvider + useI18n
 export { I18nProvider, useI18n, useOptionalI18n } from "./react/i18n.js";

@@ -12,15 +12,21 @@ from the ESRI Web Map JSON-aligned `LayersJson` from `@strata/schema`.
   selection: { layerId: string; oids: number[] } | null,
   view: { center: [number, number]; zoom: number } | null,
   baseMap: BaseMap | null,
+  baseMapFollowsTheme: boolean,   // transient; true until the reader picks a basemap explicitly
 }
 ```
 
 ## Actions
 
 `addLayer`, `removeLayer(id)`, `renameLayer(id, title)`, `reorderLayers(ids)`, `setVisibility(id, bool)`,
-`setOpacity(id, n)`, `setSelection(sel)`, `setView(v)`, `setBaseMap(bm)`,
-`loadFromLayersJson(cfg)`, `toLayersJson()`, plus undo/redo: `undo()`, `redo()`,
-`canUndo()`, `canRedo()`.
+`setOpacity(id, n)`, `setSelection(sel)`, `setView(v)`, `setBaseMap(bm, { transient? })`,
+`setBaseMapFollowsTheme(bool)`, `loadFromLayersJson(cfg)`, `toLayersJson()`, plus undo/redo: `undo()`,
+`redo()`, `canUndo()`, `canRedo()`.
+
+`setBaseMap` is undoable by default; pass `{ transient: true }` for a swap the reader did not author —
+the theme-driven light↔dark swap — so a view preference never lands in the undo history or the saved map
+spec. `baseMapFollowsTheme` is the one flag the basemap drawer, the `BasemapPanel` and `<StrataApp>`'s
+theme→basemap effect share, so they cannot disagree about who is choosing the basemap.
 
 ## Usage (vanilla)
 

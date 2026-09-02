@@ -37,7 +37,7 @@
   /update-metadata, /export (image|pdf|map|layer)
 
 ## Status: shipped vs planned (be precise)
-- Shipped & working (v0.3.0, 20 packages, 796 unit tests): the ESRI drawingInfo->MapLibre style compiler;
+- Shipped & working (v0.3.0, 20 packages, 835 unit tests): the ESRI drawingInfo->MapLibre style compiler;
   ArcGIS REST + GeoJSON source loaders (tile/WMS/cluster/refresh); <StrataMap> with a store-bound live map;
   map interaction (active layer -> identify -> popup; measure/sketch); controls (nav/geolocate/fullscreen/
   scale/legend/status bar/time slider); management panels; the <StrataApp> J.5 layout engine + widgets; the

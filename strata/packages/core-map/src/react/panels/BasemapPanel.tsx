@@ -20,11 +20,12 @@
  * Layout: renders inside a PanelShell, so it can be `mode="fixed"` (docked, default) or
  * `mode="floating"` (draggable overlay) with the Open / Remove context menu.
  */
-import React, { useSyncExternalStore, useState } from "react";
+import React, { useCallback, useSyncExternalStore, useState } from "react";
 import type { BaseMap, BaseMapLayer } from "@strata/schema";
 import type { StrataStore } from "@strata/state";
 import { PanelShell, type PanelMode } from "./PanelShell.js";
-import { OPEN_BASEMAPS } from "../../engine/basemaps.js";
+import { OPEN_BASEMAPS, basemapForThemeFrom } from "../../engine/basemaps.js";
+import { useStrataAppEnv } from "../app/interactivity.js";
 
 /** A selectable basemap entry (either a vector `style` URL or a raster `templateUrl`). */
 export interface BasemapOption {
@@ -34,8 +35,38 @@ export interface BasemapOption {
   style?: string;
   /** Raster XYZ template, e.g. `https://…/{z}/{x}/{y}.png` (maps to a WebTiledLayer). */
   templateUrl?: string;
+  /** Which UI theme this basemap pairs with — what "Follow the theme" reads. */
+  mode?: "light" | "dark";
   thumbnail?: string;
   copyright?: string;
+}
+
+const noopSubscribe = (): (() => void) => () => {};
+
+/**
+ * The "Follow the theme" flag — **one** flag for the whole app, held on the store so the basemap
+ * drawer, this panel, and `<StrataApp>`'s theme→basemap effect cannot disagree about whether the theme
+ * or the reader is choosing the basemap. Falls back to local state when a panel is used without a store.
+ */
+export function useFollowsTheme(store?: StrataStore): [boolean, (follow: boolean) => void] {
+  const [local, setLocal] = useState(true);
+  const subscribe = useCallback(
+    (cb: () => void) => (store ? store.subscribe(cb) : noopSubscribe()),
+    [store],
+  );
+  const snapshot = useCallback(
+    () => (store ? store.getState().baseMapFollowsTheme !== false : null),
+    [store],
+  );
+  const stored = useSyncExternalStore(subscribe, snapshot, snapshot);
+  const set = useCallback(
+    (follow: boolean) => {
+      if (store) store.getState().setBaseMapFollowsTheme?.(follow);
+      else setLocal(follow);
+    },
+    [store],
+  );
+  return [stored ?? local, set];
 }
 
 export interface BasemapPanelProps {
@@ -62,7 +93,7 @@ export interface BasemapPanelProps {
   map?: any;
   /**
    * The app's theme mode. Offers a "Follow the theme" row that pairs a light UI with a light map;
-   * omit it and no such row is shown.
+   * omit it and the mode is read from the surrounding `<StrataApp>` (no row when there is neither).
    */
   themeMode?: "light" | "dark";
   /** Layout mode passed through to PanelShell. Defaults to "fixed". */
@@ -105,12 +136,86 @@ export function previewTile(map: any): { z: number; x: number; y: number } {
   };
 }
 
-/** Background style painting `opt`'s own tile for the current area. ESRI tokens and XYZ both work. */
+/** The ground / road / water a GL style paints, read out of the style document itself. */
+export interface StyleColors { ground: string; water: string; road: string }
+
+/**
+ * Style colours, cached per style URL for the life of the page. A VECTOR basemap has no tile to
+ * preview — its ground is assembled by the renderer from vector data — so the row reads the style's
+ * OWN background, water fill and road line instead. `null` means the style would not load, and the
+ * row says so: an unexplained grey box is the exact failure a live preview exists to prevent.
+ */
+const styleColorCache = new Map<string, StyleColors>();
+
+export function readStyleColors(styleJson: any): StyleColors {
+  const paintOf = (pred: (l: any) => boolean, key: string): string | null => {
+    const v = (styleJson?.layers ?? []).find(pred)?.paint?.[key];
+    return typeof v === "string" ? v : null;
+  };
+  const ground = paintOf((l) => l.type === "background", "background-color") ?? "#888";
+  const water =
+    paintOf((l) => /water|ocean|sea/i.test(l.id ?? "") && l.type === "fill", "fill-color") ??
+    paintOf((l) => l.type === "fill", "fill-color") ??
+    ground;
+  const road =
+    paintOf((l) => /road|highway|transportation/i.test(l.id ?? "") && l.type === "line", "line-color") ??
+    ground;
+  return { ground, water, road };
+}
+
+/**
+ * Fetch the GL style behind every vector option once, so each row can paint that style's own
+ * colours. Re-renders as they land; a style that fails is remembered as unavailable rather than
+ * retried on every paint.
+ */
+export function useStyleColors(options: BasemapOption[]): Map<string, StyleColors | null> {
+  const [, bump] = React.useReducer((n: number) => n + 1, 0);
+  const wanted = options.filter((o) => o.style && !styleColorCache.has(o.style));
+  React.useEffect(() => {
+    let live = true;
+    const asked = new Set<string>();     // dedupe WITHIN this run, not across mounts
+    for (const o of wanted) {
+      const url = o.style as string;
+      if (styleColorCache.has(url) || asked.has(url)) continue;
+      asked.add(url);
+      // `fetch` is called inside a promise, not bare: a missing or blocked global throws
+      // SYNCHRONOUSLY, and no `.catch` on the chain would ever see it.
+      void Promise.resolve()
+        .then(() => fetch(url))
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+        .then((j) => { styleColorCache.set(url, readStyleColors(j)); })
+        // Only a SUCCESS is cached, and only for the run that asked. Remembering a failure — or an
+        // in-flight request — across mounts would turn one bad minute on a tile host into a row
+        // that stays blank for the life of the page however often the drawer is reopened. The
+        // worst case here is two mounts fetching one style, which is cheap and self-limiting.
+        .catch(() => { /* left uncached: reopening the drawer asks again */ })
+        .finally(() => { if (live) bump(); });
+    }
+    return () => { live = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wanted.map((o) => o.style).join("|")]);
+  const out = new Map<string, StyleColors | null>();
+  for (const o of options) if (o.style) out.set(o.id, styleColorCache.get(o.style) ?? null);
+  return out;
+}
+
+/**
+ * Background style for a row's preview. A RASTER option paints its own tile for the current area —
+ * a colour swatch cannot tell Positron from Voyager. A VECTOR option paints the ground / road /
+ * water its style declares, which is the closest thing to a tile a GL style has before it renders.
+ * ESRI tokens and XYZ both work.
+ */
 export function tileBackground(
   opt: BasemapOption,
   t: { z: number; x: number; y: number },
+  colors?: StyleColors | null,
 ): React.CSSProperties {
-  if (!opt.templateUrl) return {};
+  if (!opt.templateUrl) {
+    if (!colors) return {};
+    return {
+      backgroundImage: `linear-gradient(160deg, ${colors.ground} 0 46%, ${colors.road} 46% 54%, ${colors.water} 54% 100%)`,
+    };
+  }
   const url = opt.templateUrl
     .replace(/\{level\}|\{z\}/g, String(t.z))
     .replace(/\{col\}|\{x\}/g, String(t.x))
@@ -147,17 +252,23 @@ export function BasemapPanel(props: BasemapPanelProps): React.ReactElement {
   const [manage, setManage] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newUrl, setNewUrl] = useState("");
-  // "Follow the theme" is the default choice-maker when a themeMode is supplied.
-  const [auto, setAuto] = useState<boolean>(props.themeMode != null);
+  // The mode comes from the app when the panel is not told one directly.
+  const env = useStrataAppEnv();
+  const themeMode = props.themeMode ?? env?.themeMode;
+  // "Follow the theme" is the default choice-maker, shared with the map chrome via the store.
+  const [follows, setFollows] = useFollowsTheme(store);
+  const auto = themeMode != null && follows;
 
   // The effective library: the supplied/built-in options plus locally-added ones, minus deletions.
   const all = [...(props.basemaps ?? (OPEN_BASEMAPS as BasemapOption[])), ...extra].filter((o) => !removed.has(o.id));
 
-  // The basemap actually in force — explicit choice, or the one the theme is choosing.
-  const themed = all.find((o) => (o as any).mode === props.themeMode) ?? all[0];
+  // The basemap actually in force — explicit choice, or the one the theme is choosing. Both the tick
+  // and the swap go through `basemapForThemeFrom`, so the panel names the map that actually applies.
+  const themed = basemapForThemeFrom(all, themeMode) ?? all[0];
   const explicit = all.find((o) => matches(current, o));
   const effective = auto ? themed : explicit ?? themed;
   const tile = previewTile(props.map);
+  const styleColors = useStyleColors(all);
 
   const apply = (opt: BasemapOption): void => {
     const bm = buildBaseMap(opt);
@@ -233,7 +344,7 @@ export function BasemapPanel(props: BasemapPanelProps): React.ReactElement {
               aria-checked={active}
               data-basemap={opt.id}
               style={{ ...rowStyle, ...(active ? activeRowStyle : null) }}
-              onClick={() => { if (!manage) { setAuto(false); apply(opt); } }}
+              onClick={() => { if (!manage) { setFollows(false); apply(opt); } }}
             >
               <span style={{ ...radioStyle, ...(active ? radioOnStyle : null) }} aria-hidden>
                 {active ? "✓" : ""}
@@ -241,7 +352,7 @@ export function BasemapPanel(props: BasemapPanelProps): React.ReactElement {
               {opt.thumbnail ? (
                 <img src={opt.thumbnail} alt="" style={thumbStyle} />
               ) : (
-                <div style={{ ...thumbStyle, ...thumbPlaceholderStyle, ...tileBackground(opt, tile) }} />
+                <div style={{ ...thumbStyle, ...thumbPlaceholderStyle, ...tileBackground(opt, tile, styleColors.get(opt.id)) }} />
               )}
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontWeight: active ? 600 : 400, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
@@ -258,13 +369,13 @@ export function BasemapPanel(props: BasemapPanelProps): React.ReactElement {
             </li>
           );
         })}
-        {props.themeMode != null && (
+        {themeMode != null && (
           <li
             role="radio"
             aria-checked={auto}
             data-basemap="auto"
             style={{ ...rowStyle, ...(auto ? activeRowStyle : null) }}
-            onClick={() => { setAuto(true); if (themed) apply(themed); }}
+            onClick={() => { setFollows(true); if (themed) apply(themed); }}
           >
             <span style={{ ...radioStyle, ...(auto ? radioOnStyle : null) }} aria-hidden>{auto ? "✓" : ""}</span>
             <div style={{ flex: 1, minWidth: 0 }}>
