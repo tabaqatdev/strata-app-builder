@@ -12,7 +12,8 @@
  * Plain React + CSS custom properties, matching the other widgets.
  */
 import React, { useEffect, useRef, useState } from "react";
-import { THEME_PRESETS, compileTheme, presetTheme } from "@strata/theme";
+import { THEME_PRESETS, compileTheme, presetTheme, resolveThemeMode } from "@strata/theme";
+import { useStrataAppEnv } from "../app/interactivity.js";
 import { useOptionalI18n } from "../i18n.js";
 
 /** Find the app root to theme (the `[data-strata-app]` element), falling back to `<html>`. */
@@ -55,17 +56,28 @@ export interface ThemeSwitchProps {
   className?: string;
 }
 
-/** Runtime theme-preset switcher. Writes `@strata/theme` tokens onto the app root. */
+/**
+ * Runtime theme-preset switcher. Writes `@strata/theme` tokens onto the app root **and reports the
+ * preset's mode to `<StrataApp>`**, so everything that follows the theme rather than the stylesheet —
+ * the map's basemap above all — moves with it. Without that report the UI would go light while the
+ * map sat on a dark basemap.
+ */
 export function ThemeSwitch(props: ThemeSwitchProps): React.ReactElement {
   const themes = props.themes ?? Object.keys(THEME_PRESETS);
   const [active, setActive] = useState<string>(props.initial ?? "dark");
   const ref = useRef<HTMLDivElement>(null);
+  const env = useStrataAppEnv();
 
-  const apply = (name: string): void => {
+  /**
+   * Apply a preset. `initial` is the once-on-mount call: it paints, but does **not** report a mode —
+   * a mount is not a theme change, and reporting one would make the app swap the basemap its map spec
+   * authored. (So set `initial` to match the app's own theme; the app's theme governs at mount.)
+   */
+  const apply = (name: string, initial = false): void => {
+    const preset = presetTheme(name);
     const root = appRoot(ref.current);
     if (root) {
       // Swap the full structured preset: apply its --strata-* vars + (re)inject the state/motion stylesheet.
-      const preset = presetTheme(name);
       const { vars, css } = compileTheme(preset);
       for (const [k, v] of Object.entries(vars)) root.style.setProperty(k, v);
       root.classList.toggle("light", preset.mode === "light");
@@ -77,13 +89,24 @@ export function ThemeSwitch(props: ThemeSwitchProps): React.ReactElement {
       }
       styleEl.textContent = css;
     }
+    // Tell the app which mode we are in now — `"auto"` presets resolve against the OS preference.
+    if (!initial) {
+      env?.setThemeMode?.(
+        resolveThemeMode(
+          preset.mode,
+          typeof window !== "undefined" && !!window.matchMedia
+            ? window.matchMedia("(prefers-color-scheme: dark)").matches
+            : false,
+        ),
+      );
+    }
     setActive(name);
     props.onChange?.(name);
   };
 
   // Apply the initial theme once on mount so the widget and the app agree.
   useEffect(() => {
-    apply(active);
+    apply(active, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

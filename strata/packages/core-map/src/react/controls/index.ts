@@ -24,8 +24,17 @@ export type { MeasureControlProps } from "./MeasureControl.js";
 export { SketchControl, default as SketchControlDefault } from "./SketchControl.js";
 export type { SketchControlProps } from "./SketchControl.js";
 
-export { Legend, legendRows, legendWhere, rendererField, default as LegendDefault } from "./Legend.js";
-export type { LegendProps } from "./Legend.js";
+export {
+  Legend,
+  legendRows,
+  legendWhere,
+  rendererField,
+  Swatch,
+  shapeForRenderer,
+  shapeForGeometryType,
+  default as LegendDefault,
+} from "./Legend.js";
+export type { LegendProps, LegendRow } from "./Legend.js";
 
 export { MapChrome, CHROME_ICONS, ensureChromeStyles, default as MapChromeDefault } from "./MapChrome.js";
 export type { MapChromeProps, DrawerKind } from "./MapChrome.js";

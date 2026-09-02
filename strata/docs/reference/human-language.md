@@ -21,7 +21,7 @@ Claude also reads this to reach for the right component by default. Pair it with
 | "Add this feature service: `…/FeatureServer/0`." | An ArcGIS REST layer (pulls `drawingInfo` + fields). |
 | "Load `cities.geojson`." / "Add this GeoJSON URL." | A GeoJSON layer. |
 | "Cluster the points; refresh every minute." | Clustering + a refresh interval. |
-| "Use the CARTO dark basemap." / "Give me a crisp vector basemap." | A keyless raster or vector basemap. |
+| "Use the dark basemap." / "Give me a crisp vector basemap." | A keyless vector or raster basemap. |
 | "Let users switch basemaps." | A BasemapPanel / basemap gallery. |
 | "Make it a hazard / control-room look." | The `hazard` theme preset. |
 | "Add this ImageServer as an NDVI raster." ✅ | An ESRI ImageServer raster layer (`renderingRule`). |
@@ -82,6 +82,9 @@ Claude also reads this to reach for the right component by default. Pair it with
 | "Let me click the legend to hide a class, and isolate one." ✅ | Built in: click hides · shift-click isolates · `Esc` clears (a real `definitionExpression`, applied in place). |
 | "Show how many features are in each legend class." ✅ | `counts` on the Legend — rows render `n of N`, keeping the denominator. |
 | "Make the legend a plain caption, not a control." ✅ | `interactive: false`. |
+| "When I hide a layer, take it out of the legend." ✅ | Built in — the Legend reads the store, so any show/hide reaches it in the same frame. Don't author `legend.props.layers`; a static array cannot follow visibility. |
+| "The legend is missing a layer that's on the map." ✅ | Built in — every visible layer is listed, including one whose symbology comes from the service; it gets a neutral swatch and its title. `includeUnstyled: false` to list only styled layers. |
+| "Show each layer's symbology in the layer list." ✅ | Built in — LayerPanel rows carry the layer's swatch, and multi-class renderers expand to the full class list. |
 | "Let me measure distances and areas." / "Let me draw shapes." | Measure / Sketch. |
 | "Add a time slider that animates the data over the month." | TimeSlider (`/timeslider`). |
 | "Put all the tools behind a toolbar so it's not cluttered." ✅ | The `controller` tool dock. |
@@ -103,7 +106,8 @@ Claude also reads this to reach for the right component by default. Pair it with
 | "Show the items as a filterable gallery of cards." | `gallery` / `list` / `card` |
 | "Add a heading and a paragraph." / "a banner image" / "a button" / "a nav menu" / "a divider." | `text` / `image` / `button` / `menu` / `divider` |
 | "Embed this web page / dashboard." / "Play this video." ✅ | `embed` (sandboxed iframe) / `video` |
-| "Add a light/dark toggle." / "an English/Arabic switcher." ✅ | `theme-switch` / `lang-switch` |
+| "Add a light/dark toggle." / "an English/Arabic switcher." ✅ | `theme-switch` / `lang-switch` (switching light↔dark **also swaps the basemap** — see below) |
+| "Make the basemap follow the theme." / "dark mode should get a dark map." ✅ | already the default — nothing to say. To turn it off or pin the pair: `theme.basemap` `{follow:false}` / `{light,dark}` |
 | "Give me a link that reopens the app as I have it now." ✅ | `share` |
 | "Add a 'find what's near me' tool." ✅ | `near-me` |
 | "Let users add their own layer at runtime." ✅ | `add-data` |

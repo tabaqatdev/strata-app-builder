@@ -34,6 +34,12 @@ a `theme-switch` widget (`{ type:"theme-switch", props:{ initial:"<name>", theme
 a `lang-switch` widget (`{ type:"lang-switch" }`, inside the `I18nProvider`). They cost nothing and make the
 app feel finished on the first build.
 
+**The map follows the theme — set `initial` to match `theme.mode`.** Switching light↔dark also swaps the
+basemap to its pair, automatically (no `connections`, no wiring). The basemap authored in `layers.json`
+wins on mount, so a `theme-switch` whose `initial` disagrees with `theme.mode` leaves the UI and the map
+out of step until the first click. To pin the basemap or name the pair, add
+`theme.basemap`: `{ "follow": false }` or `{ "light": "<id>", "dark": "<id>" }`.
+
 ## Start from a template
 Pick a starter and adapt it (`@strata/core-map/react/app`):
 - **dashboard** → `dashboardTemplate` — a `map` widget + KPI/gauge/chart/table widgets in a grid; wire

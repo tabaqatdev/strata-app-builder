@@ -52,7 +52,7 @@ theme and stays colorblind-safe:
 - **A network-wide verdict is a false statement about a specific asset.** Stamping "unverifiable" on
   every feature because 28 % of the network is unparseable libels the ones that file a plain value.
   Decide per feature and print the reason on the row.
-- **Fill opacity must follow the basemap.** Alpha tuned for pale CARTO Positron is invisible on
+- **Fill opacity must follow the basemap.** Alpha tuned for a pale ground (OpenFreeMap Positron) is invisible on
   OpenTopoMap — the basemap a user picks *precisely* to see terrain context.
 - **A renderer field on a MapServer layer needs case tolerance.** `f=geojson` lower-cases every field
   name (FeatureServer preserves case); the style compiler emits a `coalesce` over exact/lower/upper.

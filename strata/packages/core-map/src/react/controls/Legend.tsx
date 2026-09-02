@@ -17,17 +17,35 @@
  *    as the whole.
  *  - **A count keeps its denominator** (`8,340 of 12,728`). Pass `counts` and the rows carry it.
  *
+ * And two the legend owes the map:
+ *  - **It lists every visible layer, not every *styled* one.** A layer whose symbology comes from
+ *    the service (no authored `drawingInfo`), or one drawn by a renderer this legend cannot break
+ *    into classes, still gets a titled row. Omitting it reads as "that layer isn't on the map".
+ *  - **It follows the store.** With no `layers` prop it subscribes to the store, so hiding a layer
+ *    in the layer panel or the map-controls drawer drops it from the legend in the same frame.
+ *
  * This is a plain React overlay (not a MapLibre `IControl`) so it can live in a panel or on the
- * canvas; pass the operational layers and it renders reactively.
+ * canvas; hand it a store (or let `<StrataApp>` do it) and it renders reactively.
  */
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import type { OperationalLayer } from "@strata/schema";
 import type { StrataStore } from "@strata/state";
+import { useStoreLayers } from "../useStoreLayers.js";
 
 export interface LegendProps {
-  layers: OperationalLayer[];
+  /**
+   * The layers to list. **Optional** — omit it and the legend reads the `store`'s layers live, which
+   * is what makes an app-layout `legend` widget track show/hide with no wiring. Pass an array only
+   * to list a deliberate subset; a static array cannot follow visibility.
+   */
+  layers?: OperationalLayer[];
   /** Only include visible layers (default true). */
   visibleOnly?: boolean;
+  /**
+   * Give a layer with no legendable renderer a plain titled row (default **true**). Turn it off only
+   * when the legend is a symbology key rather than a list of what is on the map.
+   */
+  includeUnstyled?: boolean;
   title?: string;
   /**
    * Rows respond to clicks (hide / shift-click isolate / `Esc` clear). Default **true**.
@@ -46,23 +64,41 @@ export interface LegendProps {
   style?: React.CSSProperties;
 }
 
-interface LegendRow {
+export interface LegendRow {
   label: string;
   swatch: string;
   /** point | line | fill — controls the swatch shape. */
   shape: "point" | "line" | "fill";
+  /**
+   * True for the stand-in row a renderer-less layer gets. It names the layer, so it must not offer
+   * a hide/isolate click: there are no classes to filter, and a control that does nothing is a lie.
+   */
+  unstyled?: boolean;
 }
 
 export function Legend(props: LegendProps): React.ReactElement | null {
-  const { layers, visibleOnly = true, store, bus, counts, onFilterChange } = props;
+  const { visibleOnly = true, store, bus, counts, onFilterChange } = props;
   const interactive = props.interactive !== false;
+  const includeUnstyled = props.includeUnstyled !== false;
+  // The layers to list: an authored subset if given, else the store's — live, so a visibility
+  // toggle anywhere in the app reaches the legend.
+  const layers = useStoreLayers(store, props.layers);
   // Per layer: the classes hidden, and the one isolated (they are exclusive — isolating clears hides).
   const [state, setState] = useState<Record<string, { hidden: string[]; isolated: string | null }>>({});
 
-  const entries = layers
-    .filter((l) => (visibleOnly ? l.visibility !== false : true))
-    .map((l) => ({ layer: l, rows: legendRows(l) }))
-    .filter((e) => e.rows.length > 0);
+  // Memoized: `entries` is a dependency of the Esc listener below, and a fresh array every render
+  // would re-subscribe it every render.
+  const entries = useMemo(
+    () =>
+      layers
+        .filter((l) => (visibleOnly ? l.visibility !== false : true))
+        .map((l) => ({ layer: l, rows: legendRows(l) }))
+        // A layer the legend cannot break into classes is still ON THE MAP. Name it rather than
+        // dropping it — an absent row reads as an absent layer.
+        .map((e) => (e.rows.length ? e : { ...e, rows: includeUnstyled ? [unstyledRow(e.layer)] : [] }))
+        .filter((e) => e.rows.length > 0),
+    [layers, visibleOnly, includeUnstyled],
+  );
 
   /** Apply a layer's new hidden/isolated set: build the where, push it in place, tell everyone. */
   const applyFilter = useCallback(
@@ -106,6 +142,18 @@ export function Legend(props: LegendProps): React.ReactElement | null {
       {props.title && <div style={titleStyle}>{props.title}</div>}
       {entries.map(({ layer, rows }) => {
         const cur = state[layer.id] ?? { hidden: [], isolated: null };
+        // A stand-in row carries only the layer's name — which the group title already says. Fold
+        // the two together into one swatched title rather than printing the name twice.
+        if (rows.length === 1 && rows[0].unstyled) {
+          return (
+            <div key={layer.id} style={groupStyle}>
+              <div style={{ ...groupTitleStyle, ...rowStyle }}>
+                <Swatch color={rows[0].swatch} shape={rows[0].shape} />
+                <span style={labelStyle}>{layer.title || layer.id}</span>
+              </div>
+            </div>
+          );
+        }
         return (
           <div key={layer.id} style={groupStyle}>
             <div style={groupTitleStyle}>{layer.title}</div>
@@ -125,7 +173,8 @@ export function Legend(props: LegendProps): React.ReactElement | null {
                   )}
                 </>
               );
-              if (!interactive) {
+              // A stand-in row names a layer; it has no classes to hide, so it stays a caption.
+              if (!interactive || r.unstyled) {
                 return (
                   <div key={i} style={rowStyle}>
                     {row}
@@ -265,8 +314,33 @@ export function legendRows(layer: OperationalLayer): LegendRow[] {
   }
 }
 
+/**
+ * The stand-in row for a layer this legend cannot break into classes — no authored `drawingInfo`
+ * (the service owns the symbology), or a renderer type with no discrete classes to list.
+ *
+ * It carries the layer's **name**, not a colour claim: inventing a swatch colour would be a
+ * statement about the map that the legend cannot back up. The neutral swatch says "this layer is
+ * drawing" and nothing more. Shape follows the service's `geometryType` when the layer carries one.
+ */
+function unstyledRow(layer: OperationalLayer): LegendRow {
+  return {
+    label: layer.title || layer.id,
+    swatch: UNSTYLED_SWATCH,
+    shape: shapeForGeometryType((layer.layerDefinition as any)?.geometryType),
+    unstyled: true,
+  };
+}
+
+/** ESRI `esriGeometry*` → swatch shape. Unknown/absent geometry falls back to a fill. */
+export function shapeForGeometryType(geometryType: unknown): "point" | "line" | "fill" {
+  const t = String(geometryType ?? "").toLowerCase();
+  if (t.includes("point")) return "point";
+  if (t.includes("line") || t.includes("polyline")) return "line";
+  return "fill";
+}
+
 /** A tiny colored swatch whose shape matches the geometry the renderer targets. */
-function Swatch({ color, shape }: { color: string; shape: "point" | "line" | "fill" }): React.ReactElement {
+export function Swatch({ color, shape }: { color: string; shape: "point" | "line" | "fill" }): React.ReactElement {
   if (shape === "point") {
     return <span style={{ ...swatchBase, background: color, borderRadius: "50%" }} />;
   }
@@ -277,7 +351,7 @@ function Swatch({ color, shape }: { color: string; shape: "point" | "line" | "fi
 }
 
 /** Best-effort geometry→swatch shape from the renderer's (default) symbol type. */
-function shapeForRenderer(renderer: any): "point" | "line" | "fill" {
+export function shapeForRenderer(renderer: any): "point" | "line" | "fill" {
   const sym =
     renderer.symbol ||
     renderer.defaultSymbol ||
@@ -308,6 +382,9 @@ function heatmapSwatch(renderer: any): string {
   const mid = stops[Math.floor(stops.length / 2)] || stops[stops.length - 1];
   return mid ? symbolColor({ color: mid.color }) : "#f59e0b";
 }
+
+/** Neutral grey — "this layer is drawing", with no claim about what colour it draws in. */
+const UNSTYLED_SWATCH = "rgba(140,148,160,.55)";
 
 const wrapStyle: React.CSSProperties = {
   font: "12px system-ui, sans-serif",

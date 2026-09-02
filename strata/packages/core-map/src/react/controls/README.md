@@ -22,7 +22,12 @@ also take the `@strata/state` `store`.
   `onChange`.
 - **`Legend`** — swatch + label per renderer class, read from each layer's ESRI
   `drawingInfo.renderer` (`simple` / `uniqueValue` / `classBreaks`, plus a heatmap note). Exported
-  helper `legendRows(layer)` returns the rows for custom layouts.
+  helper `legendRows(layer)` returns the rows for custom layouts; `Swatch` / `shapeForRenderer` /
+  `shapeForGeometryType` draw them.
+  **`layers` is optional** — omit it and the legend reads the store's layers live (`useStoreLayers`),
+  so any show/hide reaches it; a static array is a snapshot that cannot follow visibility. It lists
+  **every visible layer**, giving one with no legendable renderer a neutral swatch and its title
+  rather than dropping it (`includeUnstyled:false` opts out).
 
 ## Optional dependencies
 

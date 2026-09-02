@@ -117,6 +117,12 @@ selected, and the reader cannot tell which basemap they are looking at. Both row
 **Each basemap row carries a live tile of the current view** in that style (`previewTile()` → z/x/y →
 the row's own template URL). A colour swatch cannot tell Positron from Voyager.
 
+**"Follow the theme" must actually follow it.** On the React path this is automatic — switching light↔dark
+swaps the basemap to its pair. On the house (vanilla) path you owe the same behavior: resolve the mode in
+**one** place, use **one** resolver for "which basemap for this mode" (so the tick and the applied basemap
+cannot disagree), leave the authored basemap alone until the mode actually changes, and stop following as
+soon as the reader picks a basemap themselves.
+
 ### The legend as a control surface
 ```js
 el.addEventListener("click", (e) => {

@@ -16,3 +16,9 @@ coverage/
 # Claude Code personal/local artifacts (never publish)
 .claude/settings.local.json
 .claude/worktrees/
+
+# First-run onboarding marker — per-clone state, never shared
+.strata/
+
+# Scratch: downloaded pages, probe responses, throwaway data. Keep the root clean.
+/scratch/

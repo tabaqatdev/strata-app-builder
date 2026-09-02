@@ -2,9 +2,12 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import {
   OPEN_BASEMAPS,
   VECTOR_BASEMAPS,
+  RASTER_BASEMAPS,
+  basemapUrl,
   defaultBaseMap,
   defaultVectorBaseMap,
   basemapForTheme,
+  basemapForThemeFrom,
   baseMapFromPreset,
   prepareVectorBasemap,
   applyBaseMap,
@@ -47,23 +50,77 @@ afterEach(() => {
 });
 
 describe("basemap gallery", () => {
-  it("keeps OSM as the keyless default and includes the vector gallery", () => {
-    expect(OPEN_BASEMAPS[0].id).toBe("osm");
-    expect(defaultBaseMap().baseMapLayers[0].layerType).toBe("WebTiledLayer");
-    // every vector preset is a keyless https style URL
-    for (const p of VECTOR_BASEMAPS) {
-      expect(p.style).toMatch(/^https:\/\//);
-      expect(p.style).not.toMatch(/apikey|access_token|key=/i);
+  it("defaults to the keyless VECTOR pair, with the raster gallery behind it", () => {
+    // Until 2026-09-01 this asserted `OPEN_BASEMAPS[0].id === "osm"` and a WebTiledLayer default.
+    // Both raster hosts that used to lead now answer HTTP 200 with a placeholder — CARTO's raster
+    // CDN composites "API KEY REQUIRED" over the real map, tile.openstreetmap.org serves an
+    // "Access blocked" image — so a new map's default ground is a GL style, which is also the only
+    // form that gives a dark theme a real dark ground rather than a light one dimmed.
+    expect(OPEN_BASEMAPS[0].id).toBe("openfreemap-positron");
+    expect(defaultBaseMap().baseMapLayers[0].layerType).toBe("VectorTileLayer");
+    expect(OPEN_BASEMAPS[0]).toBe(VECTOR_BASEMAPS[0]);
+    // every preset resolves to exactly one keyless https URL, in whichever form it takes
+    for (const p of OPEN_BASEMAPS) {
+      const url = basemapUrl(p);
+      expect(url).toMatch(/^https:\/\//);
+      expect(url).not.toMatch(/apikey|access_token|key=/i);
+      expect(Boolean(p.style) !== Boolean(p.templateUrl)).toBe(true); // one form, never both/neither
     }
-    // the vector presets are part of the surfaced gallery
+    // the vector gallery leads, the raster one follows, and nothing is lost between them
+    expect(OPEN_BASEMAPS).toEqual([...VECTOR_BASEMAPS, ...RASTER_BASEMAPS]);
     expect(OPEN_BASEMAPS.some((p) => p.id === "carto-dark-gl")).toBe(true);
+  });
+
+  it("names no host that is gated, watermarked, or off an English-only language boundary", () => {
+    // A URL-pattern guard cannot see a keyed basemap — this is a DENY-list of hosts already caught
+    // doing it, so a preset can never quietly come back. The positive proof that a host is still
+    // keyless is behavioural and lives in the live suites (two different tiles must differ in
+    // bytes; a style must parse and every host it delegates to must itself be keyless), because
+    // only bytes and a human eye can see a watermark composited onto real map data.
+    const GATED = [
+      /basemaps\.cartocdn\.com\/(light_all|dark_all|rastertiles)/i, // 200 + "API KEY REQUIRED"
+      /^https:\/\/tile\.openstreetmap\.org/i,                       // 200 + "418 Access blocked"
+      /maps\.wikimedia\.org/i,                                       // 403 to any other origin
+      /tile\.openstreetmap\.de/i,                                    // keyless, but German exonyms
+      /mapbox|arcgisonline|googleapis|api\.maptiler\.com|stadiamaps/i, // keyed providers
+    ];
+    // The raster OSM host is still OFFERED — a product that honours the tile policy may use it —
+    // but it must never be the default, which is what the deny-list is scoped to here.
+    const defaulted = [OPEN_BASEMAPS[0], basemapForTheme("light"), basemapForTheme("dark")];
+    for (const p of defaulted) {
+      for (const re of GATED) expect(basemapUrl(p)).not.toMatch(re);
+    }
+    // and no preset at all may name a host that serves a watermark or a keyed provider
+    const WATERMARKED = GATED.filter((_, i) => i !== 1);
+    for (const p of OPEN_BASEMAPS) {
+      for (const re of WATERMARKED) expect(basemapUrl(p)).not.toMatch(re);
+    }
+  });
+
+  it("every preset carries attribution and declares the theme half it serves", () => {
+    for (const p of OPEN_BASEMAPS) {
+      expect(p.copyright && p.copyright.length).toBeGreaterThan(10);
+      expect(p.copyright).toMatch(/OpenStreetMap/i);   // OSM data, credited as the licence requires
+    }
+    // both halves of a theme pair exist, or "follow the theme" has nothing to resolve to
+    expect(VECTOR_BASEMAPS.some((p) => p.mode === "light")).toBe(true);
+    expect(VECTOR_BASEMAPS.some((p) => p.mode === "dark")).toBe(true);
+  });
+
+  it("a raster preset uses the ESRI Web Map tokens; a vector preset never does", () => {
+    for (const p of RASTER_BASEMAPS) {
+      expect(p.templateUrl).toContain("{level}");
+      expect(p.templateUrl).toContain("{col}");
+      expect(p.templateUrl).toContain("{row}");
+    }
+    for (const p of VECTOR_BASEMAPS) expect(p.style).not.toMatch(/\{level\}|\{z\}/);
   });
 
   it("baseMapFromPreset builds the right ESRI layer type", () => {
     const vec = baseMapFromPreset(VECTOR_BASEMAPS[0]);
     expect(vec.baseMapLayers[0]).toMatchObject({ layerType: "VectorTileLayer", styleUrl: VECTOR_BASEMAPS[0].style });
-    const ras = baseMapFromPreset(OPEN_BASEMAPS[0]);
-    expect(ras.baseMapLayers[0]).toMatchObject({ layerType: "WebTiledLayer" });
+    const ras = baseMapFromPreset(RASTER_BASEMAPS[0]);
+    expect(ras.baseMapLayers[0]).toMatchObject({ layerType: "WebTiledLayer", templateUrl: RASTER_BASEMAPS[0].templateUrl });
   });
 
   it("basemapForTheme pairs a dark UI with a dark vector basemap", () => {
@@ -72,6 +129,26 @@ describe("basemap gallery", () => {
     expect(dark.style).toBeTruthy(); // prefers a vector preset
     expect(defaultVectorBaseMap("dark").baseMapLayers[0].layerType).toBe("VectorTileLayer");
     expect(basemapForTheme("light").mode).toBe("light");
+  });
+
+  it("basemapForThemeFrom is the ONE resolver — the drawer ticks the map that gets applied", () => {
+    // The chrome/panel used to take the first entry of the mode while basemapForTheme preferred the
+    // vector one, so the drawer ticked one basemap and the map drew another.
+    expect(basemapForThemeFrom(OPEN_BASEMAPS, "dark")).toBe(basemapForTheme("dark"));
+    expect(basemapForThemeFrom(OPEN_BASEMAPS, "light")).toBe(basemapForTheme("light"));
+  });
+
+  it("basemapForThemeFrom resolves against an app's own basemap library", () => {
+    const library = [
+      { id: "house-light", title: "House light", templateUrl: "https://t/{z}/{x}/{y}.png", mode: "light" as const },
+      { id: "house-dark", title: "House dark", templateUrl: "https://t/d/{z}/{x}/{y}.png", mode: "dark" as const },
+    ];
+    expect(basemapForThemeFrom(library, "dark")?.id).toBe("house-dark");
+    // No mode to follow, and no entry of that mode: the library's first entry stands in rather than
+    // the panel ticking nothing.
+    expect(basemapForThemeFrom(library, undefined)?.id).toBe("house-light");
+    expect(basemapForThemeFrom([library[0]], "dark")?.id).toBe("house-light");
+    expect(basemapForThemeFrom([], "dark")).toBeUndefined();
   });
 });
 
@@ -98,7 +175,8 @@ describe("prepareVectorBasemap", () => {
 describe("applyBaseMap", () => {
   it("raster: adds a raster source + layer beneath the first operational layer", () => {
     const map = fakeMap([{ id: "lyr:cities" }]);
-    applyBaseMap(map, defaultBaseMap());
+    // The DEFAULT is a GL style now, so the raster path is driven from the raster gallery.
+    applyBaseMap(map, baseMapFromPreset(RASTER_BASEMAPS[0]));
     expect(map._sources["basemap:osm"]).toMatchObject({ type: "raster", tileSize: 256 });
     expect(map._sources["basemap:osm"].tiles[0]).toBe("https://tile.openstreetmap.org/{z}/{x}/{y}.png");
     const call = map._calls.addLayer[0];
@@ -108,10 +186,10 @@ describe("applyBaseMap", () => {
 
   it("removes a previous basemap before applying a new one", () => {
     const map = fakeMap([{ id: "lyr:cities" }]);
-    applyBaseMap(map, defaultBaseMap());
-    applyBaseMap(map, baseMapFromPreset(OPEN_BASEMAPS[1])); // carto-positron raster
+    applyBaseMap(map, baseMapFromPreset(RASTER_BASEMAPS[0]));       // osm raster
+    applyBaseMap(map, baseMapFromPreset(RASTER_BASEMAPS[1]));       // opentopomap raster
     expect(map._sources["basemap:osm"]).toBeUndefined();
-    expect(map._sources["basemap:carto-positron"]).toBeTruthy();
+    expect(map._sources["basemap:opentopomap"]).toBeTruthy();
   });
 
   it("vector: fetches the GL style and injects namespaced layers below operational layers", async () => {
@@ -134,5 +212,36 @@ describe("applyBaseMap", () => {
     const injected = map._calls.addLayer.find((c) => c.layer.id === "basemap:water");
     expect(injected).toBeTruthy();
     expect(injected.beforeId).toBe("lyr:cities");
+  });
+
+  it("drops a vector style that lost the race — a fast theme flip cannot resurrect the old basemap", async () => {
+    // `clearBasemap` is synchronous but the style fetch is not, so a light↔dark flip could let the
+    // superseded style resolve last and paint itself over the basemap that won.
+    const loser = { sources: { old: { type: "vector" } }, layers: [{ id: "old", type: "fill", source: "old" }] };
+    const winner = { sources: { new: { type: "vector" } }, layers: [{ id: "new", type: "fill", source: "new" }] };
+    let releaseLoser: (v: unknown) => void = () => {};
+    const loserJson = new Promise((r) => {
+      releaseLoser = r;
+    });
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((url: string) =>
+        Promise.resolve({
+          ok: true,
+          json: () => (String(url).includes("dark") ? loserJson : Promise.resolve(winner)),
+        }),
+      ),
+    );
+
+    const map = fakeMap([{ id: "lyr:cities" }]);
+    applyBaseMap(map, defaultVectorBaseMap("dark")); // in flight…
+    applyBaseMap(map, defaultVectorBaseMap("light")); // …superseded here
+    await new Promise((r) => setTimeout(r, 0));
+    releaseLoser(loser); // the loser resolves last
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(map._sources["basemap:new"]).toBeTruthy();
+    expect(map._sources["basemap:old"]).toBeUndefined();
+    expect(map._layers().some((l) => l.id === "basemap:old")).toBe(false);
   });
 });

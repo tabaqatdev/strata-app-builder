@@ -77,6 +77,10 @@ selections and flashes from other widgets light up on it. Controls layered on th
   `definitionExpression` on the renderer's own field and applies it in place, because a legend row
   **filters, it does not fade** — a faded class is still clickable, so a "hidden" feature can be
   selected through it. Counts keep their denominator (`8,340 of 12,728`).
+  It **reads the store**, so showing/hiding a layer anywhere — the layer panel, the map-controls
+  drawer — adds or drops it from the legend in the same frame; and it lists **every visible layer**,
+  giving one whose symbology belongs to the service a neutral swatch and its title rather than
+  omitting it, because an absent row reads as an absent layer.
 - **Measure** (distance/area) and **Sketch** (point/line/polygon) — revert to *identify* when closed.
 - **TimeSlider** — play/pause a `definitionExpression` on a time field.
 - **Identify → popup** — a click enriches the top/active feature and shows its `popupInfo`.
@@ -101,8 +105,8 @@ returns to what the app authored.
 
 | Panel | Purpose |
 |---|---|
-| **LayerPanel** | **One-line rows** (drag-reorder, visibility toggle) + a `⋯`/right-click **context menu**: Show table · Zoom · **Filter…** · **Symbology…** · **Popup…** · Rename · Show metadata · Remove. Add-from-URL header button. |
-| **BasemapPanel** | Switch basemaps (genuine ESRI `BaseMap`) — a **radiogroup**: one is always in force and always ticked, each row carrying a **live tile of the current area in that style** (a colour swatch cannot tell Positron from Voyager) and an optional **Follow the theme** row. Plus a **Manage** pill: add / remove / **set-default**, persisted to the map spec via `onLibraryChange`. |
+| **LayerPanel** | **One-line rows** (drag-reorder, visibility toggle) each carrying the layer's **own symbology** — one swatch for a single-class renderer, a class stack plus an `N ▸` that expands the full class list for `uniqueValue`/`classBreaks` — drawn from the same `legendRows()` the Legend reads, so the two surfaces cannot disagree. Then a `⋯`/right-click **context menu**: Show table · Zoom · **Filter…** · **Symbology…** · **Popup…** · Rename · Show metadata · Remove. Add-from-URL header button. |
+| **BasemapPanel** | Switch basemaps (genuine ESRI `BaseMap`) — a **radiogroup**: one is always in force and always ticked, each row carrying a **live tile of the current area in that style** (a colour swatch cannot tell Positron from Voyager) and a **Follow the theme** row (on by default; it reads the app's theme mode). Plus a **Manage** pill: add / remove / **set-default**, persisted to the map spec via `onLibraryChange`. |
 | **AttributeTablePanel** | Sortable table: header filters, column show/hide, **CSV / TSV / JSON / GeoJSON export**, **server paging**, auto **row-windowing**. A row click **adopts** that record — the map flies to it and opens its popup; **clicking it again releases it**, clearing the selection and closing the popup. Emits `rowSelect` (an empty `oids` **is** the release). |
 | **ChartPanel** | Bar/line/pie via **ECharts** (optional) or an SVG fallback; **clicking a category cross-filters** (emits `categorySelect`). |
 | **CartoPanel** | CARTO-style layer list + cross-filter widgets (category/formula/histogram/time). Emits `categorySelect`. |
@@ -131,7 +135,8 @@ regions and an app `splash`. Widgets (registry `type`), grouped by what they do:
 - **Data viz** — `kpi`, `gauge`, `sparkline`, `stacked-bar`, `chart`, `table`.
 - **Map tools** — `legend`, `layer-panel`, `basemap` (gallery), `carto`, `status-bar`, `filter`,
   `date-filter`, `query`, `feature-info`, `data-actions`.
-- **App chrome / interactivity** — `theme-switch`, `lang-switch`, `share`, `bookmarks`, `swipe`,
+- **App chrome / interactivity** — `theme-switch` (light↔dark; **the basemap follows it**),
+  `lang-switch`, `share`, `bookmarks`, `swipe`,
   **`controller`** (a tool dock that shows/hides panels), `placeholder` (design-time slot).
 - **Analysis** — `analysis` (a shell over the Turf ops), `near-me` (proximity), `add-data` (runtime layer
   add → "explorer" apps), `weighted-overlay` (suitability sliders), `elevation` (drawn-line profile).

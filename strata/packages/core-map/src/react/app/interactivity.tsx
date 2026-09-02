@@ -27,6 +27,17 @@ export interface StrataAppEnv {
   navigateToPage?: (pageId: string) => void;
   /** Live maplibre maps by widget id (Phase 7) — lets sibling map-tool widgets reach a `map` widget. */
   maps?: MapRegistry;
+  /**
+   * The app's **resolved** theme mode (`"auto"` already resolved against the OS preference), or
+   * undefined when the app's theme does not declare one and nothing has switched it. This is what
+   * "Follow the theme" follows: the map chrome ticks against it and the basemap swaps with it.
+   */
+  themeMode?: "light" | "dark";
+  /**
+   * Report a new theme mode to the app (the `theme-switch` widget calls this). Without it a switcher
+   * would repaint the UI while the map kept the old mode's basemap — the two would disagree.
+   */
+  setThemeMode?: (mode: "light" | "dark") => void;
 }
 
 /** A registry of live maplibre `Map` instances keyed by the `map` widget's id (see `useMapInstance`). */

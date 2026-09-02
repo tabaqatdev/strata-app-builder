@@ -13,12 +13,16 @@ Steps:
    - Pull the service's `drawingInfo` into `layerDefinition.drawingInfo` and `fields` into `layerDefinition.fields`.
 2. Set `spatialReference` to `{ "wkid": 4326 }` and `initialState.viewpoint.targetGeometry` to the
    combined extent of the layers (or `--extent`), as an ESRI extent envelope.
-3. Set `baseMap.baseMapLayers`. Default to an **open-source, keyless** basemap. Prefer a **vector** basemap
-   from `@strata/core-map` `VECTOR_BASEMAPS` (OpenFreeMap · CARTO GL · Versatiles — crisp at every zoom) and
-   **match it to the app theme**: for a dark UI use a dark vector style (`basemapForTheme("dark")` →
-   CARTO Dark Matter / Versatiles Eclipse), for a light UI a light one. `baseMapFromPreset(basemapForTheme(mode))`
-   builds the ESRI `BaseMap` (a `VectorTileLayer` with `styleUrl`). Raster `OPEN_BASEMAPS` (OSM first) remain
-   the safe fallback. Only use `--basemap` to override; never default to a proprietary/keyed provider.
+3. Set `baseMap.baseMapLayers`. Default to an **open-source, keyless** basemap, and prefer a **vector** one
+   from `@strata/core-map` `VECTOR_BASEMAPS` (OpenFreeMap · Versatiles · CARTO GL — crisp at every zoom, and
+   the only form with a real dark half). **Match it to the app theme**: for a dark UI use a dark vector style
+   (`basemapForTheme("dark")` → OpenFreeMap Dark / Versatiles Eclipse), for a light UI a light one.
+   `baseMapFromPreset(basemapForTheme(mode))` builds the ESRI `BaseMap` (a `VectorTileLayer` with `styleUrl`).
+   `RASTER_BASEMAPS` (OSM, OpenTopoMap) are offered but are **not** a safe default: both answer HTTP 200 with
+   a placeholder to a client they judge outside their usage policy. Only use `--basemap` to override; never
+   default to a proprietary/keyed provider.
+   What you write here is the **authored** basemap: it wins on mount, and the app swaps to the paired
+   basemap only when the reader actually changes theme mode.
 4. If `--preset` is given, add a `strata:extensions.layout` hint (`preset`, `surfaces`).
 5. Validate against `strata/packages/schema/src/layers.schema.json`. Write `layers.json` and show the result.
 

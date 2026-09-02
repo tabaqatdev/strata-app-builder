@@ -15,8 +15,9 @@
  * On-map controls (navigation/geolocate/fullscreen/scale/measure/sketch/legend) are opted-in via the
  * `controls` prop and mounted once the map is ready.
  */
-import React, { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useStrataAppEnv } from "./app/interactivity.js";
+import { useStoreLayers } from "./useStoreLayers.js";
 import type { LayersJson, OperationalLayer } from "@strata/schema";
 import type { StrataStore, InteractionMode } from "@strata/state";
 import type { ActionBus } from "@strata/actions";
@@ -82,6 +83,11 @@ export interface StrataMapProps {
    */
   bus?: ActionBus;
   controls?: StrataMapControls;
+  /**
+   * The app's theme mode, for the basemap drawer's "Follow the theme" row. Inside a `<StrataApp>` the
+   * mode is read from the app automatically; set this only when embedding the map on its own.
+   */
+  themeMode?: "light" | "dark";
   dataClient?: DataClient;
   glyphs?: string;
   rtlTextPluginUrl?: string;
@@ -249,6 +255,7 @@ export function StrataMap(props: StrataMapProps): React.ReactElement {
           maplibregl={maplibregl}
           store={store}
           controls={controls}
+          themeMode={props.themeMode}
           configLayers={config.operationalLayers}
         />
       )}
@@ -262,11 +269,14 @@ function StrataControls(props: {
   maplibregl: any;
   store?: StrataStore;
   controls: StrataMapControls;
+  /** Explicit theme mode; both basemap surfaces fall back to the app's own when this is absent. */
+  themeMode?: "light" | "dark";
   configLayers: OperationalLayer[];
 }): React.ReactElement {
   const { map, maplibregl, store, controls, configLayers } = props;
-  // Legend must react to layer changes when store-driven; fall back to the static config otherwise.
-  const layers = useStoreLayers(store, configLayers);
+  // Legend/chrome must react to layer changes when store-driven; fall back to the static config only
+  // when there is no store to follow.
+  const layers = useStoreLayers(store, store ? undefined : configLayers);
   const [legendOn, setLegendOn] = React.useState(true);
 
   // The house chrome: ONE 32px cluster carrying zoom · fit · layers · basemap · legend, with a
@@ -283,6 +293,7 @@ function StrataControls(props: {
           store={store}
           layers={layers}
           position={controls.position === "top-left" ? "top-left" : "top-right"}
+          themeMode={props.themeMode}
           showLegend={legendOn}
           onToggleLegend={controls.legend ? setLegendOn : undefined}
           onFit={() => map?.fitBounds?.(fullExtentOf(layers) ?? undefined)}
@@ -324,7 +335,7 @@ function StrataControls(props: {
       )}
       {controls.basemapSwitcher && store && !cluster && (
         <div style={basemapBoxStyle}>
-          <BasemapPanel store={store} map={map} />
+          <BasemapPanel store={store} map={map} themeMode={props.themeMode} />
         </div>
       )}
     </>
@@ -346,15 +357,6 @@ function fullExtentOf(layers: OperationalLayer[]): [[number, number], [number, n
       : [e.xmin, e.ymin, e.xmax, e.ymax];
   }
   return box ? [[box[0], box[1]], [box[2], box[3]]] : undefined;
-}
-
-/** Subscribe to the store's operational layers (for reactive controls), else use static config. */
-function useStoreLayers(store: StrataStore | undefined, fallback: OperationalLayer[]): OperationalLayer[] {
-  return useSyncExternalStore(
-    (cb) => (store ? store.subscribe(cb) : () => {}),
-    () => (store ? store.getState().layers : fallback),
-    () => (store ? store.getState().layers : fallback),
-  );
 }
 
 /** Set the canvas cursor to match the interaction mode. */

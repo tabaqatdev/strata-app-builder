@@ -18,13 +18,14 @@
     }
   },
   "baseMap": {
-    "title": "OpenStreetMap",
+    "title": "OpenFreeMap Positron",
     "baseMapLayers": [
       {
-        "id": "osm",
-        "layerType": "WebTiledLayer",
-        "templateUrl": "https://tile.openstreetmap.org/{level}/{col}/{row}.png",
-        "copyright": "© OpenStreetMap contributors"
+        "id": "ofm-positron",
+        "title": "OpenFreeMap Positron",
+        "layerType": "VectorTileLayer",
+        "styleUrl": "https://tiles.openfreemap.org/styles/positron",
+        "copyright": "© OpenStreetMap contributors · OpenFreeMap"
       }
     ]
   },
@@ -39,7 +40,7 @@
         "url": "https://services2.arcgis.com/ZQ4jTQn6k7VPXEwO/ArcGIS/rest/services/World_Countries/FeatureServer/0/0"
       },
       "visibility": true,
-      "opacity": 1.0,
+      "opacity": 1,
       "layerDefinition": {
         "drawingInfo": {
           "renderer": {
@@ -4972,7 +4973,7 @@
         "url": "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Cities/FeatureServer/0"
       },
       "visibility": true,
-      "opacity": 1.0,
+      "opacity": 1,
       "layerDefinition": {
         "drawingInfo": {
           "renderer": {
@@ -5049,7 +5050,7 @@
         "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_airports.geojson"
       },
       "visibility": true,
-      "opacity": 1.0,
+      "opacity": 1,
       "layerDefinition": {
         "drawingInfo": {
           "renderer": {

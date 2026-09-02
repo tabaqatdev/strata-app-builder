@@ -417,6 +417,20 @@ export interface ThemeSpec {
   fonts?: { family?: string; mono?: string; scale?: "compact" | "default" | "spacious" };
   variables?: Record<string, string>;
   overrides?: Record<string, Record<string, string>>;
+  /**
+   * How the **map** follows the theme. On by default: switching light↔dark (via a `theme-switch`, or
+   * via the OS preference under `mode:"auto"`) swaps the basemap to the paired one, so a light UI is
+   * never left sitting on a dark map.
+   *
+   * The basemap authored in `layers.json` **wins on mount** — the swap happens on a *change* of mode,
+   * never on first paint, so an authored choice is never silently discarded. An explicit pick in the
+   * basemap drawer/panel also turns following off for the session.
+   *
+   *  - `follow:false` — pin the authored basemap; the theme never touches it.
+   *  - `light`/`dark` — basemap ids to use for each mode instead of the paired defaults. Ids name
+   *    entries of the built-in open library (`OPEN_BASEMAPS`), e.g. `"openfreemap-positron"`.
+   */
+  basemap?: { follow?: boolean; light?: string; dark?: string };
 }
 
 /** The declarative app layout rendered by `<StrataApp>`. References `LayersJson` by `layerId`. */

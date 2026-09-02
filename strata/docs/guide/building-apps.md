@@ -104,7 +104,9 @@ would be self-defeating. No sample data, no mock rows, no plausible placeholder.
 
 **No write path.** Reads only, so the app runs identically on Strata and on ArcGIS.
 
-**Keyless basemaps only** — OSM / CARTO raster. EPSG:4326 everywhere.
+**Keyless basemaps only** — the OpenFreeMap / Versatiles vector styles first, raster OSM / OpenTopoMap
+behind them. EPSG:4326 everywhere. "Keyless" is asserted as a *behaviour*, never as a URL pattern: a gated
+host answers HTTP 200 with a placeholder that every URL-shaped check calls healthy.
 
 ---
 

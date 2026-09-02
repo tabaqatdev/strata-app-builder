@@ -67,6 +67,10 @@ Layers labelled with their real state — *off* · *N in view* · *none in this 
 
 **Theme.** One `--strata-*` token set; both modes clear **4.5:1** on every informational state, measured
 rather than eyeballed. Data colours identical in both themes. Semantic roles carry meaning, not emphasis.
+**The map is part of the theme, not a picture inside it** — flipping light↔dark swaps the basemap to its
+pair, automatically; a light UI on a dark basemap is the mismatch every reader notices first. Set the
+`theme-switch`'s `initial` to the app's own `theme.mode` so they agree at load, and let the authored
+basemap stand until the reader actually changes mode (`theme.basemap` to pin or opt out).
 
 **Non-negotiable regardless of business need:** keyless basemaps · EPSG:4326 · verified field names only ·
 nothing fabricated · read-only unless the recipe names a writable authenticated backend. These are not
@@ -204,7 +208,8 @@ power is the wiring matrix, not the vocabulary. Rules:
 - Differentiate sibling apps with the *secondary levers*: dark vs light, header vs headerless, floating
   rounded cards vs flush docked panels, boxed vs full-bleed map — not by inventing new component styles.
 - Numbers use tabular numerals; KPIs get big and few (3–5, not 9).
-- Basemaps are the keyless open set (OSM · CARTO Positron/Voyager/Dark · OpenTopoMap). Never default to a
+- Basemaps are the keyless open set — **vector first**: OpenFreeMap Positron/Dark/Liberty · Versatiles
+  Colorful/Eclipse · CARTO GL, then raster OSM · OpenTopoMap. Never default to a
   keyed provider.
 
 ## 6 · Complexity tiers

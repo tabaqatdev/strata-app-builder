@@ -18,6 +18,13 @@
  *   - Show metadata → `onShowMetadata` (else opens the service URL)
  *   - Remove layer  → `store.removeLayer`
  *
+ * **Each row carries the layer's actual symbology**, not a generic layer glyph. A single-class
+ * renderer shows its one swatch inline; a `uniqueValue`/`classBreaks` renderer shows a stack of its
+ * first few class colours plus a `▾` that expands the full class list under the row. A layer list
+ * that cannot tell you what a layer looks like sends the reader to the legend to find out which of
+ * five polygon layers is the blue one — and the swatches come from the same `legendRows()` the
+ * Legend uses, so the two surfaces can never disagree.
+ *
  * Layout: renders inside a PanelShell, so it can be `mode="fixed"` (docked, default) or `mode="floating"`.
  */
 import React, { useSyncExternalStore, useState } from "react";
@@ -25,6 +32,7 @@ import { createPortal } from "react-dom";
 import type { OperationalLayer } from "@strata/schema";
 import type { StrataStore } from "@strata/state";
 import { PanelShell, type PanelMode } from "./PanelShell.js";
+import { legendRows, Swatch, shapeForGeometryType, type LegendRow } from "../controls/Legend.js";
 
 export interface LayerPanelProps {
   /** The vanilla Zustand store (from `createStrataStore()`). */
@@ -71,8 +79,9 @@ function layerUrl(layer: OperationalLayer): string | undefined {
   return layer.url ?? layer.source?.url;
 }
 
-const LAYER_ICON = "▤";
 const TABLE_ICON = "▦";
+/** How many class swatches sit inline on a row before the rest go behind the expander. */
+const INLINE_SWATCHES = 3;
 
 function useLayers(store: StrataStore): OperationalLayer[] {
   return useSyncExternalStore(store.subscribe, () => store.getState().layers, () => store.getState().layers);
@@ -108,6 +117,8 @@ export function LayerPanel(props: LayerPanelProps): React.ReactElement {
   const [addError, setAddError] = useState<string | null>(null);
   const [dragId, setDragId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
+  // Which layers have their full class list expanded under the row.
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const actions = store.getState();
 
@@ -229,11 +240,13 @@ export function LayerPanel(props: LayerPanelProps): React.ReactElement {
           const visible = layer.visibility !== false;
           const isTable = layer.source?.kind === "strata" && !layer.url;
           const isDragOver = dragOverId === layer.id && dragId !== layer.id;
+          const classes = symbologyRows(layer);
+          const isOpen = !!expanded[layer.id];
           return (
             <li key={layer.id} draggable={renaming !== layer.id} aria-current={active ? "true" : undefined}
               title={layer.title}
               style={{
-                ...rowStyle,
+                ...itemStyle,
                 ...(selected ? selectedRowStyle : null),
                 ...(active ? activeRowStyle : null),
                 ...(isDragOver ? dragOverStyle : null),
@@ -247,22 +260,53 @@ export function LayerPanel(props: LayerPanelProps): React.ReactElement {
               onDrop={(e) => { e.preventDefault(); const s = dragId ?? e.dataTransfer.getData("text/plain"); if (s) reorderTo(s, layer.id); setDragId(null); setDragOverId(null); }}
               onDragEnd={() => { setDragId(null); setDragOverId(null); }}
             >
-              <span style={dragHandleStyle} title="Drag to reorder" aria-hidden>⠿</span>
-              <input type="checkbox" aria-label={`Toggle ${layer.title}`} checked={visible}
-                onClick={(e) => e.stopPropagation()}
-                onChange={(e) => actions.setVisibility(layer.id, e.target.checked)} />
-              <span style={typeIconStyle} aria-hidden>{isTable ? TABLE_ICON : LAYER_ICON}</span>
-              {renaming === layer.id ? (
-                <input autoFocus value={draftTitle} style={renameInputStyle}
+              <div style={rowStyle}>
+                <span style={dragHandleStyle} title="Drag to reorder" aria-hidden>⠿</span>
+                <input type="checkbox" aria-label={`Toggle ${layer.title}`} checked={visible}
                   onClick={(e) => e.stopPropagation()}
-                  onChange={(e) => setDraftTitle(e.target.value)}
-                  onBlur={() => commitRename(layer.id)}
-                  onKeyDown={(e) => { if (e.key === "Enter") commitRename(layer.id); if (e.key === "Escape") { setRenaming(null); setDraftTitle(""); } }} />
-              ) : (
-                <span style={titleStyle}>{layer.title}</span>
+                  onChange={(e) => actions.setVisibility(layer.id, e.target.checked)} />
+                {/* The layer's own symbology — a table has none to show, so it keeps its glyph. */}
+                {isTable ? (
+                  <span style={typeIconStyle} aria-hidden>{TABLE_ICON}</span>
+                ) : (
+                  <span style={swatchStackStyle} data-strata-symbology={layer.id}
+                    title={classes.map((c) => c.label).join(" · ")} aria-hidden>
+                    {classes.slice(0, INLINE_SWATCHES).map((c, i) => (
+                      <Swatch key={i} color={c.swatch} shape={c.shape} />
+                    ))}
+                  </span>
+                )}
+                {renaming === layer.id ? (
+                  <input autoFocus value={draftTitle} style={renameInputStyle}
+                    onClick={(e) => e.stopPropagation()}
+                    onChange={(e) => setDraftTitle(e.target.value)}
+                    onBlur={() => commitRename(layer.id)}
+                    onKeyDown={(e) => { if (e.key === "Enter") commitRename(layer.id); if (e.key === "Escape") { setRenaming(null); setDraftTitle(""); } }} />
+                ) : (
+                  <span style={titleStyle}>{layer.title}</span>
+                )}
+                {/* More classes than fit inline: say how many, and let the row open to show them all. */}
+                {classes.length > 1 && (
+                  <button style={expandBtnStyle} aria-expanded={isOpen}
+                    title={`${classes.length} symbology classes`}
+                    aria-label={`${isOpen ? "Hide" : "Show"} the ${classes.length} symbology classes for ${layer.title}`}
+                    onClick={(e) => { e.stopPropagation(); setExpanded((s) => ({ ...s, [layer.id]: !isOpen })); }}>
+                    {classes.length}&nbsp;{isOpen ? "▾" : "▸"}
+                  </button>
+                )}
+                <button style={btnStyle} title="Layer actions" aria-label={`Actions for ${layer.title}`}
+                  onClick={(e) => { e.stopPropagation(); const r = e.currentTarget.getBoundingClientRect(); openMenu(layer.id, r.right, r.bottom + 2); }}>⋯</button>
+              </div>
+              {isOpen && classes.length > 1 && (
+                <ul style={classListStyle} onClick={(e) => e.stopPropagation()}>
+                  {classes.map((c, i) => (
+                    <li key={i} style={classRowStyle}>
+                      <Swatch color={c.swatch} shape={c.shape} />
+                      <span style={classLabelStyle}>{c.label}</span>
+                    </li>
+                  ))}
+                </ul>
               )}
-              <button style={btnStyle} title="Layer actions" aria-label={`Actions for ${layer.title}`}
-                onClick={(e) => { e.stopPropagation(); const r = e.currentTarget.getBoundingClientRect(); openMenu(layer.id, r.right, r.bottom + 2); }}>⋯</button>
             </li>
           );
         })}
@@ -296,14 +340,52 @@ export function LayerPanel(props: LayerPanelProps): React.ReactElement {
   );
 }
 
+/**
+ * The symbology classes for a row, from the same `legendRows()` the Legend reads — so the panel and
+ * the legend can never show a layer in two different colours.
+ *
+ * A layer with no legendable renderer (the service owns its symbology) still gets one neutral
+ * swatch: the row has to show *something* where every other row shows a colour, or the list reads
+ * as ragged rather than as "this one is styled elsewhere".
+ */
+function symbologyRows(layer: OperationalLayer): LegendRow[] {
+  const rows = legendRows(layer);
+  if (rows.length) return rows;
+  return [{
+    label: layer.title || layer.id,
+    swatch: "rgba(140,148,160,.55)",
+    shape: shapeForGeometryType((layer.layerDefinition as any)?.geometryType),
+    unstyled: true,
+  }];
+}
+
 export default LayerPanel;
 
 // --- inline styles (dependency-light; swap for your design system) ---------
 const emptyStyle: React.CSSProperties = { padding: 12, color: "#888" };
 const listStyle: React.CSSProperties = { listStyle: "none", margin: 0, padding: 0 };
+// The <li> is the drop target and stacks the row above its (optional) class list.
+const itemStyle: React.CSSProperties = {
+  display: "flex", flexDirection: "column", borderBottom: "1px solid #f2f2f2", cursor: "pointer",
+};
 const rowStyle: React.CSSProperties = {
-  display: "flex", alignItems: "center", gap: 8,
-  padding: "6px 10px", borderBottom: "1px solid #f2f2f2", cursor: "pointer", height: 34,
+  display: "flex", alignItems: "center", gap: 8, padding: "6px 10px", height: 34,
+};
+const swatchStackStyle: React.CSSProperties = {
+  display: "inline-flex", alignItems: "center", gap: 2, flex: "0 0 auto",
+};
+const expandBtnStyle: React.CSSProperties = {
+  font: "11px system-ui, sans-serif", height: 20, padding: "0 5px",
+  border: "1px solid #e2e2e2", borderRadius: 4, background: "#fafafa", color: "#6b7280",
+  cursor: "pointer", flex: "0 0 auto", whiteSpace: "nowrap",
+};
+const classListStyle: React.CSSProperties = {
+  listStyle: "none", margin: 0, padding: "2px 10px 7px 46px", display: "flex",
+  flexDirection: "column", gap: 3, cursor: "default",
+};
+const classRowStyle: React.CSSProperties = { display: "flex", alignItems: "center", gap: 7 };
+const classLabelStyle: React.CSSProperties = {
+  fontSize: 11.5, color: "#4b5563", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
 };
 const selectedRowStyle: React.CSSProperties = { background: "#eef5ff" };
 const activeRowStyle: React.CSSProperties = { background: "#e6f0ff", boxShadow: "inset 3px 0 0 #2b6cb0" };

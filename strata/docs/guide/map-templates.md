@@ -29,9 +29,10 @@ Each file is genuine **ESRI Web Map JSON** — the same contract `<StrataMap>` r
   (name, region, population, …), with a thousands separator on population fields.
 - **Points use `esriSMSCircle` / `esriSMSSquare` markers** — never `esriSMSPath` (a known trap; custom-path
   markers don't render).
-- **The basemap is OpenStreetMap** — open-source and keyless, the first choice everywhere in strata-app-builder.
-  Because the pastel fills are 80% transparent they tint OSM lightly; to make them pop, switch to **CARTO
-  Positron (Light)** in the Basemap panel (one of the `OPEN_BASEMAPS` presets).
+- **The basemap is OpenFreeMap Positron** — a keyless GL style over OpenStreetMap data, the first choice
+  everywhere in strata-app-builder. Because the pastel fills are 80% transparent they tint a pale ground
+  lightly; to make them pop, switch to **Versatiles Colorful** or **OpenFreeMap Liberty** in the Basemap
+  panel (both `OPEN_BASEMAPS` presets).
 
 ## Data sources
 

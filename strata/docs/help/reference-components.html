@@ -236,7 +236,11 @@ selections and flashes from other widgets light up on it. Controls layered on th
   click a class to hide it · shift-click to isolate · <code>Esc</code> clears. Hiding builds a real
   <code>definitionExpression</code> on the renderer's own field and applies it in place, because a legend row
   <strong>filters, it does not fade</strong> — a faded class is still clickable, so a "hidden" feature can be
-  selected through it. Counts keep their denominator (<code>8,340 of 12,728</code>).</li>
+  selected through it. Counts keep their denominator (<code>8,340 of 12,728</code>).
+  It <strong>reads the store</strong>, so showing/hiding a layer anywhere — the layer panel, the map-controls
+  drawer — adds or drops it from the legend in the same frame; and it lists <strong>every visible layer</strong>,
+  giving one whose symbology belongs to the service a neutral swatch and its title rather than
+  omitting it, because an absent row reads as an absent layer.</li>
 <li><strong>Measure</strong> (distance/area) and <strong>Sketch</strong> (point/line/polygon) — revert to <em>identify</em> when closed.</li>
 <li><strong>TimeSlider</strong> — play/pause a <code>definitionExpression</code> on a time field.</li>
 <li><strong>Identify → popup</strong> — a click enriches the top/active feature and shows its <code>popupInfo</code>.</li>
@@ -265,11 +269,11 @@ returns to what the app authored.</p>
 <tbody>
 <tr>
 <td><strong>LayerPanel</strong></td>
-<td><strong>One-line rows</strong> (drag-reorder, visibility toggle) + a <code>⋯</code>/right-click <strong>context menu</strong>: Show table · Zoom · <strong>Filter…</strong> · <strong>Symbology…</strong> · <strong>Popup…</strong> · Rename · Show metadata · Remove. Add-from-URL header button.</td>
+<td><strong>One-line rows</strong> (drag-reorder, visibility toggle) each carrying the layer's <strong>own symbology</strong> — one swatch for a single-class renderer, a class stack plus an <code>N ▸</code> that expands the full class list for <code>uniqueValue</code>/<code>classBreaks</code> — drawn from the same <code>legendRows()</code> the Legend reads, so the two surfaces cannot disagree. Then a <code>⋯</code>/right-click <strong>context menu</strong>: Show table · Zoom · <strong>Filter…</strong> · <strong>Symbology…</strong> · <strong>Popup…</strong> · Rename · Show metadata · Remove. Add-from-URL header button.</td>
 </tr>
 <tr>
 <td><strong>BasemapPanel</strong></td>
-<td>Switch basemaps (genuine ESRI <code>BaseMap</code>) — a <strong>radiogroup</strong>: one is always in force and always ticked, each row carrying a <strong>live tile of the current area in that style</strong> (a colour swatch cannot tell Positron from Voyager) and an optional <strong>Follow the theme</strong> row. Plus a <strong>Manage</strong> pill: add / remove / <strong>set-default</strong>, persisted to the map spec via <code>onLibraryChange</code>.</td>
+<td>Switch basemaps (genuine ESRI <code>BaseMap</code>) — a <strong>radiogroup</strong>: one is always in force and always ticked, each row carrying a <strong>live tile of the current area in that style</strong> (a colour swatch cannot tell Positron from Voyager) and a <strong>Follow the theme</strong> row (on by default; it reads the app's theme mode). Plus a <strong>Manage</strong> pill: add / remove / <strong>set-default</strong>, persisted to the map spec via <code>onLibraryChange</code>.</td>
 </tr>
 <tr>
 <td><strong>AttributeTablePanel</strong></td>
@@ -328,7 +332,8 @@ regions and an app <code>splash</code>. Widgets (registry <code>type</code>), gr
 <li><strong>Data viz</strong> — <code>kpi</code>, <code>gauge</code>, <code>sparkline</code>, <code>stacked-bar</code>, <code>chart</code>, <code>table</code>.</li>
 <li><strong>Map tools</strong> — <code>legend</code>, <code>layer-panel</code>, <code>basemap</code> (gallery), <code>carto</code>, <code>status-bar</code>, <code>filter</code>,
   <code>date-filter</code>, <code>query</code>, <code>feature-info</code>, <code>data-actions</code>.</li>
-<li><strong>App chrome / interactivity</strong> — <code>theme-switch</code>, <code>lang-switch</code>, <code>share</code>, <code>bookmarks</code>, <code>swipe</code>,
+<li><strong>App chrome / interactivity</strong> — <code>theme-switch</code> (light↔dark; <strong>the basemap follows it</strong>),
+  <code>lang-switch</code>, <code>share</code>, <code>bookmarks</code>, <code>swipe</code>,
   <strong><code>controller</code></strong> (a tool dock that shows/hides panels), <code>placeholder</code> (design-time slot).</li>
 <li><strong>Analysis</strong> — <code>analysis</code> (a shell over the Turf ops), <code>near-me</code> (proximity), <code>add-data</code> (runtime layer
   add → "explorer" apps), <code>weighted-overlay</code> (suitability sliders), <code>elevation</code> (drawn-line profile).</li>

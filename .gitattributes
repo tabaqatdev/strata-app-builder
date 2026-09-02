@@ -1,0 +1,19 @@
+# Line endings are LF in the repository and LF in every working tree.
+# Without this, a Windows clone (core.autocrlf=true) checks files out as CRLF and
+# every later commit carries line-ending noise in the JSON and Markdown diffs.
+* text=auto eol=lf
+
+# Binary assets — never touched, never diffed as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.parquet binary
+
+# Generated help site — collapsed in review; the Markdown under strata/docs is the source.
+strata/docs/help/*.html linguist-generated=true

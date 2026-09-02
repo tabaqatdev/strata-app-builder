@@ -31,9 +31,12 @@ Two kinds of file live here:
 - **`OBJECTID` is never shown in popups** — each layer defines a `popupInfo` that lists only meaningful
   fields (name, region, population, …). Population fields use a thousands separator.
 - Points use `esriSMSCircle`/`esriSMSSquare` markers (never `esriSMSPath`). The default basemap is
-  **OpenStreetMap** (open-source, keyless — the first choice everywhere in strata-app-builder). Because the pastel
-  fills are 80% transparent they tint OSM lightly; to make them pop, switch to **CARTO Positron (Light)** in
-  the Basemap panel (one of the `OPEN_BASEMAPS` presets).
+  **OpenFreeMap Positron** — a keyless GL style over OpenStreetMap data, the first choice everywhere in
+  strata-app-builder. Because the pastel fills are 80% transparent they tint a pale ground lightly; to make
+  them pop, switch to **Versatiles Colorful** or **OpenFreeMap Liberty** in the Basemap panel (both
+  `OPEN_BASEMAPS` presets). These starters opened on raster OpenStreetMap until 2026-09-01; that host now
+  answers HTTP 200 with an *"Access blocked"* image to a client outside its usage policy, which would have
+  made the greeting map — whose whole job is to prove the setup works — arrive as a placeholder.
 
 ## Data sources
 - **World Countries** — `services2.arcgis.com/ZQ4jTQn6k7VPXEwO/.../World_Countries/FeatureServer/0` (as requested).
