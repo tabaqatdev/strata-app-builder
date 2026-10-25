@@ -89,3 +89,6 @@ export type {
   ElevationProfileProps,
   ElevationSample,
 } from "./AnalysisWidgets.js";
+
+export { UploadWidget } from "./UploadWidget.js";
+export type { UploadWidgetProps } from "./UploadWidget.js";

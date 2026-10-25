@@ -14,8 +14,10 @@ Start here, then dive in:
   run, and the build workflow.
 - **`/new-app`** — guided wizard: interview → scaffold → install. **`/guide`** — decide. **`/help`** — look
   up. **`/what-can-i-do`** — full capability list.
-- Basemaps default to **open-source, OpenStreetMap data first** (keyless — OpenFreeMap · Versatiles ·
-  CARTO GL, then raster OSM · OpenTopoMap). A new map opens on OpenFreeMap Positron.
+- Basemaps default to **open-source, OpenStreetMap data first** — one keyless catalog of 33 basemaps
+  (OpenStreetMap · Esri · USGS · CARTO, each licence-tagged). A new map opens on OpenStreetMap; dark mode
+  swaps to OpenStreetMap Dark. Every map carries the same **standard map controls** —
+  [map controls](guide/map-controls.md).
 
 ## Guide (how it works, per component)
 - [Repository anatomy](guide/anatomy.md) — what every folder/file is.
@@ -27,6 +29,9 @@ Start here, then dive in:
   complexity tiers, ship checklist. Companion assets: the **[app template roster](../templates/README.md)**
   (30 serialized `AppLayout` templates + two galleries) and the **freestyle charter**
   (`../recipes/COMPONENT-MANIFEST.md` §10) for bespoke designs.
+- [Building an app](guide/building-apps.md) — the deliverable, the house pattern, the three harnesses.
+- [Map controls](guide/map-controls.md) — the standard cluster, layer list, basemap gallery, opt-in tools,
+  the basemap catalog and its licences.
 
 ## Help (task how-tos)
 - [Create an app in a layout](how-to/create-app-layouts.md) — full-page, in-scroll, split, synced multi-map.

@@ -108,3 +108,43 @@ describe("previewTile (pure)", () => {
     expect(t.z).toBeLessThanOrEqual(14);
   });
 });
+
+describe("BasemapPanel — the default library is the @strata/map-controls gallery", () => {
+  it("renders the gallery (Recommended / More, a thumbnail and info tooltip per card) when no library is passed", () => {
+    const { container } = render(<BasemapPanel store={createStrataStore()} themeMode="light" />);
+    const gallery = container.querySelector("[data-strata-basemap-gallery]")!;
+    expect(gallery.classList.contains("smc")).toBe(true);
+    expect(gallery.querySelector('[data-section="recommended"]')).toBeTruthy();
+    expect(gallery.querySelector('[data-section="more"]')).toBeTruthy();
+    expect(gallery.querySelectorAll(".bm-card img").length).toBeGreaterThan(8);
+    expect(gallery.querySelector(".bm-info")?.getAttribute("data-tip")).toBeTruthy();
+    // following the theme in light mode ticks OpenStreetMap
+    expect(gallery.querySelector('[data-base="__auto"]')?.getAttribute("aria-checked")).toBe("true");
+    expect(gallery.querySelector('.bm-pick[aria-checked="true"]')?.getAttribute("data-base")).toBe("osm");
+  });
+
+  it("a card pick sets the store's basemap (and stops following the theme)", () => {
+    const store = createStrataStore();
+    const onApplyBasemap = vi.fn();
+    const { container } = render(<BasemapPanel store={store} themeMode="light" onApplyBasemap={onApplyBasemap} />);
+    fireEvent.click(container.querySelector('[data-base="esri-imagery"]')!);
+    expect(store.getState().baseMap?.baseMapLayers[0].id).toBe("esri-imagery");
+    expect(store.getState().baseMapFollowsTheme).toBe(false);
+    expect(onApplyBasemap).toHaveBeenCalledOnce();
+    expect(container.querySelector('.bm-pick[aria-checked="true"]')?.getAttribute("data-base")).toBe("esri-imagery");
+  });
+
+  it("ticks a legacy id in the store as its alias", () => {
+    const store = createStrataStore();
+    store.getState().setBaseMap({ title: "Old", baseMapLayers: [{ id: "openfreemap-dark", layerType: "VectorTileLayer", styleUrl: "https://tiles.openfreemap.org/styles/dark" }] });
+    const { container } = render(<BasemapPanel store={store} />);
+    expect(container.querySelector('.bm-pick[aria-checked="true"]')?.getAttribute("data-base")).toBe("osm-dark");
+  });
+
+  it("Manage switches to the editable row list", () => {
+    const { container } = render(<BasemapPanel store={createStrataStore()} />);
+    fireEvent.click(screen.getByText("Manage"));
+    expect(container.querySelector("[data-strata-basemap-gallery]")).toBeNull();
+    expect(container.querySelector('[role="radiogroup"] [data-basemap="osm"]')).toBeTruthy();
+  });
+});

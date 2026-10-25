@@ -31,9 +31,9 @@ function appConfig(theme?: AppLayout["theme"]): AppLayout {
   };
 }
 
-/** The style URL of whichever basemap is currently in force. */
-function currentStyle(store: ReturnType<typeof createStrataStore>): string | undefined {
-  return store.getState().baseMap?.baseMapLayers?.[0]?.styleUrl;
+/** The id of whichever basemap is currently in force. */
+function currentId(store: ReturnType<typeof createStrataStore>): string | undefined {
+  return store.getState().baseMap?.baseMapLayers?.[0]?.id;
 }
 
 describe("the basemap follows the theme", () => {
@@ -50,10 +50,12 @@ describe("the basemap follows the theme", () => {
     render(<StrataApp config={appConfig()} context={{ store }} />);
 
     fireEvent.click(screen.getByRole("button", { name: "Light" }));
-    expect(currentStyle(store)).toBe(basemapForTheme("light").style);
+    expect(currentId(store)).toBe(basemapForTheme("light").id);
+    expect(currentId(store)).toBe("osm");
 
     fireEvent.click(screen.getByRole("button", { name: "Dark" }));
-    expect(currentStyle(store)).toBe(basemapForTheme("dark").style);
+    expect(currentId(store)).toBe(basemapForTheme("dark").id);
+    expect(currentId(store)).toBe("osm-dark"); // the pair: the same tiles, inverted
   });
 
   it("swaps transiently — a theme toggle is not an edit to the map spec", () => {
@@ -86,6 +88,20 @@ describe("the basemap follows the theme", () => {
     expect(store.getState().baseMap?.title).toBe("House basemap");
   });
 
+  it("resolves theme.basemap ids through the catalog's aliases — a retired id still names its survivor", () => {
+    const store = createStrataStore();
+    store.getState().setBaseMap(AUTHORED);
+    const config = appConfig({
+      mode: "dark",
+      colors: { primary: "#4ea1ff" },
+      basemap: { light: "openfreemap-positron" },
+    });
+    render(<StrataApp config={config} context={{ store }} />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Light" }));
+    expect(currentId(store)).toBe("vt-gray");
+  });
+
   it("honors theme.basemap.light/dark — an app can name its own pair", () => {
     const store = createStrataStore();
     store.getState().setBaseMap(AUTHORED);
@@ -110,12 +126,14 @@ describe("the basemap follows the theme", () => {
     };
     const { container } = render(<StrataApp config={config} context={{ store }} />);
 
-    // The row exists at all only because the panel could read the mode from the app.
-    expect(container.querySelector('[data-basemap="auto"]')).toBeTruthy();
-    const ticked = [...container.querySelectorAll('[role="radio"][aria-checked="true"]')].map(
-      (r) => (r as HTMLElement).dataset.basemap,
+    // The panel is the package gallery. Its Follow switch exists at all only because the panel could
+    // read the mode from the app — and it is on.
+    const follow = container.querySelector('[data-base="__auto"]');
+    expect(follow).toBeTruthy();
+    expect(follow?.getAttribute("aria-checked")).toBe("true");
+    const ticked = [...container.querySelectorAll('.bm-pick[aria-checked="true"]')].map(
+      (r) => (r as HTMLElement).dataset.base,
     );
-    expect(ticked).toContain("auto");
-    expect(ticked).toContain(basemapForTheme("dark").id); // the dark map, not a light default
+    expect(ticked).toEqual([basemapForTheme("dark").id]); // the dark map, not a light default
   });
 });

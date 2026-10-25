@@ -40,6 +40,12 @@ Duplicating the *spine* across four docs is fine **as long as it is never the so
 
 Every doc is a **view** of that code, never an independent list. When code changes, the views must follow — enforced by §4.
 
+**Code-owned surfaces outside the spine.** The standard map controls are not a widget: their config is
+`MapControlsConfig` + `LEGACY_CONTROLS_MAPPING` (`packages/schema/src/mapControls.ts`), their behaviour and
+the basemap catalog live in `packages/map-controls/src/`. Views: `COMPONENT-MANIFEST.md` §3b/§6c (config),
+`components.md` (MapChrome), `human-language.md` §1/§5 (phrases) and `guide/map-controls.md` (user guide).
+Change the code first, then those four.
+
 ---
 
 ## 3. Where each doc lives — and why

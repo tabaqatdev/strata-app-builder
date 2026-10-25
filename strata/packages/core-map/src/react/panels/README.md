@@ -17,12 +17,17 @@ TanStack/Tabulator/ECharts — with inline notes marking where those can be swap
   popup · rename · metadata · remove). Inline rename goes through the store's `renameLayer`; the
   active/selected layer is highlighted. Props: `{ store, onZoomTo?, onHighlight?, onOpenTable?,
   onShowTable?, onFilter?, onSymbology?, onPopup?, onShowMetadata?, onAddLayer?, … }`.
-- **`BasemapPanel`** — basemap management. Lists basemaps (active highlighted), builds a genuine
-  ESRI `BaseMap` on click → `store.setBaseMap` + `onApplyBasemap`; "Add basemap" row appends a
-  tile/style URL. Props: `{ store, basemaps?, themeMode?, onApplyBasemap? }` — `basemaps` defaults to
-  `OPEN_BASEMAPS` (open-source, **OpenStreetMap first**), and `themeMode` falls back to the surrounding
-  `<StrataApp>`'s mode, which is what the **Follow the theme** row follows. An explicit pick clears
-  `store.baseMapFollowsTheme` so the theme stops choosing. Exports `buildBaseMap` and `useFollowsTheme`.
+- **`BasemapPanel`** — basemap management. **By default it renders the `@strata/map-controls`
+  basemap gallery** (`mountBasemapGallery` — the same component as the map's basemap drawer: Follow the
+  theme, Recommended 8 + `recommendedExtras` (≤ 3), More basemaps grouped by provider, thumbnails, info
+  tooltips; legacy ids tick as their alias). A pick builds a genuine ESRI `BaseMap` →
+  `store.setBaseMap` + `onApplyBasemap`. Passing a `basemaps` library, or opening **Manage** (add a
+  tile/style URL, remove, set default → `onLibraryChange`), switches to the radiogroup row list, whose
+  default library is the full catalog (the deprecated `OPEN_BASEMAPS` shim). Props: `{ store,
+  basemaps?, recommendedExtras?, themeMode?, onApplyBasemap?, onLibraryChange? }` — `themeMode` falls
+  back to the surrounding `<StrataApp>`'s mode, which is what **Follow the theme** follows. An explicit
+  pick clears `store.baseMapFollowsTheme` so the theme stops choosing. Exports `buildBaseMap` and
+  `useFollowsTheme`.
 - **`AttributeTablePanel`** — attribute table. Sortable headers, per-column filter row, column
   show/hide menu, row-click select (`onRowSelect(oid)`), inline **CSV export** (plus `onExport` for
   GeoJSON/GeoParquet). Columns inferred from rows when omitted. Props: `{ title?, columns?, rows,

@@ -22,6 +22,7 @@
     "@strata/export": "workspace:*",
     "@strata/feature-arcgis": "workspace:*",
     "@strata/i18n": "workspace:*",
+    "@strata/map-controls": "workspace:*",
     "@strata/schema": "workspace:*",
     "@strata/state": "workspace:*",
     "@strata/theme": "workspace:*"

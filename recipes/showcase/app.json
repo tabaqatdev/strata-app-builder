@@ -90,7 +90,7 @@
             "mode": "fixed",
             "style": { "flex": "1 1 0%", "minWidth": 0, "height": "100%" },
             "children": [
-              { "kind": "widget", "widget": { "id": "map", "type": "map", "props": { "layerIds": ["dc-wards", "dc-zip-codes", "dc-parcels", "dc-bike-routes", "dc-crashes", "dc-affordable-housing"], "controls": { "navigation": true, "geolocate": true, "fullscreen": true, "scale": true, "position": "top-right" } } } },
+              { "kind": "widget", "widget": { "id": "map", "type": "map", "props": { "layerIds": ["dc-wards", "dc-zip-codes", "dc-parcels", "dc-bike-routes", "dc-crashes", "dc-affordable-housing"], "mapControls": { "scale": true, "tools": { "locate": true } } } } },
               {
                 "kind": "column",
                 "mode": "flow",

@@ -17,14 +17,23 @@
  *  - **The thumbnail is a live tile of the current area in that style.** A colour swatch cannot
  *    tell Positron from Voyager.
  *
+ * **The default library is the `@strata/map-controls` gallery** — the same component the map's
+ * basemap drawer shows: Follow the theme, a Recommended section, a collapsible "More basemaps"
+ * grouped by provider, a thumbnail per card and an info tooltip with the description
+ * (`mountBasemapGallery`). An app that passes its own `basemaps` library — or opens "Manage" to
+ * add, remove or set a default — gets the row list below instead.
+ *
  * Layout: renders inside a PanelShell, so it can be `mode="fixed"` (docked, default) or
  * `mode="floating"` (draggable overlay) with the Open / Remove context menu.
  */
-import React, { useCallback, useSyncExternalStore, useState } from "react";
+import React, { useCallback, useEffect, useRef, useSyncExternalStore, useState } from "react";
 import type { BaseMap, BaseMapLayer } from "@strata/schema";
 import type { StrataStore } from "@strata/state";
 import { PanelShell, type PanelMode } from "./PanelShell.js";
-import { OPEN_BASEMAPS, basemapForThemeFrom } from "../../engine/basemaps.js";
+import { OPEN_BASEMAPS, basemapForThemeFrom, baseMapCatalogId, baseMapFromId } from "../../engine/basemaps.js";
+import { mountBasemapGallery, type BasemapGallery } from "@strata/map-controls";
+import * as basemapCatalog from "@strata/map-controls/basemaps";
+import "@strata/map-controls/map-controls.css";
 import { useStrataAppEnv } from "../app/interactivity.js";
 
 /** A selectable basemap entry (either a vector `style` URL or a raster `templateUrl`). */
@@ -71,8 +80,13 @@ export function useFollowsTheme(store?: StrataStore): [boolean, (follow: boolean
 
 export interface BasemapPanelProps {
   store: StrataStore;
-  /** Candidate basemaps to offer. Defaults to `OPEN_BASEMAPS` (open-source, OpenStreetMap first). */
+  /**
+   * Candidate basemaps to offer, as a row list. Omit it for the standard gallery of the
+   * `@strata/map-controls` catalog (Recommended / More, thumbnails, info tooltips).
+   */
   basemaps?: BasemapOption[];
+  /** Up to 3 catalog ids appended to the gallery's universal Recommended 8 (default gallery only). */
+  recommendedExtras?: string[];
   /** Apply the built BaseMap to the live map (restyle). */
   onApplyBasemap?: (bm: BaseMap) => void;
   /**
@@ -312,6 +326,53 @@ export function BasemapPanel(props: BasemapPanelProps): React.ReactElement {
     emitLibrary(all, opt.id);
   };
 
+  // The default library is the package gallery (one implementation with the map's basemap drawer).
+  const useGallery = !props.basemaps && !manage && extra.length === 0;
+  const galleryHost = useRef<HTMLDivElement>(null);
+  const galleryRef = useRef<BasemapGallery | null>(null);
+  const live = useRef({ current, auto, themeMode });
+  live.current = { current, auto, themeMode };
+  useEffect(() => {
+    if (!useGallery || !galleryHost.current) return;
+    const g = mountBasemapGallery(galleryHost.current, {
+      catalog: basemapCatalog,
+      mode: live.current.themeMode ?? "light",
+      showFollow: live.current.themeMode != null,
+      recommendedExtras: props.recommendedExtras,
+      current: () => {
+        const bm = live.current.current;
+        if (!bm?.baseMapLayers?.length) return null;
+        return baseMapCatalogId(bm) ?? bm.baseMapLayers[0].id; // a custom basemap ticks no card
+      },
+      follows: () => live.current.auto,
+      onPick: (id) => {
+        const bm = baseMapFromId(id);
+        if (!bm) return;
+        setFollows(false);
+        store.getState().setBaseMap(bm);
+        onApplyBasemap?.(bm);
+      },
+      onFollowChange: (on, themeId) => {
+        setFollows(on);
+        const bm = on ? baseMapFromId(themeId) : undefined;
+        if (bm) {
+          store.getState().setBaseMap(bm);
+          onApplyBasemap?.(bm);
+        }
+      },
+    });
+    galleryRef.current = g;
+    return () => {
+      g.destroy();
+      galleryRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [useGallery, store, (props.recommendedExtras ?? []).join(",")]);
+  // Re-render the gallery when what it shows changes (the basemap in force, who chooses it, the mode).
+  useEffect(() => {
+    galleryRef.current?.update({ mode: themeMode ?? "light" });
+  }, [current, auto, themeMode]);
+
   const headerExtra = (
     <button type="button" style={{ ...pillStyle, ...(manage ? pillOnStyle : null) }}
       title="Add, remove, or set the default basemap"
@@ -333,6 +394,9 @@ export function BasemapPanel(props: BasemapPanelProps): React.ReactElement {
       className={props.className}
       style={{ ...panelStyle, ...props.style }}
     >
+      {useGallery ? (
+        <div ref={galleryHost} data-strata-basemap-gallery="" />
+      ) : (
       <ul style={listStyle} role="radiogroup" aria-label="Basemap">
         {all.map((opt) => {
           const active = opt.id === effective?.id;
@@ -385,8 +449,10 @@ export function BasemapPanel(props: BasemapPanelProps): React.ReactElement {
           </li>
         )}
       </ul>
+      )}
       <p style={houseRuleStyle}>
-        No keyed or proprietary provider is offered — that is a house rule, not an omission.
+        No basemap here needs an API key — that is a house rule, not an omission. Check each
+        basemap's licence (in its information) before a commercial deployment.
       </p>
 
       {manage && (

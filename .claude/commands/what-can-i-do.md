@@ -18,8 +18,15 @@ Summarize, grouped:
 - **Panels (`react/panels`, in a floating/fixed `PanelShell`):** `LayerPanel`, `BasemapPanel`,
   `AttributeTablePanel`, `ChartPanel`, **`CartoPanel`** (CARTO-style layer + cross-filter widgets),
   **`EditPanel`** (writable+authed ESRI backend), **`AttachmentViewer`**.
-- **Controls (`react/controls`):** Navigation/Geolocate/Fullscreen/Scale, Measure/Sketch (revert-to-identify),
-  **`Legend`**, **`StatusBar`** (coords/zoom/scale/CRS), **`TimeSlider`** (play/pause time filter).
+- **Standard map controls (`@strata/map-controls`, on every map):** one fixed cluster — zoom in · zoom out ·
+  home | layers · basemap · legend · full screen — plus **opt-in tools** per app (search · locate · measure ·
+  draw · print; never on by default; revert to identify) and an optional bottom-left scale bar
+  (`mapControls.scale`), configured via the map widget's `mapControls`.
+  The basemap gallery holds **33 keyless basemaps** (OpenStreetMap · Esri · USGS · CARTO), each licence-tagged
+  (`commercial-ok` / `non-commercial`); default `osm` / `osm-dark`. React wraps it as `MapChrome`; vanilla
+  apps vendor it.
+- **Other controls (`react/controls`):** **`Legend`**, **`StatusBar`** (coords/zoom/scale/CRS),
+  **`TimeSlider`** (play/pause time filter).
 - **Data-action bus (`@strata/actions`):** `ActionBus` + `categorySelect`/`rowSelect`/`filterChange` +
   `connectBusToStore` — widgets/panels cross-drive each other, not just the map.
 - **Data & publish:** `/convert` (GDB/SHP/GeoJSON both flavors/CSV/KML→GeoParquet), `/publish` to the Strata

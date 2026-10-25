@@ -3,6 +3,7 @@ import { render, screen, fireEvent, act, waitFor } from "@testing-library/react"
 import { createStrataStore } from "@strata/state";
 import { Legend, legendRows, legendWhere } from "../../src/react/controls/Legend.js";
 import { MapChrome } from "../../src/react/controls/MapChrome.js";
+import * as basemapCatalog from "@strata/map-controls/basemaps";
 
 /** Build a minimal OperationalLayer carrying an ESRI renderer. */
 function layer(id: string, title: string, renderer: any, visibility = true): any {
@@ -250,149 +251,141 @@ describe("Legend — interactive", () => {
   });
 });
 
-/** The map chrome: one cluster, one drawer, and a basemap radio that ticks what is in force. */
+/**
+ * The map chrome: the standard cluster from `@strata/map-controls`, one drawer beside it, and a
+ * basemap gallery whose radio ticks what is in force. (Converted from the pre-package chrome's
+ * tests — same promises, the package's DOM.)
+ */
 describe("MapChrome", () => {
-  const fakeMap = { zoomIn: vi.fn(), zoomOut: vi.fn(), getCenter: () => ({ lng: -119, lat: 36 }), getZoom: () => 8 };
+  const fakeMap = {
+    zoomIn: vi.fn(), zoomOut: vi.fn(), on: vi.fn(), off: vi.fn(),
+    getCenter: () => ({ lng: -119, lat: 36 }), getZoom: () => 8,
+    // enough style surface for applyBaseMap (a pick without a store draws the basemap itself)
+    getStyle: () => ({ sources: {}, layers: [] }), getLayer: () => undefined, getSource: () => undefined,
+    addSource: vi.fn(), addLayer: vi.fn(),
+  };
   const layers = [layer("blocks", "Census blocks", simple)];
+  const acts = (c: HTMLElement) => [...c.querySelectorAll(".smc-ctl button[data-act]")].map((b) => (b as HTMLElement).dataset.act);
+  const drawer = (c: HTMLElement) => c.querySelector(".smc-drawer") as HTMLElement;
+  const openWhich = (c: HTMLElement) => (drawer(c).hidden ? null : drawer(c).dataset.which);
 
-  it("renders the six-glyph cluster with MapLibre's own zoom replaced", () => {
-    const { container } = render(<MapChrome map={fakeMap} layers={layers} onFit={vi.fn()} onToggleLegend={vi.fn()} />);
-    const keys = [...container.querySelectorAll("button[data-key]")].map((b) => (b as HTMLElement).dataset.key);
-    expect(keys).toEqual(["zin", "zout", "fit", "layers", "basemap", "legend"]);
-    // Icons are inline SVG on currentColor — no external asset, no CSP problem.
-    expect(container.querySelectorAll(".mapctl svg").length).toBe(6);
+  it("renders the standard cluster, in order — zoom in · zoom out · home | layers · basemap · legend · full screen", () => {
+    Object.defineProperty(document, "fullscreenEnabled", { value: true, configurable: true });
+    try {
+      const { container } = render(<MapChrome map={fakeMap} layers={layers} onFit={vi.fn()} onToggleLegend={vi.fn()} />);
+      expect(acts(container)).toEqual(["zin", "zout", "fit", "layers", "base", "legend", "fullscreen"]);
+      // Icons are inline SVG on currentColor — no external asset, no CSP problem.
+      expect(container.querySelectorAll(".smc-ctl button svg").length).toBe(7);
+    } finally {
+      Object.defineProperty(document, "fullscreenEnabled", { value: undefined, configurable: true });
+    }
   });
 
   it("zooms the map from the cluster", () => {
     const { container } = render(<MapChrome map={fakeMap} layers={layers} />);
-    fireEvent.click(container.querySelector('button[data-key="zin"]')!);
+    fireEvent.click(container.querySelector('[data-act="zin"]')!);
     expect(fakeMap.zoomIn).toHaveBeenCalled();
   });
 
   it("opens ONE drawer at a time, and the same button closes it", () => {
     const { container } = render(<MapChrome map={fakeMap} layers={layers} />);
-    const layersBtn = container.querySelector('button[data-key="layers"]')!;
-    const baseBtn = container.querySelector('button[data-key="basemap"]')!;
+    const layersBtn = container.querySelector('[data-act="layers"]')!;
+    const baseBtn = container.querySelector('[data-act="base"]')!;
 
     fireEvent.click(layersBtn);
-    expect(container.querySelector(".drawer")?.getAttribute("data-which")).toBe("layers");
+    expect(openWhich(container)).toBe("layers");
     fireEvent.click(baseBtn);
-    expect(container.querySelectorAll(".drawer").length).toBe(1); // never two
-    expect(container.querySelector(".drawer")?.getAttribute("data-which")).toBe("basemap");
+    expect(container.querySelectorAll(".smc-drawer").length).toBe(1); // never two
+    expect(openWhich(container)).toBe("base");
+    expect(baseBtn.getAttribute("aria-expanded")).toBe("true");
     fireEvent.click(baseBtn);
-    expect(container.querySelector(".drawer")).toBeNull();
+    expect(openWhich(container)).toBeNull();
   });
 
-  it("the drawer opens BESIDE the cluster, never over it", () => {
+  it("the drawer opens BESIDE the cluster, never inside or over it", () => {
     const { container } = render(<MapChrome map={fakeMap} layers={layers} />);
-    fireEvent.click(container.querySelector('button[data-key="layers"]')!);
-    expect(container.querySelector(".mapctl")?.getAttribute("data-side")).toBe("right");
-    expect(container.querySelector(".drawer")?.getAttribute("data-side")).toBe("right");
+    fireEvent.click(container.querySelector('[data-act="layers"]')!);
+    const ctl = container.querySelector(".smc-ctl")!;
+    // siblings in one `.smc` box: the stylesheet places the drawer at right:47px, beside the cluster
+    expect(drawer(container).parentElement).toBe(ctl.parentElement);
+    expect(ctl.contains(drawer(container))).toBe(false);
+    expect(ctl.parentElement?.classList.contains("smc")).toBe(true);
   });
 
-  it("layer rows are checkboxes (multi-select) and toggle store visibility", () => {
+  it("the eye on a layer row toggles store visibility (each layer independently)", () => {
     const store = createStrataStore();
     store.getState().addLayer({ id: "blocks", title: "Census blocks", source: { kind: "geojson" } } as any);
     const { container } = render(<MapChrome map={fakeMap} store={store} layers={layers} />);
-    fireEvent.click(container.querySelector('button[data-key="layers"]')!);
+    fireEvent.click(container.querySelector('[data-act="layers"]')!);
 
-    const row = container.querySelector('.opt[data-layer="blocks"]')!;
-    expect(row.querySelector(".box")?.classList.contains("round")).toBe(false); // square = multi-select
-    fireEvent.click(row);
+    const eye = container.querySelector('[data-ll-id="blocks"] [data-ll-act="eye"]')!;
+    expect(eye.getAttribute("aria-pressed")).toBe("true");
+    fireEvent.click(eye);
     expect(store.getState().layers[0].visibility).toBe(false);
+    expect(container.querySelector('[data-ll-id="blocks"]')?.classList.contains("off")).toBe(true);
   });
 
   it("a layer row shows EVERY class it draws in, not just the first", () => {
     // One swatch off a uniqueValue renderer names one of its colours and implies the layer is that
-    // colour — so the row carries the whole set (past the cap, a +N).
-    const { container } = render(
-      <MapChrome map={fakeMap} layers={[layer("zones", "Zones", uniqueValue)]} />,
-    );
-    fireEvent.click(container.querySelector('button[data-key="layers"]')!);
-    const swatches = container.querySelectorAll('.opt[data-layer="zones"] .sw2');
-    expect(swatches.length).toBe(3); // Class A · Class B · Other
+    // colour — so the row carries the whole set, and its legend lists every class.
+    const { container } = render(<MapChrome map={fakeMap} layers={[layer("zones", "Zones", uniqueValue)]} />);
+    fireEvent.click(container.querySelector('[data-act="layers"]')!);
+    expect(container.querySelectorAll('[data-ll-id="zones"] .ll-swatch .ll-dots i').length).toBe(3);
+    const legend = container.querySelector('[data-ll-id="zones"] .ll-legend')!;
+    expect([...legend.querySelectorAll("li")].map((li) => li.textContent)).toEqual(["Class A", "Class B", "Other"]);
   });
 
-  it("basemap rows are RADIOS, never checkboxes", () => {
+  it("basemap cards are RADIOS, never checkboxes — and Follow the theme is a switch", () => {
     const { container } = render(<MapChrome map={fakeMap} layers={layers} themeMode="light" />);
-    fireEvent.click(container.querySelector('button[data-key="basemap"]')!);
+    fireEvent.click(container.querySelector('[data-act="base"]')!);
 
-    const radios = [...container.querySelectorAll('.opt[role="radio"]')];
-    expect(radios.length).toBeGreaterThan(1);
-    // Round box = exactly one basemap is in force. A square box would promise multi-select.
-    expect(radios.every((r) => r.querySelector(".box")?.classList.contains("round"))).toBe(true);
+    const radios = [...container.querySelectorAll('[role="radiogroup"] .bm-pick[role="radio"]')];
+    expect(radios.length).toBe(basemapCatalog.BASEMAPS.length);
+    expect(container.querySelector('[data-base="__auto"]')?.getAttribute("role")).toBe("switch");
   });
 
-  it("ticks the EFFECTIVE basemap under Follow the theme — both rows, never none", () => {
+  it("ticks the EFFECTIVE basemap under Follow the theme — the switch AND one card, never none", () => {
     const { container } = render(<MapChrome map={fakeMap} layers={layers} themeMode="light" />);
-    fireEvent.click(container.querySelector('button[data-key="basemap"]')!);
+    fireEvent.click(container.querySelector('[data-act="base"]')!);
 
-    const ticked = [...container.querySelectorAll('.opt[role="radio"][aria-checked="true"]')].map(
-      (r) => (r as HTMLElement).dataset.basemap,
-    );
-    // "Follow the theme" says HOW the choice is made; it does not stop there being a choice. An
-    // id-only test ticked nothing here, so the drawer offered five options with none selected and
-    // no way to tell which basemap you were looking at.
-    expect(ticked).toContain("auto");
-    expect(ticked.filter((id) => id !== "auto")).toHaveLength(1);
+    // "Follow the theme" says HOW the choice is made; it does not stop there being a choice.
+    expect(container.querySelector('[data-base="__auto"]')?.getAttribute("aria-checked")).toBe("true");
+    const ticked = [...container.querySelectorAll('.bm-pick[aria-checked="true"]')].map((r) => (r as HTMLElement).dataset.base);
+    expect(ticked).toEqual(["osm"]);
   });
 
-  it("an explicit pick takes over from the theme — then exactly one row ticks", () => {
+  it("an explicit pick takes over from the theme — then exactly one card ticks", () => {
     const { container } = render(<MapChrome map={fakeMap} layers={layers} themeMode="light" />);
-    fireEvent.click(container.querySelector('button[data-key="basemap"]')!);
+    fireEvent.click(container.querySelector('[data-act="base"]')!);
+    fireEvent.click(container.querySelector('[data-base="esri-topo"]')!);
 
-    const rows = [...container.querySelectorAll('.opt[role="radio"]')] as HTMLElement[];
-    const pick = rows.find((r) => r.dataset.basemap && r.dataset.basemap !== "auto")!;
-    fireEvent.click(pick);
-
-    const ticked = [...container.querySelectorAll('.opt[role="radio"][aria-checked="true"]')].map(
-      (r) => (r as HTMLElement).dataset.basemap,
-    );
-    expect(ticked).toEqual([pick.dataset.basemap]);
+    const ticked = [...container.querySelectorAll('.bm-pick[aria-checked="true"]')].map((r) => (r as HTMLElement).dataset.base);
+    expect(ticked).toEqual(["esri-topo"]);
+    expect(container.querySelector('[data-base="__auto"]')?.getAttribute("aria-checked")).toBe("false");
   });
 
-  it("every basemap row carries a preview — a live tile (raster) or the style's own colours (vector)", async () => {
-    // Since 2026-09-01 the gallery leads with VECTOR presets, which have no tile to preview: their
-    // ground is assembled by the renderer. So a vector row reads the style's own background / road
-    // / water out of the style document. What must never appear is a row with no preview at all —
-    // a wall of identical grey boxes is the failure a live preview exists to prevent, and it is
-    // what a raster-only check would have started reporting as green the day the default changed.
-    const style = {
-      layers: [
-        { id: "background", type: "background", paint: { "background-color": "#f2f3f0" } },
-        { id: "water", type: "fill", paint: { "fill-color": "#c2c8ca" } },
-        { id: "road_major", type: "line", paint: { "line-color": "#8a929a" } },
-      ],
-    };
-    const fetchSpy = vi
-      .spyOn(globalThis, "fetch" as any)
-      .mockResolvedValue({ ok: true, json: async () => style } as any);
-    try {
-      const { container } = render(<MapChrome map={fakeMap} layers={layers} />);
-      fireEvent.click(container.querySelector('button[data-key="basemap"]')!);
-
-      const thumbs = () => [...container.querySelectorAll(".opt .thumb")] as HTMLElement[];
-      await waitFor(() =>
-        expect(thumbs().every((t) => t.style.backgroundImage !== "")).toBe(true),
-      );
-
-      const backgrounds = thumbs().map((t) => t.style.backgroundImage);
-      // a raster row paints its own tile — a colour swatch cannot tell Positron from Voyager
-      expect(backgrounds.some((b) => /^url\(/.test(b))).toBe(true);
-      // a vector row paints the ground/road/water its style declares
-      expect(backgrounds.some((b) => /linear-gradient/.test(b))).toBe(true);
-      // and the style document is what supplied them, fetched once per style URL
-      expect(fetchSpy).toHaveBeenCalled();
-      expect(backgrounds.some((b) => b.includes("rgb(242, 243, 240)") || b.includes("#f2f3f0"))).toBe(true);
-    } finally {
-      fetchSpy.mockRestore();
+  it("every basemap card carries a thumbnail and an info tooltip with its description", () => {
+    const { container } = render(<MapChrome map={fakeMap} layers={layers} />);
+    fireEvent.click(container.querySelector('[data-act="base"]')!);
+    const cards = [...container.querySelectorAll(".bm-card")];
+    expect(cards.length).toBe(basemapCatalog.BASEMAPS.length);
+    for (const card of cards) {
+      const id = (card.querySelector(".bm-pick") as HTMLElement).dataset.base!;
+      expect(card.querySelector("img")?.getAttribute("src")).toMatch(new RegExp(`${id}\\.png$`));
+      expect(card.querySelector(".bm-info")?.getAttribute("data-tip")).toBe(basemapCatalog.basemapById(id)!.description);
     }
   });
 
-  it("states the keyless house rule rather than silently omitting providers", () => {
+  it("offers only keyless basemaps — every card is a catalog entry on the host allow-list", () => {
     const { container } = render(<MapChrome map={fakeMap} layers={layers} />);
-    fireEvent.click(container.querySelector('button[data-key="basemap"]')!);
-    expect(screen.getByText(/house rule, not an omission/)).toBeInTheDocument();
+    fireEvent.click(container.querySelector('[data-act="base"]')!);
+    for (const b of container.querySelectorAll(".bm-pick")) {
+      const entry = basemapCatalog.basemapById((b as HTMLElement).dataset.base)!;
+      for (const u of basemapCatalog.basemapUrls(entry)) {
+        expect(u).toMatch(basemapCatalog.BASEMAP_HOSTS);
+        expect(u).not.toMatch(basemapCatalog.BASEMAP_DENY);
+      }
+    }
   });
 
   it("L / B / G / F drive the cluster, and Esc closes the drawer", () => {
@@ -403,11 +396,11 @@ describe("MapChrome", () => {
     );
 
     fireEvent.keyDown(window, { key: "l" });
-    expect(container.querySelector(".drawer")?.getAttribute("data-which")).toBe("layers");
+    expect(openWhich(container)).toBe("layers");
     fireEvent.keyDown(window, { key: "b" });
-    expect(container.querySelector(".drawer")?.getAttribute("data-which")).toBe("basemap");
+    expect(openWhich(container)).toBe("base");
     fireEvent.keyDown(window, { key: "Escape" });
-    expect(container.querySelector(".drawer")).toBeNull();
+    expect(openWhich(container)).toBeNull();
 
     fireEvent.keyDown(window, { key: "g" });
     expect(onToggleLegend).toHaveBeenCalledWith(false);
@@ -420,7 +413,7 @@ describe("MapChrome", () => {
     const input = document.createElement("input");
     document.body.appendChild(input);
     fireEvent.keyDown(input, { key: "l" });
-    expect(container.querySelector(".drawer")).toBeNull();
+    expect(openWhich(container)).toBeNull();
     input.remove();
   });
 });

@@ -26,6 +26,10 @@ export interface MeasureControlProps extends ControlContext {
 
 type MeasureKind = "distance" | "area" | null;
 
+/**
+ * @deprecated The standard map controls carry this tool: enable `mapControls.tools.measure` on the map
+ * (`@strata/map-controls`). Kept for back-compat (bespoke tool bars, the `measure` widget).
+ */
 export function MeasureControl(props: MeasureControlProps): React.ReactElement {
   const { map, maplibregl, store } = props;
   const [kind, setKind] = useState<MeasureKind>(null);

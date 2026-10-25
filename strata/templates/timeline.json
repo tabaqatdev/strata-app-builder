@@ -37,10 +37,8 @@
                       "dc-crashes",
                       "dc-wards"
                     ],
-                    "controls": {
-                      "navigation": true,
-                      "scale": true,
-                      "position": "top-right"
+                    "mapControls": {
+                      "scale": true
                     }
                   }
                 }

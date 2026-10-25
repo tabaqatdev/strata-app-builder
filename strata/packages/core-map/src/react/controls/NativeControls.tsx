@@ -57,13 +57,19 @@ export interface NativeControlProps extends ControlContext {
   position?: ControlPosition;
 }
 
-/** Zoom in/out + compass reset (MapLibre `NavigationControl`). */
+/**
+ * Zoom in/out + compass reset (MapLibre `NavigationControl`).
+ * @deprecated `<StrataMap>` no longer mounts it: the standard map controls (`MapChrome`) own zoom.
+ */
 export function NavigationControl(props: NativeControlProps): null {
   useControl(props, (mgl) => new mgl.NavigationControl({ showCompass: true, visualizePitch: false }), props.position);
   return null;
 }
 
-/** Locate the user (MapLibre `GeolocateControl`). */
+/**
+ * Locate the user (MapLibre `GeolocateControl`).
+ * @deprecated Use the standard controls' `mapControls.tools.locate`.
+ */
 export function GeolocateControl(props: NativeControlProps): null {
   useControl(
     props,
@@ -77,7 +83,10 @@ export function GeolocateControl(props: NativeControlProps): null {
   return null;
 }
 
-/** Toggle fullscreen (MapLibre `FullscreenControl`). */
+/**
+ * Toggle fullscreen (MapLibre `FullscreenControl`).
+ * @deprecated `<StrataMap>` no longer mounts it: full screen is in the standard cluster.
+ */
 export function FullscreenControl(props: NativeControlProps): null {
   useControl(props, (mgl) => new mgl.FullscreenControl(), props.position);
   return null;
@@ -88,7 +97,12 @@ export interface ScaleControlProps extends NativeControlProps {
   maxWidth?: number;
 }
 
-/** A scale bar (MapLibre `ScaleControl`). */
+/**
+ * A scale bar (MapLibre `ScaleControl`).
+ * @deprecated `<StrataMap>` no longer mounts it: the scale bar is the optional `mapControls.scale`
+ * (`@strata/map-controls`, bottom-left, OFF by default), and the legacy `controls.scale` maps onto it.
+ * Kept so code that imported it keeps compiling.
+ */
 export function ScaleControl(props: ScaleControlProps): null {
   useControl(
     props,

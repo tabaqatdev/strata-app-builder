@@ -28,6 +28,14 @@ Match `$ARGUMENTS` to a `RECIPE.md`, in this order:
 If you cannot find one, ask for the path rather than inventing a recipe. With no argument, list what is in
 both locations and ask (or suggest `/new-app`).
 
+**A folder containing `DROPPED.md` is refused — stop before reading anything else.** A dropped solution
+keeps its build on purpose: the folder, its `recipe.md`, its `app/` and its `presentation/` all stay as
+reference and harvestable research. It is **off the sellable slate**, so it must not be built, rebuilt,
+demoed, linked or quoted, and its `presentation/` is internal-only. Say which solution was asked for, say
+it is dropped, quote the one-line reason from the marker, and offer the sibling the marker names as
+holding the ground. **Never** build it "just to look", and never list it as an option when no argument is
+given. Overriding this needs the product owner, in writing, in the marker itself.
+
 The app is built into **`<recipe-folder>/app/`** unless the user says otherwise — beside the recipe that
 specifies it, so the two travel together.
 
@@ -74,6 +82,14 @@ than afterwards:
 one DOM-free domain module with injectable `net.fetch`, counts derived from state, nothing synthesized,
 nothing silently truncated, no write path, keyless basemaps, EPSG:4326.
 
+**Map chrome is the standard map controls — never hand-built.** Vendor the package into the app
+(`node strata/packages/map-controls/scripts/vendor.mjs <appDir>`) and mount it with `mountMapControls`
+(React apps get it through the `map` widget). The fixed cluster is automatic; turn on only the optional
+tools (`search` · `locate` · `measure` · `draw` · `print`) the recipe asks for — none by default. The
+basemap defaults to `osm` / `osm-dark` from the one catalog; an Esri or CARTO basemap only when the recipe
+or user accepts its `non-commercial` licence tag. Layer information text comes only from real sources
+(service metadata or the recipe's verified §3), never invented. See `strata/docs/guide/map-controls.md`.
+
 Write the suites **as you build**. Assert each trap the recipe records as present.
 
 ## 5. Run all three suites
@@ -85,7 +101,15 @@ node server.mjs &          # then:
 node drive.mjs <port>      # real headless Chrome over CDP
 ```
 
-All three are required — they are blind to different classes of defect (`guide/building-apps.md` §3). A
+Then the two map-controls gates, both required: the conformance check (`runMapControlsConformance` from
+`strata/packages/map-controls/scripts/conformance.mjs`, run against the app's page — wire it into
+`drive.mjs`) and the drift check, which proves the vendored copy matches the package:
+
+```bash
+node strata/packages/map-controls/scripts/check-drift.mjs <appDir>
+```
+
+All three suites are required — they are blind to different classes of defect (`guide/building-apps.md` §3). A
 green offline suite has reported 99/99 on an app that was a blank shell, and 297 green assertions have
 missed four defects one screenshot made obvious.
 

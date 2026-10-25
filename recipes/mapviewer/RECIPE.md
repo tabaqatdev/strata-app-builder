@@ -61,7 +61,9 @@ overlay. The **`controller`** widget *is* the hamburger → floating-panel dock 
     "root": { "kind": "column", "mode": "fixed", "children": [
       { "kind": "widget", "widget": { "id": "map", "type": "map",
           "props": { "config": { "$ref": "layers.json" },
-                     "controls": { "navigation": true, "geolocate": true, "fullscreen": true, "scale": true },
+                     // the standard cluster (zoom · home | layers · basemap · legend · full screen) is always on;
+                     // mapControls only opts into tools — see COMPONENT-MANIFEST §3b
+                     "mapControls": { "tools": { "locate": true } },
                      "askEnabled": true },
           "style": { "position": "absolute", "inset": "0" } } },
 
@@ -175,7 +177,7 @@ reference, field presence — and treat counts as order-of-magnitude.
 
 | Capability | Where MapViewer uses it |
 |---|---|
-| **Map + controls** | `map` (`navigation`/`geolocate`/`fullscreen`/`scale`) + `measure` · `draw` · `coordinates` · `search` widgets |
+| **Map + controls** | `map` with the standard control cluster (zoom · home \| layers · basemap · legend · full screen, always on; basemaps from the one keyless catalog, `osm`/`osm-dark` by default) + `mapControls.tools.locate` + `measure` · `draw` · `coordinates` · `search` widgets |
 | **Panels** | `layer-panel` · `basemap` · `legend` · `table` · `chart` · `carto` · `filter`/`query` · `date-filter` · `feature-info` · `analysis` — all in the dock |
 | **KPIs/charts** | `chart` (bar/line/pie/histogram/scatter); KPI/gauge are inherited by embedding apps, not shown on the bare bench |
 | **Layout nodes** | `mode:"fixed"` container (overlays), `controller` (floating tool dock) |

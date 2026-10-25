@@ -90,6 +90,8 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
 <a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
+<a class="nav-link" data-title="map controls" href="guide-map-controls.html">Map controls</a>
+<a class="nav-link" data-title="writes &amp; editing" href="guide-writes-and-editing.html">Writes &amp; editing</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
@@ -108,8 +110,8 @@ person actually uses</strong> to get it. It's the bridge between "what a user sa
 <p><strong>Who this is for.</strong> Recipe authors and <code>/recipe</code> wizards: pull phrasing straight from here into a recipe's
 <strong><code>## Guided wizard</code></strong> questions and <strong><code>§ Prompt-script</code></strong> so the app makes good, idiomatic UI suggestions.
 Claude also reads this to reach for the right component by default. Pair it with
-<strong><a href="..\reference\components.md">Components, widgets &amp; skills</a></strong> (what each one <em>is</em>) and
-<a href="..\reference\commands.md">Command reference</a> (the exact command).</p>
+<strong><a href="reference-components.html">Components, widgets &amp; skills</a></strong> (what each one <em>is</em>) and
+<a href="reference-commands.html">Command reference</a> (the exact command).</p>
 <blockquote>
 <p><strong>Status key:</strong> ✅ shipped · 🔶 needs a writable/authenticated ESRI backend · 🟡 partial.</p>
 </blockquote>
@@ -141,11 +143,23 @@ Claude also reads this to reach for the right component by default. Pair it with
 </tr>
 <tr>
 <td>"Use the dark basemap." / "Give me a crisp vector basemap."</td>
-<td>A keyless vector or raster basemap.</td>
+<td>A keyless catalog basemap (<code>osm-dark</code>; <code>vt-gray</code> / <code>vt-colorful</code> for vector) — <code>mapControls.basemap.initial</code> or the <code>layers.json</code> <code>baseMap</code>.</td>
 </tr>
 <tr>
-<td>"Let users switch basemaps."</td>
-<td>A BasemapPanel / basemap gallery.</td>
+<td>"Let users switch basemaps." ✅</td>
+<td>Already on every map — the basemap button opens the gallery (Follow the theme · Recommended · More basemaps).</td>
+</tr>
+<tr>
+<td>"Add satellite imagery to the recommended basemaps." ✅</td>
+<td><code>mapControls.basemap.recommendedExtras: ["esri-imagery"]</code> (≤ 3 extras). Esri tiles are free only for public, non-commercial apps — check the licence tag.</td>
+</tr>
+<tr>
+<td>"Can I use this basemap in a commercial app?" ✅</td>
+<td>Read the card's licence tag (<code>commercial-ok</code> / <code>non-commercial</code>). OSM, OpenTopoMap, VersaTiles, USGS: commercial-ok with usage policies; Esri and CARTO: non-commercial (CARTO needs a key for licensed use).</td>
+</tr>
+<tr>
+<td>"Serve the basemap tiles through our own proxy / mirror." ✅</td>
+<td><code>setUrlRewrite({ host: mirror })</code> + <code>basemapTransformRequest(catalog)</code> on the map.</td>
 </tr>
 <tr>
 <td>"Make it a hazard / control-room look."</td>
@@ -316,20 +330,40 @@ Claude also reads this to reach for the right component by default. Pair it with
 </thead>
 <tbody>
 <tr>
-<td>"Add zoom buttons / a scale bar / a status bar with live coordinates."</td>
-<td>Navigation / ScaleControl / StatusBar.</td>
+<td>"Put the zoom, home, layers, basemap, legend and full-screen controls on the map." ✅</td>
+<td>Already on every map — the standard map controls (<code>MapChrome</code> over <code>@strata/map-controls</code>), fixed top-right. Nothing to configure.</td>
 </tr>
 <tr>
-<td>"Put the zoom, fit, layers, basemap and legend controls on the map." ✅</td>
-<td>Already shipped — <code>MapChrome</code>, the house cluster, is the default whenever <code>navigation</code>/<code>layerList</code>/<code>basemapSwitcher</code> is on.</td>
+<td>"Add a search box / a locate-me button / measure / draw / print." ✅</td>
+<td><code>mapControls.tools</code> — <code>{ "search": true, "locate": true, "measure": true, "draw": true, "print": true }</code>, only the ones you need (all off by default).</td>
 </tr>
 <tr>
-<td>"Move the controls to the other corner." ✅</td>
-<td><code>controls.position</code> (<code>top-left</code>) — the drawer follows, geolocate/fullscreen take the opposite corner.</td>
+<td>"Measure in miles." ✅</td>
+<td><code>mapControls.tools.measure: { "units": "imperial" }</code>.</td>
 </tr>
 <tr>
-<td>"Give me back the old always-open layer and basemap boxes." ✅</td>
-<td><code>controls.cluster: false</code>.</td>
+<td>"Show me what this layer is and where it comes from." ✅</td>
+<td>Built in — the layer's "…" → <strong>Layer information</strong> (plain About + Technical details read live from the service).</td>
+</tr>
+<tr>
+<td>"Make this layer more transparent." / "Move it above the others." ✅</td>
+<td>Built in — the layer's "…" → Transparency / Move up · Move down (or drag); Reset restores the authored state.</td>
+</tr>
+<tr>
+<td>"Add a scale bar." ✅</td>
+<td><code>mapControls.scale: true</code> — optional, off by default, fixed bottom-left (metric).</td>
+</tr>
+<tr>
+<td>"Show the scale in miles." / "Show both metric and imperial." ✅</td>
+<td><code>mapControls.scale: { "units": "imperial" }</code> / <code>{ "units": "both" }</code>.</td>
+</tr>
+<tr>
+<td>"Add a status bar with live coordinates." ✅</td>
+<td>StatusBar (the <code>status-bar</code> widget).</td>
+</tr>
+<tr>
+<td>"Move the controls to the other corner." / "Hide the layers button."</td>
+<td>Not offered — the cluster is fixed top-right in every app so readers never relearn the map (<code>controls.position</code> is ignored).</td>
 </tr>
 <tr>
 <td>"Add a legend."</td>
@@ -360,8 +394,8 @@ Claude also reads this to reach for the right component by default. Pair it with
 <td>Built in — LayerPanel rows carry the layer's swatch, and multi-class renderers expand to the full class list.</td>
 </tr>
 <tr>
-<td>"Let me measure distances and areas." / "Let me draw shapes."</td>
-<td>Measure / Sketch.</td>
+<td>"Let me measure distances and areas." / "Let me draw shapes." ✅</td>
+<td><code>mapControls.tools.measure</code> / <code>.draw</code> on the map — or the <code>measure</code> / <code>draw</code> widgets to place the tool in a panel.</td>
 </tr>
 <tr>
 <td>"Add a time slider that animates the data over the month."</td>
@@ -452,7 +486,23 @@ Claude also reads this to reach for the right component by default. Pair it with
 </tr>
 <tr>
 <td>"Let users add their own layer at runtime." ✅</td>
-<td><code>add-data</code></td>
+<td><code>add-data</code> (a service URL)</td>
+</tr>
+<tr>
+<td>"Let me load my own spreadsheet." / "our portfolio is a CSV." / "upload the client's shortlist." ✅</td>
+<td><code>upload</code> — a file from the reader's machine. It drops owner and person columns <strong>by name</strong>, guesses which column is the identifier, the label, the coordinates or the address, lets the reader correct it, and can look up addresses that carry no coordinates</td>
+</tr>
+<tr>
+<td>"Let people correct the attributes." / "add and delete features." ⚠️</td>
+<td><code>edit</code> — <strong>only on a writable, authenticated ESRI backend</strong>. Strata Serve is read-only, and the panel says so before anyone presses Save</td>
+</tr>
+<tr>
+<td>"Show the photos attached to this feature." ✅</td>
+<td><code>attachment</code> — a read, so it works on both backends</td>
+</tr>
+<tr>
+<td>"Let people mark a site as approved and have it stick." / "a queue we work down." ⛔</td>
+<td><strong>Not available.</strong> Nothing persists between sessions today; decisions leave as an <strong>export</strong>. The annotation store is <strong>Planned (Phase 8)</strong> — see <a href="guide-writes-and-editing.html">Writes &amp; editing</a>. Do not promise it</td>
 </tr>
 <tr>
 <td>"Find the best site weighting slope, roads, and land use." ✅</td>

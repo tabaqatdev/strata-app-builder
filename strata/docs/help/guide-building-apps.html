@@ -90,6 +90,8 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
 <a class="nav-link active" data-title="building an app" href="guide-building-apps.html">Building an app</a>
+<a class="nav-link" data-title="map controls" href="guide-map-controls.html">Map controls</a>
+<a class="nav-link" data-title="writes &amp; editing" href="guide-writes-and-editing.html">Writes &amp; editing</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
@@ -106,20 +108,22 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 </nav><main><div class="crumb">Guide</div><h1>Building an app</h1><p>What a finished strata-app-builder application <strong>is</strong> — the artifact you hand back, how it is put
 together, and the gate it must pass. <code>app-design.md</code> covers how to design one; this page covers how to
 build and verify it.</p>
-<p>Companions: <strong><a href="..\how-to\find-and-verify-data.md"><code>help/find-and-verify-data.md</code></a></strong> (before you write
+<p>Companions: <strong><a href="how-to-find-and-verify-data.html"><code>help/find-and-verify-data.md</code></a></strong> (before you write
 code) · <strong><a href="troubleshooting.html"><code>troubleshooting.md</code></a></strong> (what goes wrong) ·
-<strong><a href="..\guide\app-design.md"><code>app-design.md</code></a></strong> (how to design what you are building) ·
-<strong><a href="..\..\..\recipes\README.md"><code>recipes/README.md</code></a></strong> (what a recipe must supply).
+<strong><a href="guide-app-design.html"><code>app-design.md</code></a></strong> (how to design what you are building) ·
+<strong><a href="../../../recipes/README.md"><code>recipes/README.md</code></a></strong> (what a recipe must supply).
 The build gate is §7 of this page.</p>
 <hr />
 <h2 id="1-the-deliverable">1 · The deliverable</h2>
-<p>A <strong>self-contained application</strong>: MapLibre from a CDN, no bundler, no dependencies, no API keys. It
-runs from a folder with <code>node server.mjs</code>.</p>
+<p>A <strong>self-contained application</strong>: MapLibre from a CDN, no bundler, no npm dependencies (the map
+controls are a vendored copy of plain ES modules), no API keys. It runs from a folder with
+<code>node server.mjs</code>.</p>
 <pre><code>app/
   index.html            the shipped app — theme tokens, the shell, one inline module
   &lt;domain&gt;.mjs          the domain. DOM-free. Every network call through an injectable `net.fetch`
   layers.mjs            presentation — the map spec as genuine ESRI Web Map JSON, palette, Esri→GeoJSON
   server.mjs            zero-dependency static server. Opens no sockets of its own
+  map-controls/         VENDORED copy of @strata/map-controls dist/ — the standard map chrome (never hand-edited)
   test-&lt;domain&gt;.mjs     LIVE suite     — arithmetic, service contracts, the traps
   test-render.mjs       OFFLINE suite  — boots the shipped module against a DOM + MapLibre stub
   drive.mjs             BROWSER suite  — real headless Chrome over CDP, no dependencies
@@ -135,9 +139,10 @@ and the recipe must say which one it shipped, because the two must eventually be
 <pre><code>┌ header — title · the controls that change the reading ───────────────┐
 ├ #notice — persistent caveats (vintage, banding, &quot;advertised not measured&quot;) ┤
 ├──────────────────╥───────────────────────────────────────────────────┤
-│ the reading      ║  MAP  ── control cluster top-right                │
-│ (KPIs, gauge,    ║        drawer opens beside it, one at a time      │
-│  derivation)     ║        legend bottom-left · lon/lat/zoom bottom-right │
+│ the reading      ║  MAP  ── standard control cluster top-right       │
+│ (KPIs, gauge,    ║        (@strata/map-controls, mounted)            │
+│  derivation)     ║        drawer opens beside it, one at a time      │
+│                  ║        legend bottom-left · lon/lat/zoom bottom-right │
 ├──────────────────╨───────────────────────────────────────────────────┤
 │ table / detail — scoped to the current reading, re-titled with it     │
 └ #status — transient progress only ───────────────────────────────────┘
@@ -148,20 +153,34 @@ panel <em>opens</em>; the reader decides where it sits. A grip on the edge facin
 which the panel stops being readable, arrow keys on the focused grip, and <code>map.resize()</code> after the box
 changes. In the React path this is the shell's own behaviour (<code>resizable</code> defaults true on <code>PanelShell</code>
 and on the <code>panel</code> node); in the house pattern below you write it, and §3's harnesses assert it.</p>
-<p><strong>The map chrome is one cluster and one drawer.</strong> Six glyphs in a 32 px stack — zoom in · zoom out ·
-fit · layers · basemap · legend — MapLibre's own zoom suppressed, and a single drawer opening <em>beside</em>
-the cluster, never over it, never two at once. Layers are square checkboxes (multi-select, each row
-saying <em>off</em> / <em>N in view</em> / <em>none in this view</em>); basemaps are <strong>round radios</strong> with a live tile of the
-current area in each style, because a colour swatch cannot tell Positron from Voyager. <code>L</code> · <code>B</code> · <code>G</code> ·
-<code>F</code>, <code>Esc</code> closes one thing. The React path ships this as <code>MapChrome</code>; the house pattern writes it, and
-the two use the same class vocabulary so they look identical.</p>
+<p><strong>The map chrome is the standard map controls — mounted, never hand-written.</strong> One cluster top-right
+(zoom in · zoom out · home | layers · basemap · legend · full screen), one drawer beside it holding the
+Map Viewer-style layer list or the basemap gallery, <code>L</code> · <code>B</code> · <code>G</code> · <code>F</code> · <code>Esc</code>, and optional tools
+(search · locate · measure · draw · print) plus an optional bottom-left scale bar, <strong>all off unless the
+app turns them on</strong>. What a reader sees and
+what an app may configure: <a href="guide-map-controls.html"><code>map-controls.md</code></a>. Both paths use the same code, so they
+look and behave identically:</p>
+<ul>
+<li><strong>React</strong> — <code>&lt;StrataMap&gt;</code> mounts it (via <code>MapChrome</code>) on every map; configure it with
+  <code>props.mapControls</code>.</li>
+<li><strong>House pattern</strong> — vendor the package's built <code>dist/</code> into <code>app/map-controls/</code> and call
+  <code>mountMapControls(map, { container, catalog, layers, onRestyle, onFit, theme, tools, scale })</code> (<code>scale</code>
+only when the app needs one: <code>true</code> or <code>{ units: "metric" | "imperial" | "both" }</code>). The app owns
+  its data and hands the module one <strong><code>LayerDescriptor</code></strong> per layer, top first: <code>id</code>, <code>title</code>,
+  <code>sublayers</code> (the MapLibre layer ids it draws, with their authored opacity), <code>visible</code> + <code>setVisible(on)</code>,
+  and optionally <code>legend</code>/<code>swatch</code> HTML, <code>zoomTo()</code>, <code>about</code> (the plain-language Layer information) and
+  <code>services</code> (the URLs whose <code>?f=json</code> feeds Technical details). A basemap change calls <code>setStyle()</code>, so
+  re-add your layers in <code>onRestyle</code> and call <code>controls.applyLayerState()</code>; your identify click handler
+  returns early while <code>controls.isBusy()</code>. The contract in full:
+  <a href="../../packages/map-controls/README.md"><code>packages/map-controls/README.md</code></a>.</li>
+</ul>
 <p><strong>The legend is a control surface, and the table row is a toggle.</strong> Click a legend class to hide it,
 shift-click to isolate, <code>Esc</code> clears — filtering the layer, never fading it, with counts that keep their
 denominator. Click a table row to <strong>adopt</strong> the record: the map flies to <em>that feature</em> and opens its
 popup. Click it again to <strong>release</strong>: selection cleared, popup closed. Whatever adopts must also release,
 by the same gesture.</p>
 <p>Deviate when the business needs it, and say so in the recipe. The full default set — chrome, keyboard,
-interaction floor, honesty surfaces, theme — is <a href="..\guide\app-design.md"><code>app-design.md</code></a> §0.</p>
+interaction floor, honesty surfaces, theme — is <a href="guide-app-design.html"><code>app-design.md</code></a> §0.</p>
 <h2 id="2-the-rules-that-make-the-numbers-trustworthy">2 · The rules that make the numbers trustworthy</h2>
 <p><strong>One domain module, imported unchanged by the browser and by both suites.</strong> No number can reach the
 screen that the suite has not asserted. If the app computes it, the test computes it from the same code.</p>
@@ -182,8 +201,9 @@ would be self-defeating. No sample data, no mock rows, no plausible placeholder.
 <p><strong>Nothing is silently truncated.</strong> Every cap says so on screen: <code>+N more</code>, <code>Capped, not complete</code>,
 <code>250 of 1,975 rows</code>. A silent top-N reads as "this is everything."</p>
 <p><strong>No write path.</strong> Reads only, so the app runs identically on Strata and on ArcGIS.</p>
-<p><strong>Keyless basemaps only</strong> — the OpenFreeMap / Versatiles vector styles first, raster OSM / OpenTopoMap
-behind them. EPSG:4326 everywhere. "Keyless" is asserted as a <em>behaviour</em>, never as a URL pattern: a gated
+<p><strong>Keyless basemaps only</strong> — the <code>@strata/map-controls</code> catalog (default <code>osm</code>, theme pair <code>osm</code> /
+<code>osm-dark</code>), and check each basemap's licence tag before a business app ships (Esri and CARTO are
+<code>non-commercial</code>). EPSG:4326 everywhere. "Keyless" is asserted as a <em>behaviour</em>, never as a URL pattern: a gated
 host answers HTTP 200 with a placeholder that every URL-shaped check calls healthy.</p>
 <hr />
 <h2 id="3-three-harnesses-because-each-is-blind-to-what-the-next-one-sees">3 · Three harnesses, because each is blind to what the next one sees</h2>
@@ -275,7 +295,7 @@ unwinding one thing at a time. That is already ~20 before any domain-specific be
 fails, the app is not done — fix it or state the failure in the handback. <strong>Never report a partial pass
 as a pass.</strong></p>
 <p><strong>Design acceptance is a separate, earlier gate:</strong> the ship checklist in
-<a href="..\guide\app-design.md"><code>app-design.md</code></a> §7. Both must pass; this one covers what only exists once the app is
+<a href="guide-app-design.html"><code>app-design.md</code></a> §7. Both must pass; this one covers what only exists once the app is
 <em>built</em>.</p>
 <h3 id="the-handback">The handback</h3>
 <p>State plainly:</p>
@@ -286,4 +306,4 @@ as a pass.</strong></p>
 <strong>Unverified:</strong> …</p>
 </blockquote>
 <p>If any section failed, say which and why. A build that reports green while a section failed is worse than
-one that reports the failure — the point of this file is that the numbers on the screen can be defended.</p><div class="pager"><a class="prev" href="guide-app-design.html"><small>Previous</small>Application design</a><a class="next" href="how-to-create-app-layouts.html"><small>Next</small>Create an app layout</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>
+one that reports the failure — the point of this file is that the numbers on the screen can be defended.</p><div class="pager"><a class="prev" href="guide-app-design.html"><small>Previous</small>Application design</a><a class="next" href="guide-map-controls.html"><small>Next</small>Map controls</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

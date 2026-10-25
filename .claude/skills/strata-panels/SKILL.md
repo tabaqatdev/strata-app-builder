@@ -40,7 +40,11 @@ bar/line/pie via ECharts-optional/SVG-fallback, drag-reorder, **click → catego
 
 The management panels live in `@strata/core-map/react/panels`: `LayerPanel` (visibility/opacity/reorder/
 rename/zoom/labels/identify/open-table/remove, drag-to-reorder rows, header "+" add-from-FeatureServer-URL),
-`BasemapPanel` (list/switch/add basemaps → genuine ESRI `BaseMap`), `AttributeTablePanel`, `ChartPanel`.
+`BasemapPanel` (the `@strata/map-controls` basemap gallery by default; a custom library / Manage mode
+adds/edits basemaps → genuine ESRI `BaseMap`), `AttributeTablePanel`, `ChartPanel`.
+**Don't rebuild the map's own chrome as panels.** Every `map` already carries the standard controls
+(layers · basemap · legend in the fixed cluster — `strata-map`); a docked `LayerPanel`/`BasemapPanel` is
+for an app that wants them *beside* the map as well, never instead of the cluster.
 
 ## New panels
 - **`CartoPanel`** — a CARTO Builder-style **layer list + data widgets** (category / formula / histogram /
@@ -87,11 +91,23 @@ release**, never a no-op.
   "hidden" feature can then be selected through it. Pass `counts` to render `n of N` — a filtered count
   without its denominator reads as the whole. The panel says in words that isolating changes the map,
   not the reading. `interactive:false` gives a static caption.
-- **`BasemapPanel` is a radiogroup** — round boxes, one always in force and always ticked, each row a
-  live tile of the current area in that style. Pass `map` for the thumbnails; the **"Follow the theme"**
-  row appears whenever a mode is known, and inside a `<StrataApp>` the panel reads that mode itself
-  (pass `themeMode` only outside one). Following is **on by default** — flipping the app's theme swaps
-  the basemap — and an explicit pick here turns it off for the session (`store.baseMapFollowsTheme`).
+- **`BasemapPanel` is the package gallery by default** — the same `@strata/map-controls` gallery as the
+  map's basemap drawer (`mountBasemapGallery`): a **Follow the theme** switch, **Recommended** (the
+  universal 8 plus `recommendedExtras`, ≤ 3 catalog ids) and a collapsible **More basemaps** grouped by
+  provider (OpenStreetMap · Esri · USGS · CARTO), each card a thumbnail with an info tooltip (description +
+  licence). The basemap in force is **always ticked**, including while the theme is choosing (a legacy id
+  ticks as its alias). Inside a `<StrataApp>` the panel reads the mode itself (pass `themeMode` only
+  outside one). Following is **on by default** — flipping the app's theme swaps `osm` ↔ `osm-dark` — and
+  an explicit pick drives `store.setBaseMap` and turns following off for the session
+  (`store.baseMapFollowsTheme`). The older editable **radiogroup row list** appears only when you pass a
+  custom `basemaps` library or the user opens **Manage**.
+- **The layer list is the standard one.** The map's layers drawer is the Map Viewer-style list from
+  `@strata/map-controls`: per row an **eye** (visibility), a **legend chevron** (the layer's own classes
+  inline), a drag handle, and a **"…"** → Zoom to layer · **Layer information** (a plain-language About +
+  Technical details read live from the service's `?f=json`, object-id field as the service declares it) ·
+  Move up/down · Show/Hide legend · Transparency · Reset. It is store-driven (visibility/opacity/order go
+  through the store). Layer information's About text comes only from the recipe and the services — omit a
+  field rather than invent one.
 
 ## Cross-panel actions (`@strata/actions`)
 Each panel is a config object in `strata:extensions`, bound to a `mapId`, placeable on canvas or in a page

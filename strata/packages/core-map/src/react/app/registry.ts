@@ -37,6 +37,7 @@ import {
   SharePanel,
   NearMe,
   AddDataWidget,
+  UploadWidget,
   WeightedOverlayPanel,
   ElevationProfile,
 } from "../widgets/index.js";
@@ -44,6 +45,8 @@ import { Legend, StatusBar } from "../controls/index.js";
 import {
   LayerPanel,
   BasemapPanel,
+  EditPanel,
+  AttachmentViewer,
   AttributeTablePanel,
   ChartPanel,
   CartoPanel,
@@ -97,12 +100,19 @@ export const defaultWidgetRegistry: Record<string, WidgetComponent> = {
   query: QueryPanel,
   analysis: AnalysisPanel,
   "feature-info": FeatureInfoPanel,
+  // Writes. Both are offered by `/panel` and by the `/edit` and `/attachments` skills, and both were
+  // unreachable from an `AppLayout` until now because the layout engine resolves every widget through
+  // this registry. `edit` needs a WRITABLE + AUTHENTICATED ESRI backend — it says so on its own face,
+  // and `@strata/auth-arcgis` throws for a `strata` backend. `attachment` is a read and works on both.
+  edit: EditPanel,
+  attachment: AttachmentViewer,
   swipe: Swipe,
   bookmarks: Bookmarks,
   controller: WidgetController,
   share: SharePanel,
   "near-me": NearMe,
   "add-data": AddDataWidget,
+  upload: UploadWidget,
   "weighted-overlay": WeightedOverlayPanel,
   elevation: ElevationProfile,
   placeholder: Placeholder,

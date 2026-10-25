@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    // ES2022 lib for Array.prototype.at (emitted as-is; every evergreen browser has it).
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    // The module is a behaviour-exact port of a reviewed vanilla-JS reference: every EXPORTED
+    // signature is typed explicitly (see the .d.ts), internals stay loosely typed on purpose.
+    "noImplicitAny": false
+  },
+  "include": ["src/**/*.ts"]
+}

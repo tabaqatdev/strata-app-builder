@@ -10,9 +10,12 @@ How to author a `layers.json` (the ESRI Web Map JSON map spec) and embed `<Strat
 ## Recipes
 1. **Full-page map from two ArcGIS services.** Verify each `?f=json`; build two `operationalLayers`
    (`arcgis-feature`); set `spatialReference {wkid:4326}`; set `initialState.viewpoint.targetGeometry` to
-   the union extent; use the default **OpenFreeMap Positron** (open, keyless GL style) basemap — open-source
-basemaps are the default, OSM data first (`OPEN_BASEMAPS` = `VECTOR_BASEMAPS` then `RASTER_BASEMAPS`:
-OpenFreeMap Positron/Dark/Liberty · Versatiles · CARTO GL · raster OSM · OpenTopoMap). Preset `FullPage`.
+   the union extent; leave the basemap at the default — **OpenStreetMap (`osm`)**, paired with `osm-dark`
+   for a dark theme. Every basemap comes from the **one catalog**, `@strata/map-controls/basemaps`
+   (`BASEMAPS`: 33 keyless entries in four groups — OpenStreetMap · Esri · USGS · CARTO). Each entry carries
+   a licence tag (`license`: `commercial-ok` | `non-commercial`, plus `licenseNote`/`licenseUrl`): Esri and
+   CARTO are **non-commercial** (CARTO's terms need a key for licensed use), so check the tag before a
+   business app ships. OpenFreeMap is deny-listed — never offer it. Preset `FullPage`.
 2. **Strata-served layer.** `source:{kind:"strata", dataset:"fhsz"}`; the URL resolves on the Serve
    server; pull styling from the metadata bundle.
 3. **Near-real-time layer.** Set `refreshIntervalSeconds: 300` on a live incident service.
@@ -28,41 +31,82 @@ Top-level: `version`, `spatialReference`, `initialState.viewpoint.targetGeometry
 `visibility`, `opacity`, `layerDefinition.definitionExpression`, `layerDefinition.drawingInfo.renderer`,
 `popupInfo`, `fields`. App-proprietary data → `strata:extensions`.
 
-## Map chrome — shipped as `MapChrome`, and the vocabulary to hand-build
+## The standard map controls — fixed, mounted, never hand-built
 **Layers and basemap belong on the map, not in the page header** — they change what the map shows, and a
 reader looking at the map should not travel to the top of the page to change it.
-One **inline-SVG control cluster**, top-right, 32 px buttons on `currentColor` (so they invert with the
-theme for free), with MapLibre's own zoom control **suppressed** so there is never a second set. Drawers
-(layers · basemap · legend) open **beside** the cluster, never over it, and **only one at a time** — a
-second request switches mode rather than stacking. The **legend is its own panel bottom-left** with live
-counts; the **EPSG:4326 status readout sits bottom-right**. Shortcuts: `L` layers · `B` basemap ·
-`G` legend · `F` fit, `Esc` closes. Basemap options carry a **live tile of the current area** — a colour
-swatch cannot tell Positron from Voyager.
 
-**On the React path you get all of it by default.** `<StrataMap controls={{navigation:true,
-layerList:true, basemapSwitcher:true, legend:true}}/>` renders `MapChrome` (`@strata/core-map`
-`react/controls/MapChrome.tsx`): the six glyphs (`CHROME_ICONS` — plus · minus · home · layers · base ·
-legend), the drawer at `right:47px`, layer rows as **square** checkboxes and basemap rows as **round**
-radios with live tiles and a "Follow the theme" row. `controls.position` moves cluster and drawer
-together; `controls.cluster:false` restores the older always-open boxes. **On the house (vanilla) path
-you write it** — the same class vocabulary (`mapctl` / `drawer` / `opt` / `box` / `box.round` / `thumb`),
-which is why the two look identical.
+Every Strata map carries the same chrome from one framework-free package, **`@strata/map-controls`**
+(user view: `strata/docs/guide/map-controls.md`; full API + `LayerDescriptor` contract:
+`strata/packages/map-controls/README.md`). **One cluster, top-right, always:**
 
-**The tick must name the effective basemap.** With "Follow the theme" on — the default — an
-`id === chosenId` test ticks nothing, so the drawer offers five options and shows none in force, leaving
-no way to tell which basemap you are looking at. "Follow the theme" says HOW the choice is made; it does
-not stop there being a choice. **Both rows tick.**
+```
+zoom in · zoom out · home  |  layers · basemap · legend · full screen
+```
+
+It is **never reordered, moved or removed**, and there is never a second set of zoom buttons. **One
+drawer** opens beside the cluster (never over it, one at a time) holding the Map Viewer-style **layer
+list** (eye · legend chevron · drag · "…" → Zoom to layer · Layer information · Move up/down · Show legend ·
+Transparency · Reset) or the **basemap gallery** (Follow the theme · Recommended 8 + ≤ 3 app extras · More
+basemaps by provider · thumbnails · info tooltips · the basemap in force always ticked). Keyboard `L`
+layers · `B` basemap · `G` legend · `F` home · `Esc` closes. Icons are **Lucide** (ISC), stroked in
+`currentColor`; Esri's Calcite icons are not redistributed.
+
+**Optional tools are OFF by default** — `search` · `locate` · `measure` · `draw` · `print`. Turn one on
+only when the app's job needs it (a second cluster group, always in that order). An app with none gets no
+tool buttons, listeners, sources or network calls. While Measure/Draw is open it owns map clicks and every
+tool reverts to `identify` when it closes.
+
+**The scale bar is optional too — OFF by default.** `mapControls.scale: true` (metric) or
+`{ "units": "metric" | "imperial" | "both" }` adds one, fixed bottom-left (`.smc-scale`). Add it only
+when readers need to judge distance off the map (field, site, survey, planning views).
+
+**React path — `props.mapControls`.** `<StrataMap>` mounts the controls (through `MapChrome`, a thin
+store-driven wrapper over the package) on every map. Configure it on the map widget — four keys, nothing
+else (`MapControlsConfig`, `@strata/schema`; exact keys in `recipes/COMPONENT-MANIFEST.md` §3b):
+
+```json
+{ "type": "map", "props": { "mapControls": {
+  "tools":   { "measure": { "units": "imperial" } },
+  "basemap": { "initial": "osm", "recommendedExtras": ["esri-imagery"],
+               "theme": { "follow": true, "light": "osm", "dark": "osm-dark" } },
+  "scale":   true,
+  "title":   "Parcel Viewer"
+} } }
+```
+
+Omit `mapControls` entirely for the default cluster with no tools. **The legacy `controls` flags are
+deprecated** (`legacyControlsToMapControls`): `navigation`/`basemapSwitcher`/`layerList`/`legend`/
+`fullscreen` are always on (ignored) · `measure` → `tools.measure` · `sketch` → `tools.draw` ·
+`geolocate` → `tools.locate` · `scale: true` → `mapControls.scale: true` · `cluster`/`position` ignored.
+New apps write `mapControls` only; if both are set, `mapControls` wins. The standalone
+`MeasureControl`/`SketchControl`/`NativeControls` are deprecated for the same reason — use the tools.
+
+**House (vanilla) path — vendor and mount.** `node strata/packages/map-controls/scripts/vendor.mjs
+<appDir>` copies the built package into `<app>/map-controls/` (with a `VENDOR.json`); import
+`./map-controls/map-controls.js` + `./map-controls/basemaps.js` and call `mountMapControls(map, {
+container, catalog, layers, onRestyle, onFit, theme, scale? })`, handing it one `LayerDescriptor` per layer. Never
+hand-edit the vendored copy — `check-drift.mjs <appDir>` fails when it differs from the library. The
+construction steps are in the `strata-app-build` skill.
+
+**The tick names the effective basemap.** With "Follow the theme" on — the default — the gallery still
+ticks the basemap actually drawn (legacy ids tick as their alias). "Follow the theme" says HOW the choice
+is made; it does not stop there being a choice. The package does this; don't re-implement it.
 
 **The basemap follows the theme, by default, in every app.** Flipping light↔dark (a `theme-switch`, or
-the OS preference under `theme.mode:"auto"`) swaps the basemap to its pair — `<StrataApp>` shares the
-resolved mode and calls `store.setBaseMap(…, {transient:true})`. You do not wire this; you only respect
-its three rules: the **authored `layers.json` basemap wins on mount** (the swap fires on a *change* of
-mode, never on first paint), an **explicit pick outranks the theme** (it clears
-`store.baseMapFollowsTheme`), and the swap **never enters the undo history or the saved spec**.
-`theme.basemap` `{follow:false}` pins the authored basemap; `{light,dark}` names a specific pair. Use the
-one resolver — `basemapForThemeFrom(library, mode)` — anywhere you need to answer "which basemap for this
-mode", so the drawer's tick and the applied basemap can never disagree. Inside a `<StrataApp>` the map
-chrome reads the mode itself; pass `themeMode` only when embedding `<StrataMap>` on its own.
+the OS preference under `theme.mode:"auto"`) swaps the basemap to its pair — **`osm` ↔ `osm-dark`** by
+default (the catalog's `THEME_BASEMAP` / `basemapForTheme(mode)`). On the React path `<StrataApp>` shares
+the resolved mode and calls `store.setBaseMap(…, {transient:true})`; on the house path call
+`controls.setTheme(mode)`. You do not wire the swap; you only respect its three rules: the **authored
+`layers.json` basemap wins on mount** (the swap fires on a *change* of mode, never on first paint), an
+**explicit pick outranks the theme** (it clears `store.baseMapFollowsTheme`), and the swap **never enters
+the undo history or the saved spec**. `theme.basemap` `{follow:false}` pins the authored basemap;
+`{light,dark}` names a specific pair of **catalog ids**. Every id resolves through `BASEMAP_ALIASES` /
+`resolveBasemapId`, so a retired id (`openfreemap-positron`, `ofm-dark`, `versatiles-eclipse`,
+`carto-dark-gl`, …) still renders as its survivor — write current catalog ids in new specs. Never answer
+"which basemap for this mode" with your own table: the catalog's `basemapForTheme` is the one answer
+(core-map's `basemapForThemeFrom(library, mode)` delegates to it for a custom library), so the gallery's
+tick and the applied basemap can never disagree. Inside a `<StrataApp>` the chrome reads the mode itself;
+pass `themeMode` only when embedding `<StrataMap>` on its own.
 
 ## Known traps
 - Extent is an **envelope** `{xmin,ymin,xmax,ymax,spatialReference}`, not a bare `[w,s,e,n]`.

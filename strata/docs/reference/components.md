@@ -39,6 +39,7 @@ state) and the **action bus** (cross-widget interactivity, the WIF).
 | **`@strata/actions`** | The interactivity bus (WIF) | `ActionBus` (triggers → actions), `wireConnections` + `defaultDispatchers` (drive `AppLayout.connections`), `OutputRegistry` (a widget publishes records others consume), and the `DataAction` registry. |
 | **`@strata/arcade`** | Arcade-subset evaluator | Transpiles the common ~80% of ESRI Arcade to a **MapLibre expression** (renderers) or a **computed scalar** (popups). Anything outside the subset warns and falls back. |
 | **`@strata/theme`** | The visual system | Colorblind-safe **categorical / sequential / diverging** ramps (light+dark) and named **theme presets** (light/dark/hazard/muted). Symbology, charts, and app themes all draw from here. |
+| **`@strata/map-controls`** | The standard map controls | Framework-free (no React, no runtime deps): the fixed cluster, the layer-list / basemap-gallery drawer, opt-in tools (search · locate · measure · draw · print), and the one keyless **basemap catalog** (33 entries, licence tags, aliases, URL-rewrite hook). Wrapped by `MapChrome`; vendored by vanilla apps. [Map controls](../guide/map-controls.md). |
 | **`@strata/core-map`** | The map + UI engine | React + MapLibre: the style/popup compilers, ArcGIS/GeoJSON/tile/WMS/**ImageServer/COG** loaders, `<StrataMap>`, all controls, all panels, all widgets, and the `<StrataApp>` layout engine. |
 | **`@strata/i18n`** | Bilingual UI | Dependency-free EN/AR dictionary + `{var}` interpolation + RTL direction. |
 | **`@strata/processing`** | Spatial analysis | Turf-backed pure ops: buffer/dissolve/clip/nearest/within/spatial-join, plus overlay (union/difference/intersect/voronoi/hull), **aggregate** (dissolve-with-stats), **hexbin/hotspot** (Getis-Ord Gi\*), **weighted-overlay** (suitability), and **dot-density**. |
@@ -62,16 +63,28 @@ colors from `theme`, expressions from `arcade`, analysis from `processing`, imag
 (visibility/opacity/order/basemap/highlight/**filter**). When also given a `bus`, it is a **WIF sink** —
 selections and flashes from other widgets light up on it. Controls layered on the canvas:
 
-- **MapChrome — the house control cluster.** One 32 px round-rect stack in the corner (**zoom in ·
-  zoom out · fit · layers · basemap · legend**, six inline-SVG glyphs on `currentColor`), with
-  MapLibre's own zoom suppressed so there is exactly one set, and **one drawer** opening *beside* the
-  cluster — never over it, never two at once. Layers and basemap belong **on the map**: a reader looking
-  at the map should not travel to a page header to change what it shows. `L` · `B` · `G` · `F` ·
-  `Esc`. It is the default whenever `navigation`, `layerList` or `basemapSwitcher` is on
-  (`controls.cluster = false` restores the older always-open boxes).
-- **Navigation / Geolocate / Fullscreen / Scalebar / StatusBar** — the standard map furniture. Set
-  `controls.position` (`top-left`/`top-right`/…) so the cluster **honors a docked/floating panel**;
-  geolocate/fullscreen take the opposite corner.
+- ✅ **MapChrome — the standard map controls.** A thin, store-driven React wrapper over
+  `@strata/map-controls`, mounted on **every** map: one fixed cluster top-right — **zoom in · zoom out ·
+  home | layers · basemap · legend · full screen** (Lucide icons) — that apps cannot reorder, move or
+  remove, and **one drawer** opening *beside* it. The drawer holds the Map Viewer-style **layer list**
+  (eye · inline legend chevron · drag to reorder · a "…" with Zoom to layer · **Layer information**
+  — plain About + Technical details read live from the service · Move up/down · Show legend ·
+  Transparency · Reset) or the **basemap gallery** (Follow the theme · Recommended 8 + ≤3 app extras ·
+  More basemaps grouped OpenStreetMap/Esri/USGS/CARTO, thumbnails, info tooltips). `L` · `B` · `G` ·
+  `F` · `Esc`. Store-driven: visibility/transparency/order/basemap go through the store; a theme swap is
+  transient. Configured by `mapControls` (`tools` / `basemap` / `scale` / `title`).
+  [Map controls](../guide/map-controls.md).
+- ✅ **Optional tools — search · locate · measure · draw · print** — **off by default**; each opted
+  into per app via `mapControls.tools`. While measure/draw is open it owns map clicks, and every tool
+  reverts to *identify* on close.
+- ✅ **Optional scale bar** — **off by default**; `mapControls.scale: true` (metric) or
+  `{ "units": "metric" | "imperial" | "both" }`, fixed bottom-left (`.smc-scale`). Enable it only when
+  the app's job needs distances read off the map.
+- ✅ **Legacy `controls` flags** — deprecated, still honoured (`legacyControlsToMapControls`):
+  `measure`/`sketch`/`geolocate` → `tools.measure`/`draw`/`locate`; `scale: true` →
+  `mapControls.scale: true`; the rest are always on or ignored.
+- **NavigationControl / GeolocateControl / FullscreenControl** (deprecated — `<StrataMap>` no longer
+  mounts them), **ScaleControl**, **StatusBar** — MapLibre furniture kept for bespoke control bars.
 - **Legend** — swatches from each layer's `drawingInfo`, and **a control surface, not a caption**:
   click a class to hide it · shift-click to isolate · `Esc` clears. Hiding builds a real
   `definitionExpression` on the renderer's own field and applies it in place, because a legend row
@@ -81,7 +94,8 @@ selections and flashes from other widgets light up on it. Controls layered on th
   drawer — adds or drops it from the legend in the same frame; and it lists **every visible layer**,
   giving one whose symbology belongs to the service a neutral swatch and its title rather than
   omitting it, because an absent row reads as an absent layer.
-- **Measure** (distance/area) and **Sketch** (point/line/polygon) — revert to *identify* when closed.
+- **MeasureControl / SketchControl** (deprecated in favour of `mapControls.tools.measure` / `.draw`;
+  kept for bespoke tool bars and the `measure` / `draw` widgets) — revert to *identify* when closed.
 - **TimeSlider** — play/pause a `definitionExpression` on a time field.
 - **Identify → popup** — a click enriches the top/active feature and shows its `popupInfo`.
 - **Layer sources** (`source.kind`): `arcgis-feature` · `arcgis-map` · `geojson` · `strata` · `tile` (XYZ) ·
@@ -106,7 +120,7 @@ returns to what the app authored.
 | Panel | Purpose |
 |---|---|
 | **LayerPanel** | **One-line rows** (drag-reorder, visibility toggle) each carrying the layer's **own symbology** — one swatch for a single-class renderer, a class stack plus an `N ▸` that expands the full class list for `uniqueValue`/`classBreaks` — drawn from the same `legendRows()` the Legend reads, so the two surfaces cannot disagree. Then a `⋯`/right-click **context menu**: Show table · Zoom · **Filter…** · **Symbology…** · **Popup…** · Rename · Show metadata · Remove. Add-from-URL header button. |
-| **BasemapPanel** | Switch basemaps (genuine ESRI `BaseMap`) — a **radiogroup**: one is always in force and always ticked, each row carrying a **live tile of the current area in that style** (a colour swatch cannot tell Positron from Voyager) and a **Follow the theme** row (on by default; it reads the app's theme mode). Plus a **Manage** pill: add / remove / **set-default**, persisted to the map spec via `onLibraryChange`. |
+| **BasemapPanel** | Switch basemaps (genuine ESRI `BaseMap`). By default it renders the **same gallery as the map's basemap drawer** (`@strata/map-controls` `mountBasemapGallery`: Follow the theme · Recommended · More basemaps · thumbnails · info tooltips); the basemap in force is always ticked, and legacy ids tick as their alias. A custom `basemaps` library switches to the radiogroup row list, and the **Manage** pill opens it for editing: add / remove / **set-default**, persisted to the map spec via `onLibraryChange`. |
 | **AttributeTablePanel** | Sortable table: header filters, column show/hide, **CSV / TSV / JSON / GeoJSON export**, **server paging**, auto **row-windowing**. A row click **adopts** that record — the map flies to it and opens its popup; **clicking it again releases it**, clearing the selection and closing the popup. Emits `rowSelect` (an empty `oids` **is** the release). |
 | **ChartPanel** | Bar/line/pie via **ECharts** (optional) or an SVG fallback; **clicking a category cross-filters** (emits `categorySelect`). |
 | **CartoPanel** | CARTO-style layer list + cross-filter widgets (category/formula/histogram/time). Emits `categorySelect`. |
@@ -140,6 +154,16 @@ regions and an app `splash`. Widgets (registry `type`), grouped by what they do:
   **`controller`** (a tool dock that shows/hides panels), `placeholder` (design-time slot).
 - **Analysis** — `analysis` (a shell over the Turf ops), `near-me` (proximity), `add-data` (runtime layer
   add → "explorer" apps), `weighted-overlay` (suitability sliders), `elevation` (drawn-line profile).
+- **Writes** — `edit` (an attribute form that saves, adds and deletes through `applyEdits`; needs a
+  **writable + authenticated ESRI backend** and says so on its own face) and `attachment` (paging and
+  viewing a feature's attachments — a **read**, so it works on Strata Serve too). Strata Serve is
+  read-only; see [Writes & editing](../guide/writes-and-editing.md) for what an app can and cannot
+  change, and for the **Planned (Phase 8)** annotation store.
+- **Customer data** — `upload` (**a file from the reader's machine**, not a service URL: CSV/GeoJSON in,
+  identity columns dropped by name, a mapping editor for identifier/label/coordinates/address, optional
+  address lookup, published as an output source others bind with `dataSource.fromWidget`). This is how a
+  customer's own portfolio, pipeline or shortlist enters an app; `add-data` takes a URL and is not the
+  same job.
 
 **They work together through the WIF:** every widget gets an `id`, the shared `bus`, and the `outputs`
 registry. An `AppLayout.connections` array declares *"when `from` emits `trigger`, run `action` on `to`"* —
@@ -182,3 +206,4 @@ data (`/convert`, `/publish`, `/update-metadata`), and `/export`. Full list with
 - **[Human Language Reference](human-language.md)** — the phrase to ask for each component (recipe fuel).
 - **[Creating a new component/widget/plugin](../guide/creating-components.md)** — prerequisites + the recipe.
 - **[Repository anatomy](../guide/anatomy.md)** — where every file lives.
+- **[Map controls](../guide/map-controls.md)** — the standard map controls and the basemap catalog.

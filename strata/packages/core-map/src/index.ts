@@ -36,6 +36,11 @@ export {
   basemapForTheme,
   basemapForThemeFrom,
   baseMapFromPreset,
+  baseMapFromId,
+  baseMapCatalogId,
+  basemapPresetById,
+  resolveBasemapId,
+  basemapCatalog,
   prepareVectorBasemap,
   type BasemapPreset,
 } from "./engine/basemaps.js";

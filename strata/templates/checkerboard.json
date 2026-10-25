@@ -36,10 +36,8 @@
                       "md-hospitals",
                       "md-counties"
                     ],
-                    "controls": {
-                      "navigation": true,
-                      "scale": true,
-                      "position": "top-right"
+                    "mapControls": {
+                      "scale": true
                     }
                   }
                 }
@@ -149,10 +147,8 @@
                       "md-fire-stations",
                       "md-counties"
                     ],
-                    "controls": {
-                      "navigation": true,
-                      "scale": true,
-                      "position": "top-right"
+                    "mapControls": {
+                      "scale": true
                     }
                   }
                 }

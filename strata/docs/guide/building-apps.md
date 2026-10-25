@@ -14,8 +14,9 @@ The build gate is §7 of this page.
 
 ## 1 · The deliverable
 
-A **self-contained application**: MapLibre from a CDN, no bundler, no dependencies, no API keys. It
-runs from a folder with `node server.mjs`.
+A **self-contained application**: MapLibre from a CDN, no bundler, no npm dependencies (the map
+controls are a vendored copy of plain ES modules), no API keys. It runs from a folder with
+`node server.mjs`.
 
 ```
 app/
@@ -23,6 +24,7 @@ app/
   <domain>.mjs          the domain. DOM-free. Every network call through an injectable `net.fetch`
   layers.mjs            presentation — the map spec as genuine ESRI Web Map JSON, palette, Esri→GeoJSON
   server.mjs            zero-dependency static server. Opens no sockets of its own
+  map-controls/         VENDORED copy of @strata/map-controls dist/ — the standard map chrome (never hand-edited)
   test-<domain>.mjs     LIVE suite     — arithmetic, service contracts, the traps
   test-render.mjs       OFFLINE suite  — boots the shipped module against a DOM + MapLibre stub
   drive.mjs             BROWSER suite  — real headless Chrome over CDP, no dependencies
@@ -44,9 +46,10 @@ and the recipe must say which one it shipped, because the two must eventually be
 ┌ header — title · the controls that change the reading ───────────────┐
 ├ #notice — persistent caveats (vintage, banding, "advertised not measured") ┤
 ├──────────────────╥───────────────────────────────────────────────────┤
-│ the reading      ║  MAP  ── control cluster top-right                │
-│ (KPIs, gauge,    ║        drawer opens beside it, one at a time      │
-│  derivation)     ║        legend bottom-left · lon/lat/zoom bottom-right │
+│ the reading      ║  MAP  ── standard control cluster top-right       │
+│ (KPIs, gauge,    ║        (@strata/map-controls, mounted)            │
+│  derivation)     ║        drawer opens beside it, one at a time      │
+│                  ║        legend bottom-left · lon/lat/zoom bottom-right │
 ├──────────────────╨───────────────────────────────────────────────────┤
 │ table / detail — scoped to the current reading, re-titled with it     │
 └ #status — transient progress only ───────────────────────────────────┘
@@ -59,13 +62,26 @@ which the panel stops being readable, arrow keys on the focused grip, and `map.r
 changes. In the React path this is the shell's own behaviour (`resizable` defaults true on `PanelShell`
 and on the `panel` node); in the house pattern below you write it, and §3's harnesses assert it.
 
-**The map chrome is one cluster and one drawer.** Six glyphs in a 32 px stack — zoom in · zoom out ·
-fit · layers · basemap · legend — MapLibre's own zoom suppressed, and a single drawer opening *beside*
-the cluster, never over it, never two at once. Layers are square checkboxes (multi-select, each row
-saying *off* / *N in view* / *none in this view*); basemaps are **round radios** with a live tile of the
-current area in each style, because a colour swatch cannot tell Positron from Voyager. `L` · `B` · `G` ·
-`F`, `Esc` closes one thing. The React path ships this as `MapChrome`; the house pattern writes it, and
-the two use the same class vocabulary so they look identical.
+**The map chrome is the standard map controls — mounted, never hand-written.** One cluster top-right
+(zoom in · zoom out · home | layers · basemap · legend · full screen), one drawer beside it holding the
+Map Viewer-style layer list or the basemap gallery, `L` · `B` · `G` · `F` · `Esc`, and optional tools
+(search · locate · measure · draw · print) plus an optional bottom-left scale bar, **all off unless the
+app turns them on**. What a reader sees and
+what an app may configure: [`map-controls.md`](map-controls.md). Both paths use the same code, so they
+look and behave identically:
+
+- **React** — `<StrataMap>` mounts it (via `MapChrome`) on every map; configure it with
+  `props.mapControls`.
+- **House pattern** — vendor the package's built `dist/` into `app/map-controls/` and call
+  `mountMapControls(map, { container, catalog, layers, onRestyle, onFit, theme, tools, scale })` (`scale`
+only when the app needs one: `true` or `{ units: "metric" | "imperial" | "both" }`). The app owns
+  its data and hands the module one **`LayerDescriptor`** per layer, top first: `id`, `title`,
+  `sublayers` (the MapLibre layer ids it draws, with their authored opacity), `visible` + `setVisible(on)`,
+  and optionally `legend`/`swatch` HTML, `zoomTo()`, `about` (the plain-language Layer information) and
+  `services` (the URLs whose `?f=json` feeds Technical details). A basemap change calls `setStyle()`, so
+  re-add your layers in `onRestyle` and call `controls.applyLayerState()`; your identify click handler
+  returns early while `controls.isBusy()`. The contract in full:
+  [`packages/map-controls/README.md`](../../packages/map-controls/README.md).
 
 **The legend is a control surface, and the table row is a toggle.** Click a legend class to hide it,
 shift-click to isolate, `Esc` clears — filtering the layer, never fading it, with counts that keep their
@@ -104,8 +120,9 @@ would be self-defeating. No sample data, no mock rows, no plausible placeholder.
 
 **No write path.** Reads only, so the app runs identically on Strata and on ArcGIS.
 
-**Keyless basemaps only** — the OpenFreeMap / Versatiles vector styles first, raster OSM / OpenTopoMap
-behind them. EPSG:4326 everywhere. "Keyless" is asserted as a *behaviour*, never as a URL pattern: a gated
+**Keyless basemaps only** — the `@strata/map-controls` catalog (default `osm`, theme pair `osm` /
+`osm-dark`), and check each basemap's licence tag before a business app ships (Esri and CARTO are
+`non-commercial`). EPSG:4326 everywhere. "Keyless" is asserted as a *behaviour*, never as a URL pattern: a gated
 host answers HTTP 200 with a placeholder that every URL-shaped check calls healthy.
 
 ---

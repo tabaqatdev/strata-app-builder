@@ -31,12 +31,13 @@ Two kinds of file live here:
 - **`OBJECTID` is never shown in popups** — each layer defines a `popupInfo` that lists only meaningful
   fields (name, region, population, …). Population fields use a thousands separator.
 - Points use `esriSMSCircle`/`esriSMSSquare` markers (never `esriSMSPath`). The default basemap is
-  **OpenFreeMap Positron** — a keyless GL style over OpenStreetMap data, the first choice everywhere in
-  strata-app-builder. Because the pastel fills are 80% transparent they tint a pale ground lightly; to make
-  them pop, switch to **Versatiles Colorful** or **OpenFreeMap Liberty** in the Basemap panel (both
-  `OPEN_BASEMAPS` presets). These starters opened on raster OpenStreetMap until 2026-09-01; that host now
-  answers HTTP 200 with an *"Access blocked"* image to a client outside its usage policy, which would have
-  made the greeting map — whose whole job is to prove the setup works — arrive as a placeholder.
+  **OpenStreetMap** (`osm`) from the one keyless basemap catalog (`@strata/map-controls/basemaps`),
+  authored as an ESRI `WebTiledLayer` exactly as `baseMapFromId("osm")` writes it; a dark theme swaps it
+  to **OpenStreetMap Dark** (`osm-dark`). The pastel fills tint it lightly; for a quieter ground pick
+  **OSM Gray (VersaTiles)** in the basemap gallery, which lists the whole catalog (OpenStreetMap · Esri ·
+  USGS · CARTO). OpenStreetMap's tile servers allow light traffic only — a busy or commercial app should
+  use its own tile server. CARTO entries are non-commercial (CARTO's terms require a key), so they are
+  never a default; OpenFreeMap is no longer offered.
 
 ## Data sources
 - **World Countries** — `services2.arcgis.com/ZQ4jTQn6k7VPXEwO/.../World_Countries/FeatureServer/0` (as requested).

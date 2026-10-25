@@ -90,6 +90,8 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
 <a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
+<a class="nav-link" data-title="map controls" href="guide-map-controls.html">Map controls</a>
+<a class="nav-link" data-title="writes &amp; editing" href="guide-writes-and-editing.html">Writes &amp; editing</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
@@ -143,11 +145,19 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <tbody>
 <tr>
 <td><code>/create-map --layers … [--extent --basemap --preset]</code></td>
-<td>Generate a <code>layers.json</code>.</td>
+<td>Generate a <code>layers.json</code>. <code>--basemap</code> takes a basemap-catalog id (retired ids resolve through <code>BASEMAP_ALIASES</code>); the default is OpenStreetMap (<code>osm</code>).</td>
+</tr>
+<tr>
+<td><em>(no command — on every map)</em> standard map controls</td>
+<td>The fixed cluster (zoom in · zoom out · home | layers · basemap · legend · full screen), the layer list with its "…" actions (Zoom to layer · Layer information · Move up/down · Show legend · Transparency · Reset) and the basemap gallery ship on every map; nothing to add. Opt into tools (search · locate · measure · draw · print — all off by default), extra recommended basemaps and the print title with <code>mapControls</code> on the <code>map</code> widget, via <code>/app</code>. See <a href="guide-map-controls.html">Map controls</a>.</td>
 </tr>
 <tr>
 <td><code>/add-data --url &lt;FeatureServer/N&gt; [--secured] \| --geojson &lt;file\|url&gt; \| --imageserver &lt;ImageServer&gt; \| --cog &lt;geotiff-url&gt;</code></td>
 <td>Add a layer to the current map (session) — ArcGIS service, GeoJSON, ESRI ImageServer, or a COG.</td>
+</tr>
+<tr>
+<td><em>(no command — an authored widget)</em> <code>upload</code></td>
+<td><strong>The customer's own file</strong>, chosen in the running app rather than authored into the map: a CSV or GeoJSON from their machine, identity columns dropped by name, columns mapped, addresses optionally looked up, published as an output source. Add it to an <code>AppLayout</code> with <code>/app</code>; configure it from <code>recipes/COMPONENT-MANIFEST.md</code>.</td>
 </tr>
 <tr>
 <td><code>/symbology &lt;id&gt; simple\|classBreaks\|uniqueValue\|dotDensity\|heatmap [--generate field=… \| valueExpression=…]</code></td>
@@ -197,7 +207,7 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <tbody>
 <tr>
 <td><code>/edit &lt;id&gt; [--fields --allow add,update,delete]</code></td>
-<td>Add an <code>EditPanel</code> (update/add/delete features via <code>applyEdits</code>). Requires a writable, authenticated ESRI backend; Strata Serve is read-only.</td>
+<td>Add an <code>EditPanel</code> (update/add/delete features via <code>applyEdits</code>). Requires a writable, authenticated ESRI backend; Strata Serve is read-only. Placeable in an <code>AppLayout</code> as <code>edit</code>. <strong>Recording a decision that persists between sessions is a different thing and is not available</strong> — see <a href="guide-writes-and-editing.html">Writes &amp; editing</a>.</td>
 </tr>
 <tr>
 <td><code>/attachments &lt;id&gt;</code></td>
@@ -280,15 +290,19 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 </thead>
 <tbody>
 <tr>
-<td><a href="..\reference\components.md">Components, widgets &amp; skills</a></td>
+<td><a href="reference-components.html">Components, widgets &amp; skills</a></td>
 <td>Purpose/scope of every package, panel, widget, and skill — and how they fit together.</td>
 </tr>
 <tr>
-<td><a href="..\reference\human-language.md">Human Language Reference</a></td>
+<td><a href="reference-human-language.html">Human Language Reference</a></td>
 <td>The phrase to ask for each component (recipe fuel).</td>
 </tr>
 <tr>
-<td><a href="..\guide\creating-components.md">Creating a new component/widget/plugin</a></td>
+<td><a href="guide-map-controls.html">Map controls</a></td>
+<td>The standard map controls, <code>mapControls</code>, the basemap catalog and its licences.</td>
+</tr>
+<tr>
+<td><a href="guide-creating-components.html">Creating a new component/widget/plugin</a></td>
 <td>Prerequisites + the recipe for extending the core.</td>
 </tr>
 </tbody>

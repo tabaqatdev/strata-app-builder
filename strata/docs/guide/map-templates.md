@@ -29,10 +29,16 @@ Each file is genuine **ESRI Web Map JSON** — the same contract `<StrataMap>` r
   (name, region, population, …), with a thousands separator on population fields.
 - **Points use `esriSMSCircle` / `esriSMSSquare` markers** — never `esriSMSPath` (a known trap; custom-path
   markers don't render).
-- **The basemap is OpenFreeMap Positron** — a keyless GL style over OpenStreetMap data, the first choice
-  everywhere in strata-app-builder. Because the pastel fills are 80% transparent they tint a pale ground
-  lightly; to make them pop, switch to **Versatiles Colorful** or **OpenFreeMap Liberty** in the Basemap
-  panel (both `OPEN_BASEMAPS` presets).
+- **The basemap is OpenStreetMap (`osm`), the catalog's light default.** Every starter's `baseMap` is the
+  catalog entry `osm` authored as genuine ESRI Web Map JSON — a `WebTiledLayer` with `templateUrl`
+  `https://tile.openstreetmap.org/{level}/{col}/{row}.png` and copyright *© OpenStreetMap contributors* —
+  exactly what `baseMapFromId("osm")` in `@strata/core-map` writes, so the spec round-trips through the
+  basemap gallery unchanged. Switching the app to dark swaps it to its pair, **OpenStreetMap Dark**
+  (`osm-dark`, the same tiles inverted). The pastel fills are 80% transparent, so they tint the map; for a
+  quieter ground pick **OSM Gray (VersaTiles)** in the gallery. The OpenStreetMap tile servers allow
+  **light traffic only** — a busy or commercial app should point at its own tile server. Esri and CARTO
+  entries are tagged non-commercial (CARTO's terms need a key), so neither is ever a default. See
+  [Map controls](map-controls.md).
 
 ## Data sources
 

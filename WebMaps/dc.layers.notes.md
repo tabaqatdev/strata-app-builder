@@ -50,8 +50,11 @@ Full District (default) · Downtown (parcels) · National Mall & Monuments · Ca
 
 ## Basemaps
 
-Default **OpenStreetMap**, plus CARTO Positron / Voyager / Dark Matter and OpenTopoMap — all keyless,
-OSM-derived (`strata:basemaps`, mirrors `@strata/core-map` `OPEN_BASEMAPS`; the active `baseMap` is OSM).
+Default **OpenStreetMap** (`osm`; `osm-dark` in a dark theme) from the one keyless basemap catalog
+(`@strata/map-controls/basemaps`). The map's basemap gallery lists the whole catalog — OpenStreetMap ·
+Esri · USGS · CARTO — so the spec carries no per-map basemap library; an app that wants extra picks
+(e.g. `usgs-imagery-topo`, `opentopomap`) adds up to three via `mapControls.basemap.recommendedExtras` in
+its `AppLayout`. CARTO entries are non-commercial (CARTO's terms require a key) and are never a default.
 
 ## Known gaps (cannot be filled from read-only DC/MD open data)
 

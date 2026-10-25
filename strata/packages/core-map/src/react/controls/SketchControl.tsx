@@ -31,6 +31,10 @@ const MODE_FOR: Record<Exclude<SketchTool, null>, string> = {
   polygon: "polygon",
 };
 
+/**
+ * @deprecated The standard map controls carry this tool: enable `mapControls.tools.draw` on the map
+ * (`@strata/map-controls`). Kept for back-compat (bespoke tool bars, the `draw` widget).
+ */
 export function SketchControl(props: SketchControlProps): React.ReactElement {
   const { map, maplibregl, store } = props;
   const [tool, setTool] = useState<SketchTool>(null);

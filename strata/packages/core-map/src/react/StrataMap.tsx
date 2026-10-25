@@ -12,58 +12,44 @@
  *     zoom-to-layer, highlight/select by OID, plus `interactionMode` (cursor + click) and
  *     `activeLayerId` (the default identify + popup target).
  *
- * On-map controls (navigation/geolocate/fullscreen/scale/measure/sketch/legend) are opted-in via the
- * `controls` prop and mounted once the map is ready.
+ * On-map controls: every map carries the **standard Strata map controls** (`@strata/map-controls`,
+ * wrapped by `MapChrome`) — one cluster top-right: zoom in · zoom out · home | layers · basemap ·
+ * legend · full screen. Optional tools (search · locate · measure · draw · print) are OFF unless
+ * `mapControls.tools` enables them. Resolution: `mapControls` > the legacy `controls` flags (mapped
+ * by `legacyControlsToMapControls`: measure→tools.measure, sketch→tools.draw, geolocate→tools.locate)
+ * > defaults. The optional scale bar (bottom-left, OFF by default) is `mapControls.scale`; the legacy
+ * `scale` flag maps onto it (scale→mapControls.scale) and renders the same package scale bar.
  */
 import React, { useEffect, useRef, useState } from "react";
 import { useStrataAppEnv } from "./app/interactivity.js";
 import { useStoreLayers } from "./useStoreLayers.js";
-import type { LayersJson, OperationalLayer } from "@strata/schema";
+import {
+  resolveMapWidgetControls,
+  type LayersJson,
+  type LegacyMapControls,
+  type MapControlsConfig,
+  type NormalizedMapControls,
+  type OperationalLayer,
+} from "@strata/schema";
 import type { StrataStore, InteractionMode } from "@strata/state";
 import type { ActionBus } from "@strata/actions";
 import { MapController } from "../engine/MapController.js";
 import { LayerRegistry } from "../engine/layers.js";
-import { applyBaseMap } from "../engine/basemaps.js";
+import { applyBaseMap, baseMapFromId } from "../engine/basemaps.js";
+import * as basemapCatalog from "@strata/map-controls/basemaps";
 import { initPopups, type PopupSurface } from "../engine/popups.js";
 import { bindStoreToMap, type StoreBinding } from "../engine/storeBinding.js";
 import type { DataClient } from "../engine/arcgisSource.js";
-import {
-  NavigationControl,
-  GeolocateControl,
-  FullscreenControl,
-  ScaleControl,
-  MeasureControl,
-  SketchControl,
-  Legend,
-  MapChrome,
-  type ControlPosition,
-} from "./controls/index.js";
-import { LayerPanel, BasemapPanel } from "./panels/index.js";
+import { Legend, MapChrome } from "./controls/index.js";
 
-export interface StrataMapControls {
-  navigation?: boolean;
-  geolocate?: boolean;
-  fullscreen?: boolean;
-  scale?: boolean;
-  measure?: boolean;
-  sketch?: boolean;
-  legend?: boolean;
-  basemapSwitcher?: boolean;
-  layerList?: boolean;
-  /**
-   * The house control cluster — one 32px stack (zoom · fit · layers · basemap · legend) with a
-   * single drawer beside it, and MapLibre's own zoom suppressed. **Default true** whenever
-   * `navigation`, `layerList` or `basemapSwitcher` is on: those flags now render *as* the cluster.
-   * Set `false` for the older always-open boxes.
-   */
-  cluster?: boolean;
-  /**
-   * Corner for the control cluster (default `"top-right"`); the drawer opens on its inner side.
-   * Set this so the controls don't collide with a docked/floating panel — e.g. `"top-left"` when
-   * panels dock right. Geolocate/fullscreen take the opposite corner. The scale bar stays bottom-left.
-   */
-  position?: ControlPosition;
-}
+/**
+ * The legacy free-form control flags.
+ * @deprecated Use `mapControls` (`MapControlsConfig` from `@strata/schema`). The standard cluster is
+ * always on; `measure` → `tools.measure`, `sketch` → `tools.draw`, `geolocate` → `tools.locate`;
+ * `scale` → `mapControls.scale` (the package scale bar, bottom-left); `navigation` / `fullscreen` / `legend` /
+ * `basemapSwitcher` / `layerList` / `cluster` / `position` are ignored (the cluster is fixed top-right).
+ */
+export type StrataMapControls = LegacyMapControls;
 
 export interface StrataMapProps {
   /** The maplibre-gl module (peer dependency — injected so the template has no hard build dep). */
@@ -82,6 +68,12 @@ export interface StrataMapProps {
    * a selection elsewhere lights up on the map. `<StrataApp>` injects its shared bus automatically.
    */
   bus?: ActionBus;
+  /**
+   * The standard map controls' configuration: optional tools, basemap choices (initial, ≤3
+   * recommended extras, the light/dark pair) and the print title. See `MapControlsConfig`.
+   */
+  mapControls?: MapControlsConfig;
+  /** @deprecated Legacy flags — see {@link StrataMapControls}. Ignored when `mapControls` is set. */
   controls?: StrataMapControls;
   /**
    * The app's theme mode, for the basemap drawer's "Follow the theme" row. Inside a `<StrataApp>` the
@@ -116,7 +108,6 @@ export function StrataMap(props: StrataMapProps): React.ReactElement {
     maplibregl,
     config,
     store,
-    controls,
     dataClient = {},
     glyphs,
     rtlTextPluginUrl,
@@ -132,6 +123,17 @@ export function StrataMap(props: StrataMapProps): React.ReactElement {
 
   // Phase 7: publish the live map to the app's MapRegistry so sibling tool widgets (measure/draw/…) reach it.
   const appEnv = useStrataAppEnv();
+  // The standard map controls: `mapControls` > legacy `controls` > defaults, with the app's
+  // `theme.basemap` as the fallback light/dark pair.
+  const resolved = resolveMapWidgetControls(props as unknown as Record<string, unknown>, {
+    themeBasemap: appEnv?.themeBasemap,
+  });
+  const themeMode = props.themeMode ?? appEnv?.themeMode ?? "light";
+  const initRef = useRef({ initialBasemap: resolved.basemap.initial, themeMode, pair: resolved.basemap.theme });
+  initRef.current = { initialBasemap: resolved.basemap.initial, themeMode, pair: resolved.basemap.theme };
+  // While a chrome tool (measure/draw) owns map clicks, identify must not answer them — the store's
+  // interactionMode carries that when store-driven; this ref carries it when not.
+  const chromeModeRef = useRef<"identify" | "measure" | "draw">("identify");
   useEffect(() => {
     const p = props as { mapId?: string; widgetId?: string; id?: string };
     const id = p.mapId ?? p.widgetId ?? p.id ?? "default";
@@ -170,9 +172,21 @@ export function StrataMap(props: StrataMapProps): React.ReactElement {
       const registry = new LayerRegistry({ map, client: dataClient, maplibregl });
       registryRef.current = registry;
 
-      // Basemap: prefer the store's basemap when store-driven, else the config's.
-      const baseMap = store?.getState().baseMap ?? config.baseMap;
-      if (baseMap) applyBaseMap(map, baseMap);
+      // Basemap: `mapControls.basemap.initial` when set, else the store's (store-driven) or the
+      // config's authored basemap — that one wins on mount. A spec with no basemap at all gets the
+      // theme's (osm / osm-dark). Every id resolves through the catalog's aliases.
+      const { initialBasemap, themeMode: mode0, pair } = initRef.current;
+      const authored = store?.getState().baseMap ?? config.baseMap;
+      const hasAuthored = !!authored?.baseMapLayers?.length;
+      const startBm =
+        (initialBasemap ? baseMapFromId(initialBasemap) : undefined) ??
+        (hasAuthored
+          ? authored
+          : baseMapFromId(mode0 === "dark" ? pair.dark : pair.light) ??
+            baseMapFromId(basemapCatalog.basemapForTheme(mode0)));
+      // Not an edit to the map spec: the store records it without an undo entry.
+      if (store && startBm && startBm !== authored) store.getState().setBaseMap(startBm, { transient: true });
+      if (startBm) applyBaseMap(map, startBm);
 
       // Initial layers: from the store when present (it is the source of truth), else the config.
       const initialLayers = store ? store.getState().layers : config.operationalLayers;
@@ -190,7 +204,9 @@ export function StrataMap(props: StrataMapProps): React.ReactElement {
         layers: store ? () => store.getState().layers : config.operationalLayers,
         client: dataClient,
         getActiveLayerId: store ? () => store.getState().activeLayerId : undefined,
-        getInteractionMode: store ? () => store.getState().interactionMode : undefined,
+        getInteractionMode: store
+          ? () => store.getState().interactionMode
+          : () => (chromeModeRef.current === "identify" ? "identify" : "measure"),
         onFeatureSelect: props.onFeatureSelect,
       });
 
@@ -249,93 +265,70 @@ export function StrataMap(props: StrataMapProps): React.ReactElement {
       style={{ width: "100%", height: "100%", position: "relative", ...style }}
       data-strata-map={props.mapId || "default"}
     >
-      {ready && controls && (
+      {ready && (
         <StrataControls
           map={ready.map}
           maplibregl={maplibregl}
           store={store}
-          controls={controls}
-          themeMode={props.themeMode}
-          configLayers={config.operationalLayers}
+          resolved={resolved}
+          themeMode={themeMode}
+          config={config}
+          onHome={() => {
+            const ext = fullExtentOf(store ? store.getState().layers : config.operationalLayers);
+            if (ext) ready.map?.fitBounds?.(ext, { padding: 40 });
+            else if (config.initialState?.viewpoint?.targetGeometry) controllerRef.current?.applyInitialState(config);
+            else controllerRef.current?.home();
+          }}
+          onZoomToLayer={store ? (id) => void bindingRef.current?.zoomToLayer(id) : undefined}
+          onInteractionMode={(m) => { chromeModeRef.current = m; }}
         />
       )}
     </div>
   );
 }
 
-/** Mount the opted-in on-map controls once the map is ready. */
+/** Mount the standard map controls (with the optional scale bar) and the legend once the map is ready. */
 function StrataControls(props: {
   map: any;
   maplibregl: any;
   store?: StrataStore;
-  controls: StrataMapControls;
-  /** Explicit theme mode; both basemap surfaces fall back to the app's own when this is absent. */
-  themeMode?: "light" | "dark";
-  configLayers: OperationalLayer[];
+  resolved: NormalizedMapControls;
+  themeMode: "light" | "dark";
+  config: LayersJson;
+  onHome: () => void;
+  onZoomToLayer?: (layerId: string) => void;
+  onInteractionMode: (mode: "identify" | "measure" | "draw") => void;
 }): React.ReactElement {
-  const { map, maplibregl, store, controls, configLayers } = props;
+  const { map, maplibregl, store, resolved, config } = props;
   // Legend/chrome must react to layer changes when store-driven; fall back to the static config only
   // when there is no store to follow.
-  const layers = useStoreLayers(store, store ? undefined : configLayers);
+  const layers = useStoreLayers(store, store ? undefined : config.operationalLayers);
+  // The legend is part of the standard cluster: open by default, the cluster's Legend button (G) hides it.
   const [legendOn, setLegendOn] = React.useState(true);
-
-  // The house chrome: ONE 32px cluster carrying zoom · fit · layers · basemap · legend, with a
-  // single drawer beside it. It subsumes `navigation` (it owns +/−), `layerList` and
-  // `basemapSwitcher` (they become drawers) — set `controls.cluster = false` for the older
-  // always-open boxes and MapLibre's own zoom.
-  const cluster = controls.cluster !== false && (controls.navigation || controls.layerList || controls.basemapSwitcher);
 
   return (
     <>
-      {cluster && (
-        <MapChrome
-          map={map}
-          store={store}
-          layers={layers}
-          position={controls.position === "top-left" ? "top-left" : "top-right"}
-          themeMode={props.themeMode}
-          showLegend={legendOn}
-          onToggleLegend={controls.legend ? setLegendOn : undefined}
-          onFit={() => map?.fitBounds?.(fullExtentOf(layers) ?? undefined)}
-          onApplyBasemap={(bm) => applyBaseMap(map, bm)}
-        />
-      )}
-      {/* MapLibre's own zoom is suppressed while the cluster is up, so there is exactly one set. */}
-      {controls.navigation && !cluster && (
-        <NavigationControl map={map} maplibregl={maplibregl} position={controls.position} />
-      )}
-      {/* Geolocate/fullscreen keep their native corner — moved opposite the cluster so nothing overlaps. */}
-      {controls.geolocate && (
-        <GeolocateControl map={map} maplibregl={maplibregl} position={controls.position ?? (cluster ? "top-left" : undefined)} />
-      )}
-      {controls.fullscreen && (
-        <FullscreenControl map={map} maplibregl={maplibregl} position={controls.position ?? (cluster ? "top-left" : undefined)} />
-      )}
-      {controls.scale && <ScaleControl map={map} maplibregl={maplibregl} />}
-      {controls.measure && store && (
-        <div style={measureBarStyle}>
-          <MeasureControl map={map} maplibregl={maplibregl} store={store} />
-        </div>
-      )}
-      {controls.sketch && store && (
-        <div style={sketchBarStyle}>
-          <SketchControl map={map} maplibregl={maplibregl} store={store} />
-        </div>
-      )}
-      {/* The legend is a control surface, bottom-left, and the cluster's legend button hides it. */}
-      {controls.legend && legendOn && (
+      <MapChrome
+        map={map}
+        store={store}
+        layers={layers}
+        baseMap={config.baseMap}
+        themeMode={props.themeMode}
+        themeBasemaps={resolved.basemap.theme}
+        recommendedExtras={resolved.basemap.recommendedExtras}
+        tools={resolved.tools}
+        scale={resolved.scale}
+        title={resolved.title}
+        showLegend={legendOn}
+        onToggleLegend={setLegendOn}
+        onFit={props.onHome}
+        onZoomToLayer={props.onZoomToLayer}
+        onInteractionMode={props.onInteractionMode}
+      />
+      {/* The legend is a control surface, bottom-right; the cluster's legend button hides it. */}
+      {legendOn && (
         <div style={legendBoxStyle}>
           <Legend layers={layers} title="Legend" store={store} />
-        </div>
-      )}
-      {controls.layerList && store && !cluster && (
-        <div style={layerListBoxStyle}>
-          <LayerPanel store={store} />
-        </div>
-      )}
-      {controls.basemapSwitcher && store && !cluster && (
-        <div style={basemapBoxStyle}>
-          <BasemapPanel store={store} map={map} themeMode={props.themeMode} />
         </div>
       )}
     </>
@@ -365,10 +358,6 @@ function applyCursor(map: any, mode: InteractionMode): void {
   map.getCanvas().style.cursor = mode === "measure" || mode === "sketch" ? "crosshair" : "";
 }
 
-const measureBarStyle: React.CSSProperties = { position: "absolute", top: 8, left: 8, zIndex: 5 };
-const sketchBarStyle: React.CSSProperties = { position: "absolute", top: 48, left: 8, zIndex: 5 };
-const legendBoxStyle: React.CSSProperties = { position: "absolute", bottom: 24, right: 8, zIndex: 5 };
-const layerListBoxStyle: React.CSSProperties = { position: "absolute", top: 8, right: 8, zIndex: 5 };
-const basemapBoxStyle: React.CSSProperties = { position: "absolute", bottom: 24, left: 8, zIndex: 5 };
+const legendBoxStyle: React.CSSProperties = { position: "absolute", bottom: 24, right: 8, zIndex: 2 };
 
 export default StrataMap;

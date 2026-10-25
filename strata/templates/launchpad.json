@@ -39,10 +39,10 @@
                   "dc-crashes",
                   "dc-affordable-housing"
                 ],
-                "controls": {
-                  "navigation": true,
-                  "geolocate": true,
-                  "position": "top-right"
+                "mapControls": {
+                  "tools": {
+                    "locate": true
+                  }
                 }
               }
             }

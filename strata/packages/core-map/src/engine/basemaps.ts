@@ -1,138 +1,128 @@
 /**
  * basemaps — apply a `baseMap.baseMapLayers[]` to the MapLibre style (raster/vector below operational
- * layers). Both `WebTiledLayer` (raster XYZ) and `VectorTileLayer` (a keyless GL style URL) are supported.
+ * layers), and the **compatibility shim** over the one basemap catalog, `@strata/map-controls`.
+ *
+ * There is ONE catalog: `@strata/map-controls/basemaps` (33 keyless basemaps in four groups —
+ * OpenStreetMap · Esri · USGS · CARTO — each with licence tags, a description and a thumbnail, plus
+ * `BASEMAP_ALIASES` for retired ids). Everything here is derived from it:
+ *
+ *  - `OPEN_BASEMAPS` / `VECTOR_BASEMAPS` / `RASTER_BASEMAPS` are the catalog in the older
+ *    {@link BasemapPreset} shape (deprecated — read `basemapCatalog` instead).
+ *  - `defaultBaseMap()` is **OpenStreetMap** (`osm`); the theme pair is `osm` / `osm-dark`
+ *    (the same tiles, inverted for dark).
+ *  - Every basemap **id** resolves through the catalog's aliases, so a saved `layers.json` that names
+ *    a retired id (`openfreemap-positron`, `ofm-positron`, `versatiles-colorful`, `carto-dark-gl`, …)
+ *    still renders — as the surviving entry the alias names.
+ *  - Every URL goes through `catalog.resolveUrl` (the one tile-proxy / mirror hook); pair the map
+ *    with `basemapTransformRequest(catalog)` so the rule also reaches a GL style's internals.
+ *
+ * "Keyless" is asserted by the catalog's own suites (offline host/deny-list guards and the live
+ * `verify:basemaps` behaviour check) — see `strata/docs/troubleshooting.md` §5.
  */
 import type { BaseMap } from "@strata/schema";
+import * as catalog from "@strata/map-controls/basemaps";
+import type { BasemapEntry } from "@strata/map-controls/basemaps";
 
-/** A selectable open basemap (raster XYZ `templateUrl`, or a vector `style` URL). */
+/** The basemap catalog namespace (`@strata/map-controls/basemaps`) — the one source of truth. */
+export const basemapCatalog = catalog;
+
+/**
+ * A selectable basemap (raster `templateUrl`, or a vector `style` URL) — the older preset shape.
+ * Catalog-derived presets also carry the catalog's extra fields (group, description, licence, …).
+ */
 export interface BasemapPreset {
   id: string;
   title: string;
-  /** Raster XYZ template using ESRI Web Map tokens `{level}/{col}/{row}`. */
+  /** Raster template using ESRI Web Map tokens `{level}/{col}/{row}` (or `{level}/{row}/{col}`). */
   templateUrl?: string;
   /** Vector-tile GL style JSON URL. */
   style?: string;
   /** Which UI theme this basemap pairs with (dark map ↔ dark UI). Drives {@link basemapForTheme}. */
   mode?: "light" | "dark";
   copyright?: string;
+  /** Catalog group ("OpenStreetMap" | "Esri" | "USGS" | "CARTO"). */
+  group?: string;
+  /** 1–2 sentences for the gallery tooltip. */
+  description?: string;
+  /** A raster reference overlay (labels) drawn above `templateUrl`. */
+  overlay?: string;
+  /** Deepest native raster level (MapLibre over-zooms past it). */
+  maxZoom?: number;
+  /** Raster paint for the base layer (e.g. OpenStreetMap Dark's inversion). */
+  paint?: Record<string, number>;
+  /** Opposite-mode partner id. */
+  pair?: string;
+  license?: "commercial-ok" | "non-commercial";
+  licenseNote?: string;
+  licenseUrl?: string;
+  thumbnail?: string;
+}
+
+/** A catalog entry as a {@link BasemapPreset}. `thumbnail` stays live (it follows `setThumbBase`). */
+function presetFrom(e: BasemapEntry): BasemapPreset {
+  const { thumbnail: _thumbnail, ...rest } = e;
+  const p = { ...rest } as BasemapPreset;
+  Object.defineProperty(p, "thumbnail", { get: () => e.thumbnail, enumerable: true });
+  return p;
 }
 
 /**
- * Curated **vector** basemaps — keyless GL style URLs (OpenFreeMap · Versatiles · CARTO GL), all
- * OSM-derived and openly licensed. Crisp at every zoom and theme-aware. No proprietary/API-keyed
- * provider ever appears here.
- *
- * ⚠ **A "keyless" host can stop being one without any URL here changing**, and it will not announce
- * it. CARTO's RASTER CDN (`basemaps.cartocdn.com/{light_all,dark_all,rastertiles}`) did exactly that:
- * it answers HTTP 200 with `image/png` of the real map, with *"API KEY REQUIRED ·
- * carto.com/basemaps/apikey"* composited diagonally across every tile. It passed a host check, a
- * `!key=` check and an `img.naturalWidth > 1` check; only a screenshot caught it. Those three raster
- * presets are gone. `tile.openstreetmap.org` fails the same way for a different reason — 200 with a
- * fixed *"418 · Access blocked"* image for a client outside the OSMF tile-usage policy — so it is
- * offered but is no longer the default.
- *
- * The CARTO **GL styles** below are a different product from that raster CDN and were re-verified
- * keyless on 2026-09-01 (style JSON, vector tiles, glyphs and sprite). They are kept, and demoted
- * below OpenFreeMap. The guard that watches all of this is behavioural, not textual — see
- * `tests/basemaps.test.ts`.
+ * Every catalog basemap, in catalog order (OpenStreetMap first), in the {@link BasemapPreset} shape.
+ * @deprecated Read `basemapCatalog.BASEMAPS` (`@strata/map-controls/basemaps`). Kept so code that
+ * imported the old 10-entry library keeps compiling; it is now the full keyless catalog.
  */
-export const VECTOR_BASEMAPS: BasemapPreset[] = [
-  {
-    id: "openfreemap-positron",
-    title: "OpenFreeMap Positron",
-    style: "https://tiles.openfreemap.org/styles/positron",
-    mode: "light",
-    copyright: "© OpenStreetMap contributors · OpenFreeMap",
-  },
-  {
-    id: "openfreemap-dark",
-    title: "OpenFreeMap Dark",
-    style: "https://tiles.openfreemap.org/styles/dark",
-    mode: "dark",
-    copyright: "© OpenStreetMap contributors · OpenFreeMap",
-  },
-  {
-    id: "openfreemap-liberty",
-    title: "OpenFreeMap Liberty",
-    style: "https://tiles.openfreemap.org/styles/liberty",
-    mode: "light",
-    copyright: "© OpenStreetMap contributors · OpenFreeMap",
-  },
-  {
-    id: "versatiles-colorful",
-    title: "Versatiles Colorful",
-    style: "https://tiles.versatiles.org/assets/styles/colorful/style.json",
-    mode: "light",
-    copyright: "© OpenStreetMap contributors · Versatiles",
-  },
-  {
-    id: "versatiles-eclipse",
-    title: "Versatiles Eclipse (dark)",
-    style: "https://tiles.versatiles.org/assets/styles/eclipse/style.json",
-    mode: "dark",
-    copyright: "© OpenStreetMap contributors · Versatiles",
-  },
-  {
-    id: "carto-positron-gl",
-    title: "CARTO Positron (vector)",
-    style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
-    mode: "light",
-    copyright: "© OpenStreetMap contributors © CARTO",
-  },
-  {
-    id: "carto-voyager-gl",
-    title: "CARTO Voyager (vector)",
-    style: "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
-    mode: "light",
-    copyright: "© OpenStreetMap contributors © CARTO",
-  },
-  {
-    id: "carto-dark-gl",
-    title: "CARTO Dark Matter (vector)",
-    style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-    mode: "dark",
-    copyright: "© OpenStreetMap contributors © CARTO",
-  },
-];
+export const OPEN_BASEMAPS: BasemapPreset[] = catalog.BASEMAPS.map(presetFrom);
+
+/** @deprecated The vector (GL style) subset of {@link OPEN_BASEMAPS}. Use `basemapCatalog`. */
+export const VECTOR_BASEMAPS: BasemapPreset[] = OPEN_BASEMAPS.filter((p) => !!p.style);
+
+/** @deprecated The raster subset of {@link OPEN_BASEMAPS}. Use `basemapCatalog`. */
+export const RASTER_BASEMAPS: BasemapPreset[] = OPEN_BASEMAPS.filter((p) => !!p.templateUrl);
 
 /**
- * Curated **raster** basemaps — keyless XYZ tile templates, OSM-derived. Offered, never defaulted to:
- * both entries here are volunteer-run or community-run services whose usage policy a product must
- * respect, and a raster ground has no dark half (see the note on {@link VECTOR_BASEMAPS}).
- * `tile.openstreetmap.org` in particular serves a *"418 · Access blocked"* image at HTTP 200 to a
- * client it judges outside that policy, so **probe it the way the app will call it** — a browser
- * user-agent with a referer — or a working host is disqualified by a bare `curl`.
+ * URLs of the presets this package shipped before the shared catalog, keyed to their old ids — so a
+ * saved basemap that kept the URL but not a known id still resolves through the aliases.
  */
-export const RASTER_BASEMAPS: BasemapPreset[] = [
-  {
-    id: "osm",
-    title: "OpenStreetMap",
-    templateUrl: "https://tile.openstreetmap.org/{level}/{col}/{row}.png",
-    mode: "light",
-    copyright: "© OpenStreetMap contributors",
-  },
-  {
-    id: "opentopomap",
-    title: "OpenTopoMap",
-    templateUrl: "https://tile.opentopomap.org/{level}/{col}/{row}.png",
-    mode: "light",
-    copyright: "© OpenStreetMap contributors, SRTM · © OpenTopoMap (CC-BY-SA)",
-  },
-];
+const LEGACY_URL_IDS: Readonly<Record<string, string>> = Object.freeze({
+  "https://tiles.openfreemap.org/styles/positron": "openfreemap-positron",
+  "https://tiles.openfreemap.org/styles/dark": "openfreemap-dark",
+  "https://tiles.openfreemap.org/styles/liberty": "openfreemap-liberty",
+  "https://tiles.versatiles.org/assets/styles/colorful/style.json": "versatiles-colorful",
+  "https://tiles.versatiles.org/assets/styles/eclipse/style.json": "versatiles-eclipse",
+  "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json": "carto-positron-gl",
+  "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json": "carto-voyager-gl",
+  "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json": "carto-dark-gl",
+});
 
 /**
- * Default basemaps — **open-source only, OpenStreetMap data first.** Every entry is OSM-derived /
- * openly licensed and keyless; no proprietary or API-keyed provider is ever a default. These populate
- * the `BasemapPanel` and back {@link defaultBaseMap}.
- *
- * **Vector presets come first, and the first of them is the default.** Until 2026-09-01 a raster
- * preset led and `defaultBaseMap()` returned `tile.openstreetmap.org`; both of the raster hosts that
- * led have since started serving a placeholder at HTTP 200 (see {@link VECTOR_BASEMAPS}). A GL style
- * is also the only form that gives a theme a real *dark* ground rather than a light one dimmed.
- * Respect each provider's tile-usage policy — self-host for heavy production traffic
- * (see `docs/how-to/cors-and-proxy.md`).
+ * The catalog id for any basemap id — itself, its alias target (`openfreemap-positron` → `vt-gray`),
+ * `"none"`, or `null` when the catalog does not know it (a custom basemap).
  */
-export const OPEN_BASEMAPS: BasemapPreset[] = [...VECTOR_BASEMAPS, ...RASTER_BASEMAPS];
+export function resolveBasemapId(id: string | null | undefined): string | null {
+  return catalog.resolveBasemapId(id);
+}
+
+/**
+ * The catalog id a saved ESRI `BaseMap` draws: by its first layer's id (alias-aware), else by a URL
+ * the catalog (or a pre-catalog preset) uses. `null` for a custom basemap the catalog does not know.
+ */
+export function baseMapCatalogId(bm: BaseMap | null | undefined): string | null {
+  const first = bm?.baseMapLayers?.[0];
+  if (!first) return null;
+  const byId = catalog.resolveBasemapId(first.id);
+  if (byId) return byId;
+  const url = first.styleUrl ?? first.templateUrl;
+  if (!url) return null;
+  const legacy = LEGACY_URL_IDS[url];
+  if (legacy) return catalog.resolveBasemapId(legacy);
+  return catalog.BASEMAPS.find((b) => b.style === url || b.templateUrl === url)?.id ?? null;
+}
+
+/** The {@link BasemapPreset} for an id — alias-aware; `undefined` for an unknown id or `"none"`. */
+export function basemapPresetById(id: string | null | undefined): BasemapPreset | undefined {
+  const rid = catalog.resolveBasemapId(id);
+  return rid ? OPEN_BASEMAPS.find((p) => p.id === rid) : undefined;
+}
 
 /** Build a genuine ESRI Web Map `BaseMap` from a preset (VectorTileLayer for `style`, else WebTiledLayer). */
 export function baseMapFromPreset(p: BasemapPreset): BaseMap {
@@ -146,38 +136,41 @@ export function baseMapFromPreset(p: BasemapPreset): BaseMap {
   };
 }
 
+/** The ESRI `BaseMap` for a catalog id (alias-aware). `undefined` for an unknown id or `"none"`. */
+export function baseMapFromId(id: string | null | undefined): BaseMap | undefined {
+  const p = basemapPresetById(id);
+  return p ? baseMapFromPreset(p) : undefined;
+}
+
 /** Every basemap URL, whichever form the preset takes — ONE place for a keyless guard to read. */
 export const basemapUrl = (p: BasemapPreset): string | undefined => p.style ?? p.templateUrl;
 
 /**
- * The default basemap for a new map: **OpenFreeMap Positron** — a keyless GL style, OSM data,
- * keyless end to end (style JSON, vector tiles, natural-earth underlay, glyphs and sprite).
- *
- * It used to be raster OpenStreetMap. That host now answers HTTP 200 with an *"Access blocked"*
- * image to a client outside its usage policy, so the old default could hand a new map a placeholder
- * that every URL-shaped check called healthy.
+ * The default basemap for a new map: **OpenStreetMap** (`osm`, the catalog's light theme basemap).
+ * Its dark half is `osm-dark` — the same tiles, inverted on the GPU — so a theme switch is a pair.
  */
 export function defaultBaseMap(): BaseMap {
-  return baseMapFromPreset(OPEN_BASEMAPS[0]);
+  return baseMapFromPreset(basemapForTheme("light"));
 }
 
 /**
- * Pick the basemap **from a given library** that pairs with a UI theme mode. Prefers a vector entry
- * of the matching mode (crisp, theme-coherent), then any entry of that mode, then the first entry.
+ * Pick the basemap **from a given library** that pairs with a UI theme mode: the catalog's theme
+ * basemap (`osm` / `osm-dark`) when the library has it, else a vector entry of that mode, else any
+ * entry of that mode, else the first entry.
  *
- * This is the one resolver: `<StrataApp>`'s theme→basemap swap, the `MapChrome` basemap drawer, and
- * the `BasemapPanel` all call it, so the map that gets applied is the map the drawer ticks. They used
- * to answer differently — the panels took the first entry of the mode (raster OSM) while
- * {@link basemapForTheme} preferred the vector one — which ticked one basemap and drew another.
+ * This is the one resolver: `<StrataApp>`'s theme→basemap swap and the `BasemapPanel` both call it,
+ * so the map that gets applied is the map the panel ticks.
  *
  * With no `mode` there is nothing to follow, so the library's first entry stands in.
  */
-export function basemapForThemeFrom<T extends { style?: string; mode?: "light" | "dark" }>(
+export function basemapForThemeFrom<T extends { id?: string; style?: string; mode?: "light" | "dark" }>(
   library: readonly T[],
   mode: "light" | "dark" | undefined,
 ): T | undefined {
   if (!mode) return library[0];
+  const themed = catalog.basemapForTheme(mode);
   return (
+    library.find((p) => p.id === themed) ??
     library.find((p) => p.mode === mode && p.style) ??
     library.find((p) => p.mode === mode) ??
     library[0]
@@ -185,17 +178,25 @@ export function basemapForThemeFrom<T extends { style?: string; mode?: "light" |
 }
 
 /**
- * Pick a basemap preset that pairs with a UI theme mode (dark map ↔ dark UI), from the built-in open
- * library. Used by `/create-map` / `/new-app` so a generated app's map matches its theme on the first
- * build, and by the runtime swap when the app has no basemap library of its own.
+ * The basemap preset that pairs with a UI theme mode: `osm` (light) / `osm-dark` (dark), from the
+ * catalog's `THEME_BASEMAP`. Used by `/create-map` / `/new-app` so a generated app's map matches its
+ * theme on the first build, and by the runtime swap when the app names no pair of its own.
  */
 export function basemapForTheme(mode: "light" | "dark"): BasemapPreset {
-  return basemapForThemeFrom(OPEN_BASEMAPS, mode) ?? OPEN_BASEMAPS[0];
+  return basemapPresetById(catalog.basemapForTheme(mode)) ?? OPEN_BASEMAPS[0];
 }
 
-/** The default **vector** basemap for a theme mode (a `VectorTileLayer` BaseMap). */
+/**
+ * The default **vector** basemap for a theme mode (a `VectorTileLayer` BaseMap): OSM Gray / OSM Gray
+ * Dark (VersaTiles) — keyless GL styles, and what the retired Positron/Dark Matter ids alias to.
+ */
 export function defaultVectorBaseMap(mode: "light" | "dark" = "light"): BaseMap {
-  return baseMapFromPreset(basemapForTheme(mode));
+  const want = mode === "dark" ? "vt-gray-dark" : "vt-gray";
+  const p =
+    VECTOR_BASEMAPS.find((v) => v.id === want) ??
+    VECTOR_BASEMAPS.find((v) => v.mode === mode) ??
+    VECTOR_BASEMAPS[0];
+  return baseMapFromPreset(p);
 }
 
 /**
@@ -284,6 +285,13 @@ async function loadVectorBasemap(map: any, url: string, epoch: number): Promise<
   }
 }
 
+/**
+ * Apply a basemap beneath the operational layers. The first `baseMapLayers[]` entry is resolved
+ * through the catalog first — by id (alias-aware, so a retired id still renders as its survivor) or
+ * by a known URL — and drawn from the CATALOG entry (its raster paint, reference overlay and native
+ * max zoom included). A basemap the catalog does not know (a custom tile or style URL) is drawn from
+ * its own URL. `"none"` clears the ground. Every URL passes through `catalog.resolveUrl`.
+ */
 export function applyBaseMap(map: any, baseMap: BaseMap): void {
   // Claim this application before anything async can start, so an in-flight vector load from the
   // previous basemap knows it has been superseded.
@@ -293,21 +301,43 @@ export function applyBaseMap(map: any, baseMap: BaseMap): void {
 
   const first = (baseMap.baseMapLayers || [])[0];
   if (!first) return;
-  const srcId = `basemap:${first.id}`;
+  const rid = baseMapCatalogId(baseMap);
+  if (rid === catalog.BASEMAP_NONE) return; // a blank ground is a real choice
+  const entry = rid ? catalog.basemapById(rid) : null;
+  const url = (u: string): string => catalog.resolveUrl(u);
+  const xyz = (u: string): string => catalog.toXyz(url(u));
+  const beforeId = firstOperationalLayerId(map);
 
+  if (entry) {
+    const srcId = `basemap:${entry.id}`;
+    if (entry.style) {
+      void loadVectorBasemap(map, url(entry.style), epoch).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.warn(`[strata] vector basemap '${entry.id}' failed to load:`, err);
+      });
+      return;
+    }
+    const mz = entry.maxZoom ? { maxzoom: entry.maxZoom } : {};
+    map.addSource(srcId, { type: "raster", tiles: [xyz(entry.templateUrl as string)], tileSize: 256, attribution: entry.copyright || "", ...mz });
+    map.addLayer({ id: `${srcId}:raster`, type: "raster", source: srcId, ...(entry.paint ? { paint: { ...entry.paint } } : {}) }, beforeId);
+    if (entry.overlay) {
+      map.addSource(`${srcId}:overlay`, { type: "raster", tiles: [xyz(entry.overlay)], tileSize: 256, attribution: entry.copyright || "", ...mz });
+      map.addLayer({ id: `${srcId}:overlay:raster`, type: "raster", source: `${srcId}:overlay` }, beforeId);
+    }
+    return;
+  }
+
+  const srcId = `basemap:${first.id}`;
   if (first.layerType === "WebTiledLayer" && first.templateUrl) {
-    const tiles = [
-      first.templateUrl.replace("{level}", "{z}").replace("{col}", "{x}").replace("{row}", "{y}"),
-    ];
-    map.addSource(srcId, { type: "raster", tiles, tileSize: 256, attribution: first.copyright || "" });
-    map.addLayer({ id: `${srcId}:raster`, type: "raster", source: srcId }, firstOperationalLayerId(map));
+    map.addSource(srcId, { type: "raster", tiles: [xyz(first.templateUrl)], tileSize: 256, attribution: first.copyright || "" });
+    map.addLayer({ id: `${srcId}:raster`, type: "raster", source: srcId }, beforeId);
     return;
   }
 
   if (first.layerType === "VectorTileLayer" && (first.styleUrl || first.templateUrl)) {
-    const url = (first.styleUrl || first.templateUrl) as string;
+    const styleUrl = url((first.styleUrl || first.templateUrl) as string);
     // Async: fetch the GL style and inject it. Errors are swallowed so a bad basemap never breaks the map.
-    void loadVectorBasemap(map, url, epoch).catch((err) => {
+    void loadVectorBasemap(map, styleUrl, epoch).catch((err) => {
       // eslint-disable-next-line no-console
       console.warn(`[strata] vector basemap '${first.id}' failed to load:`, err);
     });

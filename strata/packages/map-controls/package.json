@@ -1,0 +1,56 @@
+{
+  "name": "@strata/map-controls",
+  "version": "1.0.4",
+  "description": "Framework-free MapLibre map chrome: control cluster, layer list, basemap gallery (33 keyless basemaps with licence tags), full screen, keyboard, and opt-in search/locate/measure/draw/print tools and an opt-in scale bar. Usable from a bundler or vendored as plain browser ES modules. No runtime dependencies.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./basemaps": {
+      "types": "./dist/basemaps.d.ts",
+      "default": "./dist/basemaps.js"
+    },
+    "./map-controls.css": "./dist/map-controls.css",
+    "./thumbs/*": "./dist/thumbs/*",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist",
+    "src",
+    "thumbs",
+    "scripts",
+    "demo",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "verify:basemaps": "node scripts/verify-basemaps.mjs",
+    "thumbs": "node scripts/build-thumbs.mjs",
+    "vendor": "node scripts/vendor.mjs",
+    "check-drift": "node scripts/check-drift.mjs",
+    "conformance:demo": "node scripts/conformance-demo.mjs"
+  },
+  "peerDependencies": {
+    "maplibre-gl": ">=3"
+  },
+  "peerDependenciesMeta": {
+    "maplibre-gl": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}

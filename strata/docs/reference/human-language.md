@@ -21,8 +21,11 @@ Claude also reads this to reach for the right component by default. Pair it with
 | "Add this feature service: `…/FeatureServer/0`." | An ArcGIS REST layer (pulls `drawingInfo` + fields). |
 | "Load `cities.geojson`." / "Add this GeoJSON URL." | A GeoJSON layer. |
 | "Cluster the points; refresh every minute." | Clustering + a refresh interval. |
-| "Use the dark basemap." / "Give me a crisp vector basemap." | A keyless vector or raster basemap. |
-| "Let users switch basemaps." | A BasemapPanel / basemap gallery. |
+| "Use the dark basemap." / "Give me a crisp vector basemap." | A keyless catalog basemap (`osm-dark`; `vt-gray` / `vt-colorful` for vector) — `mapControls.basemap.initial` or the `layers.json` `baseMap`. |
+| "Let users switch basemaps." ✅ | Already on every map — the basemap button opens the gallery (Follow the theme · Recommended · More basemaps). |
+| "Add satellite imagery to the recommended basemaps." ✅ | `mapControls.basemap.recommendedExtras: ["esri-imagery"]` (≤ 3 extras). Esri tiles are free only for public, non-commercial apps — check the licence tag. |
+| "Can I use this basemap in a commercial app?" ✅ | Read the card's licence tag (`commercial-ok` / `non-commercial`). OSM, OpenTopoMap, VersaTiles, USGS: commercial-ok with usage policies; Esri and CARTO: non-commercial (CARTO needs a key for licensed use). |
+| "Serve the basemap tiles through our own proxy / mirror." ✅ | `setUrlRewrite({ host: mirror })` + `basemapTransformRequest(catalog)` on the map. |
 | "Make it a hazard / control-room look." | The `hazard` theme preset. |
 | "Add this ImageServer as an NDVI raster." ✅ | An ESRI ImageServer raster layer (`renderingRule`). |
 | "Load this GeoTIFF (COG) directly." ✅ | A cloud-optimized GeoTIFF via the `cog://` protocol. |
@@ -74,10 +77,15 @@ Claude also reads this to reach for the right component by default. Pair it with
 
 | Say this | You get |
 |---|---|
-| "Add zoom buttons / a scale bar / a status bar with live coordinates." | Navigation / ScaleControl / StatusBar. |
-| "Put the zoom, fit, layers, basemap and legend controls on the map." ✅ | Already shipped — `MapChrome`, the house cluster, is the default whenever `navigation`/`layerList`/`basemapSwitcher` is on. |
-| "Move the controls to the other corner." ✅ | `controls.position` (`top-left`) — the drawer follows, geolocate/fullscreen take the opposite corner. |
-| "Give me back the old always-open layer and basemap boxes." ✅ | `controls.cluster: false`. |
+| "Put the zoom, home, layers, basemap, legend and full-screen controls on the map." ✅ | Already on every map — the standard map controls (`MapChrome` over `@strata/map-controls`), fixed top-right. Nothing to configure. |
+| "Add a search box / a locate-me button / measure / draw / print." ✅ | `mapControls.tools` — `{ "search": true, "locate": true, "measure": true, "draw": true, "print": true }`, only the ones you need (all off by default). |
+| "Measure in miles." ✅ | `mapControls.tools.measure: { "units": "imperial" }`. |
+| "Show me what this layer is and where it comes from." ✅ | Built in — the layer's "…" → **Layer information** (plain About + Technical details read live from the service). |
+| "Make this layer more transparent." / "Move it above the others." ✅ | Built in — the layer's "…" → Transparency / Move up · Move down (or drag); Reset restores the authored state. |
+| "Add a scale bar." ✅ | `mapControls.scale: true` — optional, off by default, fixed bottom-left (metric). |
+| "Show the scale in miles." / "Show both metric and imperial." ✅ | `mapControls.scale: { "units": "imperial" }` / `{ "units": "both" }`. |
+| "Add a status bar with live coordinates." ✅ | StatusBar (the `status-bar` widget). |
+| "Move the controls to the other corner." / "Hide the layers button." | Not offered — the cluster is fixed top-right in every app so readers never relearn the map (`controls.position` is ignored). |
 | "Add a legend." | Legend — interactive by default. |
 | "Let me click the legend to hide a class, and isolate one." ✅ | Built in: click hides · shift-click isolates · `Esc` clears (a real `definitionExpression`, applied in place). |
 | "Show how many features are in each legend class." ✅ | `counts` on the Legend — rows render `n of N`, keeping the denominator. |
@@ -85,7 +93,7 @@ Claude also reads this to reach for the right component by default. Pair it with
 | "When I hide a layer, take it out of the legend." ✅ | Built in — the Legend reads the store, so any show/hide reaches it in the same frame. Don't author `legend.props.layers`; a static array cannot follow visibility. |
 | "The legend is missing a layer that's on the map." ✅ | Built in — every visible layer is listed, including one whose symbology comes from the service; it gets a neutral swatch and its title. `includeUnstyled: false` to list only styled layers. |
 | "Show each layer's symbology in the layer list." ✅ | Built in — LayerPanel rows carry the layer's swatch, and multi-class renderers expand to the full class list. |
-| "Let me measure distances and areas." / "Let me draw shapes." | Measure / Sketch. |
+| "Let me measure distances and areas." / "Let me draw shapes." ✅ | `mapControls.tools.measure` / `.draw` on the map — or the `measure` / `draw` widgets to place the tool in a panel. |
 | "Add a time slider that animates the data over the month." | TimeSlider (`/timeslider`). |
 | "Put all the tools behind a toolbar so it's not cluttered." ✅ | The `controller` tool dock. |
 | "Add saved places I can jump between." ✅ | The `bookmarks` widget. |
@@ -110,7 +118,11 @@ Claude also reads this to reach for the right component by default. Pair it with
 | "Make the basemap follow the theme." / "dark mode should get a dark map." ✅ | already the default — nothing to say. To turn it off or pin the pair: `theme.basemap` `{follow:false}` / `{light,dark}` |
 | "Give me a link that reopens the app as I have it now." ✅ | `share` |
 | "Add a 'find what's near me' tool." ✅ | `near-me` |
-| "Let users add their own layer at runtime." ✅ | `add-data` |
+| "Let users add their own layer at runtime." ✅ | `add-data` (a service URL) |
+| "Let me load my own spreadsheet." / "our portfolio is a CSV." / "upload the client's shortlist." ✅ | `upload` — a file from the reader's machine. It drops owner and person columns **by name**, guesses which column is the identifier, the label, the coordinates or the address, lets the reader correct it, and can look up addresses that carry no coordinates |
+| "Let people correct the attributes." / "add and delete features." ⚠️ | `edit` — **only on a writable, authenticated ESRI backend**. Strata Serve is read-only, and the panel says so before anyone presses Save |
+| "Show the photos attached to this feature." ✅ | `attachment` — a read, so it works on both backends |
+| "Let people mark a site as approved and have it stick." / "a queue we work down." ⛔ | **Not available.** Nothing persists between sessions today; decisions leave as an **export**. The annotation store is **Planned (Phase 8)** — see [Writes & editing](../guide/writes-and-editing.md). Do not promise it |
 | "Find the best site weighting slope, roads, and land use." ✅ | `weighted-overlay` |
 | "Add an elevation profile for a drawn line." ✅ | `elevation` |
 | "Reserve a slot here for now." ✅ | `placeholder` |

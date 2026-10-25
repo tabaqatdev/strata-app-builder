@@ -36,7 +36,14 @@ export {
 } from "./Legend.js";
 export type { LegendProps, LegendRow } from "./Legend.js";
 
-export { MapChrome, CHROME_ICONS, ensureChromeStyles, default as MapChromeDefault } from "./MapChrome.js";
+export {
+  MapChrome,
+  CHROME_ICONS,
+  ensureChromeStyles,
+  toPackageTools,
+  layerExtent,
+  default as MapChromeDefault,
+} from "./MapChrome.js";
 export type { MapChromeProps, DrawerKind } from "./MapChrome.js";
 
 export { StatusBar, default as StatusBarDefault } from "./StatusBar.js";

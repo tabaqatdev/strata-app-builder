@@ -90,6 +90,8 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
 <a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
+<a class="nav-link" data-title="map controls" href="guide-map-controls.html">Map controls</a>
+<a class="nav-link" data-title="writes &amp; editing" href="guide-writes-and-editing.html">Writes &amp; editing</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
@@ -108,7 +110,7 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 claim about the field, not the metadata's alias — a real response, in the terminal, before any app code
 exists. Every headline figure that shipped wrong across the last twenty builds failed this rule.</p>
 <p>Companions: <strong><a href="troubleshooting.html"><code>troubleshooting.md</code></a></strong> (what goes wrong, with the guard for
-each) · <strong><a href="..\guide\building-apps.md"><code>guide/building-apps.md</code></a></strong> (what to do with it once verified).</p>
+each) · <strong><a href="guide-building-apps.html"><code>guide/building-apps.md</code></a></strong> (what to do with it once verified).</p>
 <hr />
 <h2 id="0-the-house-defaults">0 · The house defaults</h2>
 <p>Every app starts here. A recipe may override any of these <strong>with a stated reason</strong> — a business need that
@@ -124,7 +126,7 @@ behave like one product.</p>
 <tbody>
 <tr>
 <td><strong>Keyless sources only</strong></td>
-<td>An app that needs a key cannot be handed to anyone. No keyed basemap, no keyed provider, ever — the OpenFreeMap / Versatiles vector styles, or raster OSM / OpenTopoMap. And <strong>keyless is a behaviour</strong>: a gated host answers HTTP 200 with a placeholder, so probe it, don't pattern-match its URL</td>
+<td>An app that needs a key cannot be handed to anyone. No keyed basemap, no keyed provider, ever — use the <code>@strata/map-controls</code> catalog (<a href="guide-map-controls.html">map controls</a>), and read each basemap's licence tag (Esri and CARTO are non-commercial; CARTO needs a key for licensed use). And <strong>keyless is a behaviour</strong>: a gated host answers HTTP 200 with a placeholder, so probe it, don't pattern-match its URL</td>
 </tr>
 <tr>
 <td><strong>Browser-direct fetching</strong></td>
@@ -248,7 +250,7 @@ either outcome, and say "intermittent" in the recipe.</p>
 <hr />
 <h2 id="3-three-ways-to-deliver-it-in-order-of-preference">3 · Three ways to deliver it, in order of preference</h2>
 <p><strong>The full decision — including the SSRF and open-relay rules any proxy must follow — is
-<a href="..\how-to\cors-and-proxy.md"><code>cors-and-proxy.md</code></a>.</strong> Read it before writing a proxy.
+<a href="how-to-cors-and-proxy.html"><code>cors-and-proxy.md</code></a>.</strong> Read it before writing a proxy.
 The app-level summary:</p>
 <ol>
 <li><strong>Browser-direct</strong> — the layer answers with <code>Access-Control-Allow-Origin</code>. Nothing to run, nothing to
@@ -260,7 +262,7 @@ The app-level summary:</p>
    operational dependency you have handed the user.</li>
 <li><strong>Convert and publish to Strata Serve</strong> — when the source is a bulk download, too large to fetch live,
    needs a join REST cannot express, or is a file rather than a service. <code>/convert</code> → GeoParquet →
-   <code>/publish</code>, per <a href="..\how-to\publish-data.md"><code>publish-data.md</code></a>. Also the escape
+   <code>/publish</code>, per <a href="how-to-publish-data.html"><code>publish-data.md</code></a>. Also the escape
    hatch when a live host is an undocumented VM that may move — check whether a bulk FGDB or SHP carries
    the same data.</li>
 </ol>

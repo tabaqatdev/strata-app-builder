@@ -31,14 +31,18 @@ tell which it was.
 bar** for anything true as long as the data is on screen; a **status line** for transient progress. Never
 put a lasting caveat in the status line — load progress overwrites it and it never reaches anyone.
 
-**Map chrome.** One inline-SVG control cluster, top-right, 32 px buttons on `currentColor` — **zoom in ·
-zoom out · fit · layers · basemap · legend**. MapLibre's own zoom control suppressed so there is exactly
-one set. Drawers (layers · basemap) open **beside** the cluster, never over it, and **one at a time**.
-Layer rows are checkboxes; **basemap rows are radios** carrying a live tile of the current area in that
-style, and the tick names the **effective** basemap even when the theme is choosing it. Legend
-bottom-left as its own control surface with live counts; coordinate/zoom/CRS readout bottom-right. Layers
-and basemap belong **on the map** — a reader looking at the map should not travel to a page header to
-change what it shows. On the React path this is `MapChrome`, on by default.
+**Map chrome — the standard map controls (`@strata/map-controls`).** One cluster, top-right — **zoom in ·
+zoom out · home | layers · basemap · legend · full screen** — and the one exception to "defaults, not
+laws": it is **fixed** in every app (no reorder, no move, no removal), so a reader never relearns the map.
+One drawer opens **beside** the cluster, never over it: a Map Viewer-style layer list (eye, inline legend,
+drag, a "…" with Zoom to layer · Layer information · Move up/down · Transparency · Reset) or the basemap
+gallery (Follow the theme, Recommended, More basemaps), whose tick names the **effective** basemap even
+when the theme is choosing it. **Optional tools — search · locate · measure · draw · print — are off by
+default**; turn on only what the app's job needs, via `mapControls.tools`. Legend as its own control
+surface with live counts; coordinate/zoom/CRS readout opposite it. Layers and basemap belong **on the
+map** — a reader looking at the map should not travel to a page header to change what it shows. React
+mounts it on every `<StrataMap>`; the house pattern vendors the package and mounts it. Details:
+[`map-controls.md`](map-controls.md).
 
 **The legend filters; it does not fade.** Click a class to hide it, shift-click to isolate, `Esc` clears
 — applied as a real `definitionExpression`, because a faded class is still clickable and a "hidden"
@@ -50,7 +54,7 @@ facing the content — draggable and arrow-key operable — bounded by a floor a
 readable. The authored width is where it *opens*, not where it must stay: the same rail is generous on a
 laptop, truncated on a projector, and eats the map on a tablet, and only the reader knows which they have.
 
-**Keyboard.** `L` layers · `B` basemap · `G` legend · `F` fit · `←`/`→` step the signature dimension ·
+**Keyboard.** `L` layers · `B` basemap · `G` legend · `F` home · `←`/`→` step the signature dimension ·
 `Esc` unwinds **one thing at a time** (clear the filter first, only then climb a level). A focused resize
 grip takes `←`/`→` (or `↑`/`↓`) to size the panel, `Shift` for a bigger step.
 
@@ -208,9 +212,11 @@ power is the wiring matrix, not the vocabulary. Rules:
 - Differentiate sibling apps with the *secondary levers*: dark vs light, header vs headerless, floating
   rounded cards vs flush docked panels, boxed vs full-bleed map — not by inventing new component styles.
 - Numbers use tabular numerals; KPIs get big and few (3–5, not 9).
-- Basemaps are the keyless open set — **vector first**: OpenFreeMap Positron/Dark/Liberty · Versatiles
-  Colorful/Eclipse · CARTO GL, then raster OSM · OpenTopoMap. Never default to a
-  keyed provider.
+- Basemaps come from the one keyless catalog (`@strata/map-controls`): default **OpenStreetMap
+  (`osm`)**, theme pair `osm` / `osm-dark`, up to 3 app-specific extras in Recommended
+  (`mapControls.basemap.recommendedExtras`). Read each basemap's licence tag before a business app
+  ships — Esri and CARTO are `non-commercial`. Never default to a keyed provider.
+  [`map-controls.md`](map-controls.md).
 
 ## 6 · Complexity tiers
 
@@ -233,8 +239,9 @@ Match ambition to need — an app should be as simple as its sentence allows:
 - [ ] `responsive.small` collapses every side-by-side row; tested at phone width.
 - [ ] Every panel resizes, from the pointer **and** the keyboard, within a floor that keeps it readable;
       each `resizable:false` has its reason in the recipe.
-- [ ] One control cluster on the map (zoom · fit · layers · basemap · legend), one drawer at a time, and
-      MapLibre's own zoom suppressed. The basemap drawer ticks the basemap actually in force.
+- [ ] The standard map controls on the map (zoom · home | layers · basemap · legend · full screen), one
+      drawer at a time, only the tools the app needs turned on. The basemap gallery ticks the basemap
+      actually in force.
 - [ ] The legend filters rather than fades, isolates on shift-click, clears on `Esc`, and keeps every
       denominator.
 - [ ] A table row adopts its record (fly + popup) and **releases it on a second click** — nothing is left
