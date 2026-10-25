@@ -437,8 +437,9 @@ export const resolveUrl = <T>(url: T): T => (REWRITE && typeof url === "string" 
  *  active style's URLs (styleDelegateUrls) — and those must pass here too. Checked offline against a
  *  recorded copy of every catalog style (tests/fixtures/gl-style-delegates.json) and live by
  *  `verify:basemaps`. VersaTiles: assets/{styles,glyphs,sprites}/ + tiles/osm/. CARTO GL:
- *  tiles.basemaps.cartocdn.com/{gl,fonts,vector}/ + tiles-{a..d}.basemaps.cartocdn.com/vectortiles/. */
-export const BASEMAP_HOSTS = /^https:\/\/(tile\.openstreetmap\.org|tile\.opentopomap\.org|a\.tile\.openstreetmap\.fr\/hot\/|a\.tile-cyclosm\.openstreetmap\.fr\/cyclosm\/|tiles\.versatiles\.org\/(assets\/(styles|glyphs|sprites)\/|tiles\/osm\/)|server\.arcgisonline\.com|services\.arcgisonline\.com|fly\.maptiles\.arcgis\.com|basemap\.nationalmap\.gov\/arcgis\/rest\/services\/|basemaps\.cartocdn\.com\/gl\/|tiles\.basemaps\.cartocdn\.com\/(gl|fonts|vector)\/|tiles-[a-d]\.basemaps\.cartocdn\.com\/vectortiles\/)/;
+ *  tiles.basemaps.cartocdn.com/{gl,fonts,vector}/ + tiles-{a..d}.basemaps.cartocdn.com/vectortiles/, and
+ *  (since 2026-10) the versioned layout tiles.basemaps.cartocdn.com/v/<release>/{gl,fonts,vectortiles}/. */
+export const BASEMAP_HOSTS = /^https:\/\/(tile\.openstreetmap\.org|tile\.opentopomap\.org|a\.tile\.openstreetmap\.fr\/hot\/|a\.tile-cyclosm\.openstreetmap\.fr\/cyclosm\/|tiles\.versatiles\.org\/(assets\/(styles|glyphs|sprites)\/|tiles\/osm\/)|server\.arcgisonline\.com|services\.arcgisonline\.com|fly\.maptiles\.arcgis\.com|basemap\.nationalmap\.gov\/arcgis\/rest\/services\/|basemaps\.cartocdn\.com\/gl\/|tiles\.basemaps\.cartocdn\.com\/(gl|fonts|vector)\/|tiles\.basemaps\.cartocdn\.com\/v\/[\w.-]+\/(gl|fonts|vectortiles)\/|tiles-[a-d]\.basemaps\.cartocdn\.com\/vectortiles\/)/;
 /**
  * Every URL a parsed GL style delegates to: each source's `url` (TileJSON) and `tiles`, `glyphs`, and the
  * sprite (a string, or VersaTiles' [{ id, url }] array). Pass a source's TileJSON as `tileJson[url]` to

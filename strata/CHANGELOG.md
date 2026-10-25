@@ -5,6 +5,14 @@ All notable changes to `strata-app-builder` are documented here. This project ad
 
 ## [Unreleased]
 
+### Fixed — `@strata/map-controls`: CARTO GL styles moved to a versioned tile path (2026-10-25)
+
+- CARTO's GL styles now delegate their tiles, glyphs and sprite to
+  `tiles.basemaps.cartocdn.com/v/<release>/{vectortiles,fonts,gl}/` instead of the old
+  `/{vector,fonts,gl}/` + `tiles-{a..d}` hosts, so `verify:basemaps` failed all six `carto-*` entries.
+  `BASEMAP_HOSTS` now admits the versioned layout (old paths kept); the recorded style fixture is
+  re-recorded. Verified live: two tiles differ, glyphs and sprite answer without a key.
+
 ### Fixed — `@strata/map-controls` 1.0.4: no blank box through the map under software compositing (2026-10-14)
 
 - **The drawer and the themed popup card paint a one-colour gradient, not a solid colour.** Under

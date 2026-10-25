@@ -210,6 +210,14 @@ describe("4 · BASEMAP_HOSTS covers every host a catalog GL style delegates to",
     expect(catalog.BASEMAP_HOSTS.test("https://tiles-a.basemaps.cartocdn.com/vectortiles/carto.streets/v1/1/0/0.mvt")).toBe(true);
     expect(catalog.BASEMAP_HOSTS.test("https://tiles-a.basemaps.cartocdn.com/light_all/1/0/0.png")).toBe(false);
   });
+  it("CARTO's versioned layout (2026-10) is admitted for tiles, glyphs and sprite only", () => {
+    const v = "https://tiles.basemaps.cartocdn.com/v/20261001-03";
+    expect(catalog.BASEMAP_HOSTS.test(`${v}/vectortiles/carto.streets/v2/{z}/{x}/{y}.mvt`)).toBe(true);
+    expect(catalog.BASEMAP_HOSTS.test(`${v}/fonts/{fontstack}/{range}.pbf`)).toBe(true);
+    expect(catalog.BASEMAP_HOSTS.test(`${v}/gl/positron-gl-style/sprite`)).toBe(true);
+    expect(catalog.BASEMAP_HOSTS.test(`${v}/light_all/1/0/0.png`)).toBe(false);
+    expect(catalog.BASEMAP_HOSTS.test("https://tiles.basemaps.cartocdn.com/v/x/y/somewhere")).toBe(false);
+  });
   it("styleDelegateUrls: sources, TileJSON tiles, glyphs, string or array sprite; deduped", () => {
     expect(catalog.styleDelegateUrls({ sources: { a: { url: "https://x/tj", tiles: ["https://x/t"] }, g: { type: "geojson", data: {} } },
       glyphs: "https://x/g", sprite: [{ id: "base", url: "https://x/s" }, { id: "b", url: "https://x/s" }] }, { "https://x/tj": { tiles: ["https://x/t", "https://y/t"] } }))
