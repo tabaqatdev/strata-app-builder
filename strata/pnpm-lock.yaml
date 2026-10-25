@@ -64,6 +64,9 @@ importers:
       '@strata/i18n':
         specifier: workspace:*
         version: link:../i18n
+      '@strata/map-controls':
+        specifier: workspace:*
+        version: link:../map-controls
       '@strata/schema':
         specifier: workspace:*
         version: link:../schema
@@ -167,6 +170,18 @@ importers:
 
   packages/i18n:
     devDependencies:
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.0
+        version: 2.1.9(@types/node@20.19.43)(jsdom@29.1.1)
+
+  packages/map-controls:
+    devDependencies:
+      jsdom:
+        specifier: ^29.1.1
+        version: 29.1.1
       typescript:
         specifier: ^5.4.0
         version: 5.9.3

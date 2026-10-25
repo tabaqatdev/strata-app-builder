@@ -38,6 +38,11 @@ export interface StrataAppEnv {
    * would repaint the UI while the map kept the old mode's basemap — the two would disagree.
    */
   setThemeMode?: (mode: "light" | "dark") => void;
+  /**
+   * The app's `theme.basemap` (`{ follow, light, dark }`) — the fallback a map widget's controls use
+   * for the light/dark basemap pair (`resolveMapWidgetControls(props, { themeBasemap })`).
+   */
+  themeBasemap?: { follow?: boolean; light?: string; dark?: string };
 }
 
 /** A registry of live maplibre `Map` instances keyed by the `map` widget's id (see `useMapInstance`). */

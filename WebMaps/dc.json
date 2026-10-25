@@ -261,50 +261,16 @@
     }
   ],
   "baseMap": {
-    "title": "OpenFreeMap Positron",
+    "title": "OpenStreetMap",
     "baseMapLayers": [
       {
-        "id": "ofm-positron",
-        "title": "OpenFreeMap Positron",
-        "layerType": "VectorTileLayer",
-        "styleUrl": "https://tiles.openfreemap.org/styles/positron",
-        "copyright": "© OpenStreetMap contributors · OpenFreeMap"
+        "id": "osm",
+        "layerType": "WebTiledLayer",
+        "templateUrl": "https://tile.openstreetmap.org/{level}/{col}/{row}.png",
+        "copyright": "© OpenStreetMap contributors"
       }
     ]
   },
-  "strata:basemaps": [
-    {
-      "id": "ofm-positron",
-      "title": "OpenFreeMap Positron",
-      "default": true,
-      "styleUrl": "https://tiles.openfreemap.org/styles/positron",
-      "copyright": "© OpenStreetMap contributors · OpenFreeMap"
-    },
-    {
-      "id": "ofm-dark",
-      "title": "OpenFreeMap Dark",
-      "styleUrl": "https://tiles.openfreemap.org/styles/dark",
-      "copyright": "© OpenStreetMap contributors · OpenFreeMap"
-    },
-    {
-      "id": "ofm-liberty",
-      "title": "OpenFreeMap Liberty",
-      "styleUrl": "https://tiles.openfreemap.org/styles/liberty",
-      "copyright": "© OpenStreetMap contributors · OpenFreeMap"
-    },
-    {
-      "id": "versatiles-eclipse",
-      "title": "Versatiles Eclipse",
-      "styleUrl": "https://tiles.versatiles.org/assets/styles/eclipse/style.json",
-      "copyright": "© OpenStreetMap contributors · Versatiles"
-    },
-    {
-      "id": "opentopomap",
-      "title": "OpenTopoMap",
-      "templateUrl": "https://tile.opentopomap.org/{level}/{col}/{row}.png",
-      "copyright": "© OpenStreetMap contributors, SRTM · © OpenTopoMap (CC-BY-SA)"
-    }
-  ],
   "operationalLayers": [
     {
       "id": "dc-wards",

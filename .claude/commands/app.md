@@ -21,11 +21,24 @@ and is **separate from** the ESRI Web Map `layers.json` it references — `/crea
   `table`/`carto`/`legend`/`status-bar`/`layer-panel`/`theme-switch`/`lang-switch`/`data-actions`/`filter`/
   `date-filter`/`feature-info`/`swipe`/`bookmarks`/`controller`/`share`/`near-me`/`add-data`/
   `weighted-overlay`/`elevation`); extend with `mergeRegistry`.
-- **Map chrome comes free.** A `map` widget with `controls:{navigation,layerList,basemapSwitcher,legend}`
-  renders the house cluster (zoom · fit · layers · basemap · legend) with one drawer beside it, layer
-  checkboxes, basemap **radios** with live tiles, and an **interactive legend** (click hides · shift-click
-  isolates · `Esc` clears). Don't rebuild any of it as widgets, and don't put layers/basemap in the page
-  header — they belong on the map. `controls.position` moves the cluster; `controls.cluster:false` opts out.
+- **The standard map controls come free — on every `map` widget, with no config.** `@strata/map-controls`
+  renders one fixed cluster, top-right: zoom in · zoom out · home | layers · basemap · legend · full screen,
+  plus the **interactive legend** (click hides · shift-click isolates · `Esc` clears). Apps cannot reorder,
+  move or remove it. Don't rebuild any of it as widgets, and don't put layers/basemap in the page header —
+  they belong on the map. Configure it only through the map widget's **`props.mapControls`**
+  (`MapControlsConfig`, validated by `validateAppLayout`):
+  - `tools` — **opt-in, never default**: `search` · `locate` · `measure` · `draw` · `print`. Enable only the
+    ones the app's job needs (what the user chose in the interview); none ⇒ no tool buttons at all.
+  - `basemap.initial` (catalog id on first load) · `basemap.recommendedExtras` (≤ 3 extra catalog ids
+    added to the Recommended list) · `basemap.theme` `{follow, light, dark}` (this map's pair; overrides
+    `theme.basemap`). Default pair `osm` / `osm-dark`.
+  - `scale` — **optional scale bar, off by default**: `true` (metric) or `{ units: "metric" | "imperial" |
+    "both" }`, fixed bottom-left. Only when the app needs distances read off the map.
+  - `title` — the print title.
+  The legacy `controls` flags are **deprecated** — never author them. If you meet one in an existing app,
+  migrate via `legacyControlsToMapControls`: `navigation`/`layerList`/`basemapSwitcher`/`legend`/`fullscreen`
+  are always on · `measure` → `tools.measure` · `sketch` → `tools.draw` · `geolocate` → `tools.locate` ·
+  `scale: true` → `mapControls.scale: true` · `cluster`/`position` are ignored. Exact keys: `recipes/COMPONENT-MANIFEST.md` §3b.
 
 ## Theme + header switchers (default polish)
 Set `AppLayout.theme = themeTokens(name)` from `@strata/theme` (light/dark/hazard/muted). **When the app is
@@ -37,8 +50,10 @@ app feel finished on the first build.
 **The map follows the theme — set `initial` to match `theme.mode`.** Switching light↔dark also swaps the
 basemap to its pair, automatically (no `connections`, no wiring). The basemap authored in `layers.json`
 wins on mount, so a `theme-switch` whose `initial` disagrees with `theme.mode` leaves the UI and the map
-out of step until the first click. To pin the basemap or name the pair, add
-`theme.basemap`: `{ "follow": false }` or `{ "light": "<id>", "dark": "<id>" }`.
+out of step until the first click. The default pair is `osm` / `osm-dark`. To pin the basemap or name the
+pair, add `theme.basemap`: `{ "follow": false }` or `{ "light": "<catalog id>", "dark": "<catalog id>" }`
+(ids from `@strata/map-controls/basemaps`; retired ids resolve through `BASEMAP_ALIASES`). A map's own
+`mapControls.basemap.theme` overrides it. Details: `recipes/COMPONENT-MANIFEST.md` §6c.
 
 ## Start from a template
 Pick a starter and adapt it (`@strata/core-map/react/app`):

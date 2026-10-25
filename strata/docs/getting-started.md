@@ -18,7 +18,9 @@ Three ideas carry everything:
 
 Data comes from **ArcGIS REST** services (public or secured FeatureServer / MapServer) and/or the **Strata
 Serve** server (your own GeoParquet published as a FeatureServer). Basemaps default to **open-source,
-OpenStreetMap data first** (keyless) — a new map opens on the OpenFreeMap Positron vector style.
+OpenStreetMap data first** (keyless) — a new map opens on OpenStreetMap (`osm`), and switches to
+OpenStreetMap Dark with a dark theme. Every map gets the standard map controls (zoom · home | layers ·
+basemap · legend · full screen); see [Map controls](guide/map-controls.md).
 
 ## Install & build
 

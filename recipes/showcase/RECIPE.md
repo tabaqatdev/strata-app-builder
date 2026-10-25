@@ -66,7 +66,7 @@ identity.
             { "kind": "widget", "widget": { "type": "legend" } } ] },
         { "kind": "widget", "widget": { "id": "map", "type": "map",
             "props": { "config": { "$ref": "WebMaps/dc.json" },
-                       "controls": { "navigation": true, "geolocate": true, "fullscreen": true, "scale": true } } } },
+                       "mapControls": { "scale": true, "tools": { "locate": true } } } } },   // standard cluster always on; opt-in scale bar
         { "kind": "widget", "widget": { "type": "feature-info", "props": { "floating": true } } } ] } },
 
     { "id": "panels",    "type": "fixed",  "root": { "kind": "splitter", "orientation": "h", "sizes": [62, 38],
@@ -201,8 +201,10 @@ A. /new-app — "DC Operations Center" on <StrataApp>. Structured theme mode:"au
    measure/draw/coordinates), and a splash (once). Reference WebMaps/dc.json. Install deps + run command.
 B. Command page: a docked left `panel` (`width:300`, `minWidth:240`, `maxWidth:560` — resizable, as every
    panel is by default; layer-panel with context menu: table/zoom/filter/symbology/popup/rename/remove;
-   basemap gallery with Manage→set-default; legend) + the shared map (navigation/geolocate/fullscreen/scale
-   + measure/draw/coordinates/search/print) + a floating feature-info. /popup each layer.
+   basemap gallery with Manage→set-default; legend) + the shared map (the standard control cluster —
+   zoom · home | layers · basemap · legend · full screen — plus mapControls.tools.locate and an opt-in bottom-left scale bar (mapControls.scale); basemaps from the
+   keyless catalog, osm/osm-dark by default; measure/draw/coordinates/search/print as widgets)
+   + a floating feature-info. /popup each layer.
 C. Panels page: a resizable splitter — map + floating carto on one side; filter, date-filter, a paging table
    (CSV/GeoJSON), and a data-actions menu on the other.
 D. Dashboard page: kpi row + gauge + wardChart (bar, income by ward) + severityChart (pie, crashes by
@@ -224,9 +226,9 @@ I. Design page (scroll): theme-switch + lang-switch, an embed + video, a gallery
 
 **Verify:** every page renders its family with **no console errors** · controls function and measure/draw
 **revert to identify** · panels dock *and* float **and resize** — drag the left rail's grip and the map
-follows without a reload, then `Tab` to the grip and size it with the arrow keys · **one** control cluster
-on the map (zoom · fit · layers · basemap · legend) with **one** drawer beside it, the basemap drawer
-ticking what is actually in force and each row showing a live tile · the legend **filters** on click,
+follows without a reload, then `Tab` to the grip and size it with the arrow keys · the **standard** control
+cluster on the map (zoom · home | layers · basemap · legend · full screen) with **one** drawer beside it,
+the basemap gallery ticking what is actually in force, every card with a thumbnail · the legend **filters** on click,
 isolates on shift-click and clears on `Esc` · a **table row flies the map to that record and opens its
 popup, and the same row clicked again clears both** · the table exports CSV/GeoJSON · KPIs/gauge/table on one
 `sourceId` link with **no connections** · a chart category **cross-filters the map + table in place** (no

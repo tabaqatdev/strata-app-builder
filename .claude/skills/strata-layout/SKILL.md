@@ -35,7 +35,10 @@ replaces it.
   **The map follows the theme:** switching light↔dark also swaps the basemap to its pair, so set the
   switcher's `initial` to the app's own `theme.mode` (otherwise the UI and the map disagree at load).
   The authored `layers.json` basemap stands until the mode actually changes; `theme.basemap`
-  `{follow:false}` pins it, `{light,dark}` names the pair.
+  `{follow:false}` pins it, `{light,dark}` names the pair as **catalog ids** (`@strata/map-controls`
+  `BASEMAPS`; default `osm` / `osm-dark`). Retired ids (`ofm-*`, `openfreemap-*`, `versatiles-*`,
+  `carto-*-gl`) still resolve through `BASEMAP_ALIASES`, but write current ids. A map's own
+  `mapControls.basemap.theme` overrides it for that map (`recipes/COMPONENT-MANIFEST.md` §6c).
 - **Templates** (`react/app`): `dashboardTemplate`, `cardGalleryTemplate`, `scrollingStoryTemplate` — the
   starters behind the Gallery/Portfolio/Exhibit/Attachment recipes.
 - **Section + Views + slides** (`kind:"views"`): swap views via `nav:"tabs"|"slides"`; a view's `mapState`

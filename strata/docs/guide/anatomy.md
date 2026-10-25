@@ -42,7 +42,7 @@ demonstrated against `WebMaps/dc.json` / `md.json` and validated by `packages/sc
 See [`templates/README.md`](../../templates/README.md) and the
 [application design guideline](app-design.md).
 
-## `strata/packages/` — the code (20 packages)
+## `strata/packages/` — the code (21 packages)
 See **[Components, widgets & skills](../reference/components.md)** for the purpose/scope of each and how they
 compose.
 - **`@strata/schema`** — the contract: `layers.json` (ESRI Web Map) + the `AppLayout` (containers, `ViewsNode`,
@@ -52,6 +52,10 @@ compose.
 - **`@strata/core-map`** — React + MapLibre: `engine/` (style/popup compilers, ArcGIS REST + GeoJSON + tile/WMS
   + **ImageServer/COG** loaders, MapController, basemaps, storeBinding), `react/` (StrataMap, controls, all
   panels, all widgets, the `<StrataApp>` layout engine, i18n binding, ErrorBoundary).
+- **`@strata/map-controls`** — the standard map controls, framework-free (no React, no runtime deps): the
+  fixed cluster, the layer list + basemap gallery drawer, opt-in tools, and the one keyless **basemap
+  catalog** (33 entries, licence tags, aliases). `core-map`'s `MapChrome` wraps it; vanilla apps vendor
+  its `dist/`. See [Map controls](map-controls.md).
 - **`@strata/actions`** — the data-action bus + the **WIF**: triggers → actions, `wireConnections` +
   `defaultDispatchers` (drive `AppLayout.connections`), the `OutputRegistry`, and the `DataAction` registry.
 - **`@strata/arcade`** — Arcade-subset evaluator → a MapLibre expression (renderers) or a scalar (popups).
@@ -72,7 +76,7 @@ compose.
 - **`@strata/studio`** — a light visual `AppLayout` editor (pure edit model + preview/inspector shell).
 
 ## Tests
-- **Vitest**, ~410 unit tests across the packages. Each package has its own `vitest.config.ts`; a root
+- **Vitest**, ~1,280 unit tests across 19 packages (verified 2026-10-08). Each package has its own `vitest.config.ts`; a root
   `strata/vitest.workspace.ts` runs them all. Run from inside `strata/`: `pnpm test`. Add tests for behavior
   changes — see [Creating a new component/widget/plugin](creating-components.md).
 

@@ -1,0 +1,268 @@
+/* map-controls.css — the styles of map-controls.js (@strata/map-controls), and nothing else.
+ *
+ * Everything is scoped under the root class `.smc`, which mountMapControls() puts on its container.
+ * Colours come from CSS custom properties. Each --smc-* token falls back to the house token of the
+ * same role (--bg, --panel, --fg, --muted, --border, --accent, --shadow, --motion), then to a
+ * built-in light/dark default (the module sets data-smc-mode on the root from theme.mode).
+ * An app with other token names maps them in, after this file:
+ *     .smc{ --smc-bg:var(--my-surface); --smc-accent:var(--my-brand); … }
+ * The container must be a positioned box (position:relative/absolute) — the cluster and the drawer
+ * are absolutely positioned inside it.
+ *
+ * Layout tokens (set them on .smc or any ancestor; they inherit):
+ *   --smc-z              stacking order of the drawer (default 40 — above typical app overlays such
+ *                        as legends / status chips, below modals). Toast +1, tooltip +10.
+ *   --smc-popup-z        MapLibre popups inside the container (default calc(var(--smc-z,40) + 2)), so
+ *                        an open drawer never hides one. The rule is injected by the module
+ *                        (<style data-smc-popup-css>), with the themed popup card (popupStyles).
+ *                        The cluster and the drawer grip sit one above it, so they stay usable.
+ *   The z-stack, bottom → top: map < app overlays (< 40) < drawer / tool panel (40) < toast (41)
+ *                        < popup (42) < cluster + drawer grip (43) < app modals (>= 50 — use 50+).
+ *   --smc-drawer-bottom  space kept free under the drawer (default 44px) so it never covers the
+ *                        MapLibre attribution or bottom-corner controls.
+ * Direction: the cluster, drawer and grip use logical properties, so an RTL page ([dir=rtl] on any
+ * ancestor) mirrors them; the module also sets data-smc-dir="rtl" on the container.
+ */
+.smc{
+  --smc-d-bg:#FFFFFF; --smc-d-panel:#F4F6F8; --smc-d-fg:#101418; --smc-d-muted:#4A5560; --smc-d-border:#C7CED6;
+  --smc-d-accent:#0B5FA5;
+  --smc-d-shadow:0 1px 3px rgba(16,20,24,.13),0 6px 20px rgba(16,20,24,.09);
+  --smc-bg:var(--bg,var(--smc-d-bg)); --smc-panel:var(--panel,var(--smc-d-panel)); --smc-fg:var(--fg,var(--smc-d-fg));
+  --smc-muted:var(--muted,var(--smc-d-muted)); --smc-border:var(--border,var(--smc-d-border));
+  --smc-accent:var(--accent,var(--smc-d-accent)); --smc-on-accent:#fff;
+  --smc-shadow:var(--shadow,var(--smc-d-shadow)); --smc-motion:var(--motion,160ms);
+}
+.smc[data-smc-mode="dark"]{
+  --smc-d-bg:#12161B; --smc-d-panel:#1A2027; --smc-d-fg:#E8EDF2; --smc-d-muted:#9AA7B4; --smc-d-border:#39424C;
+  --smc-d-accent:#6FB4F2; --smc-d-shadow:0 1px 3px rgba(0,0,0,.5),0 6px 22px rgba(0,0,0,.42);
+}
+
+/* a minimal reset. box-sizing stays at zero specificity. The BUTTON reset is (0,2,1) - just enough
+   to beat an app's global button{} / button[aria-pressed] / button:hover (up to 0,1,1), so they do
+   not bleed into the chrome; every package rule styling a button class is element-qualified
+   (.smc button.ll-tool) to stay above this reset. */
+:where(.smc-ctl,.smc-drawer,.smc-gallery),:where(.smc-ctl,.smc-drawer,.smc-gallery) *{box-sizing:border-box}
+.smc .smc-ctl button,.smc .smc-drawer button,.smc.smc-gallery button{font:inherit;color:inherit;background:none;border:none;border-radius:0;box-shadow:none;margin:0;padding:0;min-width:0;min-height:0;text-transform:none;letter-spacing:normal;cursor:pointer}
+.smc .smc-ctl button:focus-visible,.smc .smc-drawer button:focus-visible,.smc.smc-gallery button:focus-visible,:where(.smc-drawer,.smc-gallery) [tabindex]:focus-visible{outline:2px solid var(--smc-accent);outline-offset:2px}
+:where(.smc-drawer,.smc-gallery) h3{margin:0;font-weight:640}
+/* the gallery on its own (mountBasemapGallery), in normal flow inside an app's panel */
+.smc.smc-gallery{color:var(--smc-fg);padding:9px 10px;font-size:12.3px}
+
+/* every glyph from icons.js: stroked, currentColor */
+.smc svg.smc-i{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* the full-screen target is the container itself, so the drawer and the app's overlays come with it */
+.smc:fullscreen{width:100%;height:100%;background:var(--smc-bg)}
+.smc:-webkit-full-screen{width:100%;height:100%;background:var(--smc-bg)}
+
+/* ── the cluster: one column of glyphs, one drawer opening BESIDE it ── */
+.smc .smc-ctl{position:absolute;top:9px;inset-inline-end:9px;z-index:calc(var(--smc-popup-z,calc(var(--smc-z,40) + 2)) + 1);display:flex;flex-direction:column;background:var(--smc-panel);border:1px solid var(--smc-border);border-radius:9px;box-shadow:var(--smc-shadow);overflow:hidden}
+.smc .smc-ctl button{width:32px;height:32px;display:grid;place-items:center;border-bottom:1px solid var(--smc-border)}
+.smc .smc-ctl button:last-child{border-bottom:none}
+.smc .smc-ctl button:hover{background:color-mix(in srgb,var(--smc-accent) 14%,transparent);color:var(--smc-accent)}
+.smc .smc-ctl button[aria-expanded="true"]{background:var(--smc-accent);color:var(--smc-on-accent)}
+.smc .smc-ctl svg{width:16px;height:16px}
+/* 1.0.4: the drawer is an opaque SCROLLER over the map, so its fill is a one-colour gradient, never a plain
+   colour. Under software compositing (GPU off / blocklisted, RDP, VMs, headless --disable-gpu) Chrome treats an
+   opaque solid-colour overflow:auto box as an occluder and mis-places the occluded rect (~150-250 px off), punching
+   a blank page-background box through the map. An image fill is never an occluder; the colour is identical.
+   Override it with the `background` shorthand or the --smc-panel token — a `background-color`-only override is
+   painted UNDER this image and does not show. (strata/docs/troubleshooting.md, §7.) */
+.smc .smc-drawer{position:absolute;top:9px;inset-inline-end:47px;width:274px;max-height:calc(100% - 9px - var(--smc-drawer-bottom,44px));overflow-y:auto;z-index:var(--smc-z,40);background:linear-gradient(var(--smc-panel),var(--smc-panel));color:var(--smc-fg);border:1px solid var(--smc-border);border-radius:9px;box-shadow:var(--smc-shadow);padding:9px 10px}
+.smc .smc-drawer[hidden]{display:none}
+/* the drawer's resize grip: a thin hit target over its OUTER edge (placed by the module), clear until
+   hovered / focused / dragged. An ARIA separator: drag it, or focus it and use the arrow keys. */
+.smc .smc-dgrip{position:absolute;width:8px;z-index:calc(var(--smc-popup-z,calc(var(--smc-z,40) + 2)) + 1);cursor:col-resize;touch-action:none;background:transparent;border-radius:4px}
+.smc .smc-dgrip::after{content:"";position:absolute;top:50%;left:3px;width:2px;height:28px;margin-top:-14px;border-radius:1px;background:var(--smc-muted);opacity:.55;transition:opacity var(--smc-motion)}
+.smc .smc-dgrip:hover::after,.smc .smc-dgrip:focus-visible::after,.smc .smc-dgrip.dragging::after{opacity:1;background:var(--smc-accent)}
+.smc .smc-dgrip:hover,.smc .smc-dgrip.dragging{background:color-mix(in srgb,var(--smc-accent) 26%,transparent)}
+.smc .smc-dgrip:focus-visible{outline:2px solid var(--smc-accent);outline-offset:0}
+.smc .smc-dgrip[hidden]{display:none}
+.smc .smc-drawer h3{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--smc-muted);margin-bottom:7px}
+/* panel-setting rows (checkbox / radio look) — for the app's panelSettings html */
+.smc .opt,.smc button.opt{display:flex;gap:8px;align-items:center;width:100%;text-align:start;padding:5px 4px;border-radius:6px;font-size:12.3px}
+.smc .opt:hover{background:color-mix(in srgb,var(--smc-accent) 10%,transparent)}
+.smc .box{width:14px;height:14px;border:1.5px solid var(--smc-muted);border-radius:3px;flex:none;display:grid;place-items:center;font-size:10px;line-height:1}
+.smc .box.round{border-radius:50%}
+.smc .opt[aria-checked="true"] .box{background:var(--smc-accent);border-color:var(--smc-accent);color:var(--smc-on-accent)}
+.smc .opt .sub{font-size:10.9px;color:var(--smc-muted);display:block}
+
+/* ── the layer list (Map Viewer style): one row per operational layer, top = drawn on top ── */
+.smc .smc-drawer[data-which="layers"]{width:320px;max-width:calc(100% - 56px);padding:10px 10px 8px}
+.smc .ll-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.smc .ll-row{position:relative;border:1px solid var(--smc-border);border-radius:7px;background:var(--smc-bg)}
+.smc .ll-row.dragging{opacity:.5}
+.smc .ll-row.drop-before::before,.smc .ll-row.drop-after::after{content:"";position:absolute;left:4px;right:4px;height:2px;border-radius:1px;background:var(--smc-accent)}
+.smc .ll-row.drop-before::before{top:-4px}
+.smc .ll-row.drop-after::after{bottom:-4px}
+.smc .ll-main{display:flex;align-items:center;gap:1px;min-height:40px;padding-block:3px;padding-inline:0 3px}
+.smc .ll-grip{flex:none;width:18px;align-self:stretch;display:grid;place-items:center;color:var(--smc-muted);cursor:grab;touch-action:none}
+.smc .ll-grip:hover{color:var(--smc-accent)}
+.smc .ll-row.dragging .ll-grip{cursor:grabbing}
+.smc button.ll-ib{flex:none;width:26px;height:26px;border-radius:5px;display:grid;place-items:center;color:var(--smc-muted)}
+.smc .ll-ib:hover{color:var(--smc-accent);background:color-mix(in srgb,var(--smc-accent) 12%,transparent)}
+.smc .ll-grip svg,.smc .ll-ib svg,.smc .ll-base svg{width:16px;height:16px}
+.smc .ll-ib[data-ll-act="expand"] svg{transition:transform var(--smc-motion)}
+.smc .ll-ib[data-ll-act="expand"][aria-expanded="true"] svg{transform:rotate(90deg)}
+.smc .ll-ib[data-ll-act="eye"][aria-pressed="true"]{color:var(--smc-fg)}
+.smc .ll-ib[data-ll-act="acts"][aria-expanded="true"]{background:color-mix(in srgb,var(--smc-accent) 18%,transparent);color:var(--smc-accent);box-shadow:inset 0 0 0 1px var(--smc-accent)}
+.smc .ll-swatch{flex:none;width:22px;height:16px;display:grid;place-items:center;margin-inline-end:5px}
+.smc .ll-name{flex:1;min-width:0;font-size:12.3px;line-height:1.3}
+.smc .ll-name .t{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
+.smc .ll-name .sub{display:block;font-size:10.8px;color:var(--smc-muted)}
+.smc .ll-row.off .ll-name,.smc .ll-row.off .ll-swatch,.smc .ll-row.off .ll-legend{opacity:.45}
+/* swatch helpers a descriptor's `swatch` html may use: dots, a square, a ramp */
+.smc .ll-dots{display:flex;gap:2px}
+.smc .ll-dots i{width:6px;height:6px;border-radius:50%;border:1px solid rgba(0,0,0,.3)}
+.smc .ll-sq{width:18px;height:13px;border-radius:2px;border:1.5px solid}
+.smc .ll-ramp{width:20px;height:12px;border-radius:2px;border:1px solid rgba(0,0,0,.28)}
+.smc[data-smc-mode="dark"] .ll-dots i,.smc[data-smc-mode="dark"] .ll-ramp{border-color:rgba(255,255,255,.34)}
+.smc .ll-legend{padding-block:2px 8px;padding-inline:46px 8px}
+/* "…" expands an INLINE actions section under the row header (Map Viewer style) — no floating menu. */
+.smc .ll-acts{margin-block:0 6px;margin-inline:22px 6px;padding:7px 8px 8px;border-top:1px solid var(--smc-border);font-size:11.6px}
+.smc .ll-acts[hidden],.smc .ll-legend[hidden],.smc .ll-info[hidden]{display:none}
+.smc .ll-acts:not([hidden])+.ll-legend{margin-block:0;margin-inline:22px 6px;padding-block:6px 8px;padding-inline:24px 2px;border-top:1px solid var(--smc-border)}
+.smc .ll-tools{display:grid;grid-template-columns:1fr 1fr;gap:2px 4px}
+.smc button.ll-tool{display:flex;align-items:center;gap:6px;min-height:28px;padding:4px 6px;border-radius:5px;font-size:11.8px;line-height:1.2;text-align:start;color:var(--smc-fg)}
+.smc .ll-tool svg{flex:none;width:14px;height:14px;color:var(--smc-muted)}
+.smc .ll-tool:hover:not(:disabled){background:color-mix(in srgb,var(--smc-accent) 12%,transparent)}
+.smc .ll-tool:hover:not(:disabled) svg,.smc .ll-tool[aria-expanded="true"] svg{color:var(--smc-accent)}
+.smc .ll-tool[aria-expanded="true"]{background:color-mix(in srgb,var(--smc-accent) 12%,transparent)}
+.smc .ll-tool:disabled{color:var(--smc-muted);opacity:.5;cursor:not-allowed}
+.smc button.ll-tool:focus-visible{outline:2px solid var(--smc-accent);outline-offset:-1px}
+.smc .ll-op{margin-top:7px;padding-top:6px;border-top:1px dashed var(--smc-border)}
+.smc .ll-op label{display:flex;justify-content:space-between;color:var(--smc-muted);margin-bottom:2px}
+.smc .ll-op label b{color:var(--smc-fg);font-weight:600;font-variant-numeric:tabular-nums}
+.smc .ll-op input[type=range]{width:100%;margin:2px 0 0;accent-color:var(--smc-accent)}
+.smc .ll-op input[type=range]:focus-visible{outline:2px solid var(--smc-accent);outline-offset:2px;border-radius:4px}
+/* "Layer information": a PLAIN section for everyone, then a collapsed "Technical details" disclosure. */
+.smc .ll-info{margin:7px 0 0;padding:7px 8px 6px;border-radius:5px;background:color-mix(in srgb,var(--smc-fg) 4%,transparent);line-height:1.42;min-width:0}
+.smc .ll-about,.smc .ll-kv{margin:0;display:grid;gap:6px;min-width:0}
+.smc .ll-about>div,.smc .ll-kv>div{min-width:0}
+.smc .ll-about dt,.smc .ll-kv dt{font-size:10.3px;font-weight:680;letter-spacing:.04em;text-transform:uppercase;color:var(--smc-muted)}
+.smc .ll-about dd,.smc .ll-kv dd{margin:1px 0 0;overflow-wrap:anywhere;min-width:0}
+.smc button.ll-techbtn{display:flex;align-items:center;gap:5px;width:100%;margin-top:8px;padding:6px 2px 3px;border-top:1px dashed var(--smc-border);font-size:11.6px;font-weight:640;color:var(--smc-fg);text-align:start}
+.smc .ll-techbtn svg{flex:none;width:13px;height:13px;stroke-width:2.2;color:var(--smc-muted);transition:transform var(--smc-motion)}
+.smc .ll-techbtn[aria-expanded="true"] svg{transform:rotate(90deg);color:var(--smc-accent)}
+.smc .ll-techbtn:hover{color:var(--smc-accent)}
+.smc button.ll-techbtn:focus-visible,.smc button.ll-mini:focus-visible,.smc .ll-link:focus-visible{outline:2px solid var(--smc-accent);outline-offset:1px;border-radius:3px}
+.smc .ll-tech{display:grid;gap:7px;margin:5px 0 2px;min-width:0}
+.smc .ll-tech[hidden]{display:none}
+.smc .ll-svc{min-width:0;padding:6px 7px 7px;border:1px solid var(--smc-border);border-radius:5px;background:var(--smc-bg)}
+.smc .ll-svc h4{margin:0 0 5px;font-size:11.6px;font-weight:650;overflow-wrap:anywhere}
+.smc .ll-kv{gap:5px}
+.smc .ll-link{color:var(--smc-accent);text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere;word-break:break-all}
+.smc .ll-tech code{font:10.8px/1.35 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;word-break:break-all}
+.smc .ll-fields{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:2px}
+.smc .ll-fields li{min-width:0;overflow-wrap:anywhere}
+.smc .ll-fields .al{color:var(--smc-muted)}
+.smc button.ll-mini{margin-top:4px;padding:2px 6px;border:1px solid var(--smc-border);border-radius:4px;font-size:11px;font-weight:600;color:var(--smc-fg);background:var(--smc-bg)}
+.smc .ll-mini:hover{border-color:var(--smc-accent);color:var(--smc-accent)}
+.smc .ll-wait,.smc .ll-err{color:var(--smc-muted);font-size:11.4px}
+.smc .ll-err{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.smc .ll-err .ll-mini{margin-top:0}
+.smc button.ll-base{display:flex;align-items:center;gap:8px;width:100%;min-height:38px;padding:5px 8px;border:1px dashed var(--smc-border);border-radius:7px;background:var(--smc-bg);font-size:12.3px;text-align:start;color:var(--smc-fg)}
+.smc .ll-base:hover{border-color:var(--smc-accent)}
+.smc .ll-base svg:first-child{color:var(--smc-muted)}
+.smc .ll-base .t{flex:1;min-width:0}
+.smc .ll-base .sub{display:block;font-size:10.8px;color:var(--smc-muted)}
+.smc .ll-set{margin-top:11px;padding-top:8px;border-top:1px solid var(--smc-border)}
+.smc .ll-set .hint{font-size:10.8px;color:var(--smc-muted);margin-top:5px;line-height:1.45}
+
+/* ── the basemap gallery — Map Viewer style: two cards per row, thumbnail over title ── */
+.smc .smc-drawer[data-which="base"]{width:316px;max-width:calc(100% - 56px);padding:10px 10px 8px}
+.smc button.bm-follow{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:6px 8px;margin-bottom:6px;border:1px solid var(--smc-border);border-radius:7px;background:var(--smc-bg);font-size:12px;color:var(--smc-fg);text-align:start}
+.smc .bm-follow:hover{border-color:var(--smc-accent)}
+.smc .bm-follow .now{display:block;font-size:10.6px;color:var(--smc-muted)}
+.smc .bm-sw{flex:none;width:28px;height:16px;border-radius:8px;background:var(--smc-border);position:relative;transition:background var(--smc-motion)}
+.smc .bm-sw::after{content:"";position:absolute;top:2px;inset-inline-start:2px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.35);transition:inset-inline-start var(--smc-motion)}
+.smc .bm-follow[aria-checked="true"] .bm-sw{background:var(--smc-accent)}
+.smc .bm-follow[aria-checked="true"] .bm-sw::after{inset-inline-start:14px}
+.smc .bm-sec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--smc-fg);margin:10px 2px 6px}
+.smc button.bm-more{display:flex;align-items:center;gap:6px;width:100%;margin:12px 0 2px;padding:6px 8px;border:1px solid var(--smc-border);border-radius:7px;background:var(--smc-bg);font-size:12px;font-weight:620;color:var(--smc-fg);text-align:start}
+.smc .bm-more:hover{border-color:var(--smc-accent)}
+.smc button.bm-more:focus-visible{outline:2px solid var(--smc-accent);outline-offset:1px}
+.smc .bm-more svg{flex:none;width:14px;height:14px;stroke-width:2;transition:transform var(--smc-motion)}
+.smc .bm-more[aria-expanded="true"] svg{transform:rotate(90deg)}
+.smc .bm-more .n{color:var(--smc-muted);font-weight:500}
+.smc .bm-more-body[hidden]{display:none}
+.smc .bm-group{font-size:10.6px;font-weight:650;text-transform:uppercase;letter-spacing:.06em;color:var(--smc-muted);margin:9px 2px 5px}
+.smc .bm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.smc .bm-card{position:relative;min-width:0}
+.smc button.bm-pick{display:block;width:100%;padding:0;border:1px solid var(--smc-border);border-radius:7px;background:var(--smc-bg);color:var(--smc-fg);text-align:start;overflow:hidden;cursor:pointer}
+.smc .bm-pick:hover{border-color:var(--smc-accent)}
+.smc button.bm-pick:focus-visible{outline:2px solid var(--smc-accent);outline-offset:1px}
+.smc .bm-pick[aria-checked="true"]{border-color:var(--smc-accent);box-shadow:0 0 0 1.5px var(--smc-accent)}
+.smc .bm-img{display:block;position:relative;aspect-ratio:4/3;background:color-mix(in srgb,var(--smc-muted) 18%,var(--smc-panel))}
+.smc .bm-img img{display:block;width:100%;height:100%;object-fit:cover}
+.smc .bm-img img[hidden]{display:none}
+.smc .bm-check{position:absolute;top:5px;inset-inline-end:5px;width:18px;height:18px;border-radius:50%;background:var(--smc-accent);color:var(--smc-on-accent);display:none;place-items:center}
+.smc .bm-check svg{width:12px;height:12px;stroke-width:2.6}
+.smc .bm-pick[aria-checked="true"] .bm-check{display:grid}
+.smc .bm-title{display:flex;align-items:center;min-height:36px;padding-block:4px;padding-inline:7px 24px;font-size:11.6px;line-height:1.25}
+.smc .bm-info{position:absolute;inset-inline-end:4px;bottom:10px;width:18px;height:18px;display:grid;place-items:center;border-radius:50%;color:var(--smc-muted);cursor:help}
+.smc .bm-info:hover,.smc .bm-info:focus-visible{color:var(--smc-accent);outline:none;background:color-mix(in srgb,var(--smc-accent) 12%,transparent)}
+.smc .bm-info svg{width:14px;height:14px}
+.smc .bm-tip{position:fixed;z-index:calc(var(--smc-z,40) + 10);max-width:230px;padding:7px 9px;border-radius:7px;background:var(--smc-fg);color:var(--smc-bg);font-size:11.3px;line-height:1.4;box-shadow:var(--smc-shadow);pointer-events:none}
+.smc .bm-tip[hidden]{display:none}
+/* the GL basemap fallback's note (basemapFallback) under the gallery */
+.smc .bm-note{margin:10px 2px 2px;padding:6px 8px;border-radius:6px;border:1px solid var(--smc-border);background:color-mix(in srgb,var(--smc-accent) 8%,var(--smc-bg));color:var(--smc-fg);font-size:11.2px;line-height:1.4}
+
+/* ── the optional tools (tools.js) — nothing below matches unless an app enables a tool ── */
+/* the second group of the cluster: a band after the defaults, then search · locate · measure · draw · print */
+.smc .smc-ctl .smc-sep{display:block;height:5px;flex:none;background:color-mix(in srgb,var(--smc-border) 70%,var(--smc-panel));border-bottom:1px solid var(--smc-border)}
+.smc .smc-ctl button[data-tool][aria-pressed="true"]{background:var(--smc-accent);color:var(--smc-on-accent)}
+.smc .smc-ctl button[aria-busy="true"]{opacity:.55;cursor:progress}
+/* the tool panel reuses the drawer's box (.smc-drawer); these are its insides */
+.smc .smc-tpanel{width:286px;max-width:calc(100% - 56px)}
+.smc .tp-head{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:7px}
+.smc .tp-head h3{margin-bottom:0}
+.smc button.tp-x{flex:none;width:24px;height:24px;display:grid;place-items:center;border-radius:5px;color:var(--smc-muted)}
+.smc .tp-x:hover{color:var(--smc-accent);background:color-mix(in srgb,var(--smc-accent) 12%,transparent)}
+.smc .tp-x svg{width:14px;height:14px}
+.smc .tp-seg{display:flex;gap:2px;padding:2px;margin-bottom:8px;border:1px solid var(--smc-border);border-radius:7px;background:var(--smc-bg)}
+.smc .tp-seg button{flex:1;min-width:0;padding:5px 4px;border-radius:5px;font-size:11.8px;color:var(--smc-fg)}
+.smc .tp-seg button:hover{background:color-mix(in srgb,var(--smc-accent) 12%,transparent)}
+.smc .tp-seg button[aria-checked="true"]{background:var(--smc-accent);color:var(--smc-on-accent)}
+.smc .tp-read{padding:8px 9px;border:1px solid var(--smc-border);border-radius:7px;background:var(--smc-bg);color:var(--smc-fg);font-variant-numeric:tabular-nums;line-height:1.35}
+.smc .tp-read .big{font-size:19px;font-weight:650}
+.smc .tp-read .alt{font-size:12px;color:var(--smc-fg);opacity:.8}
+.smc .tp-read .sub{font-size:11.2px;color:var(--smc-muted)}
+.smc .tp-hint{font-size:11px;color:var(--smc-muted);margin:7px 2px 2px;line-height:1.4}
+.smc .tp-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.smc button.tp-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border:1px solid var(--smc-border);border-radius:6px;background:var(--smc-bg);color:var(--smc-fg);font-size:11.6px;font-weight:600}
+.smc .tp-btn:hover:not(:disabled){border-color:var(--smc-accent);color:var(--smc-accent)}
+.smc .tp-btn[aria-pressed="true"]{border-color:var(--smc-accent);color:var(--smc-accent);background:color-mix(in srgb,var(--smc-accent) 10%,var(--smc-bg))}
+.smc .tp-btn:disabled{opacity:.45;cursor:not-allowed}
+.smc .tp-btn svg{width:13px;height:13px}
+.smc .tp-input{display:block;width:100%;padding:7px 9px;border:1px solid var(--smc-border);border-radius:7px;background:var(--smc-bg);color:var(--smc-fg);font:inherit;font-size:12.5px}
+.smc .tp-input:focus-visible{outline:2px solid var(--smc-accent);outline-offset:1px}
+.smc .tp-msg{font-size:11.2px;color:var(--smc-muted);margin:6px 2px 0}
+.smc .tp-msg:empty{display:none}
+.smc .tp-results{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:2px}
+.smc .tp-results:empty{display:none}
+.smc .tp-results li{padding:6px 8px;border-radius:6px;font-size:12.2px;line-height:1.3;color:var(--smc-fg);cursor:pointer;overflow-wrap:anywhere}
+.smc .tp-results li:hover,.smc .tp-results li[aria-selected="true"]{background:color-mix(in srgb,var(--smc-accent) 14%,transparent)}
+.smc .tp-results li[aria-selected="true"]{box-shadow:inset 2px 0 0 var(--smc-accent)}
+.smc .tp-results .sub{display:block;font-size:10.8px;color:var(--smc-muted)}
+.smc .tp-attr{font-size:10.4px;color:var(--smc-muted);margin-top:8px;padding-top:6px;border-top:1px solid var(--smc-border)}
+/* one transient status line for locate / print / export */
+.smc .smc-toast{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);z-index:calc(var(--smc-z,40) + 1);max-width:min(440px,calc(100% - 32px));padding:7px 12px;border-radius:8px;background:var(--smc-fg);color:var(--smc-bg);font-size:12px;line-height:1.4;box-shadow:var(--smc-shadow);pointer-events:none}
+.smc .smc-toast[hidden]{display:none}
+
+/* ── the optional scale bar (scale.js) — OFF by default; fixed bottom-left inside the container ── */
+.smc .smc-scale{position:absolute;left:10px;bottom:10px;z-index:4;direction:ltr;display:flex;flex-direction:column;gap:0;pointer-events:none;
+  font:10.5px/1.15 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--smc-fg);font-variant-numeric:tabular-nums}
+.smc .smc-scale[hidden]{display:none}
+.smc .smc-scale-line{box-sizing:border-box;padding:1px 4px 2px;border:1.5px solid var(--smc-fg);border-top:none;
+  background:color-mix(in srgb,var(--smc-panel) 78%,transparent);white-space:nowrap;transition:width var(--smc-motion)}
+/* a second (imperial) line under the metric one hangs from the shared edge: ticks point down */
+.smc .smc-scale-line+.smc-scale-line{border-top:1.5px solid var(--smc-fg);border-bottom:none;margin-top:-1.5px;padding:2px 4px 1px}
+
+/* -- RTL: the box positions above are logical (inset-inline-*), so they mirror on their own; these
+      mirror what logical properties cannot: the right-pointing chevrons (a collapsed disclosure
+      points along the reading direction; an expanded one still points down) -- */
+.smc:is([dir="rtl"],[dir="rtl"] *,[data-smc-dir="rtl"]) .ll-ib[data-ll-act="expand"]:not([aria-expanded="true"]) svg,
+.smc:is([dir="rtl"],[dir="rtl"] *,[data-smc-dir="rtl"]) .ll-techbtn:not([aria-expanded="true"]) svg,
+.smc:is([dir="rtl"],[dir="rtl"] *,[data-smc-dir="rtl"]) .bm-more:not([aria-expanded="true"]) svg,
+.smc:is([dir="rtl"],[dir="rtl"] *,[data-smc-dir="rtl"]) .ll-base svg:last-child{transform:scaleX(-1)}

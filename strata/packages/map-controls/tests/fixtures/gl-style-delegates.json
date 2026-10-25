@@ -1,0 +1,246 @@
+{
+  "recorded": "2026-10-13",
+  "note": "Fetched from the live style JSONs by the 1.0.3 work: only `sources` (url, tiles), each TileJSON's `tiles`, `glyphs` and `sprite` are kept. Re-record when a GL style is added or its provider moves.",
+  "styles": {
+    "vt-colorful": {
+      "style": "https://tiles.versatiles.org/assets/styles/colorful/style.json",
+      "sources": {
+        "versatiles-shortbread": {
+          "type": "vector",
+          "tiles": [
+            "https://tiles.versatiles.org/tiles/osm/{z}/{x}/{y}"
+          ]
+        }
+      },
+      "tileJson": {},
+      "glyphs": "https://tiles.versatiles.org/assets/glyphs/{fontstack}/{range}.pbf",
+      "sprite": [
+        {
+          "id": "base",
+          "url": "https://tiles.versatiles.org/assets/sprites/base"
+        }
+      ]
+    },
+    "vt-colorful-dark": {
+      "style": "https://tiles.versatiles.org/assets/styles/colorful-dark/style.json",
+      "sources": {
+        "versatiles-shortbread": {
+          "type": "vector",
+          "tiles": [
+            "https://tiles.versatiles.org/tiles/osm/{z}/{x}/{y}"
+          ]
+        }
+      },
+      "tileJson": {},
+      "glyphs": "https://tiles.versatiles.org/assets/glyphs/{fontstack}/{range}.pbf",
+      "sprite": [
+        {
+          "id": "base",
+          "url": "https://tiles.versatiles.org/assets/sprites/base"
+        }
+      ]
+    },
+    "vt-gray": {
+      "style": "https://tiles.versatiles.org/assets/styles/gray/style.json",
+      "sources": {
+        "versatiles-shortbread": {
+          "type": "vector",
+          "tiles": [
+            "https://tiles.versatiles.org/tiles/osm/{z}/{x}/{y}"
+          ]
+        }
+      },
+      "tileJson": {},
+      "glyphs": "https://tiles.versatiles.org/assets/glyphs/{fontstack}/{range}.pbf",
+      "sprite": [
+        {
+          "id": "base",
+          "url": "https://tiles.versatiles.org/assets/sprites/base"
+        }
+      ]
+    },
+    "vt-gray-dark": {
+      "style": "https://tiles.versatiles.org/assets/styles/gray-dark/style.json",
+      "sources": {
+        "versatiles-shortbread": {
+          "type": "vector",
+          "tiles": [
+            "https://tiles.versatiles.org/tiles/osm/{z}/{x}/{y}"
+          ]
+        }
+      },
+      "tileJson": {},
+      "glyphs": "https://tiles.versatiles.org/assets/glyphs/{fontstack}/{range}.pbf",
+      "sprite": [
+        {
+          "id": "base",
+          "url": "https://tiles.versatiles.org/assets/sprites/base"
+        }
+      ]
+    },
+    "vt-muted": {
+      "style": "https://tiles.versatiles.org/assets/styles/muted/style.json",
+      "sources": {
+        "versatiles-shortbread": {
+          "type": "vector",
+          "tiles": [
+            "https://tiles.versatiles.org/tiles/osm/{z}/{x}/{y}"
+          ]
+        }
+      },
+      "tileJson": {},
+      "glyphs": "https://tiles.versatiles.org/assets/glyphs/{fontstack}/{range}.pbf",
+      "sprite": [
+        {
+          "id": "base",
+          "url": "https://tiles.versatiles.org/assets/sprites/base"
+        }
+      ]
+    },
+    "vt-muted-dark": {
+      "style": "https://tiles.versatiles.org/assets/styles/muted-dark/style.json",
+      "sources": {
+        "versatiles-shortbread": {
+          "type": "vector",
+          "tiles": [
+            "https://tiles.versatiles.org/tiles/osm/{z}/{x}/{y}"
+          ]
+        }
+      },
+      "tileJson": {},
+      "glyphs": "https://tiles.versatiles.org/assets/glyphs/{fontstack}/{range}.pbf",
+      "sprite": [
+        {
+          "id": "base",
+          "url": "https://tiles.versatiles.org/assets/sprites/base"
+        }
+      ]
+    },
+    "carto-positron": {
+      "style": "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+      "sources": {
+        "carto": {
+          "type": "vector",
+          "url": "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json"
+        }
+      },
+      "tileJson": {
+        "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json": {
+          "tiles": [
+            "https://tiles-a.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-b.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-c.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-d.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt"
+          ]
+        }
+      },
+      "glyphs": "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
+      "sprite": "https://tiles.basemaps.cartocdn.com/gl/positron-gl-style/sprite"
+    },
+    "carto-dark-matter": {
+      "style": "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+      "sources": {
+        "carto": {
+          "type": "vector",
+          "url": "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json"
+        }
+      },
+      "tileJson": {
+        "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json": {
+          "tiles": [
+            "https://tiles-a.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-b.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-c.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-d.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt"
+          ]
+        }
+      },
+      "glyphs": "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
+      "sprite": "https://tiles.basemaps.cartocdn.com/gl/dark-matter-gl-style/sprite"
+    },
+    "carto-voyager": {
+      "style": "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
+      "sources": {
+        "carto": {
+          "type": "vector",
+          "url": "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json"
+        }
+      },
+      "tileJson": {
+        "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json": {
+          "tiles": [
+            "https://tiles-a.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-b.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-c.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-d.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt"
+          ]
+        }
+      },
+      "glyphs": "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
+      "sprite": "https://tiles.basemaps.cartocdn.com/gl/voyager-gl-style/sprite"
+    },
+    "carto-positron-nolabels": {
+      "style": "https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json",
+      "sources": {
+        "carto": {
+          "type": "vector",
+          "url": "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json"
+        }
+      },
+      "tileJson": {
+        "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json": {
+          "tiles": [
+            "https://tiles-a.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-b.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-c.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-d.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt"
+          ]
+        }
+      },
+      "glyphs": "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
+      "sprite": "https://tiles.basemaps.cartocdn.com/gl/positron-gl-style/sprite"
+    },
+    "carto-dark-matter-nolabels": {
+      "style": "https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json",
+      "sources": {
+        "carto": {
+          "type": "vector",
+          "url": "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json"
+        }
+      },
+      "tileJson": {
+        "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json": {
+          "tiles": [
+            "https://tiles-a.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-b.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-c.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-d.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt"
+          ]
+        }
+      },
+      "glyphs": "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
+      "sprite": "https://tiles.basemaps.cartocdn.com/gl/dark-matter-gl-style/sprite"
+    },
+    "carto-voyager-nolabels": {
+      "style": "https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json",
+      "sources": {
+        "carto": {
+          "type": "vector",
+          "url": "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json"
+        }
+      },
+      "tileJson": {
+        "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json": {
+          "tiles": [
+            "https://tiles-a.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-b.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-c.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt",
+            "https://tiles-d.basemaps.cartocdn.com/vectortiles/carto.streets/v1/{z}/{x}/{y}.mvt"
+          ]
+        }
+      },
+      "glyphs": "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
+      "sprite": "https://tiles.basemaps.cartocdn.com/gl/voyager-gl-style/sprite"
+    }
+  }
+}

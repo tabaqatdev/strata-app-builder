@@ -46,9 +46,10 @@ to them from public files (a public clone won't have them).
 Tests are **Vitest**: each package with logic has a `tests/` dir + its own `vitest.config.ts` + `test`
 script, and a root `strata/vitest.workspace.ts` runs everything. **`pnpm -r build` must run first** —
 workspace packages resolve from `dist/`, so on a fresh clone `pnpm test` fails to resolve `@strata/*`
-until they are built. Verified 2026-09-02 after the map-chrome / legend / theme-basemap change:
-`cd strata && pnpm install && pnpm -r build && pnpm test` → **835 tests, 0 failures**, across the **18 of
-20 packages** that carry suites (`@strata/core-map` 364, `@strata/schema` 221).
+until they are built. Verified 2026-10-08 after the standard-map-controls change:
+`cd strata && pnpm install && pnpm -r build && pnpm test` → **1,280 tests, 0 failures**, across the **19 of
+21 packages** that carry suites (`@strata/core-map` 418, `@strata/schema` 310, `@strata/map-controls` 267).
+The component coverage matrix must stay in sync: `pnpm run coverage:matrix:check` (from `strata/`).
 **Add tests for any behavior change**, especially the style/popup compilers, and list any new package in
 `strata/vitest.workspace.ts`.
 
@@ -98,26 +99,39 @@ After the user scaffolds or opts out, write a `.strata/onboarded` marker and sto
   metadata). Renders into a Strata Serve datasource + metadata bundle.
 - **Styling is genuine ESRI `drawingInfo`**; **popups are genuine ESRI `popupInfo`**. Never invent a
   styling DSL — write the ESRI JSON; `@strata/core-map`'s style compiler maps it to MapLibre.
-- **Basemaps default to open-source, OpenStreetMap data first, and to a keyless VECTOR style.** A new map
-  gets **OpenFreeMap Positron**; the set (`@strata/core-map` `OPEN_BASEMAPS` = `VECTOR_BASEMAPS` then
-  `RASTER_BASEMAPS`, backing `defaultBaseMap()` and `BasemapPanel`) is all keyless OSM-derived —
-  OpenFreeMap Positron/Dark/Liberty · Versatiles Colorful/Eclipse · CARTO GL · then raster OSM and
-  OpenTopoMap. Never default to a proprietary or API-keyed provider (ESRI/Google/Mapbox); offer those only
-  if the user asks. A vector preset carries `style` (a GL style URL) and is authored as an ESRI
-  `VectorTileLayer` + `styleUrl`; a raster preset carries `templateUrl` in the ESRI Web Map tokens
-  `{level}/{col}/{row}` (the compiler rewrites them to `{z}/{x}/{y}`).
+- **Basemaps: one keyless catalog, OpenStreetMap first.** `@strata/map-controls/basemaps` holds **33
+  keyless basemaps** (OpenStreetMap · Esri · USGS · CARTO), each licence-tagged (`license`
+  `commercial-ok`|`non-commercial`, `licenseNote`, `licenseUrl`). A new map gets **OpenStreetMap
+  (`osm`)**; `BASEMAP_ALIASES` keeps retired ids (`openfreemap-*`, `ofm-*`, `versatiles-*`, `carto-*-gl`…)
+  rendering. Esri and CARTO are in the gallery but `non-commercial` (CARTO needs a key for licensed use;
+  no alias points at it); OpenFreeMap is deny-listed. `@strata/core-map`'s `OPEN_BASEMAPS` /
+  `defaultBaseMap()` are a deprecated shim over the catalog. Never default to a keyed or proprietary
+  provider; offer one only if the user asks. A vector entry is authored as an ESRI `VectorTileLayer` +
+  `styleUrl`; a raster one as a `templateUrl` in the ESRI tokens `{level}/{col}/{row}` (rewritten to
+  `{z}/{x}/{y}`). Licences, aliases, the tile-proxy hook: `strata/docs/guide/map-controls.md`.
+- **Every map carries the standard map controls** (`@strata/map-controls`; React wraps it as `MapChrome`,
+  vanilla apps vendor its `dist/`): a fixed cluster top-right — zoom in · zoom out · home | layers ·
+  basemap · legend · full screen — that apps never reorder or remove. **Esc closes a popup first**
+  (MapLibre popups + the app's own, registered as `closePopup`), then the active tool, then the drawer,
+  then the app's own steps — an app's Esc handler starts `if (controls.escape()) return;`. **Tools (search · locate · measure ·
+  draw · print) and a bottom-left scale bar (`mapControls.scale`) are opt-in per app, never on by default.** Configure with the
+  map widget's `mapControls` (`tools`/`basemap`/`scale`/`title`); the old `controls` flags are deprecated.
+  Details: the package README and `recipes/COMPONENT-MANIFEST.md` §3b.
 - **"Keyless" is a behaviour, not a URL — assert it as one.** CARTO's raster CDN and
   `tile.openstreetmap.org` both answer **HTTP 200 with a placeholder** (an *"API KEY REQUIRED"* watermark
   composited over the real map; an *"Access blocked"* image), and both pass a host check, a `!key=` check
-  and a `naturalWidth > 1` check. Only bytes and a human eye catch them. So: fetch **two different tiles
+  and a `naturalWidth > 1` check (OSM blocks only clients outside its usage policy — probe it the way the
+  app calls it). Only bytes and a human eye catch them. So: fetch **two different tiles
   and require them to differ**, probe a GL style **as a style** (it must parse, and every host it delegates
   to — tiles, glyphs, sprite — must itself be keyless), keep a deny-list of hosts known to be gated, and
-  **look at one tile before shipping**. Full entry: `strata/docs/troubleshooting.md` §5.
+  **look at one tile before shipping**. The catalog's `verify:basemaps` does this weekly in CI. Full entry:
+  `strata/docs/troubleshooting.md` §5.
 - **The basemap follows the theme** — switching light↔dark swaps the basemap to its pair, in every app, with
   no wiring. The **authored `layers.json` basemap wins on mount** (the swap fires on a *change* of mode),
-  an explicit pick outranks the theme, and the swap never enters the undo history or the saved spec. Give any
-  `theme-switch` an `initial` matching `theme.mode`; `theme.basemap` `{follow:false}`/`{light,dark}` opts out
-  or pins the pair. Details: `recipes/COMPONENT-MANIFEST.md` §6c.
+  an explicit pick outranks the theme, and the swap never enters the undo history or the saved spec. The
+  default pair is `osm` / `osm-dark`. Give any `theme-switch` an `initial` matching `theme.mode`;
+  `theme.basemap` `{follow:false}`/`{light,dark}` (catalog ids) opts out or pins the pair. Details:
+  `recipes/COMPONENT-MANIFEST.md` §6c.
 - **The app layout** — an `AppLayout` JSON (`@strata/schema`) driving **`<StrataApp config={AppLayout}>`**
   (the J.5 layout engine): `AppPage[]` → `LayoutNode` containers (`row`/`column`/`grid`/`section`/`card`,
   `mode:fixed|flow`, responsive) → `WidgetNode`s from `defaultWidgetRegistry`. It is **separate from**
@@ -135,8 +149,8 @@ After the user scaffolds or opts out, write a `.strata/onboarded` marker and sto
 - **Identify → popup** — a click in identify mode enriches the top/active feature by OID and shows the
   layer's **`popupInfo`** (genuine ESRI popup). **Define popups** per layer via `layers.json` `popupInfo` or
   the `/popup` command; identify uses whatever is defined (or a default field table).
-- **Panels are resizable by default** — `PanelShell` (every management panel) and the `panel` layout node
-  both ship an edge grip that is draggable *and* arrow-key operable, clamped by `minWidth`/`maxWidth`. An
+- **Panels are resizable by default** — `PanelShell` (every management panel), the `panel` layout node
+  and the map controls' Layers/Basemap drawer all ship an edge grip that is draggable *and* arrow-key operable, clamped by `minWidth`/`maxWidth`. An
   authored width is where a panel **opens**, not where it stays; the dragged size is session state, so the
   spec stays the source of truth. `resizable:false` locks one, and needs a reason in the recipe.
 - **Store-driven map** — when a `store` is passed to `<StrataMap>`, panel actions (visibility/opacity/order/

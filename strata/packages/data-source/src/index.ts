@@ -37,3 +37,23 @@ export {
   type StreamDataSourceOptions,
   type FetchLike,
 } from "./extraSources.js";
+export {
+  readIngestFile,
+  inferMapping,
+  stripIdentityFields,
+  isIdentityField,
+  coordsOf,
+  summarise,
+  rowsToFeatureCollection,
+  geocodeRows,
+  type ColumnMapping,
+  type IngestFormat,
+  type ReadIngestResult,
+  type IdentityScrubResult,
+  type StripIdentityOptions,
+  type IngestSummary,
+  type PointFeatureCollection,
+  type GeocodeFn,
+  type GeocodeRowsOptions,
+  type GeocodeRowsResult,
+} from "./ingest.js";

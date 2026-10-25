@@ -171,6 +171,8 @@ export interface LayersJson {
 // by `layerId`. `<StrataApp>` renders this tree via a widget registry.
 // ---------------------------------------------------------------------------
 
+import type { MapWidgetProps } from "./mapControls.js";
+
 /** A widget instance in the layout tree: a registry `type` plus its props and optional data binding. */
 export interface WidgetSpec {
   /**
@@ -180,7 +182,11 @@ export interface WidgetSpec {
   id?: string;
   /** Registry key resolved against the widget registry (e.g. "map", "kpi", "chart"). */
   type: string;
-  /** Arbitrary props forwarded to the resolved component. */
+  /**
+   * Props forwarded to the resolved component. For `type: "map"` see {@link MapWidgetProps}:
+   * `props.mapControls` configures the standard map controls (optional tools + basemap control); the
+   * legacy `props.controls` flags are deprecated.
+   */
   props?: Record<string, unknown>;
   /** Optional data binding. Bind to a `LayersJson` operational layer, or to another widget's output. */
   dataSource?: {
@@ -201,6 +207,15 @@ export interface WidgetSpec {
      */
     sourceId?: string;
   };
+}
+
+/**
+ * A `{ type: "map" }` widget with its typed props. Assignable to {@link WidgetSpec}; use it when
+ * authoring a map widget in TypeScript to get editor help for `mapControls`.
+ */
+export interface MapWidgetSpec extends WidgetSpec {
+  type: "map";
+  props?: MapWidgetProps;
 }
 
 /** Trigger types a widget can emit (mirrors `@strata/actions` `StrataTriggerType`). */
@@ -427,8 +442,12 @@ export interface ThemeSpec {
    * basemap drawer/panel also turns following off for the session.
    *
    *  - `follow:false` — pin the authored basemap; the theme never touches it.
-   *  - `light`/`dark` — basemap ids to use for each mode instead of the paired defaults. Ids name
-   *    entries of the built-in open library (`OPEN_BASEMAPS`), e.g. `"openfreemap-positron"`.
+   *  - `light`/`dark` — basemap ids to use for each mode instead of the paired defaults (`osm` /
+   *    `osm-dark`). Ids name entries of the basemap catalog (`@strata/map-controls`), e.g.
+   *    `"vt-gray"`; retired ids (`"openfreemap-positron"`, …) resolve through its aliases.
+   *
+   * A map widget's `props.mapControls.basemap.theme` overrides this for that map
+   * (see `normalizeMapControls`).
    */
   basemap?: { follow?: boolean; light?: string; dark?: string };
 }

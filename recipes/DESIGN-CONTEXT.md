@@ -213,27 +213,69 @@ Configure each via `widget.props` (fields below) and `widget.dataSource` (bindin
 ### 3b. Map‑centric
 | type | component | props | binding | renders |
 |---|---|---|---|---|
-| `map` | StrataMap | **`config`** = the `layers.json`; `controls?` (see below); `glyphs?`, `rtlTextPluginUrl?`, `themeMode?` (only when embedded outside a `<StrataApp>`), `askEnabled?` | reads `config`; `store`/`maplibregl` from context | the MapLibre map |
+| `map` | StrataMap | **`config`** = the `layers.json`; `mapControls?` (see below; legacy `controls?` is deprecated); `glyphs?`, `rtlTextPluginUrl?`, `themeMode?` (only when embedded outside a `<StrataApp>`), `askEnabled?` | reads `config`; `store`/`maplibregl` from context | the MapLibre map |
 | `legend` | Legend | `layers?` (**omit it** — see below), `visibleOnly?` (def true), `includeUnstyled?` (def **true**), `title?`, `interactive?` (def **true**), `bus?`, `counts?` `{label:{n,total?}}`, `onFilterChange?` | **`store`** (injected) — the layer list is read from it live; filters via `store.setDefinition` | swatch+label legend that **filters**: click hides · shift‑click isolates · `Esc` clears. Rows show `n of N`. Emits `categorySelect` |
 | `layer-panel` | LayerPanel | **`store`**, `mode?`, `floating?`, `initialX/Y?`, `defaultWidth?`, + callbacks (`onZoomTo`,`onFilter`,`onSymbology`,`onPopup`,`onShowTable`,`onAddLayer`,…) | store‑driven | operational‑layer list (visibility/reorder/actions), each row carrying the layer's **own symbology** — one swatch, or a class stack + `N ▸` that expands the full class list |
-| `basemap` | BasemapPanel | `basemaps?` (def `OPEN_BASEMAPS`), `defaultId?`, `map?` (for live tile thumbnails), `themeMode?` (**read from the app when omitted** — adds a **Follow the theme** row), `onApplyBasemap?`, `onLibraryChange?`, `mode?`,`floating?`,… | **`store`** (injected) | basemap **radiogroup** — one always in force and always ticked, each row previewed by a live tile of the current area (raster) or the style's own ground/road/water read out of its style JSON (vector); clicking drives `store.setBaseMap`, restyling the store‑bound map |
+| `basemap` | BasemapPanel | `recommendedExtras?` (≤ 3 catalog ids), `basemaps?` (a custom row list — omit it for the gallery), `defaultId?`, `map?`, `themeMode?` (**read from the app when omitted** — drives **Follow the theme**), `onApplyBasemap?`, `onLibraryChange?`, `mode?`,`floating?`,… | **`store`** (injected) | by default the **`@strata/map-controls` basemap gallery** — the same as the map's basemap drawer: Follow the theme · Recommended 8 + extras · More basemaps (OpenStreetMap/Esri/USGS/CARTO) · thumbnails · info tooltips; the basemap in force is always ticked (legacy ids tick as their alias). A pick drives `store.setBaseMap`. A `basemaps` library or **Manage** switches to the editable radiogroup row list |
 | `measure` | MeasureWidget | `mapId?` (def first map), `units?` `"metric"\|"imperial"` | reaches a `map` via the **MapRegistry**; `store`/`maplibregl` injected | distance/area measuring, placeable in a sidebar/panel (not only on the map) |
 | `draw` | DrawWidget | `mapId?`, `onChange?(featureCollection)` | MapRegistry + injected `store`/`maplibregl` | sketch/annotation, placeable anywhere; emits the sketched GeoJSON |
 | `status-bar` | StatusBar | **`map`** (maplibre Map), `crs?` (def `EPSG:4326`), `precision?` (def 5), `showCoords?`,`showZoom?`,`showScale?` | live map | coords/zoom/scale/CRS bar |
 | `bookmarks` | Bookmarks | **`bookmarks`** `{name,viewpoint:{center,zoom}}[]`, `store?`, `title?`, `onSelect?` | store map | saved‑viewpoint buttons (fly on click) |
 | `near-me` | NearMe | **`onSearch(center,km)`**, `onLocate?`, `defaultKm?` (def 2), `title?` | callback‑driven | proximity search UI |
 | `add-data` | AddDataWidget | **`onAddLayer({url,kind,title})`**, `title?` | callback‑driven | URL box to add a layer |
+| `edit` | EditPanel | **`layer`** (`OperationalLayer`, its `url` is the FeatureServer layer), `selected?` `{oid,attributes}`, `fields?`, `authentication?` (from `@strata/auth-arcgis`), `token?`, `onSaved?(result)`, `onDelete?(oid)`, `mode?`/`floating?`, `defaultWidth?` | `applyEdits` over a live FeatureServer | ⚠️ **needs a WRITABLE + AUTHENTICATED ESRI backend** — `assertEsriBackend` throws for `strata`, and Strata Serve is read-only. The panel shows that banner itself |
+| `attachment` | AttachmentViewer | **`layer`**, **`features`** `{oid,…}[]`, `token?`, `onSelect?(oid)`, `mode?`/`floating?`, `defaultWidth?` | `queryAttachments` (plain `fetch`, no Esri peer dep) | a **read** — works on Strata Serve **and** ESRI |
+| `upload` | UploadWidget | `mapping?` `{id,label,lat,lon,address}`, `onMappingChange?(m)`, `onLoad?(fc,{rows,dropped})`, `geocode?(address)→{lon,lat}\|null`, `geocodeLimit?` (def 250), `geocodeDelayMs?` (def 1000), `allowIdentityFields?`, `denyIdentityFields?`, `previewRows?` (def 5), `title?` | **publishes an output** (`outputs`/`widgetId` injected); consumers bind `dataSource.fromWidget` | **the customer's own file** — CSV/GeoJSON from their machine, parsed in the browser and never sent anywhere |
 | `elevation` | ElevationProfile | **`samples`** `{distanceKm,elevation}[]`, `height?` (def 120), `title?` | data prop | elevation profile chart |
 
-`map.props.controls` (all boolean unless noted): `navigation`, `geolocate`, `fullscreen`, `scale`, `measure`, `sketch`, `legend`, `basemapSwitcher`, `layerList`, `cluster?` (default **true**), `position?` (control corner). Today the basemap gallery is `controls.basemapSwitcher`, not a separate widget.
+> **`upload` — four rules, and they are not optional.**
+> **1 · Identity is dropped before anything reads the file.** Owner, lessor, taxpayer, grantor/grantee,
+> person-name, mailing-address and contact columns go by a deny-list, **before** the mapping is guessed
+> and before a single row is published. The widget prints **the names of the columns it dropped**, because
+> a general assurance is not the same as naming the field. Keeping one needs `allowIdentityFields` — a
+> deliberate, named act — and the recipe says why.
+> **2 · A blank coordinate is not a coordinate.** An empty cell must never be read as zero; a row with no
+> usable coordinate keeps a **null geometry** and is counted on screen, never silently dropped.
+> **3 · Geocoding is sequential, capped and injected.** The widget never reaches the network on its own —
+> pass `geocode`. Public geocoders are community infrastructure with a rate policy, so lookups run one at
+> a time with `geocodeDelayMs` between them and stop at `geocodeLimit`; what was skipped is reported.
+> **4 · The mapping is app state, not session state.** Persist `onMappingChange` into the `AppLayout` and
+> pass it back as `mapping`, so the same spreadsheet binds next session without re-answering. A saved
+> mapping naming a column the file lacks is ignored and re-guessed rather than half-applied.
+>
+> Bind the result like any other output: `dataSource: { fromWidget: "<the upload widget's id>" }` on a
+> `table`, `chart`, `feature-info` or `map`. Nothing leaves the browser — there is no upload endpoint.
 
-> **The house chrome is the default.** `navigation` + `layerList` + `basemapSwitcher` render as **one
-> 32 px cluster** (zoom in · zoom out · fit · layers · basemap · legend) with MapLibre's own zoom
-> suppressed and **one drawer** opening beside it — layers as square checkboxes (multi‑select, each row
-> stating *off* / *N in view* / *none in this view*), basemaps as **round radios** with a live preview of
-> the current area in each style plus a "Follow the theme" row. Keyboard `L`/`B`/`G`/`F`, `Esc` closes.
-> `position` moves the cluster and its drawer together; geolocate/fullscreen take the opposite corner.
-> Set `cluster:false` only to restore the older always‑open boxes.
+`map.props.mapControls` (`MapControlsConfig`, `@strata/schema`; checked by `validateMapControls` /
+`validateAppLayout` — unknown keys are errors):
+
+| key | type | default | meaning |
+|---|---|---|---|
+| `tools.search` | `boolean \| { provider?, placeholder? }` | off | place search; `provider` def `"photon"` (keyless, OSM) |
+| `tools.locate` | `boolean` | off | show my location |
+| `tools.measure` | `boolean \| { units?: "metric"\|"imperial" }` | off | distance / area (def metric) |
+| `tools.draw` | `boolean \| { filename? }` | off | sketch + download GeoJSON |
+| `tools.print` | `boolean \| { title?, filename? }` | off | PNG of the view (title falls back to `title`) |
+| `basemap.initial` | catalog id | the `layers.json` `baseMap`, else the theme's | basemap on first load (alias-aware; outranks the spec) |
+| `basemap.recommendedExtras` | catalog id[] (**≤ 3**) | `[]` | appended to the universal Recommended 8 |
+| `basemap.theme` | `{ follow?, light?, dark? }` | `true` / `"osm"` / `"osm-dark"` | this map's pair — overrides the app's `theme.basemap` (§6c) |
+| `scale` | `boolean \| { units?: "metric"\|"imperial"\|"both" }` | `false` | **optional scale bar**, fixed bottom-left; `true` = metric. Off by default — enable it only when the app's job needs distances read off the map |
+| `title` | string | — | print title |
+
+> **The standard map controls are always on, and fixed.** Every `map` renders one cluster top-right —
+> **zoom in · zoom out · home | layers · basemap · legend · full screen** — that an app cannot reorder,
+> move or remove, plus **one drawer** beside it: the Map Viewer-style layer list (eye · legend chevron ·
+> drag · "…" → Zoom to layer · Layer information · Move up/down · Show legend · Transparency · Reset) or
+> the basemap gallery. Keyboard `L`/`B`/`G`/`F`, `Esc` closes. **Tools and the scale bar are opt-in** — turn on only what
+> the app's job needs. Don't rebuild any of this as widgets, and don't put layers/basemap in the page
+> header. User guide: `strata/docs/guide/map-controls.md`; package: `strata/packages/map-controls/README.md`.
+>
+> **Legacy `map.props.controls` — deprecated, still honoured** (`legacyControlsToMapControls`,
+> `LEGACY_CONTROLS_MAPPING`): `navigation` / `basemapSwitcher` / `layerList` / `legend` / `fullscreen` →
+> always on (ignored) · `measure` → `tools.measure` · `sketch` → `tools.draw` · `geolocate` →
+> `tools.locate` · `scale: true` → `mapControls.scale: true` (metric, bottom-left) · `cluster` /
+> `position` → ignored. If both are set, `mapControls` wins and
+> `controls` is ignored (a validation warning). New apps write `mapControls` only.
 >
 > **The `legend` control is interactive by default** — click a class to hide it, shift‑click to isolate,
 > `Esc` clears; it writes a real `definitionExpression` on the renderer's field via the store, so the
@@ -412,7 +454,7 @@ interface BaseMapLayer {
 ```
 `LayerSourceKind`: `arcgis-feature | arcgis-map | strata | geojson | tile | wms | imageserver | cog | vector-tile | pmtiles`.
 
-**Rules that bite (from real publishing):** a layer *you publish* always exposes `objectIdField` as `OBJECTID` — but on any service you did not publish, read `objectIdFieldName` instead of assuming it; use `esriSMSCircle/Square`, never `esriSMSPath`; polygon fills need low alpha (~40/255); basemaps default to a keyless OSM‑derived VECTOR style, OpenFreeMap Positron (never default to ESRI/Google/Mapbox — offer only on request; and never to CARTO's raster CDN or tile.openstreetmap.org, which answer 200 with a placeholder); reproject everything to 4326 on the way in.
+**Rules that bite (from real publishing):** a layer *you publish* always exposes `objectIdField` as `OBJECTID` — but on any service you did not publish, read `objectIdFieldName` instead of assuming it; use `esriSMSCircle/Square`, never `esriSMSPath`; polygon fills need low alpha (~40/255); basemaps come from the one keyless catalog (`@strata/map-controls`, 33 entries) — default OpenStreetMap (`osm`), theme pair `osm` / `osm-dark`; check each entry's licence tag (Esri and CARTO are `non-commercial`; CARTO needs a key for licensed use); never default to a keyed provider (ESRI basemap-styles API/Google/Mapbox — offer only on request), and never to CARTO's raster CDN (it answers 200 with a watermark); reproject everything to 4326 on the way in.
 
 Style/popup authoring: write **genuine ESRI `drawingInfo`/`popupInfo` JSON** — the compiler maps it to MapLibre. Never invent a styling DSL. Supported renderers: simple, uniqueValue (single/multi‑field), classBreaks, heatmap, visual variables, labels; `valueExpression` runs through the Arcade subset.
 
@@ -452,8 +494,9 @@ Theme = { mode: "light"|"dark", colors, fonts, variables, overrides? }
 
 **Switching light↔dark swaps the basemap too.** A theme is not just CSS when there is a map on the page:
 a light UI sitting on a dark basemap is the one mismatch a reader always notices. `<StrataApp>` resolves
-the app's mode, shares it, and swaps the basemap to the paired one (`basemapForTheme` — CARTO
-Dark Matter / Versatiles Eclipse for dark, OpenFreeMap Liberty for light). Three rules keep it honest:
+the app's mode, shares it, and swaps the basemap to the paired one — by default **`osm` (OpenStreetMap)
+for light, `osm-dark` (the same tiles, inverted) for dark**, the catalog's `THEME_BASEMAP`. A paired
+explicit pick swaps to its own pair on a theme change. Three rules keep it honest:
 
 - **The authored basemap wins on mount.** The swap fires on a *change* of mode, never on first paint, so
   a `layers.json` `baseMap` is never silently discarded. Set the `theme-switch`'s `initial` to the app's
@@ -468,13 +511,15 @@ Opt out or pin the pair on `theme.basemap`:
 "theme": {
   "mode": "dark",
   "colors": { "primary": "#4ea1ff" },
-  "basemap": { "follow": true, "light": "openfreemap-positron", "dark": "openfreemap-dark" }
+  "basemap": { "follow": true, "light": "vt-gray", "dark": "vt-gray-dark" }
 }
 ```
 
-`follow:false` pins the authored basemap; `light`/`dark` name ids from the built-in open library
-(`OPEN_BASEMAPS`). The same resolver (`basemapForThemeFrom`) drives the swap **and** the drawer's tick,
-so the drawer always names the basemap that is actually drawn.
+`follow:false` pins the authored basemap; `light`/`dark` name **catalog ids** (`@strata/map-controls`
+`BASEMAPS`). Every id resolves through `BASEMAP_ALIASES`, so a retired id (`openfreemap-positron`,
+`ofm-dark`, `versatiles-eclipse`, `carto-dark-gl`, …) still names its survivor; the swap **and** the
+gallery's tick use the same resolution, so the gallery always names the basemap that is actually drawn.
+A map's own `mapControls.basemap.theme` overrides `theme.basemap` for that map.
 
 ---
 
@@ -497,7 +542,7 @@ so the drawer always names the basemap that is actually drawn.
             "props": { "rows": [] }, "dataSource": { "layerId": "parcels", "fromWidget": "flt" } } }
       ]},
       { "kind": "widget", "widget": { "id": "map", "type": "map",
-          "props": { "config": { "$ref": "layers.json" }, "controls": { "navigation": true, "legend": true } } } }
+          "props": { "config": { "$ref": "layers.json" } } } }
     ]}
   }],
   "connections": [
@@ -556,7 +601,7 @@ default. Recipe‑by‑recipe opportunities: **`MODERNIZATION.md`**. The high‑
             "dataSource": { "sourceId": "parcels" } } }
       ]},
       { "kind": "widget", "widget": { "id": "map", "type": "map",
-          "props": { "config": { "$ref": "layers.json" }, "controls": { "navigation": true, "legend": true } } } }
+          "props": { "config": { "$ref": "layers.json" } } } }
     ]}
   }],
   // filter drives the shared "parcels" source via the store; kpi + table update with no wiring.
@@ -587,7 +632,7 @@ tiers — is `../strata/docs/guide/app-design.md`; don't restate it here.)*
 - Ship **`connections`** with the first build — a silent app is a bug (but widgets sharing a `sourceId` link with none).
 - Bind data via `dataSource` (`sourceId` / `layerId` / `fromWidget`), not by hand‑passing rows where a source exists.
 - Treat every panel size as a **starting** size: bound it with `minWidth`/`maxWidth` and justify each `resizable:false`.
-- Basemap keyless OSM‑derived, vector first (OpenFreeMap Positron); genuine ESRI JSON for symbology; everything EPSG:4326; `OBJECTID` is the OID.
+- Basemap from the keyless catalog (default `osm`, pair `osm`/`osm-dark`; read the licence tag); map tools opt-in via `mapControls.tools`; genuine ESRI JSON for symbology; everything EPSG:4326; `OBJECTID` is the OID.
 - Reach for the **modernization patterns (§8)** — structured theme, app‑shell, motion, source linking.
 - New widget/behavior in a recipe ⇒ add a row here and cover it with a Vitest case.
 
@@ -671,14 +716,18 @@ tell which it was.
 bar** for anything true as long as the data is on screen; a **status line** for transient progress. Never
 put a lasting caveat in the status line — load progress overwrites it and it never reaches anyone.
 
-**Map chrome.** One inline-SVG control cluster, top-right, 32 px buttons on `currentColor` — **zoom in ·
-zoom out · fit · layers · basemap · legend**. MapLibre's own zoom control suppressed so there is exactly
-one set. Drawers (layers · basemap) open **beside** the cluster, never over it, and **one at a time**.
-Layer rows are checkboxes; **basemap rows are radios** carrying a live tile of the current area in that
-style, and the tick names the **effective** basemap even when the theme is choosing it. Legend
-bottom-left as its own control surface with live counts; coordinate/zoom/CRS readout bottom-right. Layers
-and basemap belong **on the map** — a reader looking at the map should not travel to a page header to
-change what it shows. On the React path this is `MapChrome`, on by default.
+**Map chrome — the standard map controls (`@strata/map-controls`).** One cluster, top-right — **zoom in ·
+zoom out · home | layers · basemap · legend · full screen** — and the one exception to "defaults, not
+laws": it is **fixed** in every app (no reorder, no move, no removal), so a reader never relearns the map.
+One drawer opens **beside** the cluster, never over it: a Map Viewer-style layer list (eye, inline legend,
+drag, a "…" with Zoom to layer · Layer information · Move up/down · Transparency · Reset) or the basemap
+gallery (Follow the theme, Recommended, More basemaps), whose tick names the **effective** basemap even
+when the theme is choosing it. **Optional tools — search · locate · measure · draw · print — are off by
+default**; turn on only what the app's job needs, via `mapControls.tools`. Legend as its own control
+surface with live counts; coordinate/zoom/CRS readout opposite it. Layers and basemap belong **on the
+map** — a reader looking at the map should not travel to a page header to change what it shows. React
+mounts it on every `<StrataMap>`; the house pattern vendors the package and mounts it. Details:
+[`map-controls.md`](map-controls.md).
 
 **The legend filters; it does not fade.** Click a class to hide it, shift-click to isolate, `Esc` clears
 — applied as a real `definitionExpression`, because a faded class is still clickable and a "hidden"
@@ -690,7 +739,7 @@ facing the content — draggable and arrow-key operable — bounded by a floor a
 readable. The authored width is where it *opens*, not where it must stay: the same rail is generous on a
 laptop, truncated on a projector, and eats the map on a tablet, and only the reader knows which they have.
 
-**Keyboard.** `L` layers · `B` basemap · `G` legend · `F` fit · `←`/`→` step the signature dimension ·
+**Keyboard.** `L` layers · `B` basemap · `G` legend · `F` home · `←`/`→` step the signature dimension ·
 `Esc` unwinds **one thing at a time** (clear the filter first, only then climb a level). A focused resize
 grip takes `←`/`→` (or `↑`/`↓`) to size the panel, `Shift` for a bigger step.
 
@@ -848,9 +897,11 @@ power is the wiring matrix, not the vocabulary. Rules:
 - Differentiate sibling apps with the *secondary levers*: dark vs light, header vs headerless, floating
   rounded cards vs flush docked panels, boxed vs full-bleed map — not by inventing new component styles.
 - Numbers use tabular numerals; KPIs get big and few (3–5, not 9).
-- Basemaps are the keyless open set — **vector first**: OpenFreeMap Positron/Dark/Liberty · Versatiles
-  Colorful/Eclipse · CARTO GL, then raster OSM · OpenTopoMap. Never default to a
-  keyed provider.
+- Basemaps come from the one keyless catalog (`@strata/map-controls`): default **OpenStreetMap
+  (`osm`)**, theme pair `osm` / `osm-dark`, up to 3 app-specific extras in Recommended
+  (`mapControls.basemap.recommendedExtras`). Read each basemap's licence tag before a business app
+  ships — Esri and CARTO are `non-commercial`. Never default to a keyed provider.
+  [`map-controls.md`](map-controls.md).
 
 ## 6 · Complexity tiers
 
@@ -873,8 +924,9 @@ Match ambition to need — an app should be as simple as its sentence allows:
 - [ ] `responsive.small` collapses every side-by-side row; tested at phone width.
 - [ ] Every panel resizes, from the pointer **and** the keyboard, within a floor that keeps it readable;
       each `resizable:false` has its reason in the recipe.
-- [ ] One control cluster on the map (zoom · fit · layers · basemap · legend), one drawer at a time, and
-      MapLibre's own zoom suppressed. The basemap drawer ticks the basemap actually in force.
+- [ ] The standard map controls on the map (zoom · home | layers · basemap · legend · full screen), one
+      drawer at a time, only the tools the app needs turned on. The basemap gallery ticks the basemap
+      actually in force.
 - [ ] The legend filters rather than fades, isolates on shift-click, clears on `Esc`, and keeps every
       denominator.
 - [ ] A table row adopts its record (fly + popup) and **releases it on a second click** — nothing is left
@@ -951,6 +1003,7 @@ state) and the **action bus** (cross-widget interactivity, the WIF).
 | **`@strata/actions`** | The interactivity bus (WIF) | `ActionBus` (triggers → actions), `wireConnections` + `defaultDispatchers` (drive `AppLayout.connections`), `OutputRegistry` (a widget publishes records others consume), and the `DataAction` registry. |
 | **`@strata/arcade`** | Arcade-subset evaluator | Transpiles the common ~80% of ESRI Arcade to a **MapLibre expression** (renderers) or a **computed scalar** (popups). Anything outside the subset warns and falls back. |
 | **`@strata/theme`** | The visual system | Colorblind-safe **categorical / sequential / diverging** ramps (light+dark) and named **theme presets** (light/dark/hazard/muted). Symbology, charts, and app themes all draw from here. |
+| **`@strata/map-controls`** | The standard map controls | Framework-free (no React, no runtime deps): the fixed cluster, the layer-list / basemap-gallery drawer, opt-in tools (search · locate · measure · draw · print), and the one keyless **basemap catalog** (33 entries, licence tags, aliases, URL-rewrite hook). Wrapped by `MapChrome`; vendored by vanilla apps. [Map controls](../guide/map-controls.md). |
 | **`@strata/core-map`** | The map + UI engine | React + MapLibre: the style/popup compilers, ArcGIS/GeoJSON/tile/WMS/**ImageServer/COG** loaders, `<StrataMap>`, all controls, all panels, all widgets, and the `<StrataApp>` layout engine. |
 | **`@strata/i18n`** | Bilingual UI | Dependency-free EN/AR dictionary + `{var}` interpolation + RTL direction. |
 | **`@strata/processing`** | Spatial analysis | Turf-backed pure ops: buffer/dissolve/clip/nearest/within/spatial-join, plus overlay (union/difference/intersect/voronoi/hull), **aggregate** (dissolve-with-stats), **hexbin/hotspot** (Getis-Ord Gi\*), **weighted-overlay** (suitability), and **dot-density**. |
@@ -974,16 +1027,28 @@ colors from `theme`, expressions from `arcade`, analysis from `processing`, imag
 (visibility/opacity/order/basemap/highlight/**filter**). When also given a `bus`, it is a **WIF sink** —
 selections and flashes from other widgets light up on it. Controls layered on the canvas:
 
-- **MapChrome — the house control cluster.** One 32 px round-rect stack in the corner (**zoom in ·
-  zoom out · fit · layers · basemap · legend**, six inline-SVG glyphs on `currentColor`), with
-  MapLibre's own zoom suppressed so there is exactly one set, and **one drawer** opening *beside* the
-  cluster — never over it, never two at once. Layers and basemap belong **on the map**: a reader looking
-  at the map should not travel to a page header to change what it shows. `L` · `B` · `G` · `F` ·
-  `Esc`. It is the default whenever `navigation`, `layerList` or `basemapSwitcher` is on
-  (`controls.cluster = false` restores the older always-open boxes).
-- **Navigation / Geolocate / Fullscreen / Scalebar / StatusBar** — the standard map furniture. Set
-  `controls.position` (`top-left`/`top-right`/…) so the cluster **honors a docked/floating panel**;
-  geolocate/fullscreen take the opposite corner.
+- ✅ **MapChrome — the standard map controls.** A thin, store-driven React wrapper over
+  `@strata/map-controls`, mounted on **every** map: one fixed cluster top-right — **zoom in · zoom out ·
+  home | layers · basemap · legend · full screen** (Lucide icons) — that apps cannot reorder, move or
+  remove, and **one drawer** opening *beside* it. The drawer holds the Map Viewer-style **layer list**
+  (eye · inline legend chevron · drag to reorder · a "…" with Zoom to layer · **Layer information**
+  — plain About + Technical details read live from the service · Move up/down · Show legend ·
+  Transparency · Reset) or the **basemap gallery** (Follow the theme · Recommended 8 + ≤3 app extras ·
+  More basemaps grouped OpenStreetMap/Esri/USGS/CARTO, thumbnails, info tooltips). `L` · `B` · `G` ·
+  `F` · `Esc`. Store-driven: visibility/transparency/order/basemap go through the store; a theme swap is
+  transient. Configured by `mapControls` (`tools` / `basemap` / `scale` / `title`).
+  [Map controls](../guide/map-controls.md).
+- ✅ **Optional tools — search · locate · measure · draw · print** — **off by default**; each opted
+  into per app via `mapControls.tools`. While measure/draw is open it owns map clicks, and every tool
+  reverts to *identify* on close.
+- ✅ **Optional scale bar** — **off by default**; `mapControls.scale: true` (metric) or
+  `{ "units": "metric" | "imperial" | "both" }`, fixed bottom-left (`.smc-scale`). Enable it only when
+  the app's job needs distances read off the map.
+- ✅ **Legacy `controls` flags** — deprecated, still honoured (`legacyControlsToMapControls`):
+  `measure`/`sketch`/`geolocate` → `tools.measure`/`draw`/`locate`; `scale: true` →
+  `mapControls.scale: true`; the rest are always on or ignored.
+- **NavigationControl / GeolocateControl / FullscreenControl** (deprecated — `<StrataMap>` no longer
+  mounts them), **ScaleControl**, **StatusBar** — MapLibre furniture kept for bespoke control bars.
 - **Legend** — swatches from each layer's `drawingInfo`, and **a control surface, not a caption**:
   click a class to hide it · shift-click to isolate · `Esc` clears. Hiding builds a real
   `definitionExpression` on the renderer's own field and applies it in place, because a legend row
@@ -993,7 +1058,8 @@ selections and flashes from other widgets light up on it. Controls layered on th
   drawer — adds or drops it from the legend in the same frame; and it lists **every visible layer**,
   giving one whose symbology belongs to the service a neutral swatch and its title rather than
   omitting it, because an absent row reads as an absent layer.
-- **Measure** (distance/area) and **Sketch** (point/line/polygon) — revert to *identify* when closed.
+- **MeasureControl / SketchControl** (deprecated in favour of `mapControls.tools.measure` / `.draw`;
+  kept for bespoke tool bars and the `measure` / `draw` widgets) — revert to *identify* when closed.
 - **TimeSlider** — play/pause a `definitionExpression` on a time field.
 - **Identify → popup** — a click enriches the top/active feature and shows its `popupInfo`.
 - **Layer sources** (`source.kind`): `arcgis-feature` · `arcgis-map` · `geojson` · `strata` · `tile` (XYZ) ·
@@ -1018,7 +1084,7 @@ returns to what the app authored.
 | Panel | Purpose |
 |---|---|
 | **LayerPanel** | **One-line rows** (drag-reorder, visibility toggle) each carrying the layer's **own symbology** — one swatch for a single-class renderer, a class stack plus an `N ▸` that expands the full class list for `uniqueValue`/`classBreaks` — drawn from the same `legendRows()` the Legend reads, so the two surfaces cannot disagree. Then a `⋯`/right-click **context menu**: Show table · Zoom · **Filter…** · **Symbology…** · **Popup…** · Rename · Show metadata · Remove. Add-from-URL header button. |
-| **BasemapPanel** | Switch basemaps (genuine ESRI `BaseMap`) — a **radiogroup**: one is always in force and always ticked, each row carrying a **live tile of the current area in that style** (a colour swatch cannot tell Positron from Voyager) and a **Follow the theme** row (on by default; it reads the app's theme mode). Plus a **Manage** pill: add / remove / **set-default**, persisted to the map spec via `onLibraryChange`. |
+| **BasemapPanel** | Switch basemaps (genuine ESRI `BaseMap`). By default it renders the **same gallery as the map's basemap drawer** (`@strata/map-controls` `mountBasemapGallery`: Follow the theme · Recommended · More basemaps · thumbnails · info tooltips); the basemap in force is always ticked, and legacy ids tick as their alias. A custom `basemaps` library switches to the radiogroup row list, and the **Manage** pill opens it for editing: add / remove / **set-default**, persisted to the map spec via `onLibraryChange`. |
 | **AttributeTablePanel** | Sortable table: header filters, column show/hide, **CSV / TSV / JSON / GeoJSON export**, **server paging**, auto **row-windowing**. A row click **adopts** that record — the map flies to it and opens its popup; **clicking it again releases it**, clearing the selection and closing the popup. Emits `rowSelect` (an empty `oids` **is** the release). |
 | **ChartPanel** | Bar/line/pie via **ECharts** (optional) or an SVG fallback; **clicking a category cross-filters** (emits `categorySelect`). |
 | **CartoPanel** | CARTO-style layer list + cross-filter widgets (category/formula/histogram/time). Emits `categorySelect`. |
@@ -1052,6 +1118,16 @@ regions and an app `splash`. Widgets (registry `type`), grouped by what they do:
   **`controller`** (a tool dock that shows/hides panels), `placeholder` (design-time slot).
 - **Analysis** — `analysis` (a shell over the Turf ops), `near-me` (proximity), `add-data` (runtime layer
   add → "explorer" apps), `weighted-overlay` (suitability sliders), `elevation` (drawn-line profile).
+- **Writes** — `edit` (an attribute form that saves, adds and deletes through `applyEdits`; needs a
+  **writable + authenticated ESRI backend** and says so on its own face) and `attachment` (paging and
+  viewing a feature's attachments — a **read**, so it works on Strata Serve too). Strata Serve is
+  read-only; see [Writes & editing](../guide/writes-and-editing.md) for what an app can and cannot
+  change, and for the **Planned (Phase 8)** annotation store.
+- **Customer data** — `upload` (**a file from the reader's machine**, not a service URL: CSV/GeoJSON in,
+  identity columns dropped by name, a mapping editor for identifier/label/coordinates/address, optional
+  address lookup, published as an output source others bind with `dataSource.fromWidget`). This is how a
+  customer's own portfolio, pipeline or shortlist enters an app; `add-data` takes a URL and is not the
+  same job.
 
 **They work together through the WIF:** every widget gets an `id`, the shared `bus`, and the `outputs`
 registry. An `AppLayout.connections` array declares *"when `from` emits `trigger`, run `action` on `to`"* —
@@ -1094,6 +1170,7 @@ data (`/convert`, `/publish`, `/update-metadata`), and `/export`. Full list with
 - **[Human Language Reference](human-language.md)** — the phrase to ask for each component (recipe fuel).
 - **[Creating a new component/widget/plugin](../guide/creating-components.md)** — prerequisites + the recipe.
 - **[Repository anatomy](../guide/anatomy.md)** — where every file lives.
+- **[Map controls](../guide/map-controls.md)** — the standard map controls and the basemap catalog.
 
 
 ---
@@ -1619,6 +1696,324 @@ const i18n = createI18n(dict, "fr");
 
 A thin React binding — `I18nProvider` + `useI18n()` — lives in `@strata/core-map`. Wrap your tree,
 then read `{ t, dir, locale, setLocale }` from the hook and set `dir` on your root element.
+
+## map-controls  (`strata/packages/map-controls/README.md`)
+
+# @strata/map-controls
+
+Framework-free map chrome for MapLibre GL JS: one control cluster (zoom · home · layers ·
+basemap · legend · full screen), one drawer beside it holding either the **layer list** or the
+**basemap gallery**, keyboard shortcuts, and **opt-in tools** (search · locate · measure · draw ·
+print). No React, no runtime dependencies (`maplibre-gl` is an optional peer, for your map only).
+It works the same from a bundler (the React path) and **vendored as plain browser ES modules**
+into a vanilla app with no build step.
+
+The module knows nothing about any app's data. You hand it a map, the basemap catalog and a
+function that returns `LayerDescriptor`s; everything app-specific arrives through those.
+
+## Mount
+
+```js
+import maplibregl from "maplibre-gl";
+import { mountMapControls, basemapTransformRequest, catalog } from "@strata/map-controls";
+import "@strata/map-controls/map-controls.css";
+
+const controls = mountMapControls(null, {
+  container: document.getElementById("mapwrap"), // REQUIRED: a positioned box around the map
+  catalog,                                        // REQUIRED: the basemap catalog namespace
+  theme: { mode: "light" },                       // tell it about changes with controls.setTheme()
+  layers: () => myLayers.map(toDescriptor),       // omit → no Layers button
+  onRestyle: () => { reAddMyLayers(); controls.applyLayerState(); },
+  onFit: () => map.fitBounds(HOME),               // omit → no Home button
+});
+const map = new maplibregl.Map({
+  container: "map",
+  style: controls.initialStyle(),
+  transformRequest: basemapTransformRequest(catalog), // lets a URL-rewrite rule reach GL-style internals
+});
+controls.setMap(map);
+```
+
+`map` may be passed straight to `mountMapControls(map, …)` if it already exists. A basemap change
+calls `map.setStyle()`, which drops every source and layer — re-add yours in `onRestyle`, then call
+`controls.applyLayerState()`.
+
+Other options: `recommendedExtras` (≤ 3 ids appended to the Recommended 8), `themeBasemaps`
+(`{ light, dark }`), `initialBasemap` (alias-aware explicit pick), `defaultOrder`, `panelSettings`
+(`{ html, onClick }`), `onToggleLegend` + `legendOpen`, `onBasemapChange`, `onError`, `tools`,
+`interaction`, `title`, `fetch`, `keyboard` (default `true`: L / B / G / F / Esc on `window`),
+`labels`, `cluster` / `drawer` (use existing elements), `fullscreenTarget`. The full contract is
+the header of `src/map-controls.ts`; every option and return member is typed
+(`MapControlsOptions`, `MapControls`).
+
+**Embedding hooks** (all optional — without them nothing changes), for an app whose own state is
+the source of truth (the React `@strata/core-map` wrapper uses all three):
+
+- `basemapHost: { apply(id, reason), current?(), onFollowChange?(on) }` — the module never calls
+  `map.setStyle()`; it hands every basemap change to `apply` (`reason` = `"pick"` | `"follow"` |
+  `"theme"`), ticks whatever `current()` says is drawn (alias-aware), and reports Follow flips.
+- `layerState: { order(), opacity(id), setOrder(ids), setOpacity(id, v), resetOpacity?(id) }` — the
+  list reads order (top first) and transparency from the owner, reports every change to it, and
+  `applyLayerState()` stops writing order / visibility / transparency to the map.
+- `themeBasemaps.follow: false` — the chrome re-colours on `setTheme()` but never swaps the basemap.
+
+`mountBasemapGallery(element, { catalog, mode, current, follows, onPick, onFollowChange, … })`
+renders the same gallery (Recommended / More, thumbnails, info tooltip, Follow switch) on its own —
+e.g. inside a docked Basemap panel; `basemapGalleryHtml(catalog, view)` is its pure HTML.
+
+`controls` exposes `setTheme(mode)`, `setBasemap(id | "auto")`, `getBasemap()`,
+`effectiveBasemap()`, `styleFor(id)`, `initialStyle()`, `openDrawer("layers" | "base")`,
+`closeAll()`, `escape()`, `handleKey(e)`, `refresh()`, `refreshLayers()`, `renderChrome()`,
+`applyLayerState()`, `setMap(map)`, `isFullscreen()`, `toggleFullscreen()`, `isBusy()`,
+`getMode()`, `setMode(m)`, `tools`, `state`, `LL`, `elements`, `destroy()`.
+
+**Theme rule.** Following the theme is the default: light → `osm` (OpenStreetMap), dark →
+`osm-dark` (the same tiles, inverted). The authored basemap stands until the mode actually
+changes; an explicit pick outranks the theme, and a paired pick swaps to its pair on a theme
+change and stays explicit.
+
+## The `LayerDescriptor` contract
+
+One per operational layer, top first:
+
+| field | | |
+|---|---|---|
+| `id` | required | stable across re-renders |
+| `title` | required | as the reader knows it (clamped to 2 lines) |
+| `sublayers` | required | `[{ id, opacity? }]` — the MapLibre layer ids it draws, bottom → top. `opacity = { "<paint prop>": authoredValue }`; transparency **multiplies** these, so a layer only ever gets fainter |
+| `visible` / `setVisible(on)` | required | the app owns visibility; the list only asks |
+| `sub` | | one line of live state under the title |
+| `swatch` / `legend` | | small symbol HTML (helpers `.ll-dots` / `.ll-sq` / `.ll-ramp`) / the inline legend HTML |
+| `zoomTo()` | | "Zoom to layer" (disabled when absent) |
+| `about` | | `{ what, publisher, current, coverage, inView, note }` — plain sentences ("Layer information") |
+| `services` | | `[{ title, url, filter? }]` — "Technical details", read live from `${url}?f=json` once per URL per session (a simple GET, no custom headers) |
+| `technical()` | | `[{ title, link?, source?, filter?, rows, fields, noFields? }]` — the same, for local data |
+
+Everything a service returns is escaped; the object-id field is read from the service, never
+assumed.
+
+## Tools — all OFF by default
+
+An app that passes no `tools` gets no tool buttons, listeners, map sources or network calls.
+Enable only what you need; they form a second cluster group, always in the order
+search · locate · measure · draw · print:
+
+```js
+tools: {
+  search: true,   // or { provider: async (q) => [{ label, lng, lat, bbox? }], attribution, placeholder }
+  locate: true,
+  measure: true,  // or { units: "imperial" }
+  draw: true,     // or { filename: "drawing.geojson" }
+  print: true,    // or { title, filename }
+},
+interaction: { setMode: (mode) => { /* "identify" | "measure" | "draw" */ } },
+```
+
+The default geocoder is keyless Photon (OpenStreetMap data, credited in the panel). While Measure
+or Draw is open they own map clicks: **your own identify/selection click handlers must return
+early when `controls.isBusy()` is true.** Esc, the panel's close button, opening another tool or
+a drawer all revert to `identify`. Print captures the canvas inside a `render` event, so the map
+does not need `preserveDrawingBuffer`.
+
+## The basemap catalog
+
+`@strata/map-controls/basemaps` (or the vendored `basemaps.js`) is DOM-free and imports nothing:
+
+- `BASEMAPS` — **33 keyless basemaps** in four groups: OpenStreetMap · Esri (public tiled
+  MapServers) · USGS The National Map · CARTO (GL vector styles only — the raster CDN watermarks).
+- Licence tags on every entry: `license` (`"commercial-ok"` | `"non-commercial"`), a one-sentence
+  `licenseNote` for a non-GIS reader and the provider's `licenseUrl`. Esri, CARTO and the OSM France
+  hosts (HOT, CyclOSM) are `non-commercial`; OSM, OpenTopoMap, VersaTiles and USGS are
+  `commercial-ok` (attribution and fair use still apply). Check the tag before shipping a business app.
+- `BASEMAP_RECOMMENDED` (the universal 8) and `recommendedWith(extras)` (+ up to 3 app extras,
+  alias-resolved, deduped).
+- `BASEMAP_ALIASES` / `resolveBasemapId(id)` / `basemapById(id)` — retired and legacy ids
+  (`ofm-positron`, `carto-dark`, `osm-fr`, …) map to their survivors; `"none"` means a blank ground.
+- `THEME_BASEMAP` / `basemapForTheme(mode)` — the default pair, `osm` / `osm-dark`.
+- `setUrlRewrite(fnOrHostMap)` / `resolveUrl(url)` — one hook for a tile proxy or self-hosted
+  mirror; every URL the UI loads goes through it.
+- `setThumbBase(base)` — where the gallery thumbnails live (default `"map-controls/thumbs/"`).
+- `BASEMAP_HOSTS` (allow-list) and `BASEMAP_DENY` (deny-list) — the guards every URL must pass.
+
+## Theming
+
+Everything is scoped under `.smc` (put on the container). Colours are `--smc-*` custom
+properties, each falling back to the house token of the same role (`--bg`, `--panel`, `--fg`,
+`--muted`, `--border`, `--accent`, `--shadow`, `--motion`), then to a built-in light/dark default
+(the module sets `data-smc-mode` from `theme.mode`). Map your own tokens after the stylesheet:
+
+```css
+.smc { --smc-bg: var(--my-surface); --smc-accent: var(--my-brand); }
+```
+
+Icons are Lucide (ISC), stroked in `currentColor`.
+
+## Vendoring into vanilla apps
+
+A vanilla app (a static `index.html` plus ES modules, no bundler) does not copy or fork the
+controls by hand: it **vendors the built package** into `<app>/map-controls/`, checks for drift,
+and runs the shared browser conformance from its own harness. Three scripts, all dependency-free
+Node (≥ 18.20):
+
+### 1. Vendor — `scripts/vendor.mjs`
+
+```
+cd strata
+pnpm --filter @strata/map-controls build
+node packages/map-controls/scripts/vendor.mjs <appDir> [--dest map-controls] [--force]
+#   or: pnpm --filter @strata/map-controls vendor -- <absolute appDir>
+```
+
+It copies `dist/*.js`, `dist/map-controls.css` and `dist/thumbs/*.png` (never `.d.ts` or source
+maps) into `<appDir>/map-controls/`, deletes files a previous vendor left there that the current
+build no longer ships, and writes `<appDir>/map-controls/VENDOR.json`:
+
+```json
+{ "package": "@strata/map-controls", "version": "1.0.0", "builtAt": "…", "vendoredAt": "…",
+  "files": { "index.js": "<sha256>", "map-controls.css": "<sha256>", "thumbs/osm.png": "<sha256>" } }
+```
+
+It fails clearly when `dist/` is not built, never writes outside the dest folder (`--dest` must be
+a relative folder inside the app), and refuses a non-empty dest without a `VENDOR.json` (a
+hand-copied fork, or the wrong folder) unless you pass `--force`. Programmatic:
+`vendor(appDir, { dest?, distDir?, force? }) → { dest, version, copied, removed, manifest }`.
+
+The app then loads the vendored modules; with the default dest the thumbnail base already matches
+(no `setThumbBase()` call needed):
+
+```html
+<link rel="stylesheet" href="map-controls/map-controls.css">
+<script type="module">
+  import * as catalog from "./map-controls/basemaps.js";
+  import { mountMapControls, basemapTransformRequest } from "./map-controls/map-controls.js";
+  // catalog.setThumbBase("vendor/mc/thumbs/");   // only if you vendored with --dest vendor/mc
+</script>
+```
+
+`demo/index.html` does exactly this against `../dist/` with every tool on: build, then serve the
+package folder (`cd strata/packages/map-controls && python -m http.server 8080`, or `npx serve .`)
+and open `http://localhost:8080/demo/`.
+
+### 2. Check drift — `scripts/check-drift.mjs`
+
+```
+node packages/map-controls/scripts/check-drift.mjs <appDir>... [--json] [--dest map-controls]
+#   or: pnpm --filter @strata/map-controls check-drift -- <absolute appDir>...
+```
+
+Compares each app's `map-controls/` with the current `dist/` by sha256 (its `VENDOR.json` plus the
+files actually on disk). One line per app:
+
+| status | meaning | fix |
+|---|---|---|
+| `OK` | every shipped file present and byte-identical to the current build | — |
+| `DRIFT` | same version, files differ: `modified` / `missing` / `extra`; `edited` = changed in the app since vendoring | re-vendor; put app-specific behaviour in mount options, never in the vendored files |
+| `OUTDATED` | vendored from an older package version | re-vendor |
+| `NOT-VENDORED` | no `map-controls/` folder, or one without `VENDOR.json` | vendor (`--force` over a hand-copied fork) |
+
+Exit code 0 only when every app is `OK` (1 otherwise, 2 for a usage error or an unbuilt `dist/`), so
+it drops straight into CI or an app's pre-ship gate. Programmatic:
+
+```js
+import { checkDrift } from "<repo>/strata/packages/map-controls/scripts/check-drift.mjs";
+const r = checkDrift(appDir, distDir);   // distDir defaults to the package's dist/
+// → { app, dest, status, vendoredVersion, currentVersion, modified, missing, extra, edited, detail }
+```
+
+### 3. Browser conformance — `scripts/conformance.mjs`
+
+The same checks for every app, run from the app's **own** browser harness (framework-agnostic: the
+harness supplies the page access):
+
+```js
+export async function runMapControlsConformance({
+  evaluate,          // REQUIRED (jsSource) => Promise<any> — runs a function BODY ending in `return …`
+  click,             // optional (selector) => Promise — a real click; default: element.click() in-page
+  key,               // optional (k) => Promise, k ∈ "l" | "b" | "Escape"; default: a dispatched keydown
+  sleep,             // optional (ms) => Promise
+  tools = {},        // the tools the app ENABLES: { search, locate, measure, draw, print }
+  log,               // optional (line, result) => void, once per check
+  expect = {},       // { home, layers, legend, fullscreen: true by default; minLayers: 0 }
+  timeout = 5000,    // every wait polls until true or timeout — no fixed sleeps decide a result
+  evaluateStyle = "body",   // "expression" if your evaluate takes an expression
+}) // → { passed, failed, results: [{ name, ok, detail }] }
+```
+
+It asserts: exactly one `.smc-ctl` cluster; the default buttons in the fixed order zoom in · zoom
+out · home | layers · basemap · legend · full screen, each drawing the package's own Lucide SVG;
+tool buttons present **iff** enabled, after the defaults, in the order search · locate · measure ·
+draw · print; **L** opens the layer list, **B** the basemap gallery, only one drawer is ever open,
+**Esc** closes it, and the buttons do the same by click; the gallery opens with *Recommended*
+(`osm`, `osm-dark` first), a collapsed *More basemaps* and a *Follow the theme* switch; when the
+app has a layer, its row has the eye, the legend chevron (which toggles the inline legend) and the
+"…" that toggles an inline section with zoom · info · up · down · legend · reset plus a
+transparency slider; the full-screen button toggles `aria-pressed` (a browser that refuses full
+screen in headless mode is tolerated, as long as the button never claims a state it is not in).
+
+It relies only on the package's stable DOM contract — `.smc-ctl button[data-act]` (`zin`, `zout`,
+`fit`, `layers`, `base`, `legend`, `fullscreen`, `tool-<name>` + `data-tool`), `svg.smc-i`,
+`.smc-drawer[data-which]`, `.bm-follow[role=switch]`, `[data-section="recommended"] [data-base]`,
+`button[data-bmmore]`, `.ll-row[data-ll-id]` with `[data-ll-act="eye"|"expand"|"acts"]`,
+`.ll-acts [data-ll-cmd]` and `input[data-ll-opacity]`. Changing any of these is a breaking change.
+
+**Calling it from an app's `drive.mjs`** (the CDP harness pattern — `send` is the harness's
+`send(method, params, sessionId)`; `cdpAdapters` turns it into real clicks and key presses):
+
+```js
+import { runMapControlsConformance, cdpAdapters } from "../../../strata/packages/map-controls/scripts/conformance.mjs";
+
+head("Map controls conformance");
+const { click, key } = cdpAdapters((method, params) => send(method, params, sessionId));
+const mc = await runMapControlsConformance({
+  evaluate,                                   // the harness's own: Runtime.evaluate of (function(){src})()
+  click, key,
+  tools: { search: true, measure: true },     // exactly what this app's mountMapControls enables
+  expect: { minLayers: 1 },
+  log: (line) => console.log(line),
+});
+pass += mc.passed; fail += mc.failed;
+```
+
+Adjust the import path to where the app sits relative to the repo. `scripts/conformance-demo.mjs`
+(`pnpm --filter @strata/map-controls conformance:demo`, after a build) proves the checks on the
+real package: it serves the package folder, opens `demo/index.html` in headless Chrome / Chromium /
+Edge (`$CHROME_PATH`, else found on Windows, macOS or Linux) and runs the conformance twice — the
+demo as shipped with all five tools on, then remounted in-page with no tools and a legend toggle
+(the complete default cluster).
+
+## Keyless policy
+
+Every basemap must load without an API key, token or account. **Keyless is a behaviour, not a
+URL**: some hosts answer HTTP 200 with a watermarked or "access blocked" placeholder that passes
+every host, key-param and size check (`strata/docs/troubleshooting.md` §5). So:
+
+- `pnpm test` asserts it offline — every URL on the host allow-list, none on the deny-list, no key
+  params, no CARTO raster paths.
+- `pnpm --filter @strata/map-controls verify:basemaps` asserts it live (needs a build): per raster,
+  two **different** tiles — HTTP 200, image type, a usable CORS header, not a known placeholder;
+  per GL style, the style parses and every host it delegates to (TileJSON, tiles, glyphs, sprite)
+  answers without a key. Exits non-zero on any failure; a failing entry is retried once. CI runs it
+  weekly and on PRs touching this package (`.github/workflows/basemaps-keyless.yml`).
+- `pnpm --filter @strata/map-controls thumbs` re-verifies, then renders `thumbs/<id>.png`
+  (200×134, California z4) through MapLibre in a local headless Chrome. **Look at a few tiles**
+  before shipping a new provider — bytes cannot see a watermark.
+
+Never add a keyed or proprietary provider as a default; offer one only when a user asks for it.
+
+## Scripts
+
+| script | |
+|---|---|
+| `build` | `tsc` → `dist/`, then `scripts/copy-assets.mjs` copies the CSS and thumbnails |
+| `typecheck` / `test` | `tsc --noEmit` / Vitest (stub DOM + stub map; no network) |
+| `verify:basemaps` | the live keyless check above |
+| `thumbs` | verify, then re-render the thumbnails |
+| `vendor` | `scripts/vendor.mjs <appDir>` — copy the build into `<appDir>/map-controls/` + `VENDOR.json` |
+| `check-drift` | `scripts/check-drift.mjs <appDir>...` — OK / DRIFT / OUTDATED / NOT-VENDORED |
+| `conformance:demo` | the browser conformance against `demo/index.html` in headless Chrome / Edge |
+
+MIT. Esri, ArcGIS, CARTO and other marks are used nominatively to identify the services; this
+package is not affiliated with or endorsed by their owners.
 
 ## plugin-routing  (`strata/packages/plugin-routing/README.md`)
 
@@ -2246,10 +2641,8 @@ Every mutating action first pushes a snapshot of the undoable slice
                           "dc-wards",
                           "dc-crashes"
                         ],
-                        "controls": {
-                          "navigation": true,
-                          "scale": true,
-                          "position": "top-right"
+                        "mapControls": {
+                          "scale": true
                         }
                       }
                     }
@@ -2517,10 +2910,10 @@ Every mutating action first pushes a snapshot of the undoable slice
                   "dc-crashes",
                   "dc-affordable-housing"
                 ],
-                "controls": {
-                  "navigation": true,
-                  "geolocate": true,
-                  "position": "top-right"
+                "mapControls": {
+                  "tools": {
+                    "locate": true
+                  }
                 }
               }
             }
@@ -2794,7 +3187,7 @@ Every mutating action first pushes a snapshot of the undoable slice
             "mode": "fixed",
             "style": { "flex": "1 1 0%", "minWidth": 0, "height": "100%" },
             "children": [
-              { "kind": "widget", "widget": { "id": "map", "type": "map", "props": { "layerIds": ["dc-wards", "dc-zip-codes", "dc-parcels", "dc-bike-routes", "dc-crashes", "dc-affordable-housing"], "controls": { "navigation": true, "geolocate": true, "fullscreen": true, "scale": true, "position": "top-right" } } } },
+              { "kind": "widget", "widget": { "id": "map", "type": "map", "props": { "layerIds": ["dc-wards", "dc-zip-codes", "dc-parcels", "dc-bike-routes", "dc-crashes", "dc-affordable-housing"], "mapControls": { "scale": true, "tools": { "locate": true } } } } },
               {
                 "kind": "column",
                 "mode": "flow",
@@ -3075,4 +3468,4 @@ Every mutating action first pushes a snapshot of the undoable slice
 
 ---
 
-*Generated 2026-09-02 from 9 sections by build_design_context.py.*
+*Generated 2026-10-11 from 9 sections by build_design_context.py.*

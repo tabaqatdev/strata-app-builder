@@ -19,7 +19,13 @@ ADD / REMOVE A TOPIC
   Edit the TOPICS list below (section, title, path). Content changes to existing pages need no code
   change — just re-run. See strata/docs/HELP-SITE.md for the full policy.
 """
-import os, re, html, sys
+import os, re, html, sys, posixpath
+
+# The progress lines print a check mark; a legacy Windows console code page cannot encode it.
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except (AttributeError, ValueError):
+    pass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DOCS = os.path.abspath(os.path.join(HERE, ".."))          # strata/docs
@@ -36,6 +42,8 @@ TOPICS = [
     ("Guide",      "Creating components",   "guide/creating-components.md"),
     ("Guide",      "Application design",    "guide/app-design.md"),
     ("Guide",      "Building an app",       "guide/building-apps.md"),
+    ("Guide",      "Map controls",          "guide/map-controls.md"),
+    ("Guide",      "Writes & editing",      "guide/writes-and-editing.md"),
     ("How-to",     "Create an app layout",  "how-to/create-app-layouts.md"),
     ("How-to",     "Symbology",             "how-to/symbology.md"),
     ("How-to",     "Find & verify data",    "how-to/find-and-verify-data.md"),
@@ -57,6 +65,7 @@ TAGLINE = {
     "guide/style-compiler.md": "How genuine ESRI drawingInfo becomes MapLibre paint.",
     "guide/creating-components.md": "Prerequisites + the recipe for a new widget, panel, plugin, or package.",
     "guide/app-design.md": "Silhouette, layout, wiring, theme — how to design a distinct, alive app.",
+    "guide/map-controls.md": "The standard cluster, the layer list, the basemap gallery, optional tools and basemap licences.",
     "how-to/create-app-layouts.md": "Full-page, in-scroll, split, and synced multi-map.",
     "how-to/symbology.md": "Style layers with simple / class-breaks / unique-value / heatmap.",
     "how-to/publish-data.md": "Convert to GeoParquet and publish to the Strata Serve server.",
@@ -188,19 +197,21 @@ def shell(active_path, crumb, body, title):
             f'{top}<div class="wrap">{nav_html(active_path)}<main>{body}</main></div>{js}</body></html>')
 
 def rewrite_links(htmltext, page_relpath):
-    base=os.path.dirname(page_relpath)
+    # Paths are POSIX throughout (TOPICS use "/"), so the output is identical on Windows: os.path there
+    # would normalise to "\\" and the TOPIC_PATHS lookup would miss, leaving raw ".md" links.
+    base=posixpath.dirname(page_relpath)
     def repl(m):
         href=m.group(1)
         if href.startswith(("http://","https://","mailto:","#")): return m.group(0)
         frag=""
         if "#" in href: href,frag=href.split("#",1); frag="#"+frag
         if not href: return f'href="{frag}"'
-        resolved=os.path.normpath(os.path.join(base,href))
+        resolved=posixpath.normpath(posixpath.join(base,href))
         if resolved in TOPIC_PATHS:
             return f'href="{slug(resolved)}{frag}"'
         # link to a real repo file: make it relative from the site dir
         target=os.path.normpath(os.path.join(DOCS,resolved))
-        rel=os.path.relpath(target,SITE)
+        rel=os.path.relpath(target,SITE).replace(os.sep,"/")
         return f'href="{rel}{frag}"'
     return re.sub(r'href="([^"]+)"', repl, htmltext)
 

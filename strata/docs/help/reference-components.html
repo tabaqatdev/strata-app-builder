@@ -90,6 +90,8 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
 <a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
+<a class="nav-link" data-title="map controls" href="guide-map-controls.html">Map controls</a>
+<a class="nav-link" data-title="writes &amp; editing" href="guide-writes-and-editing.html">Writes &amp; editing</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
@@ -106,8 +108,8 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 </nav><main><div class="crumb">Reference</div><h1>Components &amp; widgets</h1><p class="lede">Purpose and scope of every package, panel, widget, and skill.</p><p>strata-app-builder is layered: <strong>packages</strong> (the code), <strong>map controls + panels + widgets</strong> (the UI you compose),
 <strong>skills</strong> (how Claude authors each thing), and <strong>commands</strong> (what you type). This page is the map of all of
 it — the <em>purpose and scope</em> of every piece and <em>how they work together</em>. For the exact phrase to ask for
-each one, see the <strong><a href="..\reference\human-language.md">Human Language Reference</a></strong>; for the full command list, see
-<a href="..\reference\commands.md">Command reference</a>.</p>
+each one, see the <strong><a href="reference-human-language.html">Human Language Reference</a></strong>; for the full command list, see
+<a href="reference-commands.html">Command reference</a>.</p>
 <hr />
 <h2 id="the-big-picture-how-a-request-flows">The big picture (how a request flows)</h2>
 <pre><code>You describe a map/app  ─▶  a /command or /recipe  ─▶  Claude follows a skill
@@ -160,6 +162,11 @@ state) and the <strong>action bus</strong> (cross-widget interactivity, the WIF)
 <td><strong><code>@strata/theme</code></strong></td>
 <td>The visual system</td>
 <td>Colorblind-safe <strong>categorical / sequential / diverging</strong> ramps (light+dark) and named <strong>theme presets</strong> (light/dark/hazard/muted). Symbology, charts, and app themes all draw from here.</td>
+</tr>
+<tr>
+<td><strong><code>@strata/map-controls</code></strong></td>
+<td>The standard map controls</td>
+<td>Framework-free (no React, no runtime deps): the fixed cluster, the layer-list / basemap-gallery drawer, opt-in tools (search · locate · measure · draw · print), and the one keyless <strong>basemap catalog</strong> (33 entries, licence tags, aliases, URL-rewrite hook). Wrapped by <code>MapChrome</code>; vendored by vanilla apps. <a href="guide-map-controls.html">Map controls</a>.</td>
 </tr>
 <tr>
 <td><strong><code>@strata/core-map</code></strong></td>
@@ -222,16 +229,28 @@ colors from <code>theme</code>, expressions from <code>arcade</code>, analysis f
 (visibility/opacity/order/basemap/highlight/<strong>filter</strong>). When also given a <code>bus</code>, it is a <strong>WIF sink</strong> —
 selections and flashes from other widgets light up on it. Controls layered on the canvas:</p>
 <ul>
-<li><strong>MapChrome — the house control cluster.</strong> One 32 px round-rect stack in the corner (<strong>zoom in ·
-  zoom out · fit · layers · basemap · legend</strong>, six inline-SVG glyphs on <code>currentColor</code>), with
-  MapLibre's own zoom suppressed so there is exactly one set, and <strong>one drawer</strong> opening <em>beside</em> the
-  cluster — never over it, never two at once. Layers and basemap belong <strong>on the map</strong>: a reader looking
-  at the map should not travel to a page header to change what it shows. <code>L</code> · <code>B</code> · <code>G</code> · <code>F</code> ·
-  <code>Esc</code>. It is the default whenever <code>navigation</code>, <code>layerList</code> or <code>basemapSwitcher</code> is on
-  (<code>controls.cluster = false</code> restores the older always-open boxes).</li>
-<li><strong>Navigation / Geolocate / Fullscreen / Scalebar / StatusBar</strong> — the standard map furniture. Set
-  <code>controls.position</code> (<code>top-left</code>/<code>top-right</code>/…) so the cluster <strong>honors a docked/floating panel</strong>;
-  geolocate/fullscreen take the opposite corner.</li>
+<li>✅ <strong>MapChrome — the standard map controls.</strong> A thin, store-driven React wrapper over
+  <code>@strata/map-controls</code>, mounted on <strong>every</strong> map: one fixed cluster top-right — <strong>zoom in · zoom out ·
+  home | layers · basemap · legend · full screen</strong> (Lucide icons) — that apps cannot reorder, move or
+  remove, and <strong>one drawer</strong> opening <em>beside</em> it. The drawer holds the Map Viewer-style <strong>layer list</strong>
+  (eye · inline legend chevron · drag to reorder · a "…" with Zoom to layer · <strong>Layer information</strong>
+  — plain About + Technical details read live from the service · Move up/down · Show legend ·
+  Transparency · Reset) or the <strong>basemap gallery</strong> (Follow the theme · Recommended 8 + ≤3 app extras ·
+  More basemaps grouped OpenStreetMap/Esri/USGS/CARTO, thumbnails, info tooltips). <code>L</code> · <code>B</code> · <code>G</code> ·
+  <code>F</code> · <code>Esc</code>. Store-driven: visibility/transparency/order/basemap go through the store; a theme swap is
+  transient. Configured by <code>mapControls</code> (<code>tools</code> / <code>basemap</code> / <code>scale</code> / <code>title</code>).
+  <a href="guide-map-controls.html">Map controls</a>.</li>
+<li>✅ <strong>Optional tools — search · locate · measure · draw · print</strong> — <strong>off by default</strong>; each opted
+  into per app via <code>mapControls.tools</code>. While measure/draw is open it owns map clicks, and every tool
+  reverts to <em>identify</em> on close.</li>
+<li>✅ <strong>Optional scale bar</strong> — <strong>off by default</strong>; <code>mapControls.scale: true</code> (metric) or
+  <code>{ "units": "metric" | "imperial" | "both" }</code>, fixed bottom-left (<code>.smc-scale</code>). Enable it only when
+  the app's job needs distances read off the map.</li>
+<li>✅ <strong>Legacy <code>controls</code> flags</strong> — deprecated, still honoured (<code>legacyControlsToMapControls</code>):
+  <code>measure</code>/<code>sketch</code>/<code>geolocate</code> → <code>tools.measure</code>/<code>draw</code>/<code>locate</code>; <code>scale: true</code> →
+  <code>mapControls.scale: true</code>; the rest are always on or ignored.</li>
+<li><strong>NavigationControl / GeolocateControl / FullscreenControl</strong> (deprecated — <code>&lt;StrataMap&gt;</code> no longer
+  mounts them), <strong>ScaleControl</strong>, <strong>StatusBar</strong> — MapLibre furniture kept for bespoke control bars.</li>
 <li><strong>Legend</strong> — swatches from each layer's <code>drawingInfo</code>, and <strong>a control surface, not a caption</strong>:
   click a class to hide it · shift-click to isolate · <code>Esc</code> clears. Hiding builds a real
   <code>definitionExpression</code> on the renderer's own field and applies it in place, because a legend row
@@ -241,7 +260,8 @@ selections and flashes from other widgets light up on it. Controls layered on th
   drawer — adds or drops it from the legend in the same frame; and it lists <strong>every visible layer</strong>,
   giving one whose symbology belongs to the service a neutral swatch and its title rather than
   omitting it, because an absent row reads as an absent layer.</li>
-<li><strong>Measure</strong> (distance/area) and <strong>Sketch</strong> (point/line/polygon) — revert to <em>identify</em> when closed.</li>
+<li><strong>MeasureControl / SketchControl</strong> (deprecated in favour of <code>mapControls.tools.measure</code> / <code>.draw</code>;
+  kept for bespoke tool bars and the <code>measure</code> / <code>draw</code> widgets) — revert to <em>identify</em> when closed.</li>
 <li><strong>TimeSlider</strong> — play/pause a <code>definitionExpression</code> on a time field.</li>
 <li><strong>Identify → popup</strong> — a click enriches the top/active feature and shows its <code>popupInfo</code>.</li>
 <li><strong>Layer sources</strong> (<code>source.kind</code>): <code>arcgis-feature</code> · <code>arcgis-map</code> · <code>geojson</code> · <code>strata</code> · <code>tile</code> (XYZ) ·
@@ -273,7 +293,7 @@ returns to what the app authored.</p>
 </tr>
 <tr>
 <td><strong>BasemapPanel</strong></td>
-<td>Switch basemaps (genuine ESRI <code>BaseMap</code>) — a <strong>radiogroup</strong>: one is always in force and always ticked, each row carrying a <strong>live tile of the current area in that style</strong> (a colour swatch cannot tell Positron from Voyager) and a <strong>Follow the theme</strong> row (on by default; it reads the app's theme mode). Plus a <strong>Manage</strong> pill: add / remove / <strong>set-default</strong>, persisted to the map spec via <code>onLibraryChange</code>.</td>
+<td>Switch basemaps (genuine ESRI <code>BaseMap</code>). By default it renders the <strong>same gallery as the map's basemap drawer</strong> (<code>@strata/map-controls</code> <code>mountBasemapGallery</code>: Follow the theme · Recommended · More basemaps · thumbnails · info tooltips); the basemap in force is always ticked, and legacy ids tick as their alias. A custom <code>basemaps</code> library switches to the radiogroup row list, and the <strong>Manage</strong> pill opens it for editing: add / remove / <strong>set-default</strong>, persisted to the map spec via <code>onLibraryChange</code>.</td>
 </tr>
 <tr>
 <td><strong>AttributeTablePanel</strong></td>
@@ -337,12 +357,22 @@ regions and an app <code>splash</code>. Widgets (registry <code>type</code>), gr
   <strong><code>controller</code></strong> (a tool dock that shows/hides panels), <code>placeholder</code> (design-time slot).</li>
 <li><strong>Analysis</strong> — <code>analysis</code> (a shell over the Turf ops), <code>near-me</code> (proximity), <code>add-data</code> (runtime layer
   add → "explorer" apps), <code>weighted-overlay</code> (suitability sliders), <code>elevation</code> (drawn-line profile).</li>
+<li><strong>Writes</strong> — <code>edit</code> (an attribute form that saves, adds and deletes through <code>applyEdits</code>; needs a
+  <strong>writable + authenticated ESRI backend</strong> and says so on its own face) and <code>attachment</code> (paging and
+  viewing a feature's attachments — a <strong>read</strong>, so it works on Strata Serve too). Strata Serve is
+  read-only; see <a href="guide-writes-and-editing.html">Writes &amp; editing</a> for what an app can and cannot
+  change, and for the <strong>Planned (Phase 8)</strong> annotation store.</li>
+<li><strong>Customer data</strong> — <code>upload</code> (<strong>a file from the reader's machine</strong>, not a service URL: CSV/GeoJSON in,
+  identity columns dropped by name, a mapping editor for identifier/label/coordinates/address, optional
+  address lookup, published as an output source others bind with <code>dataSource.fromWidget</code>). This is how a
+  customer's own portfolio, pipeline or shortlist enters an app; <code>add-data</code> takes a URL and is not the
+  same job.</li>
 </ul>
 <p><strong>They work together through the WIF:</strong> every widget gets an <code>id</code>, the shared <code>bus</code>, and the <code>outputs</code>
 registry. An <code>AppLayout.connections</code> array declares <em>"when <code>from</code> emits <code>trigger</code>, run <code>action</code> on <code>to</code>"</em> —
 <code>&lt;StrataApp&gt;</code> wires the bus at mount, so a chart click filters the map + table, a category cross-filters
 every widget, a row zooms the map. Filters apply <strong>in place</strong> (<code>store.setDefinition</code>, no remount). See the
-<a href="..\reference\human-language.md#8-widget-interactivity-the-wif"><code>strata-interactivity</code></a> skill.</p>
+<a href="reference-human-language.html#8-widget-interactivity-the-wif"><code>strata-interactivity</code></a> skill.</p>
 <hr />
 <h2 id="skills-claudeskills-how-claude-authors-each-thing">Skills (<code>.claude/skills/*</code>) — how Claude authors each thing</h2>
 <p>A skill is a cheatsheet + recipes + ESRI reference + traps that Claude loads for a task. Each maps to a
@@ -413,11 +443,12 @@ surface above:</p>
 <p>Onboarding (<code>/new-app</code>, <code>/guide</code>, <code>/help</code>, <code>/what-can-i-do</code>, <code>/recipe</code>), map authoring (<code>/create-map</code>,
 <code>/add-data</code>, <code>/symbology</code>, <code>/popup</code>, <code>/panel</code>, <code>/timeslider</code>, <code>/app</code>, <code>/edit</code>, <code>/attachments</code>, <code>/analyze</code>),
 data (<code>/convert</code>, <code>/publish</code>, <code>/update-metadata</code>), and <code>/export</code>. Full list with arguments:
-<a href="..\reference\commands.md">Command reference</a>.</p>
+<a href="reference-commands.html">Command reference</a>.</p>
 <hr />
 <h2 id="see-also">See also</h2>
 <ul>
-<li><strong><a href="..\reference\human-language.md">Human Language Reference</a></strong> — the phrase to ask for each component (recipe fuel).</li>
-<li><strong><a href="..\guide\creating-components.md">Creating a new component/widget/plugin</a></strong> — prerequisites + the recipe.</li>
-<li><strong><a href="..\guide\anatomy.md">Repository anatomy</a></strong> — where every file lives.</li>
+<li><strong><a href="reference-human-language.html">Human Language Reference</a></strong> — the phrase to ask for each component (recipe fuel).</li>
+<li><strong><a href="guide-creating-components.html">Creating a new component/widget/plugin</a></strong> — prerequisites + the recipe.</li>
+<li><strong><a href="guide-anatomy.html">Repository anatomy</a></strong> — where every file lives.</li>
+<li><strong><a href="guide-map-controls.html">Map controls</a></strong> — the standard map controls and the basemap catalog.</li>
 </ul><div class="pager"><a class="prev" href="how-to-using-recipes.html"><small>Previous</small>Using recipes</a><a class="next" href="reference-human-language.html"><small>Next</small>Human Language Reference</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

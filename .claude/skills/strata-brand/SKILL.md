@@ -38,9 +38,13 @@ A built app declares one `--strata-*` set on `:root` and overrides **only the va
 - **Semantic roles carry meaning, not emphasis.** Two different facts must not share ink; ration red to
   things that genuinely are hazards.
 - **A theme swap must not discard an explicit basemap choice** — re-pair only while the user has not
-  chosen one.
+  chosen one. The pair is **catalog ids** — default `osm` (light) / `osm-dark` (dark); pin another on
+  `theme.basemap {light,dark}` (e.g. `vt-gray` / `vt-gray-dark`). Retired ids resolve through
+  `BASEMAP_ALIASES`; write current ones.
 
-- **Never use an Esri mark as a UI control.** Icons follow the Calcite/ArcGIS *idiom* — inline SVG in the
+- **Never use an Esri mark as a UI control.** Map-control icons are **Lucide** (ISC, stroked in
+  `currentColor`, shipped by `@strata/map-controls`) — Esri's Calcite icons are Esri-licensed and are not
+  redistributed. Any other icon is inline SVG in the
   same visual language — but a trademarked logo used as a button implies endorsement rather than the
   nominative use this product's positioning allows.
 

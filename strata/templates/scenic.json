@@ -36,11 +36,7 @@
                   "md-counties",
                   "md-hospitals",
                   "md-fire-stations"
-                ],
-                "controls": {
-                  "navigation": true,
-                  "position": "bottom-right"
-                }
+                ]
               }
             }
           },

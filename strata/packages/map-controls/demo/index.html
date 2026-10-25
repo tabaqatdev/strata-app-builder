@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map Controls Demo</title>
+<!-- A review page for @strata/map-controls with EVERY optional tool switched on, the optional scale
+     bar on (metric + imperial) and a legend toggle, so the complete default cluster shows. Apps enable
+     only the tools they need; this page exists to show and drive all of them. It loads the BUILT, vendorable
+     modules from ../dist/ exactly as a vanilla app would. Build, then serve the PACKAGE folder:
+       pnpm --filter @strata/map-controls build
+       cd strata/packages/map-controls && python -m http.server 8080   (or: npx serve .)
+     and open http://localhost:8080/demo/
+     1.0.2 exercises: a HOSTILE global button style (the chrome must not change), an inset overview map
+     passed as a secondary map (`maps`), an app-owned HTML card registered with `closePopup` (Esc closes
+     popups first, then panels), a zoom-interpolated circle-opacity (transparency with expressions), an
+     app overlay at z-index 30 (the chrome stacks above it), and the resizable drawer.
+     1.0.3 exercises: MapLibre popups stack ABOVE the open drawer (--smc-popup-z) and get the themed card
+     (popupStyles) — no app popup CSS here; Esc closes the app card, then the popup, then the drawer.
+     Query: ?dir=rtl (mirrored chrome) · ?theme=dark · ?hostile=0 (drop the hostile button style) ·
+     ?pair=vt-gray (the faint-shading theme pair: vt-gray / vt-gray-dark — both under Recommended). -->
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="../dist/map-controls.css">
+<style>
+  :root{--bg:#FFFFFF;--panel:#F4F6F8;--fg:#101418;--muted:#4A5560;--border:#C7CED6;--accent:#0B5FA5}
+  :root[data-theme="dark"]{--bg:#12161B;--panel:#1A2027;--fg:#E8EDF2;--muted:#9AA7B4;--border:#39424C;--accent:#6FB4F2}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+  body{display:flex;flex-direction:column}
+  header{padding:8px 16px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+  header h1{margin:0;font-size:15px}
+  header p{margin:0;color:var(--muted);font-size:12px}
+  #mapwrap{position:relative;flex:1;min-height:320px}
+  #map{position:absolute;inset:0}
+  #mode{position:absolute;inset-inline-start:10px;top:10px;z-index:4;padding:3px 8px;border-radius:6px;background:var(--panel);border:1px solid var(--border);font-size:11.5px}
+  /* an app overlay at z-index 30 — the chrome (--smc-z: 40) stacks above it */
+  #legend{position:absolute;right:10px;bottom:34px;z-index:30;padding:6px 9px;border-radius:7px;background:var(--panel);border:1px solid var(--border);font-size:11.5px;display:flex;align-items:center;gap:6px}
+  #legend[hidden]{display:none}
+  #legend i{width:10px;height:10px;border-radius:50%;background:#C92A2A;border:1.5px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25)}
+  /* the inset overview: a SECONDARY map — basemap + layer state mirror into it */
+  #inset{position:absolute;inset-inline-start:10px;top:42px;width:220px;height:150px;z-index:4;border:1px solid var(--border);border-radius:7px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+  /* the app's own HTML card — Esc closes it first (closePopup), before any panel */
+  #card{position:absolute;inset-inline-start:10px;top:204px;z-index:30;width:220px;padding:9px 11px;border-radius:8px;background:var(--panel);border:1px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.18)}
+  #card[hidden]{display:none}
+  #card h2{margin:0 0 4px;font-size:13px}
+</style>
+<style id="hostile">
+  /* HOSTILE global button styles, as real apps have them. Before 1.0.2 they bled into the chrome
+     (the package reset was zero-specificity); now the cluster and drawer must look exactly the same. */
+  button{background:#FFE08A;border:2px solid #B8860B;border-radius:12px;padding:6px 14px;font:bold 15px Georgia,serif;color:#7A0000;text-transform:uppercase;letter-spacing:.1em;min-width:44px;min-height:44px;margin:3px;box-shadow:0 3px 0 #B8860B}
+  button:hover{background:#FF6B00;color:#fff}
+  button[aria-pressed="true"],button[aria-expanded="true"]{background:#C00;color:#fff}
+</style>
+</head>
+<body>
+<header>
+  <h1>Map controls — optional tools demo</h1>
+  <p>All five tools ON, the scale bar ON (metric + imperial), a legend (G), an inset map mirroring the basemap and layer state, a hostile global button style the chrome ignores, and a resizable drawer (drag its outer edge, or focus it and use ← →). Click a city: a popup AND an app card open — Esc closes them first, then the drawer.</p>
+  <button id="showcard" type="button">Show card</button>
+</header>
+<section id="mapwrap">
+  <div id="map"></div>
+  <div id="inset" aria-label="Overview map"></div>
+  <div id="mode" aria-live="polite">Mode: identify</div>
+  <div id="legend" role="note" aria-label="Legend"><i></i> City</div>
+  <div id="card" role="dialog" aria-label="City card" hidden><h2 id="card-t">City</h2><div>An app-owned card. Esc closes it (closePopup) before any drawer.</div></div>
+</section>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script type="module">
+import * as catalog from "../dist/basemaps.js";
+import { mountMapControls, basemapTransformRequest, esc } from "../dist/map-controls.js";
+
+const Q = new URLSearchParams(location.search);
+if (Q.get("dir") === "rtl") document.documentElement.dir = "rtl";
+if (Q.get("theme") === "dark") document.documentElement.dataset.theme = "dark";
+if (Q.get("hostile") === "0") document.getElementById("hostile").remove();
+
+catalog.setThumbBase("../dist/thumbs/");   // thumbnails resolve relative to this page
+const CITIES = { type: "FeatureCollection", features: [
+  ["San Francisco", -122.4194, 37.7749], ["Los Angeles", -118.2437, 34.0522], ["Sacramento", -121.4944, 38.5816],
+  ["San Diego", -117.1611, 32.7157], ["Fresno", -119.7871, 36.7378], ["Las Vegas", -115.1398, 36.1699],
+].map(([name, lng, lat]) => ({ type: "Feature", properties: { name }, geometry: { type: "Point", coordinates: [lng, lat] } })) };
+const VIS = { cities: true };
+// transparency with an EXPRESSION: a zoom interpolate — the package multiplies its output stops
+const CITY_OPACITY = ["interpolate", ["linear"], ["zoom"], 3, 0.55, 8, 1];
+const card = document.getElementById("card");
+
+let map = null, inset = null;
+/** onRestyle(m): re-add the app's layers to WHICHEVER map was restyled (primary or inset). */
+const hydrate = (m) => {
+  if (!m || m.getSource("cities")) return;
+  try {
+    m.addSource("cities", { type: "geojson", data: CITIES });
+    m.addLayer({ id: "cities-pt", type: "circle", source: "cities",
+      paint: { "circle-radius": m === inset ? 3.5 : 6, "circle-color": "#C92A2A", "circle-stroke-color": "#fff", "circle-stroke-width": 1.5,
+               "circle-opacity": CITY_OPACITY } });
+    controls.applyLayerState(m);
+  } catch { /* a styledata before the style exists — the next one lands */ }
+};
+const controls = mountMapControls(null, {
+  container: document.getElementById("mapwrap"), catalog,
+  initialBasemap: Q.get("pair") === "vt-gray" ? undefined : Q.get("theme") === "dark" ? "osm-dark" : "osm",
+  // ?pair=vt-gray: the faint-shading pair — vt-gray-dark joins Recommended on its own (1.0.3)
+  themeBasemaps: Q.get("pair") === "vt-gray" ? { light: "vt-gray", dark: "vt-gray-dark" } : undefined,
+  theme: { mode: Q.get("theme") === "dark" ? "dark" : "light" },
+  title: "Map controls demo",
+  layers: () => [{ id: "cities", title: "Cities", sublayers: [{ id: "cities-pt", opacity: { "circle-opacity": CITY_OPACITY } }],
+    visible: VIS.cities, setVisible: (v) => { VIS.cities = v; },
+    swatch: '<span class="ll-dots"><i style="background:#C92A2A"></i></span>',
+    zoomTo: () => map.fitBounds([[-123, 32.5], [-114.5, 39]], { padding: 40 }) }],
+  onRestyle: hydrate,
+  // onFit gets the event: shift-click on Home zooms to the whole of the West instead
+  onFit: (e) => map.fitBounds(e?.shiftKey ? [[-125, 31], [-102, 49]] : [[-124.5, 32.4], [-114, 42]], { padding: 30 }),
+  // the Legend button (G) — the app owns its legend; the cluster only toggles it
+  onToggleLegend: () => { const el = document.getElementById("legend"); el.hidden = !el.hidden; },
+  legendOpen: () => !document.getElementById("legend").hidden,
+  // Esc order: the app's own HTML card counts as a popup — closed before any panel
+  closePopup: () => { if (card.hidden) return false; card.hidden = true; return true; },
+  drawer: { minWidth: 260, maxWidth: 520 },        // resizable by default; these are the defaults
+  onLayerStateChange: (s) => { window.__lastLayerState = s; },
+  scale: { units: "both" },       // the optional scale bar — OFF unless an app asks for it
+  tools: { search: true, locate: true, measure: true, draw: true, print: { title: "Map controls demo" } },
+  interaction: { setMode: (m) => { document.getElementById("mode").textContent = `Mode: ${m}`; } },
+});
+map = new maplibregl.Map({ container: "map", style: controls.initialStyle(), transformRequest: basemapTransformRequest(catalog),
+  center: [-119.4, 36.8], zoom: 5.3, attributionControl: { compact: false } });
+inset = new maplibregl.Map({ container: "inset", style: controls.initialStyle(), transformRequest: basemapTransformRequest(catalog),
+  center: [-119.4, 36.8], zoom: 3.2, interactive: false, attributionControl: false });
+controls.setMap(map);
+controls.setSecondaryMaps([inset]);               // or mount with maps: [inset]
+map.on("load", () => hydrate(map));
+inset.on("load", () => hydrate(inset));
+map.on("move", () => inset.jumpTo({ center: map.getCenter(), zoom: Math.max(0, map.getZoom() - 2.2) }));
+const popup = new maplibregl.Popup({ closeButton: true, closeOnClick: true });
+// the app's identify — it asks the module first, so Measure / Draw own the click while open
+map.on("click", "cities-pt", (e) => {
+  if (controls.isBusy()) return;
+  const f = e.features?.[0];
+  if (!f) return;
+  popup.setLngLat(f.geometry.coordinates).setHTML(`<b>${esc(f.properties.name)}</b>`).addTo(map);
+  document.getElementById("card-t").textContent = f.properties.name;
+  card.hidden = false;
+});
+document.getElementById("showcard").addEventListener("click", () => { card.hidden = false; });
+map.on("mouseenter", "cities-pt", () => { if (!controls.isBusy()) map.getCanvas().style.cursor = "pointer"; });
+map.on("mouseleave", "cities-pt", () => { if (!controls.isBusy()) map.getCanvas().style.cursor = ""; });
+window.__demo = { map, inset, controls, CITIES, popup, card };
+</script>
+</body>
+</html>

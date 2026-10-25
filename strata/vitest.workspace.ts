@@ -22,4 +22,5 @@ export default [
   "packages/auth-arcgis",
   "packages/basemap-arcgis",
   "packages/core-map",
+  "packages/map-controls",
 ];

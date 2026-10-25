@@ -15,7 +15,15 @@ the publishing traps (§6) before running `/publish`.**
 | `[app]` | A mistake an app made. Structural: easy to repeat. |
 | `[browser]` | Platform, CSS or runtime behaviour. |
 
-Where two entries disagree, the newer wins. Sources, newest first: the **resilience disclosure pack**
+Where two entries disagree, the newer wins. Sources, newest first: the **live-position build** (22 Oct — the a-layer-named-AVL-is-not-a-position-feed, an-event-log-is-not-a-position-feed, an-unconditional-query-answers-304, an-initial-attack-feed-mixes-reports, a-statewide-station-layer-is-not-every-station, showHide-cannot-toggle, no-nearest-of-a-type, four-more-widgets-ship-app-local, a-click-delegate-catches-the-vendored-controls, a-submit-button-fires-twice and a-theme-switch-surfaces-AbortError entries; extensions to the-feed-is-up-but-the-number-is-old (poll vs receipt vs fix time), renamed-service-499 (withdrawn by unsharing), blank-during-its-own-reload, freshness-is-re-implemented-per-app, a-trigger-nothing-emits, a-generated-lane-drawn-at-the-same-weight, setStyle-drops-your-layers, refreshLayers-on-every-idle, the gallery-licence-tag reopening, queryRenderedFeatures-in-flight, Windows-traversal and the loopback bind collision), the **data compact build** (22 Oct — the OpenFEMA-silently-returns-1000, a-stated-rebuild-schedule-is-not-a-stamp, a-record-that-never-publishes-an-end, a-cumulative-layer-counts-history, a-standard's-element-names-from-memory, a-bounding-box-is-not-the-county and five-more-widgets-ship-app-local entries; extensions to long-GET-answers-HTML, metadata-and-rows-from-different-cache-fills, freshness-is-re-implemented-per-app and export-has-no-dispatcher), the **lifeline board build** (21 Oct — the one-water-system-several-polygons, a-POU-layer-mixes-CCAs, intersects-is-not-served, co-location-is-not-dependency, truncated-200-JSON, cadence-from-two-reads, metadata-and-rows-from-different-cache-fills and three-widgets-ship-app-local entries; the gallery-does-not-render-the-licence-tag reopening; extensions to two-feeds-spell-counties-in-different-cases, no-retrievable-vintage, point-in-polygon-ignores-holes, no-setLayerVisibility, no-geometry-for-a-vanilla-app, freshness-is-re-implemented-per-app and timer-never-fires), the **impact zone build** (21 Oct — the empty-statistic-is-a-row-of-nulls, statewide-group-by-is-a-coin-toss, footprints-pre-date-the-fire, occupancy-class-is-not-what-it-says, edit-stamp-moves-without-the-data, divided-highways-counted-twice, buffering-a-published-perimeter-costs-seconds, URL-changes-every-school-year, draw-tool-emits-no-finish, no-setLayerVisibility and no-geometry-for-a-vanilla-app entries; extensions to long-GET-answers-HTML, a-perimeter-layer-keeps-every-version and a-trigger-nothing-emits), the **incident situation map build** (21 Oct — the two-id-forms-for-one-evacuation-zone, an-order-that-never-expires, a-camera-image-that-loads-is-not-a-working-camera, lane-closures-are-mostly-planned-work, a-current-incidents-layer-carries-prescribed-burns, one-incident-two-sizes, a-perimeter-layer-keeps-every-version, NWS-alerts-carry-no-geometry, shelter-registers-that-must-not-be-summed, a-4326-distance-query-rejected-without-outSR, an-app-owned-drawer-must-start-hidden, no-action-adds-a-layer, freshness-is-re-implemented-per-app and a-static-server-cannot-reach-a-no-CORS-feed entries; extensions to blank-during-its-own-reload, the-feed-is-up-but-the-number-is-old and AttributionControl-renders-expanded), the **watch wall build** (21–22 Oct — the Year-to-Date-holds-this-year-only and one-dropped-basemap-request-is-a-permanent-failure entries, an extension to areaDesc-is-zones-not-counties for SAME codes across a state line, the alerts-history-carries-Test-messages, the two-feeds-spell-counties-in-different-cases, a-feed-that-has-not-answered-is-not-a-zero, areaDesc-is-zones-not-counties and a-token-gated-layer-shows-its-499-only-as-JSON entries, and a second occurrence of a-display-rule-outranks-[hidden]), the **watch wall research** (21 Oct — the long-GET-answers-404-HTML, blank-during-its-own-reload, rolling-window-count-falls, current-layer-drops-the-finished and the-feed-is-up-but-the-number-is-old entries), the **facilities & space utilisation build** (7 Sep - the unique-identifier-is-not-unique-and-is-unique-one-scope-down, null-class-bigger-than-every-reported-class, publishes-a-value-has-two-honest-readings, two-registers-of-one-publisher-disagree-on-the-same-feature, a-ratio-not-bounded-by-1, identity-fields-empty-today-on-a-weekly-service, one-bad-coordinate-poisons-the-published-extent, the-largest-class-is-the-least-visible-mark, marks-rasterised-once-from-one-palette, a-capped-scrollable-popup-paints-a-slab, dataset-must-write-through-to-the-attribute and a-deliberate-navigate-reads-as-a-failed-request entries, an-ungated-styledata-retry-reports-failure-over-a-drawn-map, a-WebGL-canvas-cannot-be-pixel-probed, a-preview-zoomed-too-far-in-is-blank-too, an-unencoded-traversal-never-reaches-the-server and two-panels-one-helper-disagree-about-direction entries, and a second occurrence of reinstalling-from-styledata-runs-too-early), the **property hazard exposure build** (7 Sep — the Socrata-number-is-a-JSON-string, Socrata-default-page-is-1000-with-no-flag, a-drawing-tolerance-is-not-a-measurement-frame, a-membership-test-accepts-the-class-that-means-none, point-in-polygon-ignores-holes, three-failure-modes-in-one-estate, keyless-and-still-unlicensed, a-regex-drops-rows-whose-optional-cell-is-empty, a-bare-CR-desynchronises-a-PDF-walker and derive-a-population-bound-the-app-can-contradict entries, and second occurrences of load-and-isStyleLoaded-never-fire and flex-basis-beats-width), the **valuation & taxation base map build** (7 Sep — the objectIdField-null-and-the-neighbour's-decoy, offset-paging-is-quadratic, group-by-caps-and-resultOffset-will-not-page-it, two-counting-paths-disagree, returnDistinctValues+returnCountOnly-is-intermittent, sentinel-size-depends-on-the-filter, integer-sum-returns-an-empty-array, three-reserved-outStatisticFieldNames, String-year-and-only-two-casts-work, ordinal-ranks-over-ties-are-order-dependent, STArea-is-in-the-storage-projection's-units, published-centroid-is-Null-Island, cached-tiles-are-row-before-column, the-rejected-sources-table-decays-too, three-declarative-wires-that-do-not-work, state-hue-lookup-throws-on-the-rare-row, seven-previews-were-one-tile, a-transcribed-count-goes-stale-in-days, per-scope-quantiles-are-not-the-shipped-answer and a-harness-that-spawns-browsers-is-a-load-generator entries, and a second occurrence of pointer-and-keyboard-disagree-about-direction), the **development pipeline tracker build** (7 Sep — the row-is-not-the-thing-you-are-counting, join-key-identifies-a-filing-not-a-project, date-field-named-for-a-different-stage, empty-string-in-a-nullable-column, lexicographic-and-numeric-differ-by-one-row, name-join-fails-on-a-diacritic, DateOnly-serialises-as-a-string, objectIdFieldName-null-but-the-ids-endpoint-names-it, has-data/no-data-is-not-enough-states, a-cohort-rule-moves-a-percentile-more-than-the-data-does, an-epoch-cancels-in-a-subtraction, load-and-isStyleLoaded-never-fire, a-display-rule-outranks-[hidden], canvas-sized-before-the-flex-box-settled, a-status-line-that-reports-intention and pointer-and-keyboard-disagree-about-direction entries), the **portfolio & asset register build**
+(7 Sep — the break-right-that-is-not-a-break-right, keyless-host-403s-a-request-with-no-User-Agent,
+two-layers-of-one-map-in-different-spatial-references, greedy-attribute-regex-swallows-the-next-cell,
+guard-matches-its-own-prose-three-times, zero-byte-tile-at-200, service-name-misspelled-while-the-layer-is-not,
+a-name-is-not-a-vintage, absence-in-a-partial-coverage-layer-is-a-jurisdiction, documented-field-name-is-not-the-served-one,
+suppression-zeroes-one-column-not-the-other, one-table-two-readings-2.1x-apart, spreadsheet-is-a-service-with-worse-manners
+moveend-refetch-loops-through-MapLibre's-own-ResizeObserver, column-flex-splitter-collapses-to-zero,
+nowrap-title-widens-the-layout-viewport and the `TimeSlider`-is-not-a-registry-widget
+gap), the **tenant mix & catchment build** (3 Sep — the drawn-ring-and-its-stated-radius, DBSCAN-cluster-smaller-than-min_samples, keyless-is-not-unmetered, label-over-a-bar-fill and paint-before-sources-is-dropped entries), the **parcel record coverage build** (3 Sep — the distinct-values-cap-silently, dozens-of-layers-share-one-name, ArcGIS-error-arrives-as-200, preview-endpoint-does-not-exist, preview-at-parent-zoom-is-a-swatch, rect-cannot-see-overflow-clipping, always-visible-cannot-be-scrolled-to, privacy-scanner-hits-the-protocol, live-suite-dies-on-a-timeout and threshold-stated-twice entries), the **transaction evidence build** (3 Sep — the row-count-is-not-an-event-count, distinct-count-impossible-server-side, range-is-not-a-series, key-is-a-composite, two-columns-one-measurement, population-per-class-not-per-layer, undocumented-flag-is-not-a-filter, ZIP-cell-frame-costs-four-things and no-evidence-note-composer entries from its research; and from building the app, the universe-from-the-rows-loaded-so-far, clipper-corrupts-the-edges-it-is-walking, inline-width-beats-the-breakpoint, coverage-state-reads-as-empty-ground and two second occurrences — areTilesLoaded-answers-about-the-old-style and floating-overlay-covers-the-map-on-a-phone), the **resilience disclosure pack**
 (30 Aug — the four-live-releases, citation-resolves-but-the-sentence-is-absent, OID-differs-between-reads,
 flag-is-a-courtesy-not-a-contract, field-name-is-a-property-of-the-release, two-authorities-half-apart and
 queryable-but-undated entries, all from re-running a verified §4 twelve days later), the **hospital network planning
@@ -110,6 +118,48 @@ guard that enumerates the victims found so far keeps finding the next one by han
 ---
 
 ## 1 · Identity — which row is this?
+
+**A field named "Unique Identifier" is NOT unique — and it IS unique one scope down, which is the half
+that rescues the join.** `[data]`
+*(2026-09-07, facilities & space utilisation)* The federal real-property inventory publishes `Real_Property_Unique_Identifier` on every row,
+with **zero nulls and zero blanks**, which is exactly what a trustworthy key looks like. Across the 13,001
+California buildings it carries **12,806 distinct values: 193 identifiers repeat over 388 rows**, and the
+three rows sharing `90027` are a warehouse in Alameda reported by Energy, a restroom in Riverside reported
+by Interior, and an "All Other" in Alameda reported by Transportation. De-duplicating on it merges
+unrelated buildings; joining on it across services attaches the wrong vacancy figure to the wrong
+building — silently, because the field is fully populated. **But scoped to a single `Reporting_Agency` it
+has zero duplicates** (707 GSA buildings, 707 distinct ids), and that is what makes a cross-register join
+safe here at all. **Guard:** probe distinctness before treating any field as a key, whatever it is called,
+and when it fails, **look for the scope in which it holds rather than abandoning it** — a published key is
+often unique inside the publishing unit and repeats across units. Key the application itself on the OID;
+use the natural key only inside its proven scope. Belongs beside the OID entries above: same failure,
+different field, and a fuller name is not more trustworthy.
+
+
+**A layer document can report `objectIdFieldName: null` while carrying an OID-typed field — and the ids
+endpoint will name it for you.** `[data]`
+@@STAMP@@ California HCD's `TableA2` publishes `objectIdFieldName: null` on its layer document while its field
+list plainly contains `OBJECTID` of type `esriFieldTypeOID`. The catalogued advice for a null OID is *bind
+read-only*, and that would have been the wrong call here: a `returnIdsOnly=true` query answers
+`objectIdFieldName: 'OBJECTID'` **alongside its 78,381 ids**, which is an authoritative read rather than an
+inference from the field list. The same call also reveals the true unbounded population, because
+`maxRecordCount` governs feature paging and **not** the ids endpoint. **Guard:** when the document reports
+null, ask the ids endpoint before concluding there is no stable id — and take the name from that response,
+never from the field list, because a service can carry a column literally named `OBJECTID` that is not the
+object id.
+
+**`objectIdField` can be ABSENT from the response, not merely `null` — and a `=== null` guard passes for the
+wrong reason.** `[data]`
+*(2026-09-02, site selection - the swing slate)* Census TIGERweb's tract layer is recorded in more than one
+recipe as reporting `objectIdField: null`. It does not: the key is **not present in the layer document at
+all**, and neither is `objectIdFieldName`. Python's `d.get('objectIdField')` returns `None` and reads as
+`null`, which is how the wrong shape got written down; JavaScript's `meta.objectIdField === null` is then
+`false` for an `undefined`, so a build gate written from that record **fails on a layer that is behaving
+exactly as documented**. The conclusion is unchanged — no declared object id, bind read-only, key on a
+natural identifier such as `GEOID` — but the test is `== null`, covering absent and null together.
+**Guard:** assert *"there is no usable object id"* (`objectIdField == null && objectIdFieldName == null`),
+never `=== null`; and when transcribing a probe from one language into a guard in another, re-run the guard
+against the live service rather than against the note.
 
 **A service's `objectIdField` can differ between two reads of the same URL — and between releases of the same
 dataset.** `[data]`
@@ -237,7 +287,172 @@ sample and print both counts. Assert that the wrong key **keeps failing**, so a 
 quietly switch back to the familiar one; this build's suite asserts `PERM_ID -> 40` and `OSHPD_ID -> 0`
 side by side.
 
+**Second occurrence — a layer can declare `objectIdField: null` and still publish a working `OBJECTID`,
+and the neighbouring county is why you may still not infer it.** `[data]`
+*(2026-09-07, valuation & taxation base map; first recorded 2026-09-07, development pipeline tracker)*
+Los Angeles County's parcel service — 2,432,918 rows — reports no object-id field on its layer document
+while carrying an `esriFieldTypeOID` column literally named `OBJECTID`, and `where OBJECTID=1` answers
+`{"count":1}`. So far this is the catalogued shape. What this build adds is the reason the obvious
+shortcut is still wrong: a **neighbouring California county's** parcel layer keys on `FID` and carries a
+**decoy column also called `OBJECTID`** beside it. So *"the document is silent, therefore use the column
+named `OBJECTID`"* is a rule that works on one service and selects the wrong feature on the next — and it
+fails silently, because a wrong id highlights a real parcel. **Guard:** bind the id **explicitly and
+read-only**, per layer, from a probe of that layer — never infer it from the field list, and never inherit
+it from a sibling service in the same vertical. Where the ids endpoint will name it, take the name from
+there (the entry at the head of this section); where it will not, record the chosen column in the app's own
+map spec so a reviewer can see which id was bound and why.
+
+**Two feeds of one state spell its counties in different cases — and a baseline taken before the reference
+layer loaded keeps the other spelling.** `[data]` `[app]`
+*(2026-10-21, watch wall build)* Cal OES's power-outage layers name counties in **UPPER CASE** (`ORANGE`, in
+both the incident points and the by-county totals), while the state's own county boundary layer and the
+national wildfire feed use `Orange`. The app joined the outage totals to the boundary names case-folded — but
+its shift **baseline** was captured on the first outage read, which landed before the 58 county polygons had
+loaded, so the baseline kept `ORANGE` and every later read said `Orange`. One minute into a live shift the
+by-county reading said **"17 of 58 counties changed — outages changed"** while statewide customers out read
+±0. Only a screenshot caught it: every suite was green, because each fixture loaded counties first.
+**Guard:** compare join keys **case-folded at the comparison**, not only when the reference happens to be
+loaded; and never let the order in which feeds answer decide what a stored baseline contains — assert the
+mixed-case baseline against a later proper-case read in the suite.
+*(2026-10-21, lifeline board build)* Confirmed on a second pair. Joining the same Cal OES outage incidents to
+the California Geoportal county layer by name gave **0 of 58 exact matches and 58 of 58 once case-folded**.
+The by-county layer also spells a field `Impacted_Cutomers_Not_Planned` (sic). Bind it literally, and never
+"correct" a field name in a query.
+
+**One evacuation zone, two id forms, two row sets.** `[data]`
+*(2026-10-21, incident situation map build)* Cal OES's statewide evacuation aggregation and CAL FIRE's
+statewide evacuation-status view describe the same zones, but key them differently: the aggregation carries
+`PVL-E042`, the status view `US-CA-XTU-PVL-E042`. Neither id is a prefix-free match for the other, and the
+join that works is on the **last segment of the status view's `url`** field, not on any id column. And the
+two layers are not the same population: each carries zones the other lacks, so a join in either direction
+silently drops rows. **Guard:** normalise both sides to the shared zone code before joining, assert the
+normalisation on a known pair in the suite, and report the unmatched rows on **both** sides as their own
+count ("in the status view only", "in the aggregation only") rather than letting the join discard them.
+
+**One water system, several polygons: counting polygons double-counts systems.** `[data]`
+*(2026-10-21, lifeline board build)*
+- *Symptom:* the State Water Board's drinking-water System Area Boundary Layer, queried for the service areas
+  that intersect today's outage areas, returned **16 polygons for 14 water systems**. The same
+  `WATER_SYSTEM_NUMBER` appeared under two `OBJECTID_1` values (one system, two disjoint service areas). A
+  count of features said 16 systems were exposed. Every hospital, population figure or cascade item chained
+  from those rows was duplicated.
+- *Cause:* the layer is keyed by polygon, not by system.
+- *Guard:* group by the publisher's system identifier (`WATER_SYSTEM_NUMBER`) before counting or chaining.
+  Print *"n systems (m service-area polygons)"* when the two differ, and assert the grouping in the live suite
+  on a known multi-polygon system.
+
+The same layer's OID is `OBJECTID_1`, beside an ordinary Integer column named `OBJECTID` (8890801 vs 133 on
+one row; see the head of this section). Its statistics aliases come back **upper-cased** (`"n"` → `"N"`). It
+also carries contact fields (`AC_PHONE_NUMBER`, `AC_EMAIL`) that an app should never request.
+
 ## 2 · Counting and paging — is this all of it?
+
+**A row is not a record of the thing you are counting, and a longitudinal register will not tell you
+so.** `[data]`
+@@STAMP@@ California's statutory housing return publishes **464,059 rows that are 313,397 distinct projects**:
+a project entitled in 2019 is reported again in the 2020 and 2021 filings, so **32.5 % of all rows are a
+re-filing of something already counted**. Nothing in the response says this. The composite key
+`UniqueID + YEAR` is unique on every row and `UniqueID` alone is not, and the only way to see it is to ask
+for **both** distinct counts and compare them to the row count. De-duplicating to each project's first
+reporting year moved the headline ninetieth percentile by **191 days (1,425 → 1,234)**, moved the
+over-two-years share from 17.1 % to 15.0 %, and cut the jurisdictions carrying a hundred or more measurable
+projects from **83 to 62**. **Guard:** before reporting any count from a periodic return, ask for the
+distinct count of its natural key **and** of that key plus the period; if the second equals the row count
+and the first does not, the row is a filing rather than a thing. Print the grain beside every figure. A
+second sting here: the only reliable project key in this record is an **identity field** (its values are the
+jurisdiction name concatenated with a street address), so the de-duplication has to happen inside the build
+script and the key must never reach an artifact.
+
+**"Has data" and "no data" are not enough states, and the biggest publishers are often the ones that
+need the third.** `[data]`
+@@STAMP@@ Of 521 filing jurisdictions in the California return, **165 filed and support no timing read at
+all** — San Jose filed 3,248 rows with 88 carrying an entitlement date and **not one carrying both**, and
+Sacramento filed 11,358 rows and reached zero the same way. *Filed and cannot be measured*, *did not file*,
+and *outside the frame* are three different facts with three different remedies, and collapsing them into
+one blank makes the largest cities look like the smallest. This is the same shape as the already-catalogued
+*absence-in-a-partial-coverage-layer-is-a-jurisdiction* entry, arriving from the other direction: there the
+gap was coverage, here it is measurability. **Guard:** where an app reports a **derived** measure across a
+published register, count the entities that filed and cannot support the measure, render that as its own
+map class, and refuse to print a figure for them. Four states plus a thin-denominator state, never two.
+
+**Absence in a PARTIAL-COVERAGE layer is a jurisdiction, not a zero.** `[data]`
+*(2026-09-07, portfolio & asset register)* CAL FIRE's State Responsibility Area hazard layer covers
+**only** State Responsibility Area, so most of urban Los Angeles County has no polygon at all — and that
+absence means *"this is Local Responsibility Area, read the other map,"* **not** *"no hazard."* Binding one
+half and reading a blank as safe is the worst error available in a hazard lane, and it is silent: the join
+succeeds, the column fills with a plausible value, and nothing is null. The two halves also carry
+**different class vocabularies** — the local one adds `NonWildland`, which the service codes `FHSZ = -3`,
+a sentinel rather than a severity — so they cannot be unioned into one legend without saying so. The same
+shape recurs wherever coverage is split by administrative responsibility rather than by geography.
+**Guard:** bind every half, render what neither covers as **`not mapped`** rather than as a class or a
+zero, name the responsibility area beside the class in the legend, and assert that an uncovered record
+reads `not mapped` and never `None`.
+
+**`returnDistinctValues` caps at `maxRecordCount` and reports it only in `exceededTransferLimit`.** `[data]`
+*(2026-09-03, parcel record coverage)* A recipe recorded this parameter as returning **HTTP 400** on a
+county assessment-roll service. Re-probed, it does not fail at all: it returned 76 distinct land-use
+descriptions and 58 distinct base years without complaint. Asking the same service for distinct parcel
+keys returned exactly **1,000** values — the layer's `maxRecordCount` — with `exceededTransferLimit: true`
+and nothing else to mark the truncation. So the trap is real and the recorded symptom was the wrong one:
+the call succeeds, and a chip list built from it silently becomes a chip list of the first thousand.
+**Guard:** read `exceededTransferLimit` on **every** distinct-value response, not only on feature pages,
+and treat a returned count equal to `maxRecordCount` as *presumed truncated* until proved otherwise. And
+when a recipe records a capability as failing, re-run it before building the workaround — a symptom
+recorded once is a claim about one day.
+
+**Duplication is not uniform, so never divide a row count to get an entity count.** `[data]`
+*(2026-09-02, site selection - the swing slate)* Caltrans' statewide AADT layer serves 13,919 rows, and the
+duplication is real and well known: probe any station and it comes back exactly twice. Two recipes therefore
+record "13,919 rows for roughly 6,960 stations" — 13,919 divided by 2. Measured across the whole layer, the
+rows-per-`(RTE, PM)` histogram runs **1x to 28x**: 6,444 keys appear twice, 156 once, 95 four times, 29 six
+times, and a tail beyond. The real count is **6,754**, and the halving is wrong by 205. **Guard:** derive an
+entity count by **de-duplicating on the key and taking the size of the set**, never by dividing. Probing two
+or three rows establishes that duplication exists; it establishes nothing about its multiplicity. Print the
+histogram once during research — it costs one query, and it is the difference between a measured number and
+an assumed one.
+
+**A join between two layers of the same publisher can cover a MINORITY of rows — and a licensed fallback
+makes that invisible.** `[data]`
+*(2026-09-02, site selection - the swing slate)* Caltrans' AADT layer carries no vintage field, and the
+documented workaround is to take the count year from its Truck Volumes sibling, joining on route and
+postmile: *"where the join fails the exposure figure renders count year unknown, never a guess."* Measured:
+only **2,362 of 6,754** stations have any match — **35 %**. "Unknown" is the majority state, not the
+exception, and where the join does resolve, the year is frequently ancient: the spread across matched
+stations runs **1972 to 2024**, with two stations at 2024 and 120 at 1996. **Guard:** measure the join rate
+before designing around the join, and design the *miss* as an ordinary value with its own rendering rather
+than as an error state. The danger compounds whenever a recipe already licenses a graceful fallback: a
+coverage of 35 %, of 5 % and of 0 % all render identically as "unknown", so the fallback conceals both a
+sparse join and a completely broken one. Assert the ratio, and print it on screen.
+
+**A `{"count":0}` from a spatial query is three different answers, and only one of them is "no."** `[app]`
+*(2026-09-02, land bank & acquisition screening)* It may be a real absence, a gap in a surface whose own
+coverage is unknown, or a geography the layer does not cover at all. Measured: one 225-acre footprint in
+San Bernardino County returned `{"count":0}` from **six** layers, and three of those zeros meant three
+different things — the wildfire zero was a true absence, the liquefaction zero meant **never evaluated**
+(its companion "unevaluated areas" layer returned 1 for the same geometry), and the parcel zero meant
+**this county is not bound at all**. Rendering all six identically is the worst defect available to a
+constraint screen, because it converts a coverage gap into an all-clear on the ground a buyer is about
+to option.
+
+**Guard: resolve the containing administrative unit BEFORE reading any count**, and render *NOT COVERED*
+rather than zero wherever the layer's own frame excludes the query geometry. Where a register publishes a
+companion "unevaluated" or "not mapped" surface, query it in the same breath and let it separate *clear*
+from *never looked*.
+
+**A published layer whose title claims a whole jurisdiction may cover unincorporated territory only.** `[data]`
+*(2026-09-02, land bank & acquisition screening)* Santa Clara County's `Zoning` service holds **1,087
+polygons for a county of 504,648 parcels**; its published title is *"Santa Clara County Unincorporated
+Zoning Districts"*, and the service name is not. Sacramento County's `County Zoning` (`PLANNING/16`) is
+the same shape and gives itself away only in the data: `JURISDICTION` has exactly **one** distinct value,
+`UNINCORPORATED`, across all 3,296 polygons. So **two of the three counties** in one bound set publish
+county zoning that answers nothing inside a city — and an empty result there is a gap, not an absence of
+constraint.
+
+**Guard: check the polygon count against the parcel count, and read the distinct values of any
+jurisdiction column.** A ratio of 1,087 to 504,648 is not a zoning atlas. Where the layer is
+territory-limited, an empty answer must render as *unknowable / not covered*, naming the reason, never as
+*no constraint*.
+
 
 **Whether a service SETS `exceededTransferLimit` is not stable between reads — so no guard may depend on its
 presence or its absence.** `[data]`
@@ -451,7 +666,521 @@ success. **Guard:** the house rule ("the effective page size is whatever the ser
 widest") applies to plain JSON APIs and not only to ArcGIS — probe the ceiling once, page at or below it,
 and assert the total against the endpoint's own `/stats` `found_rows` when it publishes one.
 
+**A row count is not an event count, and the register usually counts rows.** `[data]`
+*(2026-09-03, transaction evidence)* A county assessor's recorded-transfer file published **57,357 rows**;
+those rows are **48,119 distinct recorded instruments**, because one deed can convey many parcels and the
+file lists each parcel it touched. The overstatement is **19.2 %** across the file and **239.2 % on one
+class** — 3,975 vacant-land rows are 1,172 deals — and a single deed recorded on one day conveys **614
+parcels**. The duplicate check ran first and came back clean: **zero identical `(key, date, amount,
+document)` signatures**, so this is a *grain* error, not a duplication error, and no de-duplication pass
+would have caught it. The same shape appears wherever one document, permit, claim, order or invoice touches
+many features.
+
+**Guard: establish the event key and count distinct on it before reporting any count as a count of
+events** — then say on screen which of the two numbers is showing. A count labelled "sales" that is really
+"parcels conveyed" turns one transaction into six hundred pieces of evidence, which is the opposite of what
+the reader is trying to establish.
+
+**A distinct count may be impossible server-side, and that is an architecture decision rather than a
+detail.** `[data]`
+*(2026-09-03, transaction evidence)* On an ArcGIS `MapServer`, both routes to a distinct count were closed:
+`outStatistics` with `statisticType: "count-distinct"` returned
+`{"error":{"code":400,"extendedCode":-2147024809,"message":"Invalid or missing input parameters."}}`, and
+`returnDistinctValues=true` together with `returnCountOnly=true` returned *"When returnCountOnly and
+returnDistinctValues are true, more than one field specified in outFields is not supported."* So a count
+that the whole application reported could only be produced by paging every row and counting in the client —
+**29 pages and 44 s for 57,357 rows**, which changed the load budget, the load order and the widget
+inventory of the app that needed it.
+
+**Guard:** probe **both** routes before designing a screen around a distinct count. If neither exists, decide
+deliberately between paging at load, a build-time bake with a visible staleness state, and dropping the
+figure — and make that choice in the design rather than discovering it in the build.
+
+**A min/max range is not a series, and reading one without its distribution is how a three-year file
+becomes a fifty-five-year history.** `[data]`
+*(2026-09-03, transaction evidence)* `MIN`/`MAX` on a date field returned **1971-02-22 → 2026-08-24** and
+was recorded as a 55-year series. The cumulative counts say otherwise: `>= 1990` **57,308**, `>= 2010`
+**57,259**, `>= 2023-01-01` **57,243 — 99.80 % of the file**, with only **114 rows** carrying the whole
+remaining span and 49 of them predating 1990. It is a **rolling window of about three years**, which is
+what the publisher's file is for and is not a history. The consequence is a design, not a number: a time
+slider across it would have implied a past that does not exist, and every trend, pace and
+period-on-period comparison had to come out.
+
+**Guard:** ask for cumulative counts at several cutoffs before putting any time control on screen. This is
+the same class of error as the lexicographic maximum — a range statistic read without its distribution —
+but it kills a silhouette rather than a figure.
+
+**A universe derived from the rows loaded SO FAR makes a measured zero disappear instead of rendering
+as one.** `[app]`
+*(2026-09-03, transaction evidence)* The app bands 55 submarket cells on how many recorded instruments each
+holds for the property class in force, and a cell holding **none** is the finding the whole product exists
+to show. The cell list was built from the rows already paged, so a submarket with no transfer of that class
+was not banded `NONE` — it was **absent from the surface entirely**, and the band counts silently summed to
+fewer than 55. It never showed against the live file, where every situs ZIP happens to carry something in
+some class; it showed against a synthetic fixture built to contain such a cell, and it would have shown in
+production during the **first** of two load phases, when only five of six classes had arrived.
+**Cause:** the denominator was taken from the data that had loaded rather than from the data that exists.
+**Guard:** get the universe from the register — a `groupByFieldsForStatistics` over the whole file, once —
+and iterate **that**, looking each cell's value up rather than reading the keys back out of the rows. Then
+assert the sum: **every band count together must equal the universe**, on every class, including during a
+partial load. A zero you cannot see is indistinguishable from a geography you never covered, and this file
+renders those two states differently on purpose.
+
+**`resultOffset` paging is quadratic on a large ArcGIS layer; keyset paging is flat.** `[data]`
+*(2026-09-07, valuation & taxation base map)* The same 1,000-row page — twelve fields, no geometry — measured twice four days apart against a
+2.37 M-row roll:
+
+```
+offset 0            2.08 s   and 0.80 s on the re-probe
+offset 500,000     22.35 s
+offset 1,200,000   46.61 s   and 44.29 s on the re-probe
+```
+
+A full walk by offset is about **15.6 hours**, because the server counts past every skipped row. The same
+page taken by **key** — `where AIN > '<last AIN seen>'` with `orderByFields=AIN` and **no**
+`resultOffset` — is flat at **0.5–1.9 s wherever it starts** and 25 % smaller on the wire. Partitioned
+into seven disjoint leading-digit key ranges and run in parallel, the whole roll walked in **310 s**.
+**Guard:** page by key on anything above a few tens of thousands of rows, and assert the **flatness**
+rather than the total — an offset walk that is merely slow today is a walk that trips a timeout tomorrow,
+and the failure arrives as a short walk rather than as an error. The key must be unique for the cursor not
+to skip or repeat a row; prove that with a count on one value before trusting it.
+
+**A group-by statistics query caps at `maxRecordCount` groups, and `resultOffset` does not page it.**
+`[data]`
+*(2026-09-07, valuation & taxation base map)* A count per `UseCode` over a 2,372,107-row roll returned exactly **1,000 groups** with
+`exceededTransferLimit: true` against **1,075** distinct values, and the returned group counts summed to
+**2,372,032** — **75 rows missing from a total that looks complete**. `resultOffset=1000` on the same
+query returns the *same first page again*, starting at `0100`, so the tail is unreachable by paging. This
+is the group-by sibling of the `returnDistinctValues`-caps-at-`maxRecordCount` entry above: same cap,
+same flag, and no offset that will get past it. **Guard:** never consume a group-by without reading
+`exceededTransferLimit`, and never let a group-by total stand as a population — cross-check it against a
+plain count of the same predicate and print both if they differ. To reach a capped tail, slice by an
+explicit predicate until each slice fits under the cap.
+
+**`returnCountOnly` and an `outStatistics` count disagree on the same spatial query, and neither path is
+reliably the larger.** `[data]`
+*(2026-09-07, valuation & taxation base map)* One envelope over Los Angeles, `esriSpatialRelIntersects`, same `where`: `returnCountOnly`
+answers **61,429** and `count(AIN)` through `outStatistics` answers **61,506**. Reproducible, and not a
+null-field artefact — `count(OBJECTID)` on a non-null object id returns the same 61,506, and `AIN IS NULL`
+on the roll returns zero. The two code paths apply the spatial predicate differently. The sting is in the
+direction: an earlier probe of a **different** envelope on the same layer had `returnCountOnly` **higher**
+(39,590 against 39,587), so neither path can even be characterised as the generous one and no constant
+offset reconciles them. **Guard:** pick **one** counting path and use it for every number on the screen —
+this build uses the statistics path everywhere, the same one that produces its headline share — because a
+readout saying *"61,429 parcels in view"* beside a table listing 61,506 is a contradiction the reader finds
+before you do.
+
+**`returnDistinctValues` paired with `returnCountOnly` can be refused INTERMITTENTLY, for tens of
+minutes, while the layer's advertised capabilities never change.** `[data]`
+*(2026-09-07, valuation & taxation base map)* This route answered on 2026-09-03 and was written into a recipe as the honesty cross-check its
+distinct-page count depended on. On the morning of 2026-09-07 it returned HTTP 400 *"Failed to execute
+query."* with an **empty `details` array on every field tried** — `Assr_Map`, `UseCode`, `UseType`,
+`Roll_Year`, `Roll_LandBaseYear` — on **five consecutive attempts across two separate processes over
+twenty minutes**. Throughout, `advancedQueryCapabilities` went on reporting `supportsDistinct: true` and
+`supportsCountDistinct: true`, and `returnDistinctValues=true` **without** `returnCountOnly` still
+answered normally, capped at 1,000 rows. A `LIKE` predicate breaks the distinct query even while it is up.
+An hour later it answered **twelve times out of twelve**, with the same **87,640** it had given four days
+earlier. It was never dead; every symptom pointed at a permanent removal.
+
+**Guard, in two halves.** First, the house rule about declaring an endpoint dead applies to a *parameter
+combination* as much as to a host: probe more than once, spaced, before recording that a query shape is
+gone — and write the suite to pass on **either** outcome and **say which it saw**, so a reader learns the
+shape is unreliable rather than learning to ignore a red line. Second, and the more important half: **an
+honesty cross-check may not depend on a route that can vanish.** The replacement built here is a group-by
+over a key prefix, sliced narrow enough to stay under the 1,000-group cap and recursing into a longer
+prefix wherever `exceededTransferLimit` says a slice was capped — every slice checked, nothing summed that
+was truncated. It reproduced **87,640 exactly, in 517 requests and 67 s**. Keep the cheap route as the fast
+path, fall back to the resilient one, and cross-check the cheap answer against one slice of the resilient
+one, so a route that answers with a *wrong* number is caught as well as one that refuses.
+
+**A sentinel's size depends on the filter you have not applied yet.** `[data]`
+*(2026-09-07, valuation & taxation base map)* A `'0000'` base-year sentinel appears on **53,283 rows** of a parcel layer — and on **124** rows
+of the current roll. The other 53,159 sit in a roll-year-null population that also carries **zero value on
+every row**, so the sentinel is not a defect inside the register at all: it is the marker of a parcel that
+is not on it. Reported unsliced it is a 53,283-row problem nobody would ever check; sliced by the predicate
+the product actually applies it is a **129-row list a person can work through**, which is a smaller
+headline and a better product. **Guard:** slice every sentinel by the filter the application itself
+applies before reporting its size, and then check what the rows **outside** that filter have in common —
+here, all of them valueless. That shared property is usually the real finding.
+
+**A GET over ~2,048 characters answers HTTP 404 with an HTML page, and a join reads it as "no match".** `[data]`
+*(2026-10-21, watch wall research)* An `IrwinID IN (…)` query against a national ArcGIS Online wildfire layer,
+sent as GET in chunks of 40 GUIDs, joined **12 of 92** records that were all there. The chunks whose URL ran to
+**2,213 characters** came back **HTTP 404** with an XHTML error page — not 414, not an ArcGIS `{error}` — and
+a client that treats any unparseable body as "no rows" counted them as misses; 1,703 characters answered 200,
+and the same 40 ids by **POST** answered `{"count":40}`. **Guard:** send IN-lists and long `where` clauses by
+POST (`application/x-www-form-urlencoded`), treat a non-JSON body as a **failed request** that stops the join,
+and assert in the suite that the joined count equals the ids you sent.
+*(2026-10-21, impact zone build)* The same failure on a different host answers **HTTP 400**, still with an HTML body: a polygon query to a federal-data ArcGIS Online host whose zone ring ran past 2,048 characters returned `HTTP 400 <!DOCTYPE HTML PUBLIC …`, and the identical query by form-encoded POST answered. The status code is not the signal — **a non-JSON body is**. Send every geometry query by POST (one real perimeter's rings reached **409 KB**).
+*(2026-10-22, data compact build)* The same ~2,150-character county-polygon count was JSON on `services.arcgis.com`, `services5` and `services7` and a **404 `text/html`** page on `services1` and `services3` — so a GET that works against one ArcGIS Online host is no evidence for the next. Re-measured 2026-10-22: unchanged. Every geometry query is now a form-encoded POST (a CORS simple request; `*` came back on every host).
+
+**A feed that blanks during its own reload is indistinguishable from "nothing here".** `[data]`
+*(2026-10-21, watch wall research)* The NWS watch / warning / advisory MapServer rebuilds about every two
+minutes, and for **5–10 seconds** of each rebuild it answers HTTP 200, CORS intact, `count 0` and
+`features: []` — on 4 of 44 reads taken 4 s apart, and on both layers at once in a separate probe. A live
+display that renders each poll literally goes blank every couple of minutes, and an alerting rule on "the
+count fell to zero" fires on the service's housekeeping. A statewide evacuation aggregation documents the same
+shape in its own item description ("a brief period (10 sec) where the service is rebuilding and not all
+features are visible"). **Guard:** keep the last good set; accept a zero that follows a non-zero only when a
+second read **≥ 15 s later** agrees; never alert on a disappearance.
+*(2026-10-21, incident situation map build)* Applied to the evacuation aggregation (whose ~10 s rebuild
+window is stated in its own item description): a drop to 0 is re-read after 15 s before it is shown as
+"none". **Status:** the guard is tested with an injected network that answers non-zero, then empty, then
+non-zero; the live window itself was not caught on the day, so the suite asserts the guard, not the outage.
+*(2026-10-22, live-position build)* Seen once on a live vehicle-position layer (San Diego MTS `MTS_AVL/0`, a
+transit fleet): **0 rows on two polls 30 s apart**, between reads of 41–68 vehicles. Not reproduced, so not
+explained — but two empty reads were not enough to call the fleet empty. Show such an answer as the feed's
+answer ("answered with 0 units"), never as "no units out".
+
+**A rolling-window feed's count falls with no event ending.** `[data]`
+*(2026-10-21, watch wall research)* USGS's "past day" earthquake summary went **172 → 168 → 166 → 162** over
+two hours while no new California event arrived — rows age out of the 24-hour window. A KPI that reports the
+change in that count, or a rule that treats a drop as something resolving, is reading the window, not the
+world. **Guard:** count events by their own `time` against your own window (since a handover, since a date),
+never by the feed's length; a falling length is never a change.
+
+**A feed that has not answered yet is not a zero — a "quiet" headline needs every counted feed.** `[app]`
+*(2026-10-21, watch wall build)* The wall's first live paint said **"Quiet since 06:00"** while its NWS alert
+feed still read *"grey: no data yet"* — the seven-day `/alerts` history paginates and takes seconds longer
+than the other feeds, and the quiet rule only checked that the incident feed had answered. Every other count
+was a real zero; the warnings count was an **absent** one, rendered as `0` and folded into an all-clear. The
+offline suite could not see it, because every fixture answers at once. **Guard:** an all-clear is a
+conjunction over **every** feed it counts — compute the list of feeds still pending, refuse the quiet
+headline while it is non-empty, and say on screen which feed is still being read ("not counted as zero").
+Test it with one feed failing while the rest are empty.
+
+**A perimeter layer that keeps every mapped version counts versions, not fires.** `[data]`
+*(2026-10-21, incident situation map build)* The FIRIS intel perimeter layer returned **493 rows, 60 of
+them `Active`** — every perimeter ever mapped for an incident stays in the layer beside its successors. A
+count of rows is a count of mapping flights; drawn as-is, the map stacks a fire's old outlines under its
+current one. **Guard:** dedupe to the **newest row per (`incident_name`, `source`)** before counting or
+drawing, and assert in the suite that no key appears twice after the dedupe. Keep the history rather than
+discarding it: the versions are what make an honest growth replay possible, each frame dated by its own
+row.
+*(2026-10-21, impact zone build)* The dedupe key needs an **upper-cased** `incident_name`: one fire is spelled `Timber` by one source and `TIMBER` by another. And `returnDistinctValues` on that host **folds case** (7 distinct names) where reading the rows gives 8 spellings — so a distinct-values probe hides the very split the dedupe must handle. Print each perimeter's own `poly_DateCurrent` and `source` too: the "Active" version adopted as a zone was **21.9 days old**, while the interagency layer held a newer outline of the same fire.
+
+**Socrata's default page is 1,000 rows, and it carries no flag, no total and no `Link` header.** `[data]`
+*(2026-09-07, property hazard exposure)* An unbounded read of a 13,277-row register returns exactly **1,000 rows** and looks complete.
+Unlike an ArcGIS service there is no `exceededTransferLimit` to check and no `count` beside the page, so
+nothing in the response distinguishes "this is all of it" from "this is the first 4 %". The platform hosts
+thousands of municipal datasets, so this is not one register's quirk. **Guard:** send an explicit
+`$limit` above the count you got from `$select=count(1)`, then **assert the returned length against
+that count and fail loudly** — a short read is a stop, not a warning, because every figure downstream is
+wrong by an unknown amount and nothing on screen would say so.
+
+**OpenFEMA silently returns 1,000 rows when a query has no `$top`, and `metadata.count` reads 0 unless `$count=true`.** `[data]`
+*(2026-10-22, data compact build)*
+- *Symptom:* FEMA's `DisasterDeclarationsSummaries` v2 for California, all years, came back as **1,000 rows** with
+  `metadata.top 1000` and `metadata.count 0`. Nothing said 691 rows were missing; `$count=true` reports **1,691**.
+- *Cause:* OpenFEMA's default page is 1,000 and the total is computed only when asked for.
+- *Guard:* always send `$top` **and** `$count=true`, compare the rows to `metadata.count`, and print
+  *"capped at n of N — not complete"* when they differ. The live suite asserts the trap is still there.
+
+**An ungrouped statistic over an empty selection returns one row of nulls, not an empty list.** `[data]`
+*(2026-10-21, impact zone build)* A `min`/`max` of `IMAGE_DATE` over a zone with no footprints (an offshore box) came back as **one feature whose attributes are all `null`**, while the grouped count over the same zone returned `features: []`. A reader that takes "one row" as "found something" prints an imagery range of `null → null`. **Guard:** a statistic row whose values are all null is *none*; assert it in the live suite against a known-empty geometry.
+
+**A statewide group-by on a 135-million-row layer is a coin toss; the same query scoped to a zone answers in a second.** `[data]`
+*(2026-10-21, impact zone build)* `groupByFieldsForStatistics=OCC_CLS,PRIM_OCC` over every California footprint (`STATE_FIPS='06'`, 10.9 million rows of a national layer) failed with a generic 400 after **56 s** in the recipe's probe, answered in **38.6 s** on a re-run, then in **0.2 s** from the server's cache. Scoped to a county it answers in ~1.3 s; scoped to a zone polygon, in under a second. **Guard:** never group a national layer statewide from a browser; scope by geometry or a small attribute filter, and treat a fast answer as an accident of the cache, not a contract.
+
 ## 3 · Field semantics — does this field mean what it is called?
+
+**A nullable class field can be null on MORE ROWS THAN ANY REPORTED CLASS, and a renderer without a
+labelled default is then a map of the minority.** `[data]` `[app]`
+*(2026-09-07, facilities & space utilisation)* `Utilization` on the federal inventory is null on **7,015 of 13,001 California buildings —
+54.0 %**, against 5,637 `Utilized`, 290 `Unutilized` and 59 `Underutilized`. **The largest utilisation
+class in California is the absence of one.** A three-value `uniqueValue` renderer draws the 46 % and
+leaves the majority to a default symbol that, unlabelled, reads as "other" or as nothing at all.
+**Guard:** whenever a symbolised field is nullable, the renderer needs a `defaultSymbol` with a **label
+that says `NOT REPORTED`** — never "Other" — and the null class must appear in the legend, in the split,
+and in every count with its own denominator. Generalise the house rule: *a geography with no data renders
+NOT COVERED and never zero* now has a sibling — **a silence renders NOT REPORTED and never zero**. The
+second half is the one that bites inside a covered geography.
+
+**"Publishes a value" has two honest readings, and a source can encode a silence AS A ZERO.** `[data]`
+*(2026-09-07, facilities & space utilisation)* `Owned_and_Otherwise_Managed_Annual_Operations_Cost` is non-null on **7,088** California
+buildings and greater than zero on **6,597**: **491 standing buildings publish an annual operating cost of
+exactly `$0.00`**. Every headline in the recipe — the tri-lane count, the unused-area total, the
+per-county denominators — reconciles only on the `> 0` population, while the recipe's own prose quoted the
+non-null one, so the same document described the lane with one number and computed it with another. A `$0`
+operating cost for a standing building is not a measurement; it is a non-report written as a number, and
+averaging it in drags a cost-per-square-foot toward zero. **Guard:** for any money or measure column,
+count `IS NOT NULL` **and** `> 0` and compare them before quoting either. Where they differ, say so on
+screen and report the zero-publishing population as its own state, folded into neither side. This is the
+mirror of the *published-zero-means-not-counted* entry: there the zero was a suppression, here it is a
+silence, and in both the fix is to refuse to let it become arithmetic.
+
+**Two official registers from the SAME publisher publish two different values for the same feature on the
+same day.** `[data]`
+*(2026-09-07, facilities & space utilisation)* The federal inventory and the federal owned-and-leased register both publish a floor area per
+building. 613 California buildings join across them — **by identifier and, independently, by coordinate,
+returning the same 613**, which is how the join was asserted rather than assumed. Of the 612 pairs with
+two positive areas, **483 agree EXACTLY and 65 differ by more than 5 %**, the worst by **99 %**: one
+downtown address is published as 120,149 rentable square feet in one register and 42,471 in the other.
+This is not an error to correct. It is **ANSI/BOMA Z65.1** (rentable area, measured for leasing) against
+**ASTM E1836 / IFMA** (measured for facility management) in live data: both correct, both published, and
+not the same number. **Guard:** reconcile before you join; report the disagreement per feature rather than
+picking a side; and **never average two measurement standards**. Note the shape of the evidence —
+**78.9 % agreeing exactly is what makes the 10.6 % that do not worth flagging.** A disagreement rate near
+100 % means you joined the wrong things.
+
+**A ratio is not bounded by 1, and the source will not tell you before you have drawn the gauge.**
+`[data]`
+*(2026-09-07, facilities & space utilisation)* On the federal owned-and-leased register, **`BLD_VACANT_RSF` exceeds `BUILDING_RSF` on 14 of
+the 65 California rows that report any vacancy.** Nine overrun by 2 % or less, which is two measurement
+standards applied to one floor; five do not, and one San Francisco building publishes **120,577 vacant
+square feet in a building of 49,410 — 244 %**. A 270-degree arc cannot draw 244 % honestly: it pins, and a
+pinned gauge reads as "full" rather than as "impossible". **Guard:** probe a ratio's actual range before
+choosing a gauge, a percentage or a progress bar, and where the source cannot guarantee the bound,
+**report the two measured quantities and let the reader see that one is larger than the other.**
+
+**Identity fields that are empty today, on a service that refreshes weekly, are not a safeguard.**
+`[data]` `[app]`
+*(2026-09-07, facilities & space utilisation)* The federal owned-and-leased building layer carries **nine named-person and personal-email
+fields** in its schema — two points of contact and their addresses, a second contact pair, two senators
+and a representative — and all nine are **populated on 0 of the 628 California rows** today. An inspection
+of today's values would conclude there is nothing to protect. The service is refreshed **weekly**.
+**Guard:** enforce an **allow-list of requested fields**, never a deny-list and never an inspection, and
+assert **by name** that each forbidden field is absent from the compiled spec, from every popup, column
+and export header. A field that is empty this week is a field that is populated next week, and by then the
+leak is in a PDF somebody has emailed.
+
+
+**A join key can identify a FILING rather than a thing, and the symptom is a distribution with a
+suspiciously tidy ceiling.** `[data]`
+@@STAMP@@ A regional agency republishes the same statutory return as three services joined on a GUID
+(`apr_uuid`). All **9,046** entitlement-to-permit joins came back with a reporting-year difference of
+**exactly zero** — because the GUID identifies a *project-year filing*, not a project. A project whose
+permit landed in a later cycle has an entitlement row in one service and a permit row in another under a
+**different** GUID, and nothing joins them. The consequence is fatal for a timing read and invisible without
+this check: the frame **cannot express an interval longer than one reporting cycle**, so its maximum
+measurable lag is **355 days** and its over-two-years share is **0.0 % by construction** — which reads as a
+fast, well-run region and is an artefact of survivorship. **Guard:** when a join yields a suspiciously
+bounded distribution, group the joined pairs by the difference in their period column. A single-valued
+result means the key is period-scoped and the whole population is survivors. The right response is to bar
+that frame from producing the figure at all, not to caveat it.
+
+**A date field named for one stage can hold the date of a different one.** `[data]`
+@@STAMP@@ The same republish carries `issue_date` on its **entitlements** service, and it is not the
+entitlement date — it is the date of the **furthest stage the project reached**, equal to `ent_approve_dt1`
+on the 12,627 of 21,880 rows still at entitlement and equal to the permit date on the rest. A naive
+`issue_date − ent_approve_dt1` therefore returns zero on **58 %** of the table and drags any median it feeds
+toward nothing. The metadata says only "issue date". **Guard:** where a service carries both a stage-specific
+column and a generic date column, prove which stage the generic one belongs to by comparing it against the
+stage column **on rows in each stage separately**. Equality on exactly the rows in one stage is the tell.
+
+**A missing value can be an empty string in a column that also accepts nulls, and `IS NOT NULL` will
+then return the whole table.** `[data]`
+@@STAMP@@ `ENT_APPROVE_DT IS NOT NULL` returned **464,059** — every row in the table — while
+`ENT_APPROVE_DT <> ''` returned **78,381**. Both are valid SQL and only one is a measurement; the wrong one
+overstates the measurable population by **5.9×** and does it silently, because a count of every row looks
+like a healthy answer rather than a failed predicate. **Guard:** test **both** forms of the emptiness
+predicate on every String column before building a population on it, and record the pair in the recipe. If
+they differ, the column uses empty strings and every subsequent `WHERE` must say `<> ''`.
+
+**A String column holding numbers can differ by exactly ONE row between a lexicographic and a numeric
+comparison, which is the size of error that passes review.** `[data]`
+@@STAMP@@ `ENT_APPROVE_DT > '44000'` returned **32,874**; `CAST(ENT_APPROVE_DT AS INTEGER) > 44000` returned
+**32,875**. The single differing row held a six-digit value where every other row held five, and
+lexicographic order put `'335719'` **below** `'44000'` because `'3' < '4'` — while numerically it is eight
+times larger. `orderBy DESC` on the same column did not surface it either, because the true maximum is not
+at the top of a lexicographic sort. This library already records a case where the same trap understated a
+maximum by 117×; **the small-delta version is more dangerous, because a one-row difference reads as a
+rounding artefact rather than a bug.** **Guard:** cast, always, and check the **value-length distribution**
+of any String column you compare — a column that is 45,744 five-digit values and one six-digit value is
+exactly the shape that hides this.
+
+**A name join between two public agency layers can be 460 of 465, and every one of the five failures can
+be a real, active entity — one differing only by a diacritic.** `[data]`
+@@STAMP@@ Filing jurisdictions named `ANGELS CAMP`, `CARMEL`, `CATHEDRAL`, `SAINT HELENA` and
+`LA CANADA FLINTRIDGE` do not match the boundary layer's `Angels`, `Carmel-by-the-Sea`, `Cathedral City`,
+`St. Helena` and `La Cañada Flintridge`. The last differs **only by a diacritic**, so whether the join
+reports 460 or 461 matches depends on whether the fold normalises Unicode — and a build that folds
+diacritics will find four failures where a build that does not finds five, with neither number wrong. A
+naive join renders five cities that filed as blank ground, indistinguishable from cities that filed nothing.
+**Guard:** assert the **resolved count** against the expected count and stop the build on a mismatch. A
+fuzzy fallback that silently succeeds is worse than a hard failure, because nothing on screen would show it
+fired. Note also that the boundary layer's names are **mixed case** while the return's are upper — case
+folding is required before the aliases are even reachable.
+
+**An `esriFieldTypeDateOnly` column serialises as an ISO date STRING under `f=json`, not as epoch
+milliseconds.** `[data]`
+@@STAMP@@ `ent_approve_dt1`, `bp_issue_dt1`, `co_issue_dt1` and `report_last_updated` are all typed
+`esriFieldTypeDateOnly` on the regional services, and they come back as `"2021-05-11"`. Arithmetic written
+for the ordinary `esriFieldTypeDate` — which does return epoch milliseconds — throws `unsupported operand`
+on the subtraction rather than returning a wrong number, which is the merciful outcome and only because
+subtracting two strings is an error rather than a coercion. In a language that coerces, it would be a
+silent `NaN` in a duration. **Guard:** read the field **type** from the layer document, not just the name,
+and branch on `DateOnly` versus `Date`. Assert the parsed value round-trips to the string the service sent.
+
+**A published aggregate's DOCUMENTED field name may not be the field name it serves.** `[data]`
+*(2026-09-07, portfolio & asset register)* The BLS QCEW annual CSV layout names `annual_avg_estabs_count`;
+the API returns **`annual_avg_estabs`**. A build that trusts the published layout gets a `KeyError` at best
+and a silent zero at worst — and a silent zero in an establishment count propagates into every share
+computed from it. **Guard:** a field name may not enter a design until a **response** has shown it, and
+that includes a bulk file's own published layout. Assert both directions — that the documented name is
+absent and the served one present — so the day the layout starts matching its documentation you are told.
+
+**A suppression flag can zero ONE column and leave another intact, and the zero looks like a
+measurement.** `[data]`
+*(2026-09-07, portfolio & asset register)* Every one of QCEW's **221 suppressed rows reports employment as
+`0`** while still publishing an establishment count, so a mean, a share or a mix computed without reading
+`disclosure_code` is quietly wrong — and wrong exactly where an industry has few enough employers to be
+identifiable, which at county grain is a large share of the interesting cells. At six-digit industry detail
+the suppressed share is **14.4 %**. Same class as the `-999` and `-666666666` sentinels already catalogued,
+but harder to spot because **the sentinel is a plausible value**. **Guard:** read the disclosure flag,
+exclude the cell, and **render the suppression** — never impute across it, and never let a suppressed zero
+into a mean, a share or a mix. Pick the aggregation level whose suppression you can live with: here the
+NAICS sector level is the one level with **zero** suppressed rows, which is why the mix is drawn there
+rather than deeper.
+
+**The SAME published table can support two defensible readings that differ by 2.1x on the largest
+class.** `[data]`
+*(2026-09-07, portfolio & asset register)* QCEW establishment counts for Los Angeles County are dominated
+by NAICS 62, which is **284,456 of 565,948 private establishments — 50.3 % — at 2.9 employees each**,
+because it counts individual practitioners and home-health registrations rather than occupied commercial
+floorspace. An establishment-weighted use-class mix therefore reads **54.8 % specialist** and an
+employment-weighted mix of the same table reads **26.4 %**. Neither is wrong. **Guard:** where a published
+table supports more than one weighting, **pick one, print which you picked, and print the alternative
+beside it.** A figure that does not say which reading it is, is the wrong one.
+
+**A published break-right column can be populated on 99.99 % of rows and mean nothing on a fifth of them,
+because the date is set EQUAL to the expiry it is supposed to precede.** `[data]`
+*(2026-09-07, portfolio & asset register)* GSA's Current Lease Inventory carries `Termination Right Date`
+on **7,367 of 7,368** leases, which reads as *"almost every federal lease carries a break right."* It does
+not. On **1,299 rows the date is exactly the lease expiration date** — a right to terminate on the last day
+of the term, which is not a right to terminate at all — and on **2,726** more it has already passed. Only
+**3,342** are live. The recipe's own §4 had counted a break right as *"a termination date inside the
+horizon"*, and on that reading the five-year roll-off splits **43.4 % optional / 56.6 % contractual**.
+Excluding the equality rows, **767 of those 1,559 "options" evaporate** and the honest split is
+**26.5 % / 73.5 %** — fewer than one in four of a real estate's five-year roll-off is a decision the
+occupier owns, not fewer than half. Nothing errors, nothing is null, and every count is reproducible; the
+column is simply not a sentinel you can spot by type or by null-rate. Same class as the `-999` and
+`-666666666` entries in this section, but harder, because the sentinel here **is a valid date** and it is
+the *relationship between two columns* that is the tell. **Guard:** where a column is defined relative to
+another (a break before an expiry, a review before a renewal, a start before an end), assert the
+**relationship** on ingest and count the degenerate cases — equal-to, after, and already-past — before any
+share is computed off it. And where a corrected figure moves a headline, print both and say which is
+which: this one moved the design's way, and burying the correction would have been the same sin as
+inventing it.
+
+**One service can carry dozens of layers with the *same name*, and only some of them carry the field you
+came for.** `[data]`
+*(2026-09-03, parcel record coverage)* A recipe recorded a census boundary service as having *"four layers
+named exactly Counties, and only layer 55 carries `POP100`"*. It has **28** layers named `Counties`, every
+one returning the same 58 California rows, and **seven** of them carry `POP100` and `HU100` — the whole
+group under one parent layer. Name and row count cannot tell them apart; only `parentLayerId` and the
+field list can. A sibling service one level down has four layers named `Census Tracts`, all returning
+9,129 rows, and there **exactly one** carries the population. A reader who binds by name has, in the worse
+of the two cases, a one-in-four chance of a layer with no population on it at all, and nothing errors —
+the join simply produces nulls. **Guard:** bind a census-style layer **by id**, state the vintage beside
+it, and assert the field you depend on is present in the layer document before the build proceeds. Do not
+trust a recorded count of identically named layers either; enumerate them.
+
+**A year column can be a TWO-DIGIT year, in an Integer field, with no hint in the metadata.** `[data]`
+*(2026-09-02, site selection - the swing slate)* Caltrans' `EST_YEAR` is `esriFieldTypeInteger` and is
+documented as the count year. Its distinct values are `0..24` and `72..99`. Rendered as read it prints
+"count year 22"; compared as a year, `EST_YEAR = 2024` matches **nothing** while `EST_YEAR = 24` matches
+rows, so a filter for recent counts silently returns an empty set. **Guard:** read the **distinct values**
+of any date-like column before binding it, not merely its type; window a two-digit year explicitly
+(`<= 30` is 2000s, else 1900s) and assert both directions — that the four-digit form matches nothing, and
+that the windowed value lands inside a plausible range.
+
+**Two layers from the same agency, meant to be joined, type the same join key differently — silent in one
+direction and a 400 in the other.** `[data]`
+*(2026-09-02, site selection - the swing slate)* Caltrans' AADT layer types `RTE` and `PM` as `String(254)`;
+its Truck Volumes sibling — the layer the first is documented to join to — types `RTE` as `Integer` and
+`POSTMILE` as `Double`. A string predicate against the truck layer **errors 400** (the String-typed-numeric
+trap running in reverse: here the column really is numeric and the *query* is the string), and a
+client-side join comparing `'5'` with `5` matches **zero rows** with no error at all. **Guard:** read the
+field types on **both** sides of a join, not only the side you query first, and normalise the key
+explicitly before comparing. Where the join has a licensed fallback, a total type mismatch is
+indistinguishable from a sparse source — the app renders "unknown" everywhere and looks correct.
+
+**Two layers in ONE FeatureServer can carry two entirely different schemas, and the mismatch surfaces as
+HTTP 200 with an `outFields` error.** `[data]`
+*(2026-09-02, land bank & acquisition screening)* DTSC's `Envirostor_Public_Data_Export` FeatureServer
+publishes three layers presented as one register. Layer 0 (`cleanupsites`, 13,996 rows) carries
+`project_name` · `status` · `status_date` · `restricted_use` · `envirostor_id`. Layers 1 and 2
+(`hazardouswastesites` 906, `ICEsites` 280) carry **none of them** — they are `facility_name` ·
+`facility_status` · `facility_type` · `epa_id`, with no status date at all. Sending layer 0's field list
+to either returns:
+
+```
+{"error":{"code":400,"message":"Cannot perform query. Invalid query parameters.",
+          "details":["'outFields' parameter is invalid"]}}
+```
+
+A client that treats that 400 as "no features here" silently drops **1,186 sites** from a contamination
+screen, and reports the ground clean.
+
+**Guard: read the fields array of EVERY layer you bind, even siblings in the same service.** One service
+document is not one schema. And never let a `/query` error fall through to an empty-result path — surface
+it as its own visible state.
+
+**The documented class field may not exist on the service, and the recipe that recorded it can be wrong.** `[data]`
+*(2026-09-02, land bank & acquisition screening)* CAL FIRE's Fire Hazard Severity Zone layers were
+recorded — in a verified recipe, with counts that still reproduce exactly — as carrying `HAZ_CLASS`.
+They do not:
+
+```
+FHSZSRA_23_3/FeatureServer/0   fields: OBJECTID  SRA:String  FHSZ:SmallInteger  FHSZ_Description:String
+HAZ_CLASS  ->  {"error":{"code":400,"details":["'Invalid field: HAZ_CLASS' parameter is invalid"]}}
+```
+
+Everything else in the record held: 18,423 and 9,752 rows, and the fourth `NonWildland` class at exactly
+1,954. Only the field NAME had moved. **A verified §4 ages field-by-field, not layer-by-layer**, and a
+count that still reproduces is not evidence that a field still exists.
+
+**Guard: re-read the fields array at build time even when the recipe is verified and its counts match.**
+Bind field names from the response, never from the prose.
+
+**Two flavours of empty are two different things, and `IS NOT NULL` is the wrong populated-check.** `[data]`
+*(2026-09-02, land bank & acquisition screening)* On DTSC EnviroStor, `acres IS NOT NULL` returns **all
+13,996 rows**, because 3,983 of them hold `''` rather than NULL. On Sacramento County's street
+centerlines, `CONSTRUCTION_STATUS` is NULL on 45,192 rows **and** `''` on 3,800 more, leaving it genuinely
+populated on **32.5 %** of a 72,559-row network. Both fields look fully populated to the obvious check and
+are mostly blank.
+
+**Guard: test `field IS NOT NULL AND field <> ''`, and report the unpopulated share on screen.** A value
+that is blank renders as *not published*, never as `0`.
+
+**A String-typed number has three failure modes, not one, and the workarounds do not transfer.** `[data]`
+*(2026-09-02, land bank & acquisition screening)* Three services, three different answers for the same
+question. One needs `CAST(... AS INTEGER)`. A second errors on that and needs `CAST(... AS FLOAT)`. A
+third — DTSC's `acres` — **rejects both**:
+
+```
+acres > 10                  {"error":{"code":400,"details":["Unable to perform query..."]}}
+CAST(acres AS FLOAT) > 10   {"error":{"code":400,"details":["Unable to perform query..."]}}
+restricted_use = 'YES'      {"count":936}          <- a string predicate works fine
+```
+
+It can only be pulled and parsed client-side, counting the blanks rather than dropping them.
+
+**Guard: probe the cast against the actual service. Do not assume the idiom that worked last time**, and
+where no cast works, parse client-side and say on screen how many rows had no value.
+
+**A String date in US `M/D/YYYY` form sorts on its first character, so `ORDER BY … DESC` hides every
+October, November and December.** `[data]`
+*(2026-09-02, land bank & acquisition screening)* On a contamination register current to **2026-08-26**,
+a descending sort on `status_date` reports **`9/9/2025`** as the maximum. 2,841 rows (**20.3 %**) begin
+`10/`, `11/` or `12/` and are invisible to that sort, and 251 rows fall in 2026. The field that decides
+whether a case is open or closed is the one that cannot be sorted.
+
+**Guard: parse the value and take the maximum by date, never by the column order.** Same class as the
+lexicographic numeric maximum, and it bites hardest on exactly the field a reader will quote.
+
+**A road centerline layer is not a public-road layer.** `[data]`
+*(2026-09-02, land bank & acquisition screening)* Sacramento County flags **10,180 of 72,559** centerlines
+(**14.0 %**) as `PRIVATE='Y'`, and `CONSTRUCTION_STATUS` includes 25 rows marked `PLANNED` — roads that do
+not exist yet. The national fallback, Census TIGER, carries **no ownership attribute at all**. So a
+"does this site front a mapped road?" check answers *yes* on a private driveway roughly one time in seven
+where ownership is published, and cannot ask the question at all where it is not.
+
+**Guard: state the weaker claim wherever the stronger one is unsupported** — *"fronts a mapped road"*, not
+*"fronts a public road"* — and say plainly that neither is legal access. Easements and rights of way are a
+title matter and are not published as data.
+
 
 **A field name can be a property of the RELEASE, not of the dataset — and the mismatch surfaces as HTTP 400,
 not as an empty result.** `[data]`
@@ -493,6 +1222,14 @@ a date it inferred from a service name has **invented provenance** — carry the
 *"vintage: none retrievable"*, and let the number be used with that caveat attached rather than laundered.
 Same layer, second caution: it advertises `capabilities: Query,Create,Update,Delete,Uploads,Editing` on a
 **public read endpoint**. Bind read-only.
+*(2026-10-21, lifeline board build)* The same two findings, on a different publisher:
+- **Undated baseline.** The California Geoportal county layer's `Population` carries no vintage and sums to
+  **38,340,074**. FEMA's NRI gives 39,501,350 for the same state, about 3 % apart. *Guard:* use one
+  baseline per rate, label it *undated* on screen and in every export, and never put a numerator from one
+  baseline over a denominator from the other.
+- **Write capabilities on a public listing.** HCAI's Current Healthcare Facility Listing advertises
+  `Create,Delete,Query,Update,Editing`. The capability is not an invitation. Bind it read-only, and have any
+  write path refuse a public layer by rule rather than by omission.
 
 **A coded field's code ORDER cannot be inferred from prose — and guessing it can invert the app.**
 `[data]`
@@ -1063,7 +1800,403 @@ entry above: there, absence meant `'No'`; here, absence means **"this layer says
 has to say so. **Guard:** `returnDistinctValues` on any status or rating field before designing its
 legend, and where there is one value, render the negative case as *unknown*, never as the favourable one.
 
+**The event key is usually a composite, and the obvious single field recycles.** `[data]`
+*(2026-09-03, transaction evidence)* A document-page number looked like an instrument identifier: never
+null, never empty, present on all 57,357 rows. It carried only **1,849 distinct values**, because the
+publisher restarts the numbering; counting distinct on it alone disagreed with the `(date, page)` pair in
+**101 of 279** groups, silently merging unrelated events into one.
+
+**Guard:** test the candidate key against the composite on a real subset before trusting it. A key that
+collides does not error — it under-counts, and the under-count looks like a finding.
+
+**Two columns that look like independent measurements can be one measurement.** `[data]`
+*(2026-09-03, transaction evidence)* A recorded consideration and a statutory tax sat side by side on the
+same row and invited a reconciliation view. They reproduce each other exactly:
+`|price − tax / rate| > $1` on **0 of 57,357** rows, and `> $0.005` on five. The publisher derived one from
+the other. A "spread" panel built on them would have displayed a structural zero and been read as
+corroboration by every viewer.
+
+**Guard:** measure the disagreement before designing a cross-check. If it is always zero, one column is
+derived from the other, and the pair corroborates nothing.
+
+**One layer, two fields for the same concept, each empty on the other's rows.** `[data]`
+*(2026-09-03, transaction evidence)* A building-area field was populated on **89.7 % of commercial rows but
+2.9 % of the layer**; a living-area field was the reverse — 51,038 rows overall and **22 of 1,237**
+commercial. A lot-size field was populated on 50,095 rows overall and **329 of 3,975 (8.3 %) of the class
+where lot size matters most**, so the app could print no price per unit area for exactly that class. A
+layer-level population check would have called all three fields healthy.
+
+**Guard:** measure field population **per class**, not per layer, wherever the app subsets by a category
+field — and where the subset that matters is empty, say so on screen rather than rendering a blank cell.
+
+**A flag that splits a file cleanly and has no published definition is not a filter.** `[data]`
+*(2026-09-03, transaction evidence)* An `ACTIVE_DOC_FLAG` split 57,357 rows **43,524 / 13,833** and read
+exactly like a supersession marker. It is not one: **321 features had a single record and it was flagged
+0**, and **4,894** rows flagged 0 were dated in the most recent year. The publisher documents nothing.
+Filtering on it would have removed a quarter of the evidence base on a guess, and no screen would have said
+so.
+
+**Guard:** an undocumented flag is provenance, not a predicate. Carry it in the export's provenance block,
+name it as unstated, and leave the count alone. Filtering on a flag you cannot explain turns a count into a
+claim.
+
+**`sum` on an `esriFieldTypeInteger` column silently returns `"features": []` above 2³¹−1.** `[data]`
+*(2026-09-07, valuation & taxation base map)* HTTP 200, no error, no warning — an empty features array, which an indicator renders as a blank or
+a zero, and a zero here was a lie about a trillion dollars. The same statistic on the same field over a
+smaller population answers perfectly normally (`Roll_LandValue < 20000` → **1,075,814,358**), which is
+exactly what hides it: the query shape is right, the field is right, and it works until the total crosses
+the ceiling. The declared output type is `esriFieldTypeInteger` and the ceiling is 2,147,483,647;
+`sum(CAST(field AS FLOAT))` returns the real figure — **1,252,597,197,055** — and cross-checks against
+`avg × count`. **Guard:** cast **every** money sum to `FLOAT`, and make an empty statistics response a
+**thrown error** rather than a rendered dash — one helper that asserts `features[0].attributes` exists,
+called on every statistics read, so the app fails loudly instead of printing something plausible.
+
+**Three `outStatisticFieldName` values are reserved, and they fail with the signature of a completely
+different bug.** `[data]`
+*(2026-09-07, valuation & taxation base map)* Same statistic, same field, same `where`, only the output *name* changing: `avg`, `count` and
+`sum` each return HTTP 400 *"Unable to complete operation."* with an **empty `details` array**, while
+`n`, `total`, `value`, `mx` and every other non-keyword name work — including seven statistics in one
+request. That empty-`details` 400 is the same response this service gives for a type error and for several
+unrelated failures, so a builder who hits it inspects the field, the cast and the predicate before ever
+suspecting the label. **Guard:** never name an output statistic after its own aggregate function. When a
+statistics request suddenly 400s with nothing in `details`, rename the outputs to `o0…oN` as the first
+bisection step — it costs one request and eliminates the cheapest cause.
+
+**A year column stored as a String errors on a numeric predicate, and only two of three casts work.**
+`[data]`
+*(2026-09-07, valuation & taxation base map)* On the single most important field in a Proposition 13 product, `where Roll_LandBaseYear < 1978`
+returns HTTP 400 with an empty `details` array — nothing in the response names the field or the cause.
+`CAST(... AS INTEGER)` and `CAST(... AS FLOAT)` both return **248,133** and agree; `CAST(... AS DECIMAL)`
+returns the same 400. The money columns on the same layer are properly typed Integers and behave normally,
+which is what makes the trap easy to miss. And the workaround does not transfer: a neighbouring county's
+sale-price column fails on `CAST AS INTEGER` and works on `AS FLOAT`. **Guard:** probe both casts against
+the actual service and record which one it accepts; then cast **every** predicate, sort, class break and
+histogram over that column, server-side and client-side, rather than casting only at the call site where
+the error first surfaced.
+
+**A rank correlation taken with ORDINAL ranks over a tied column is order-dependent, so the figure it
+reports is a draw rather than a measurement.** `[app]`
+*(2026-09-07, valuation & taxation base map)* On a 27-parcel block whose base-year column carries heavy ties — one year three times, five more
+twice each — Spearman computed with **midranks** is **0.923266** under all 200 shuffles of the row order.
+The same correlation computed with **ordinal** (first-seen) ranks wanders from **0.9121 to 0.9322** on the
+same 27 rows, purely on the order they arrive in. This build's own research pass had published **0.9255**
+for that block; it sits inside that wander, so it was not a different dataset and not a different
+definition — it was one draw from a method that has no single answer. A year column over millions of rows
+is almost all ties, so this is the ordinary case rather than an edge. **Guard:** use midranks for every
+published rank statistic, and prove it in the suite by **shuffling** — assert that the midrank figure is
+invariant under reordering *and* that the ordinal one is not. An assertion that only checks the value
+against a recorded constant cannot tell a correct method from a lucky ordering.
+
+**A Socrata field declared `number` is serialised as a JSON STRING in every representation, while the
+server aggregates and sorts it numerically.** `[data]`
+*(2026-09-07, property hazard exposure)* `valuation` on a municipal permit register is declared `number`; `avg(valuation)` returns
+`53338.53` and `$order=valuation desc` puts `775000` on top, so every server-side check says the
+column is numeric. It arrives as `"25000"` in `.json`, quoted in `.csv` **and** as a string in the
+`.geojson` `properties` — so `feature.properties.valuation > 1000` is a **lexical** comparison, and
+`"9000" > "80000"` is `true`. A client-side filter on the raw property therefore keeps the cheap rows
+and silently drops the expensive ones, which is the opposite of the intended filter and moves a median
+without moving a count. **Guard:** cast once at the data-source boundary into a differently named field
+(`valuation_num`), let no widget read the raw property, and put the demonstration in the suite —
+`ok("9000" > "80000")` beside `ok(!(Number("9000") > Number("80000")))` — so the bug is asserted as
+present rather than described. Probe the *type in the response*, never the type in the schema.
+
+**A "Current" layer drops the incidents that just finished, and a one-letter status means "final".** `[data]`
+*(2026-10-21, watch wall research)* The national "current" wildfire incident layer carries **0 of 92**
+California rows with a containment time — an incident leaves the layer as it is declared contained, so a
+display that tracks changes over a shift sees a fire simply vanish. Its year-to-date sibling holds **every**
+current incident (92 of 92, joined on `UniqueFireIdentifier`) and the departed ones, with
+`ContainmentDateTime` on 4,097 of 9,324. Separately, `ICS209ReportStatus` is one letter — `U` update, `F`
+final — and all six `F` rows were at 100 % contained: a final report has **no next report due**, so a clock
+that judges every report against "daily" calls a correctly closed incident months overdue. **Guard:** keep a
+baseline of what was there; look a departed record up in the year-to-date layer before saying anything about
+it; read the status code before applying a reporting cadence.
+
+**A "current incidents" layer carries prescribed burns and contained fires, and "not reported" is not 0.**
+`[data]`
+*(2026-10-21, incident situation map build)* Of **92** California rows in WFIGS Incident Locations
+Current, **20** were `IncidentTypeCategory = 'RX'` — prescribed burns, planned work — and several were at
+100 % contained. `IncidentSize` was populated on **41 of 92** and `PercentContained` on **10 of 92**. A
+"wildfires burning now" count that takes the layer's length counts planned burns as emergencies; a sum of
+acres or an average containment that coerces null to 0 reports a state that is less burned and less
+contained than any report says. **Guard:** filter or separately label `RX` (and read the category, never
+the name); show null size and containment as **"not reported"**, never 0, and state the reported count
+beside any aggregate ("acres across the 41 incidents that report a size").
+
+**An initial-attack feed mixes confirmed incidents with unconfirmed reports, and spells the incident id
+differently from WFIGS.** `[data]`
+*(2026-10-22, live-position build)* Cal OES's WFTIIC initial-attack layer is live and keyless, but most of
+its rows are PulsePoint, CHP CAD or satellite-detection **reports** with no IRWIN id; and where it does carry
+one, the IRWIN id is bare lower-case while WFIGS wraps it in braces, upper-case. A count of the layer reports
+every unconfirmed report as a fire, and a dedupe against WFIGS matches nothing. **Guard:** label the source
+of every point and never call a report a fire; normalise the id on both sides (strip braces, upper-case)
+before any join or dedupe, and assert the normalisation on a known pair. Same family as *one evacuation
+zone, two id forms* (§1) and the `RX` rows above.
+
+**One incident, two sizes — the situation report's and the perimeter's.** `[data]`
+*(2026-10-21, incident situation map build)* The same fire read **1,365 ac** from the ICS 209
+`IncidentSize` on the incident layer and **1,370.23 ac** from `poly_GISAcres` on its perimeter. Neither is
+wrong: one is a figure filed in a report, the other is the area of a mapped polygon, and they are dated by
+different clocks. An app that shows one in a card and the other in a popup looks inconsistent; one that
+silently picks shows a number without its basis. **Guard:** print both, each labelled with its source
+("reported 1,365 ac · mapped 1,370.23 ac") and its own time, and never difference them as if one were a
+correction of the other.
+
+**An evacuation order that was never lifted is still published as current.** `[data]`
+*(2026-10-21, incident situation map build)* In the statewide evacuation aggregation on 2026-10-21, **8 of
+9** orders had last been edited more than 30 days earlier — the oldest on **2023-09-21** — and some rows
+carry `EDIT_DATE` **null**. Nothing in the layer distinguishes an order in force from one that nobody
+withdrew, so an app that shows the layer as "current orders" tells a reader to stay out of a neighbourhood
+reopened years ago. **Guard:** age every status by its own date; beyond a threshold the app states on
+screen (e.g. 30 days), label the row **"unverified — check the issuer"** rather than dropping or asserting
+it; where the source date is null, say **"source date not published"**, never a blank and never the fetch
+time.
+
+**The feed being up does not mean the number is current: a record has its own reporting clock.** `[data]`
+*(2026-10-21, watch wall research)* The same incident layer is refreshed every few minutes, yet its
+situation-report numbers (acres, containment, personnel) come from a report filed once a day — the four
+California updates landed between 17:10 and 17:57 Pacific — and its row-modified time moves without a new
+report (one incident modified on 20 Oct carried a report dated 17 May). A freshness dot driven by the last
+successful poll is green over a number that may be days old; and a dot driven by `lastEditDate` is worse, since
+some layers tick it hourly with no data change. **Guard:** show two clocks — the feed's (last successful fetch
+against its cadence) and the record's (the report's own time field against the obligation to report) — and
+never infer one from the other.
+*(2026-10-21, incident situation map build)* Measured for both WFIGS Incident Locations Current and WFIGS
+Interagency Perimeters Current: `editingInfo.dataLastEditDate` (and `lastEditDate`, now equal to it) ticks
+**about every 10 minutes** while the query body stays **byte-identical** — the SHA-1 of the response was
+the same across two reads ten minutes apart, either side of a tick. So neither field is a time of record,
+nor even evidence of a change. (The FIRIS perimeter layer and the Cal OES evacuation aggregation were
+stable over the same window — this is per-layer behaviour, not per-host.) **Guard, sharpened:** the time of
+record is the **newest record time in the body** (`ModifiedOnDateTime_dt` for incidents, `poly_DateCurrent`
+for perimeters); detect "something changed" by a **hash of the body**, not by `editingInfo`.
+*(2026-10-22, live-position build)* **For a vehicle-position feed the split is three clocks: the poll, the
+server's receipt and the device's fix.** Esri's Velocity documentation warns that polled data may be older
+than the poll that fetched it, and Esri's location-sharing schema stores the device's fix time
+(`location_timestamp`) apart from the server's receipt (`created_date`). An app that ages a unit from the
+fetch — or from the receipt — shows a unit that stopped reporting as fresh. **Guard:** age every unit from
+its own fix-time field, band the age against a stated cadence, and treat a null fix time as **stale, never
+fresh**. A feed that stamps its upload time into the fix field hides its own staleness; say so wherever the
+age is shown.
+
+**A layer named "AVL" or "Last Known Location" is often not a live position feed.** `[data]`
+*(2026-10-22, live-position build)* Cal OES's public "Fire Resource AVL" layer is a 2022 assignment roster
+of 258 engines geocoded to their host departments — no fix time and no position fix. Its sibling "Fire and
+Rescue Fleet" is a one-time August 2024 vendor dump whose `Status` is a numeric vendor code (`0`/`2`/`3`),
+not a state. Across California's public ArcGIS Online layers named "AVL" or "Last Known Location(s)", one
+was live (a transit fleet), one was frozen at 2024, one was empty and one held a single undated point. A
+"live units" lane bound by name shows a roster, a dump or nothing as if it were positions. **Guard:** a
+vehicle-position layer is live only if it carries a fix-time field whose newest value is minutes old at
+**two probes ten minutes apart**; a name is not evidence (the same rule as *a service can carry your
+category's name and be a superseded vintage*, §5). Decode a numeric status from the publisher's domain, or
+not at all.
+
+**An event log is not a position feed — and a quiet window is not a stalled pipeline.** `[data]`
+*(2026-10-22, live-position build)* CAL FIRE's helicopter water-drop layer is live, dense and keyless, and it
+holds drop **events**, not aircraft positions: full history since 2024-06, 255 rows with no time, and drops
+outside California. A morning probe saw it unchanged for 34 minutes with the newest drop 13 h old and
+recorded it as batch-updated; an afternoon probe watched one drop land in the layer **64 s** after it
+happened — the quiet had been no flying. **Guard:** window by the event time (`IS NOT NULL` first), label the
+lane *"events, not positions"* (an aircraft between events is invisible), show the event time and the
+layer's write time separately, and never infer a pipeline cadence from a quiet window — measure it from
+consecutive changes (§5 *a cadence "measured" from two reads*).
+
+**A statewide station layer is not every station, and its labels live only in its own domain.** `[data]`
+*(2026-10-22, live-position build)* CAL FIRE's facilities layer holds CAL FIRE and contract-county
+facilities only, not municipal stations: 1,617 rows, 51 decommissioned, 30 `TYPE` codes, 931 active fire
+stations, stored in EPSG:3310. Its `TYPE` labels exist only in the layer's coded-value domain (no other
+document lists them), and its `COUNTY` values break their own domain (`'Kern'` beside
+`'Los Angeles County'`). A map titled "fire stations" undercounts every city with its own department, and a
+county join drops every row spelled the other way. **Guard:** filter `FACILITY_STATUS='Active'` and the
+station types; read labels from the domain in the layer document; strip `' County'` and case-fold before a
+join (§1 *two feeds of one state spell its counties in different cases*); request `outSR=4326`; and state
+the coverage on every figure that counts stations.
+
+**An NWS alert's `areaDesc` is forecast-zone names, not counties — the county is in `geocode.SAME`.** `[data]`
+*(2026-10-21, watch wall build)* Counting California warnings by county from `api.weather.gov` alerts, the
+readable `areaDesc` ("West Side Mountains South of 198; Buttonwillow - Lost Hills - I5; …") names NWS
+**forecast zones**, which do not nest in counties and match no county name. The county is carried in
+`properties.geocode.SAME`: six digits, a leading `0` + the two-digit state FIPS + the three-digit county
+FIPS (`006051` = Mono), joined exactly to `"006" + FIPS` of the state's county layer. A text match on
+`areaDesc` silently finds nothing — or worse, matches a zone that merely shares a county's name.
+**Guard:** join alerts to counties on `geocode.SAME`, never on `areaDesc`; assert in the live suite that
+every SAME code in the response resolves to a county and that `areaDesc` does not.
+*(2026-10-22, watch wall build)* **Not every SAME code in a state's alerts is that state's.** One alert can
+cross a state line: an NWS Las Vegas Flood Advisory in `?area=CA` carried `006027` (Inyo, CA) **and**
+`032023` (Nye, NV). A suite asserting "every code starts `006`" failed on a correct app. Assert instead
+that every `006` code resolves and that another state's code resolves to **no** county, so the alert counts
+against its California counties only.
+
+**A "Year-to-Date" incident layer holds this year's fires only, while "Current" still carries last year's.** `[data]`
+*(2026-10-22, watch wall build)* WFIGS Year-to-Date held **43,128 of 43,128** incidents numbered `2026-…`
+(earliest discovered 1 Jan 2026), while WFIGS Current still listed a California fire numbered
+`2025-CACDD-018002`, discovered in December 2025. Looking up why a Current fire left by finding it in
+Year-to-Date therefore finds nothing for an earlier year's fire, and a bare *"not found"* reads like a
+missing record. A suite that checked "the first five Current fires are found" passed for a day and then
+failed, because the unordered query happened to return the 2025 fire first. **Guard:** read the year from
+the `UniqueFireIdentifier` prefix; for an earlier-year id that is not found, say that Year-to-Date holds
+this year only; and test with this year's ids, plus a separate check on any earlier-year ones.
+
+**NWS `/alerts` (the history) carries Test messages that `/alerts/active` leaves out — a test tsunami
+warning escalated the wall.** `[data]`
+*(2026-10-21, watch wall build)* At 09:31 PDT NWS sent a **Tsunami Warning, severity Extreme**, for the whole
+coast from San Diego to Alaska. It was a test: CAP `status: "Test"`. `/alerts/active?area=CA` does not list
+it, but `/alerts?area=CA`, which an app reads for what changed since a point in time (it alone carries
+`Cancel`s), does. A wall that took "issued since the handover" from the history put a red coast-wide
+tsunami escalation on the glass with every suite green, because each check filtered on `messageType` and
+`event` and none read `status`. CAP 1.2 `status` is `Actual` · `Exercise` · `System` · `Test` · `Draft`;
+only `Actual` is a warning. **Guard:** keep only `status == "Actual"` where alerts enter the app, from both
+endpoints, and count the rest instead of dropping them silently; give every synthetic alert in a test a
+`status`, since a strict filter otherwise drops it; and assert in the live suite that the history the app
+uses holds only `Actual`.
+
+**A lane-closure feed is mostly planned work, and one district's file is 14 MB.** `[data]`
+*(2026-10-21, incident situation map build)* Caltrans' Lane Closure System files
+(`cwwp2.dot.ca.gov/…/lcsStatusD{NN}.json`, one per district) list closures **scheduled**, not closures in
+place: most rows start in the future. A closure in place **now** is `code1097` true with `code1098` and
+`code1022` false; counting rows reports the week's plan as today's disruption. The District 7 file alone
+is **~14.2 MB / 4,677 rows**. The host answers `OPTIONS` with **405**, so any request that preflights dies
+in the browser — send a plain GET with **no custom headers**. Epochs are **UTC seconds, as strings**, so
+`new Date(value)` is wrong twice (string, and seconds not milliseconds). And `end.endLatitude` /
+`end.endLongitude` are populated, so a closure is a segment: drawing only the begin point is a choice the
+app should state, not a limit of the data. **Guard:** fetch only the districts the area of interest touches;
+filter to in-place on the three code flags and show planned work as a separate, labelled count; parse
+`Number(s) * 1000`; keep every request CORS-simple (the §5 rule).
+
+**Two shelter registers cannot be summed, and the federal one keys on lower-case `objectid`.** `[data]`
+*(2026-10-21, incident situation map build)* FEMA's ESF-6 Open Shelters layer reports
+`objectIdField: "objectid"` — lower-case (the §1 *derive the OID by type, never by name* rule); its
+Cloudflare edge sends the CORS header as lower-case **`access-control-allow-origin`**, which a
+case-sensitive `grep Access-Control-Allow-Origin` in a probe misses and records as "no CORS" (use
+`grep -i`, as the §5 probe does); and several text fields hold a single space `" "` meaning blank (the
+single-space entry above). California's CHHS Open Shelters layer is **rebuilt daily around 07:00 PT** and
+its count means **"open as of the previous day"**. The two overlap without a shared key, so their sum
+double-counts and mixes two dates. **Guard:** show the registers side by side, each with its own as-of
+line ("FEMA: live · CHHS: open as of yesterday"); never add them; trim and blank-test text fields before
+display; bind the OID per layer from its own metadata.
+
+**Building footprints can pre-date the fire that burned them, and a "structures exposed" count then counts a town that is gone.** `[data]`
+*(2026-10-21, impact zone build)* In a drawn zone over Paradise, **9,074 of 9,075** FEMA USA Structures footprints were imaged on or before **2018-09-10** and lie inside the CAMP perimeter (alarm **2018-11-08**). Every count reads as current; nothing says the buildings burned two months after the imagery. **Guard:** print the footprints' `IMAGE_DATE` range on every count, and flag any historic perimeter whose **`ALARM_DATE` is later than the newest `IMAGE_DATE`** in the zone — a test on `YEAR_` alone returns 0 for a fire in the imagery's own year (it missed CAMP). The historic-perimeter release is annual, so the current season must come from the live perimeter layers.
+
+**An occupancy class that is not the class its name says.** `[data]`
+*(2026-10-21, impact zone build)* USA Structures `OCC_CLS='Residential'` contains `PRIM_OCC` *Temporary Lodging*, *Nursing Home* and *Institutional Dormitory*, and `Residential` × `Unclassified` is **2,241 of 9,075** footprints (25 %) in Paradise and absent from a Monterey zone. Mapping on `OCC_CLS` alone puts a hotel among "single residences". **Guard:** crosswalk on the **(`OCC_CLS`, `PRIM_OCC`) pair**, give the residential-type-unknown rows their own line rather than splitting them, keep `Unclassified` visible, and make the live suite **fail on any pair the table does not map** (a statewide re-run found `'Veterinary/Pet '`, with a trailing space).
+
+**An edit stamp that moves without the data moving.** `[data]`
+*(2026-10-21, impact zone build)* The interagency current-perimeters layer advanced `dataLastEditDate` three times in 25 minutes while California's rows and their newest `poly_DateCurrent` did not change — the layer is national, and another state's edit moves the stamp. A freshness dot driven by the stamp reads "updated a minute ago" over a day-old perimeter. **Guard:** time of record from the row's own date field (`poly_DateCurrent`), within your scope; the service stamp is at most a liveness hint. (See also *the feed is up but the number is old*.)
+
+**A stated rebuild schedule is not a stamp — classify each layer's stamp as *refresh* or *on change* by two reads.** `[data]`
+*(2026-10-22, data compact build)*
+- *Symptom:* Cal OES's evacuation aggregation states *"fully updated every 5 minutes"*, yet its edit stamp sat on
+  2026-10-19 14:51Z across reads on 21 and 22 October. A freshness rule built from the statement calls it two days
+  late. CHHS's daily open-shelter layer, by contrast, writes its stamp at every 07:00 PT rebuild **even with 0 rows** —
+  delivery is provable and empty is a state.
+- *Cause:* an aggregator that rewrites only on change cannot be told apart, from outside, from one that ran and
+  found nothing new. (A stated cadence can also be missed: NIFC's WFIGS item does state *"refreshed from IRWIN every
+  5 minutes"* further down its description than a two-hit regex reads.) The interagency incident-locations stamp (WFIGS) ticked ~10 min by day on the 21st but sat
+  still **06:05 → 06:22Z** overnight on the 22nd — a "refresh" stamp is not guaranteed to move either.
+- *Guard:* take two reads at least one claimed interval apart (the live suite waits 16 min) and assert movement only
+  on feeds measured to refresh (here the Caltrans LCS file and the outage query); show an on-change layer as
+  *in force · cadence not verifiable*, never *stale*; report an unreliable ticker as an observation, not a pass.
+
+**A record that never publishes an end — fire-management declarations carry no `incidentEndDate`.** `[data]`
+*(2026-10-22, data compact build)*
+- *Symptom:* every California FM declaration since 2025 (9 of 9 on 2026-10-21) has `incidentEndDate` null, while the
+  EM and DR rows carry one. An app that waits for the end to compute a stand-down never stands down.
+- *Guard:* treat "no end" as a designed state — take the date by hand, label it MANUAL, derive every window from it,
+  and say how many listed declarations of that type carry an end (*"none of the 9 FM declarations listed carries one"*).
+  It is a property of the rows, not of the type: in a 24-month window, **FM-5545-CA and FM-5548-CA (Nov–Dec 2024)
+  do carry an end** — so derive the sentence from the list, never write "FM declarations carry no end" as a rule.
+
+**A cumulative layer counts history as current.** `[data]`
+*(2026-10-22, data compact build)* CAL FIRE's DINS master holds every structure inspected since 2013, so "inspections in the declared county"
+read **1,282** for Calaveras with no inspection this year (newest incident 2025-11-23). **Guard:** filter on the
+event's own start date (`INCIDENTSTARTDATE >= DATE '<declaration incidentBeginDate>'`) and print the older count
+apart (*"1,282 older ones not counted"*); the live suite asserts the cumulative count exceeds the filtered one.
+
+**A standard's element names, sketched from memory, are not the standard's.** `[app]`
+*(2026-10-22, data compact build)* The recipe's EDXL-RM `RequestInformation` sketch used `SenderID` and `DateTimeSent` — EDXL-**DE** envelope
+names that do not occur in the EDXL-RM 1.0 (errata) text — and omitted `OriginatingMessageID`, which §3.8.3 says
+MUST be present. RM's names are `SentDateTime` and `ContactInformation` (`rm:ContactRole` *Sender*). **Guard:**
+keep the emitted element list in code (`EDXL_RM_ELEMENTS`), have the live suite fetch the OASIS text and find
+every name in it, and have the offline suite fail on any element not in the list.
+
+**A "publicly owned utilities" layer mixes wires utilities with CCAs and joint powers authorities, and one
+row is typed as investor-owned.** `[data]`
+*(2026-10-21, lifeline board build)*
+- *Symptom:* California's non-investor-owned electric service territory layer (Cal OES, CEC-derived, edited
+  2024-08-28) was used to ask which counties are served only by the utilities that report to the outage feed.
+  Treating every row as a distribution utility produced the wrong set.
+- *Cause:* the layer holds municipal and irrigation-district utilities alongside **community choice
+  aggregators** (`Type = 'CCA'`, which buy power but own no wires) and **joint powers authorities**. One row
+  inside it is typed `IOU`. Acronym fields are `""`, `" "` or null.
+- *Guard:* use an **explicit reporting list** matched on names, not on the `Type` field. Exclude CCAs as not
+  distribution. Treat everything else as *outside the feed*. Make the rule **conservative** on purpose: a
+  wrong exclusion should only withhold a favourable answer, never create one. Print the layer's edit date
+  beside every result that depends on it.
+
 ## 4 · Geometry and measurement
+
+**ONE bad coordinate poisons a service's own published extent, and any viewpoint computed from it opens on
+the ocean.** `[data]` `[app]`
+*(2026-09-07, facilities & space utilisation)* The federal inventory's California building extent is published as `xmin -124.24 … xmax
+-3.697` — across the Atlantic — because **one row of 13,001** carries longitude **-3.696511**. `LAX
+TERMINAL 4`, reported by Homeland Security with a `County_Name` of `LOS ANGELES`, is plotted in Madrid,
+and the error is in the **source rather than in a projection**: the geometry agrees exactly with the row's
+own `Latitude`/`Longitude` columns, so every consistency check passes. A viewpoint computed from
+`returnExtentOnly` centres the map at longitude -64. **Guard:** never compute an initial viewpoint from a
+service extent. Clip to a **stated** envelope, and then — this is the half that is easy to get wrong —
+**keep the row in every count and every total**, rendering it as `coordinate out of range` rather than
+dropping it. A silently dropped row makes the counts stop reconciling, which is a worse bug than a
+building in the wrong country.
+
+
+**A percentile's COHORT RULE can move the published figure more than the data does.** `[data]`
+@@STAMP@@ On the same 20,157 rows carrying three stage dates, requiring only that the certificate follow the
+entitlement gave **n = 19,826, p90 = 1,874 days**; requiring the full monotonic order — entitlement ≤ permit
+≤ certificate — gave **n = 17,997, p90 = 2,118 days**. A **244-day** difference from a choice, not from a
+measurement, and neither rule is wrong: the first keeps projects whose permit is mis-dated but whose
+certificate is not, the second discards them. **Guard:** any published percentile must carry its cohort rule
+**and the count each rule excludes**, on screen, or the reader cannot check it. Print the alternative rule's
+figure beside it, exactly as the already-catalogued *one-table-two-readings* entry requires for weightings.
+
+**A wrong date epoch shifts absolute dates and leaves every INTERVAL untouched — so an epoch test that
+expects "every figure to move" hides a real bug.** `[app]`
+@@STAMP@@ The stage dates in this return are Strings holding 1900-epoch spreadsheet serials, and the recipe's
+own verification step asked the builder to change the epoch to `1900-01-01` and confirm that "every figure
+moves by two days". It does not. Every lag in the application is a **subtraction of two serials**, so a
+constant offset cancels exactly; only an absolute date on screen could move, and this app prints none. A
+build that trusted the stated check would have found it "failing" and gone looking for a defect that was
+not there — or worse, "fixed" the arithmetic until the check passed. **Guard:** state what an epoch actually
+controls before testing it. Assert the two properties separately: that a shifted epoch moves a rendered
+**date** by the offset, and that it leaves a rendered **interval** identical. Also worth recording: the
+serial-to-date convention that puts Excel serial 61 at `1900-03-01` (past the phantom 1900-02-29) is
+`1899-12-30 + serial`, and two of the recipe's own worked examples were off by one and by twelve days
+against it.
+
+**A centroid-in-polygon test and an areal intersection give opposite readings of the same site.** `[app]`
+*(2026-09-02, land bank & acquisition screening)* Measured against a real regulatory zone: a **225.46-acre**
+footprint straddling a delineated Alquist-Priolo earthquake fault zone has **49.62 acres (22.0 %) inside**
+and **175.84 acres outside** — while the centroid test returns `True`, implying the whole site is
+constrained.
+
+```
+footprint      =   225.46 acres
+inside AP zone =    49.62 acres
+outside        =   175.84 acres
+share inside   =    22.0 %
+centroid-in-zone verdict = True
+```
+
+The centroid says *call a consultant*; the fraction says *the building goes there*. Every product that
+answers hazard questions at an address point produces the first reading.
+
+**Guard: where a decision depends on HOW MUCH of a site is affected, intersect and report the fraction —
+and reproject to an equal-area CRS first.** An area taken in degrees is a function of latitude and is not
+an area. This build reprojects to EPSG:3310 (California Albers) before any area is taken, and the whole
+computation is dependency-free: an ellipsoidal Albers forward transform plus an exact polygon-intersection
+area by signed triangle fans, which handles holes and non-convex rings without a general clipping library.
+One trap inside it: Sutherland–Hodgman keeps the half-plane to the LEFT of each directed edge, so a
+**clockwise** clip triangle keeps the complement and silently returns nothing. Normalise the clip
+orientation, or every intersection quietly measures zero.
+
 
 **`Shape__Length` on a Web-Mercator layer is not ground distance.** `[data]`
 It is Mercator metres, inflated by 1/cos(latitude). A network measured 12,042,671 m (7,483 mi) against a
@@ -1300,7 +2433,357 @@ state at the same distance from the same site and produces a plausible, uniform,
 **Guard:** try the parameter regardless of the flag, and **always** set `outSR=4326`; then assert the
 returned x lies inside the expected lon range before using a single one of them.
 
+**A ZIP-code cell frame costs four things, and all four are measurable before you draw it.** `[data]`
+*(2026-09-03, transaction evidence)* Binding a postal code as an analysis cell, against the Census ZIP Code
+Tabulation Areas: **60 situs strings resolved to 55 codes** (five codes carried two place names each, so a
+place-keyed cell would have double-counted); **one code had no tabulation area at all**, so a
+`GEOID IN (…)` list of 55 returned 54 and the missing cell would have vanished rather than shown; **seven of
+the 54 straddled the county line** — `esriSpatialRelIntersects` returned 54 against
+`esriSpatialRelContains` 47 — so an unclipped cell colours ground the data never covered; and a postal code
+is a **mail-delivery construct**, not an area, which a reader will take for a market boundary unless told.
+
+**Guard:** run the `IN` list against the frame and the frame against the data's own coverage boundary before
+committing to the geography. **Clip every cell to the coverage boundary**, render the un-drawable cell as a
+labelled state that still counts toward every total, and say on screen what the substitute geography costs.
+
+**A polygon clipper that weaves each intersection into the lists it is still testing against corrupts the
+very edges it is walking — and reports success.** `[app]`
+*(2026-09-03, transaction evidence)* Seven of 54 ZIP Code Tabulation Areas straddle the county line and must
+be clipped to it, because the transfer file stops at the boundary and an unclipped cell colours ground the
+data never measured. A textbook Greiner–Hormann implementation found intersections and spliced them into the
+subject and clip linked lists **inside the same loop**, so every later edge test read an endpoint that was
+now an intersection node rather than the original vertex. The result: one cell returned **100 % unclipped**,
+one at **negative area**, three **empty** — and the function returned `ok` for all seven, because the
+algorithm's own success condition (an even crossing count, a closed trace) was still satisfied.
+**Cause:** phase 1 of the algorithm is defined over the ORIGINAL edges; mutating the lists during it is not
+an optimisation, it is a different algorithm.
+**Guard, in two parts.** Collect every intersection first as plain data — `{subjectEdge, t, clipEdge, u,
+point}` — and build both lists afterwards from that. Then **verify the output geometrically instead of
+trusting the return value**: every vertex of a clipped ring must lie inside the clip polygon or within
+epsilon of its boundary, the clipped area must be strictly between zero and the original, and a polygon the
+clip does not touch must come back byte-identical. Measured here, the worst stray across all seven cells was
+**7.1 x 10⁻¹⁵ degrees**. Detect degenerate intersections (a parameter within 1e-9 of a vertex — two layers
+built on a shared TIGER edge base produce them) and nudge the subject by a fraction of a millimetre and
+retry, rather than emitting a shape whose wrongness nothing downstream can see.
+
+**A drawn ring and its stated radius are two different boundaries, and a feature can sit between
+them.** `[app]` *(2026-09-03, tenant mix & catchment)* A "6.0 mi straight-line buffer" was drawn as an
+inscribed 64-segment polygon and then used for three jobs at once: painting the ring, selecting the peer
+set inside it, and intersecting tracts to apportion households. An inscribed polygon is smaller than its
+circle by a sagitta of `r x (1 - cos(pi/n))` — **11.63 m at n = 64 on a 6-mile radius** — and **two of
+1,919 derived centres fell in that gap**, 6.4 m and 8.4 m inside the true circle and outside the drawn
+one. Selecting by distance gave 64 peers; selecting by the drawn polygon gave 63. The recipe being built
+had itself recorded 64 peers (selected by radius) beside an apportionment measured against the drawn
+polygon, so its own two numbers disagreed by exactly those two centres and neither figure was wrong on
+its own terms.
+
+**Guard:** have **one** catchment object, and draw it finely enough that the drawn edge and the stated
+definition are the same boundary. At **n = 256** the sagitta is **0.73 m**, below the coordinate precision
+of the register itself; the drawn area moves from 292.45 km2 to 292.89 km2 against a true 292.92 km2.
+Then assert the sagitta directly in the suite — not the equal-area radius, which is smaller and
+understates the gap. The general rule: **if a polygon is both the picture and the predicate, its
+resolution is a correctness parameter, not a drawing one.**
+
+**DBSCAN can return a cluster smaller than `min_samples`, and that is correct behaviour, not a bug.**
+`[app]` *(2026-09-03, tenant mix & catchment)* Clustering 47,394 points at eps 150 m with
+`min_samples = 5` produced **19 clusters of 3 or 4 members** out of 1,919. The reasoning that says the
+minimum must be 5 — a core point plus its four neighbours — omits **border-point stealing**: a core
+point's neighbours may already belong to an earlier cluster, and they are not reassigned, so the cluster
+that core point seeds can be smaller than the threshold that made it a core point. **Guard:** do not
+"correct" small clusters or raise `min_samples` to remove them, and do not assert a floor of
+`min_samples` on cluster size. Assert the reproduced distribution instead. Where the clusters are an
+analytical unit, this matters twice: those 19 centres fell **below every published size band**, and the
+honest handling is a labelled "below the published bands" class that still counts toward the
+denominator.
+
+**`Shape.STArea()` is in the storage projection's units, which need not be the units the declared extent
+implies.** `[data]`
+*(2026-09-07, valuation & taxation base map)* A county parcel layer declares `latestWkid: 3857` in its extent and returns `Shape.STArea()` in
+**square feet on a State Plane foot projection**. Read as Web Mercator square metres, every area in the
+application would have been wrong by a factor of about ten — and a latitude correction would then have been
+applied that does not belong. The test that settles it is **latitude invariance**: the ratio of the
+published area to the true ground area held constant to within 0.001 — about **10.737**, near the 10.7639
+square feet in a square metre — from latitude **33.83 to 34.63**, where a Web Mercator reading would have
+varied by roughly 2 % across the same range. **Guard:** measure two features far apart in latitude and
+compare the ratio before trusting any published area column. A constant ratio proves a projected unit; a
+ratio that tracks `1/cos²(lat)` proves Web Mercator. Never take the unit from the extent's spatial
+reference — it describes how the extent is expressed, not how the geometry is stored.
+
+**A published centroid column can contain Null Island.** `[data]`
+*(2026-09-07, valuation & taxation base map)* **26 of 2.37 M** parcels publish `CENTER_LAT` / `CENTER_LON` of exactly `(0, 0)`; every other
+row is populated and in range, so nothing about the column's completeness or its type gives it away. An
+aggregate that averages those centroids without a bounds gate drags a whole group's position into the Gulf
+of Guinea, and the group is then **drawn there** rather than dropped — which is worse, because it looks
+like data. **Guard:** gate published coordinates to the layer's **own extent** before aggregating, and
+**count what the gate dropped**, because a dropped row is a statement. Here the gate cost exactly one
+assessor map page its position out of 87,634 — a number worth printing rather than a number worth hiding.
+
+**A drawing tolerance is not a measurement frame: `maxAllowableOffset` geometry answers a different
+question, and the answer looks reasonable.** `[app]`
+*(2026-09-07, property hazard exposure)* The app fetched hazard-zone polygons with `maxAllowableOffset` — correct, for painting — and then
+ran point-in-polygon against the same features to count buildings inside the zone. It reported **9,425 of
+9,429** buildings in the frame against a true statewide population of **710**. A generalised polygon covers
+ground the real one does not, so a point outside the zone falls inside its simplified outline. Every suite
+was green and every figure was internally consistent, because the arithmetic was right about the wrong
+shape. **Guard:** the house rule is *full resolution to measure, generalised to draw* — make it structural.
+Have the fetch return a flag saying whether a tolerance was applied, refuse to compute against a
+generalised read, and **withhold the count with its reason** at zoom levels where full resolution is too
+expensive. "Not counted at this zoom, and here is why" is a correct answer; a plausible number is not.
+
+**A membership test that accepts every class a layer carries will accept the class that means "none".**
+`[app]`
+*(2026-09-07, property hazard exposure)* A statutory duty attaches in the State Responsibility Area at any hazard class, but in the Local
+Responsibility Area **only at Very High**. The in-frame test accepted every polygon the map had drawn — so
+Moderate, High and, worst, **`NonWildland`**, which is the layer's *mapped finding of no wildland hazard*.
+The result put a statutory obligation on buildings the regulation does not reach, silently, with the count
+still smaller than the total in view and therefore not obviously wrong. This is the known "a fourth class
+the sibling layer does not have" trap committed in the **arithmetic** rather than in the renderer, where
+nobody is looking for it. **Guard:** write the qualifying predicate as its own named function derived from
+the *rule*, not from the layer's class list; unit-test it against every distinct value the layer publishes,
+including the one that means absence; and never let "what the map drew" stand in for "what the rule
+covers".
+
+**A point-in-polygon that tests only the outer ring counts holes as inside.** `[app]`
+*(2026-09-07, property hazard exposure)* `inRing(pt, rings[0])` on each polygon put buildings standing in unzoned enclaves inside the
+hazard frame. It was caught only because the in-view count reached **726** against a statewide population
+of **710** — an impossibility the app could state, and would not otherwise have noticed, since the error is
+a few per cent and every figure stays plausible. **Guard:** test the outer ring, then every interior ring,
+and reject a point that falls in any of them; handle `Polygon` and `MultiPolygon` nesting explicitly
+rather than indexing to a fixed depth. And derive a **population bound** during research so the application
+has something it can contradict.
+*(2026-10-21, lifeline board build)* `[data]` **The same mistake in an area share, made by the reference
+tool.**
+- *Symptom:* a research script measured utility-territory shares of each county in EPSG:3310 with shapely. It
+  built every territory polygon from its rings as if each ring were an outer ring, then unioned them. The
+  Los Angeles Department of Water & Power came out at **11.83 %** of Los Angeles County.
+- *Cause:* the territory has hole rings. With the holes kept, shapely gives **11.519 %**, and the app's
+  grid-sampled share gives 11.54 %. The filled-ring figure was the one written into the spec, so the app's
+  correct answer first looked like the defect.
+- *Guard:* build reference polygons with interior rings as holes (parent each hole to its shell, or use
+  even-odd, as in §4). When a build check compares against a reference value, say which hole rule the
+  reference used, and print both values for any polygon that has holes.
+
+**NWS alerts almost never carry a geometry — ask by point, and remember what disappeared.** `[data]`
+*(2026-10-21, incident situation map build)* Of **256** California alerts from `api.weather.gov` over seven
+days, **254** had `geometry: null` — and so did all **6** active ones. An app that draws alert polygons
+draws a nearly empty map and reads as "no warnings". The zone-based alerts are located through their
+zones (see the `geocode.SAME` entry in §3), and for "is this place under an alert?" the API answers
+directly: **`/alerts/active?point=lat,lon`**. Separately, a cancelled alert simply **vanishes** from
+`/alerts/active`, so a display that only renders the current list cannot say "no longer in effect" — it
+just loses a row. Times arrive with mixed local offsets. **Guard:** query by point (or by zone/SAME) rather
+than relying on polygons; keep the last-seen set and label a departed alert "no longer in effect" with its
+last-seen time; normalise every time to UTC before comparing or sorting, and display in one stated zone.
+
+**Divided highways are drawn once per carriageway, so a summed length doubles.** `[data]`
+*(2026-10-21, impact zone build)* Caltrans' State Highway Network carries each direction of a route as its own line (`Direction` NB/SB, `AlignCode` Right/Left): Route 1 through a buffered perimeter read **15.014 km** each way, **30.028 km** summed. The functional-classification layer does the same with `SHS_…._P` / `._S` route ids. **Guard:** report **route-km** — per route, the mean of its per-direction clipped lengths — and drop the `._S` side of state-highway rows from centreline totals; say on screen that the network is undated.
+
+**Buffering and self-intersection checks on a published perimeter cost seconds, and the perimeter is already invalid.** `[app]` `[data]`
+*(2026-10-21, impact zone build)* A real fire perimeter (12 parts, ~10,500 vertices) took Turf **~22 s** to buffer by 1 km, and `turf.kinks` took **15 s** to report that the published outline has **6 self-intersections**. **Guard:** simplify the core to ~1 % of the buffer distance before buffering, then union back the exact core (area change < 0.05 %; record the tolerance on the zone); refuse self-intersection only for operator-drawn or imported geometry, and take a published footprint as published.
+
+**"Intersects" a utility territory is not "served by" it: boundary slivers.** `[data]`
+*(2026-10-21, lifeline board build)*
+- *Symptom:* a server-side `esriSpatialRelIntersects` test of the California electric service territories
+  (Cal OES's CEC-derived investor-owned and publicly-owned layers, edited 2024-08-28) against each county
+  reported the **Los Angeles Department of Water & Power inside Fresno County**. The overlap is a **0.016 %**
+  boundary sliver. Other counties had slivers of the same kind, at 0.002 % and 0.005 %.
+- *Cause:* two independently digitised boundary sets never share edges exactly, so *intersects* is true for
+  almost every neighbour.
+- *Guard:* use an **area share with a stated floor** (equal-area projection or grid sampling; this build used
+  0.5 %), computed at build time and printed beside any claim that depends on it. Re-measure any share near
+  the floor at a finer resolution. Solano / City of Pittsburg measured **0.498 %**, within 0.002 pt of the
+  floor, where grid noise alone flips the answer between runs. A grid-sampled share also needs a **minimum
+  sample count**: a small target (a little water system) under a coarse step holds a handful of points, so
+  re-sample it to ≥ 2,000 rather than report "no samples". The step must be fine enough to meet the check's
+  tolerance (bbox/200 missed a 0.25-pt check by resolution alone; bbox/400 met it).
+
+**Co-location is not dependency: a cascade chained by intersection explodes.** `[data]`
+*(2026-10-21, lifeline board build)*
+- *Symptom:* a one-customer power outage area intersects the service area of a **545,970-person** water
+  system (State Water Board service areas). The overlap is **0.005 %** of the service area. Chained naively
+  (outage → water system → hospitals inside its service area), that one customer "reaches" **nine
+  hospitals**, and a population sum over the hop says half a million people are affected.
+- *Cause:* geographic co-location is one of the CISA dependency kinds, and the weakest. An intersection says
+  nothing about which feeder serves which pump.
+- *Guard:* compute an **overlap share** (the share of the downstream area inside the upstream one) and tier
+  it (e.g. *large* ≥ 25 % · *partial* 5–25 % · *touches* < 5 %). Chain the next hop only under
+  *large/partial*; under *touches*, **count** the downstream items without listing them. **Never sum a
+  population** across a hop. Label every edge *inferred — validate with the operator*.
+
+**A bounding box is not the county.** `[data]`
+*(2026-10-22, data compact build)* Counting "in the declared county" with the county's envelope overstated every layer tried: HCAI facilities
+**22 vs 5** (polygon), DINS inspections **1,604 vs 1,282**, WFIGS incidents **2 vs 1**. **Guard:** intersect the
+county **polygon** (`esriGeometryPolygon`, `inSR=4326`, by POST — §2 *a GET over ~2,048 characters*) and never a
+box; the live suite asserts box > polygon on two layers so the guard's reason stays on record.
+
 ## 5 · Services and hosts
+
+**A SERVICE name can be misspelled while the LAYER inside it is not, so the natural URL 400s.** `[data]`
+*(2026-09-07, portfolio & asset register)* CAL FIRE serves **`FHSALRA25_v1_All`** (FHS**A**) containing a
+layer that reports its own `name` as **`FHSZLRA25_v1_All`** (FHS**Z**). Building the URL from the layer
+name — the obvious move, and the one a catalogue entry or a colleague's note invites — returns
+`{"error":{"code":400,"message":"Invalid URL"}}`, and so does every plausible correction (`FHSZLRA25`,
+`FHSZ_LRA_25`). Nothing in the layer document points back at the service that carries it. **Guard:**
+enumerate the server root and read the name it publishes; never infer a service name from a layer name,
+and record the service path in the recipe rather than the layer's self-description.
+
+**A service can carry your category's name and be a superseded vintage.** `[data]`
+*(2026-09-07, portfolio & asset register)* A CAL FIRE service called **"FHSZ FOR REAL ESTATE INSPECTIONS"**
+sits on the same server as the current hazard layers, looks purpose-built for a real-estate recipe, and its
+Local Responsibility Area half is a **2007–2011** map superseded across every local jurisdiction by the
+2025 adopted maps. **Guard:** a name is not a vintage. Read the vintage, and where a look-alike is
+rejected, name it in the recipe so the next reader does not rediscover it as a find.
+
+**A keyless tile host can answer HTTP 403 to a request that carries no `User-Agent`, so a server-side
+probe reports a perfectly healthy basemap as dead.** `[data]`
+*(2026-09-07, portfolio & asset register)* `tiles.openfreemap.org` served its style, its TileJSON, its
+glyphs and its sprite to `curl` and to a browser, and returned **403 Forbidden** to Python's `urllib`,
+whose default agent string is `Python-urllib/3.12`. A browser always sends a `User-Agent`; a server-side
+fetch does not unless told to, and several federal file hosts behave the same way. The failure is
+indistinguishable from a gated host, an outage, or a blocked network — and it arrives at exactly the
+moment a §4 probe is deciding whether a basemap is bindable. **Guard:** send an honest `User-Agent` on
+every server-side fetch in a bake, a probe and a live suite, and name the tool in it. When a host 403s,
+re-probe **with** an agent string before recording it as unreachable. *(OpenFreeMap has since been removed
+from the basemap catalog for other reasons; the lesson applies to any host.)*
+
+**Two layers published by one agency, in one server, meant to be read together, can be in DIFFERENT
+spatial references.** `[data]`
+*(2026-09-07, portfolio & asset register)* CAL FIRE's Fire Hazard Severity Zone layers report
+`FHSZSRA_23_3` at **wkid 3857** and `FHSALRA25_v1_All` at **wkid 3310** (California Albers), on the same
+host, with identical field lists, and documented as the two halves of one map. A client that asks for one
+in `outSR=4326` and takes the other's default gets two layers that do not overlay — and because both draw
+*somewhere*, the symptom is a hazard band in the wrong place rather than an error. **Guard:** read
+`extent.spatialReference` per layer, never per server, and put `outSR=4326` on every request rather than
+on the requests you remembered.
+
+**An ArcGIS rejection arrives as `HTTP 200` carrying an error whose *code* is 400 — so `response.ok` is
+`true` for a query that never ran.** `[data]`
+*(2026-09-03, parcel record coverage)* Two recipe traps recorded a rejected predicate as *"returns HTTP
+400"*. What the wire actually carries is:
+
+```
+$ curl -s -o body.json -w "HTTP %{http_code}\n" \
+    "$LAYER/query?where=Roll_LandBaseYear%20%3E%202000&returnCountOnly=true&f=json"
+HTTP 200
+$ cat body.json
+{"error":{"code":400,"extendedCode":-2147220985,"message":"Unable to complete operation.","details":[]}}
+```
+
+The **error code** is 400; the **status line** is 200. Every `if (!r.ok) throw` wrapper — which is the
+idiom this repository's own injectable seam recommends — sails straight past it and hands the caller a
+body with no `count` in it, so the failure surfaces later as an `undefined` in arithmetic rather than as a
+network error. The `details` array is empty, so there is nothing to print either. This is *sharper* than
+the trap as recorded, not softer: a genuine HTTP 400 would at least have been caught.
+**Guard:** in any ArcGIS fetch helper, check the **body** as well as the status — throw when
+`body.error` is present, naming `body.error.code` and `body.error.message` — and when a recipe records an
+HTTP status for a failure, re-observe it with `curl -w "%{http_code}"` rather than inferring it from the
+error object inside the body.
+
+**A 4326 `distance` query against a projected layer is rejected as an invalid SRID — unless you send
+`outSR`.** `[data]`
+*(2026-10-21, incident situation map build)* CAL FIRE's DINS (damage inspection) master FeatureServer is
+stored in **wkid 102962** (California Albers). A `query` with a 4326 point `geometry`, `inSR=4326`,
+`distance` and `units` returned **HTTP 200** carrying
+`{"error":{"code":400,…"24204: The spatial reference identifier (SRID) is not valid…"}}` — the shape of the
+entry above, so a status-only client reads it as **zero damaged structures** near the fire. The same query
+with **`outSR=4326` added** returned `{"count":133}` and the features. So the rejection is not "this layer
+cannot do 4326 buffers"; it is a missing parameter. **Guard:** send `outSR=4326` on every query (the §4
+rule), including count-only and distance queries where no geometry is returned; treat any 200 body with
+an `error` object as a **failed read**, never as zero rows. A fallback that avoids server-side buffering
+also works: an envelope query in 4326, then a haversine distance filter on the client.
+
+**An HTTP 200 is not a success — check the content type, and check for an empty body.** `[data]`
+*(2026-09-02, land bank & acquisition screening)* A California state host serves **two ArcGIS roots** and
+only one carries the data: `gispublic.waterboards.ca.gov/portalserver/` answers JSON, while
+`.../arcgis/` answers **HTTP 200 with an Incapsula bot-wall HTML body**. In a hazard or contamination
+screen, a client that treats a parse failure as "no features" converts a transport error into a verdict of
+**clear** on ground somebody is about to buy.
+
+Two refinements this build measured, both of which defeat the obvious guard:
+
+- **The wall fires per PATH, not per host.** On re-probe the `/arcgis/rest/services` root answered clean
+  JSON five times running — 15 folders, a real ArcGIS root — while `/arcgis/rest/services/USTCUF_2025/MapServer/42`
+  on that same root still returned the Incapsula HTML. Probing the root and concluding "this host is fine"
+  passes, and then the layer request walks into the wall.
+- **The failure mode is not stable.** The same wrong path has also answered HTTP 200 with a JSON
+  `{"error":{"code":404,"message":"Service not found"}}`. A guard written against the HTML shape alone
+  goes green on the day the host returns the JSON one.
+
+**Guard: assert JSON, assert a non-empty body, AND assert the payload carries what a layer document
+carries** (`fields`, or `features`) rather than merely parsing. Surface the failure as its own visible
+state — *"the source did not answer"* — which is neither a finding nor an all-clear. A sibling entry
+records the same class from the other direction: HTTP 200 with a zero-byte body, one request in seven.
+
+**An unconditional query can answer HTTP 304 with an empty body.** `[data]`
+*(2026-10-22, live-position build)* CAL FIRE's water-drop layer answered one query with **`304 Not
+Modified` and no body** (11:31Z), although the request carried no `If-None-Match` or `If-Modified-Since`;
+three later reads of the same URL were 200. A client that treats "not an error status" as success parses
+nothing and shows zero rows, and one that reads 304 as "unchanged" has nothing of its own to reuse.
+**Guard:** a 304 to a request that sent no validator, or any empty body, is a **failed read** — keep the last
+good set (as for *truncated JSON* below) and retry on the next cycle; never read it as zero rows.
+
+**An ArcGIS JSON response can arrive truncated: HTTP 200, the right content type, and invalid JSON.** `[data]`
+*(2026-10-21, lifeline board build)*
+- *Symptom:* a geometry query against the State Water Board's drinking-water service-area layer (several MB
+  of polygons) returned **HTTP 200, `application/json`, about 9.4 MB, and a body that did not parse**. It
+  stopped mid-coordinate. The same request succeeded on retry.
+- *Cause:* the transfer was cut short. The status and headers had already been sent, so nothing in them says
+  so. It is rare and not reproducible on demand.
+- *Guard:* treat a **parse failure as a failed refresh**, exactly like a timeout or a 200 carrying `{error}`.
+  Keep the **last good** payload, degrade only the freshness indicator, and retry on the next cycle. Never
+  read a parse failure as "no features", and never let it blank a layer that was drawn a minute ago. Test
+  it offline by serving a body cut in half through the injected fetch.
+
+**A cadence "measured" from two reads can be a sampling artefact.** `[data]`
+*(2026-10-21, lifeline board build)*
+- *Symptom:* two reads of Cal OES's statewide power-outage layer, at 11:09 and 11:30, saw `lastEditDate` jump
+  10:56 → 11:26, and the feed was recorded as publishing every **30 min**. Reads at 13:04, 13:10, 13:12 and
+  13:17 saw 12:56:10 → 13:11:12 → (later) 13:26:12: **every 15 min**. The morning reads could not see the
+  11:11 publish between them.
+- *Cause:* two reads further apart than the true interval measure an upper bound, not the interval.
+- *Guard:* measure cadence from **consecutive changes**, polling at a fraction of the claimed interval (the
+  live suite's cadence check waits ≥ 16 min for a 15-min feed). Print the publisher's claim, if any, beside
+  the measurement. Derive the stale threshold from the measured cadence plus any CDN cache age; here that is
+  2 × 15 min + 5 min cache + slack = 40 min.
+
+**Metadata and rows come from different CDN cache fills, so the layer's edit date can lag the rows.** `[data]`
+*(2026-10-21, lifeline board build)*
+- *Symptom:* ArcGIS Online answered both `?f=json` and `/query` on Cal OES's outage layers with
+  `Cache-Control: public, max-age=300`. At 13:12 a `/query` count had already fallen 30 → 28 while `?f=json`
+  still reported the previous edit (12:56:10). An app that took the time of record from the layer document
+  labelled the new rows with the old time.
+- *Cause:* each URL is cached separately, so the two responses can come from different five-minute fills.
+- *Guard:* take the time of record from the **`Last-Modified` header of the response that carried the rows**.
+  On this host it equals `editingInfo.lastEditDate` to the second. Never combine the layer document's date
+  with a separately fetched row set. State the cache age in the freshness copy (*"served through a 5-min
+  cache"*). Related: *the feed is up but the number is old* (§3) and *an edit stamp that moves without the
+  data moving* (§3).
+*(2026-10-22, data compact build)* A form-encoded **POST** query carries the same `Last-Modified` as the GET (measured on four ArcGIS Online hosts), and the header is CORS-safelisted, so a browser can use it as the delivery stamp of a polygon count. On WFIGS it equalled `editingInfo.lastEditDate` (06:05:38Z), not `dataLastEditDate` (05:26:52Z).
+
+**A folder or service named for a register frequently does not contain it.** `[data]`
+*(2026-09-02, land bank & acquisition screening)* A state agency's map server carries a folder literally
+named `Geotracker` holding six services — CalEnviroScreen, opportunity zones, disadvantaged communities —
+and **not one of them is a GeoTracker site layer**. The register itself is not published as a queryable
+service anywhere: the authority's own host 403s under two user agents, and its 47 published feature
+services do not include it. What *is* published is a Cleanup Fund claims subset of unknown proportion, on
+layer ids 39/40/42, where `/0` returns `Layer not found`.
+
+**Guard: enumerate and read the fields array; never bind by title.** And where the published thing is a
+subset of the thing you needed, print the cap beside the finding rather than presenting the subset as the
+register.
+
+**Several differently-NAMED sublayers can be one identical dataset, and the name promises a filter the
+service does not apply.** `[data]`
+*(2026-09-02, land bank & acquisition screening)* CGS `Fault_Lines/MapServer` publishes sublayers `/0`
+*Historic Fault*, `/1` *Holocene Fault*, `/2` *Late Quaternary Fault* and `/3` *Quaternary Fault*. All
+four return **exactly 10,021 rows** with an identical field list; the age distinction lives in an `AGE`
+column the sublayers do not filter on, and the sublayers differ only by renderer. Binding `/1` believing
+it holds Holocene traces alone silently widens the finding to every mapped trace of any age. The same
+service also carries `/5`, a scale-break group layer whose `/query` 400s, and `/6`, a duplicate of `/4`.
+
+**Guard: count the sublayers against each other before believing a name.** Equal counts across
+differently-named siblings means the name is a rendering label, not a filter — carry the discriminating
+attribute into the finding instead.
+
 
 **One publisher can serve several LIVE releases of the same dataset, and the one you bind to by default is
 the undated one.** `[data]`
@@ -1403,6 +2886,23 @@ The host was answering normally throughout, and `…/rest/services?f=json` liste
 immediately. An hour can disappear into an authentication bug that does not exist. **Guard:** on a `499`,
 crawl `…/rest/services?f=json` **before** concluding anything about credentials; search the listing for the
 old *layer* name, which usually survives the rename.
+*(2026-10-22, live-position build)* **A view withdrawn by unsharing answers the same way.** CAL FIRE's public
+aircraft-tracking view (three sparse rows in July) now answers HTTP 200 + `{"error":{"code":499}}`, and —
+unlike a rename — it is **absent** from the org's anonymous `…/rest/services?f=json` listing. **Guard,
+extended:** a 499 plus a vanished directory entry means *withdrawn*, not *renamed* and not *expired
+credential*; render the lane gated with its citation (as for *a token-gated layer* below) rather than
+substituting a neighbouring feed.
+
+**A token-gated layer shows its `499` only when asked for JSON — without `?f=json` it answers an HTML page.**
+`[data]`
+*(2026-10-21, watch wall build)* The statewide "current" PSPS layer answers
+`{"error":{"code":499,"message":"Token Required"}}` at **HTTP 200** when the request carries `f=json`; the
+same URL without it returns the ArcGIS Online HTML sign-in/landing page, also at 200. A liveness probe that
+fetches the bare layer URL and checks the status (or "did it return something") reports the gated lane as
+up, and a parser that tries the body as JSON first and falls back to text reports "unreadable", not "gated".
+**Guard:** always probe ArcGIS layers with `?f=json`, read the body for an `error` object before trusting a
+200, and treat any HTML body as a failed read — then render the lane grey with its citation rather than
+substituting a neighbouring feed.
 
 **An invalid `outFields` can return an empty feature array with no `error` object at all.** `[data]`
 *(2026-08-24, shortage-area explorer)* Paging a federal `MapServer` with two mistyped field names returned
@@ -1540,6 +3040,16 @@ with the measurement — a layer that ticks and then hangs the tab is worse than
 server-side verification and dies in production. See
 [`how-to/cors-and-proxy.md`](how-to/cors-and-proxy.md) for the three-layer decision and the SSRF rules
 that any proxy must follow.
+
+**A static house server cannot reach a keyless feed that sends no CORS header.** `[core: open]`
+*(2026-10-21, incident situation map build)* Two keyless, public, authoritative feeds answer **HTTP 200
+with no `Access-Control-Allow-Origin`**: CAL FIRE's incidents `GeoJsonList` and NASA FIRMS' active-fire
+CSV. An app served from a static host cannot read either from the browser, and the template offers no
+documented, opt-in way to proxy them — so such a feed is either fetched at build time (stale by the time
+it is read, for a live layer) or left out. **Current guard:** leave it out and say so on screen, or bake it
+at build time with its fetch time printed. **Fix:** a documented opt-in proxy mode for the house server
+that forwards **only an allow-listed set of hosts**, GET only, under the SSRF rules in
+`how-to/cors-and-proxy.md`.
 
 **Every external call needs a deadline.** `[app]`
 A dependency that neither answers nor refuses is worse than one that fails: in a real browser a geocoder
@@ -1809,6 +3319,43 @@ describes, print *that*, and assert the **shape** of the claim (an MSA delineati
 plus the **geometry** (vertex count against the frozen copy) rather than the string itself. Generalises:
 a metadata field can be a property of the node that answered, not of the dataset.
 
+**Keyless is not the same as licensed — and the basemap gallery now says which is which.** `[data]` `[core: fixed]`
+*(2026-10-08, the standard map controls rollout)* Every basemap the house set offered loaded without a
+key, and that was taken to mean *free to use*. It does not. **CARTO's basemap terms require an API key
+for licensed use** — the GL styles load keyless today, but without a key an app is outside the terms and
+can be watermarked at any time, exactly like the raster CDN below. **Esri's public tiled MapServers** are
+free only for public, non-commercial apps that credit Esri; a business or government app needs an ArcGIS
+subscription. The OpenStreetMap France hosts (HOT, CyclOSM) are community servers. Only OSM, OpenTopoMap,
+VersaTiles and USGS are commercial-ok — and the volunteer-run ones still have usage policies.
+**OpenFreeMap was removed and is on the deny-list** (rejected by the user; an `ofm-*` / `openfreemap-*` id still renders, as its alias).
+**Fix in core:** there is now **one** basemap catalog, `@strata/map-controls/basemaps` — 33 keyless
+entries (OpenStreetMap · Esri · USGS · CARTO), each carrying `license` (`commercial-ok` |
+`non-commercial`), a plain `licenseNote` and the provider's `licenseUrl`, shown in the gallery. CARTO
+stays in *More basemaps*, tagged non-commercial *"requires a CARTO key for licensed use"*; it is not in
+the universal Recommended 8 (VersaTiles' `vt-gray` took that slot), and **no legacy alias points at CARTO**
+— retired `carto-*-gl` / `openfreemap-*` / `ofm-*` ids land on VersaTiles or OpenStreetMap. The default is
+OpenStreetMap (`osm`), the theme pair `osm` / `osm-dark`. `@strata/core-map`'s `OPEN_BASEMAPS` /
+`VECTOR_BASEMAPS` / `RASTER_BASEMAPS` are a deprecated shim over the catalog. **Guard:** read the licence
+tag before shipping a business app — keyless answers *can it load*, the tag answers *may it ship*. The
+behavioural keyless lesson below still stands and is now enforced twice: offline host/deny-list guards in
+`pnpm test`, and the live two-tile + style-delegation check (`pnpm --filter @strata/map-controls
+verify:basemaps`) that CI runs weekly. User-facing summary: [Map controls](guide/map-controls.md).
+*(2026-10-21, lifeline board build)* `[core: open]` **Reopened in part: the gallery does not render the
+tag.**
+- *Symptom:* in a vanilla app vendoring `@strata/map-controls` **1.0.4**, the basemap gallery cards show a
+  thumbnail and a name only. There is no `commercial-ok` / `non-commercial` mark, although the catalog tags
+  **21 of its 33 entries `non-commercial`**. An operator can pick an Esri or CARTO basemap with nothing on
+  screen saying it may not ship in a business app.
+- *Cause:* the catalog carries `license` / `licenseNote` / `licenseUrl`, but the gallery code never reads
+  them. The "shown in the gallery" above is true of the data, not the UI. A spec that requires the tag to be
+  visible cannot be met by an app that vendors the controls and may not edit them.
+- *Current guard:* keep the default and the theme pair `commercial-ok` (`vt-gray` / `vt-gray-dark`, `osm` /
+  `osm-dark`). Say in the recipe and the README that the tag is not shown.
+- *Fix:* render the licence tag (and `licenseNote` as its tooltip) on each gallery card in
+  `@strata/map-controls`, and assert it in the shared conformance suite.
+*(2026-10-22, live-position build)* Still absent in the vendored 1.0.4 gallery; a recipe that asks for visible
+`non-commercial` tags again had to record it as a library gap.
+
 **A keyless *vector* light/dark pair still exists, and it is the substitute the raster set no longer
 has.** `[data]`
 *(2026-08-30, ATM cash & service routing)* Re-confirming the CARTO watermark entry below on this date and
@@ -1824,6 +3371,11 @@ Verified on this date: `tiles.openfreemap.org/styles/{dark,positron,liberty,brig
 `tiles.versatiles.org/assets/styles/{eclipse,colorful}/style.json`, `tile.openstreetmap.org` and
 `tile.opentopomap.org` — three different tiles returning three different hashes at plausible byte
 lengths, which is the behavioural check the entry below asks for.
+
+> **SUPERSEDED 2026-10-08.** OpenFreeMap is no longer offered and is on the catalog's deny-list (see the
+> licence entry above). The keyless vector pair in the catalog is now VersaTiles (`vt-gray` /
+> `vt-gray-dark`, `vt-colorful` / `vt-colorful-dark`, `vt-muted` / `vt-muted-dark`); the default theme
+> pair is raster `osm` / `osm-dark` — the same OpenStreetMap tiles, inverted for dark.
 
 **Both "keyless" default basemaps now answer HTTP 200 with a placeholder -- one watermarked, one blocked
 -- and a URL-pattern guard cannot see either.** `[data]` `[app]`
@@ -1894,10 +3446,33 @@ labelled on screen as dimmed.
 > which at phone width ran under a corner readout in one app: a licence term covered by chrome, the very
 > defect logged two entries above. The chrome moved.
 >
+> **SUPERSEDED 2026-10-08.** `defaultBaseMap()` now returns **OpenStreetMap (`osm`)** from the one catalog
+> in `@strata/map-controls`; OpenFreeMap is gone (deny-listed). `tile.openstreetmap.org` is safe as the
+> default *from a browser*: it serves real tiles to a browser request carrying a `Referer`, and the 418
+> placeholder to clients outside its usage policy (a bare `curl`) — so probe it the way the app calls it.
+> Its licence note says a busy or commercial app should use its own tile server; `setUrlRewrite()` is the
+> one hook for pointing it at one. The guards moved with the catalog (`packages/map-controls/tests/
+> basemaps.test.ts`, `verify:basemaps`).
+>
 > The eleven docs that named CARTO as the keyless house set — `CLAUDE.md`, `app-design.md`,
 > `building-apps.md`, `find-and-verify-data.md`, `map-templates.md`, `human-language.md`,
 > `getting-started.md`, `docs/README.md`, `COMPONENT-MANIFEST.md`, `/create-map`, the `strata-map` and
 > `strata-symbology` skills — and the `WebMaps/` starters were updated with it.
+
+**A traffic-camera image that loads is not a working camera — and neither its header nor its caption
+dates it.** `[data]` `[browser]`
+*(2026-10-21, incident situation map build)* Caltrans CCTV stills answer **HTTP 200 `image/jpeg`** with a
+fresh `Last-Modified` while the picture is a **"Temporarily Unavailable"** card: in a District 7 sample of
+**80** in-service cameras, **45** were cards. Two things make the obvious checks worthless. A card can carry
+a **stale burned-in date** in its footer ("Friday, September 04, 2026 09:18:01 PDT", read on 21 Oct), and one
+card's `Last-Modified` was **~1,126 h** old while others were minutes old — so neither the header nor the
+caption is evidence the image is live. And cameras answering **HTTP 500** send no
+`Access-Control-Allow-Origin`, so the browser reports a **CORS error** for what is an outage (the
+dead-CDN-node entry above). This is the keyless-placeholder family above, arriving through a data feed:
+a 200 image that is not the thing asked for. **Guard:** decide from the **pixels** — the white fraction of
+a card is **> 0.6**, against **0.02–0.13** for real road images in the same sample — and count cards,
+500s and CORS failures together as "not showing a live picture"; show the reader the camera's own
+status, never a card as if it were a view.
 
 **A dataset can be open-licensed, refreshed the same day, and still unfetchable -- and the mirror will not
 save you.** `[data]`
@@ -1914,6 +3489,133 @@ substitute, state on screen exactly what the substitute *lacks*, assert **no col
 unreachable file, and name it as the customer's own refresh path -- an organisation inside the admitted
 geography can download it in a browser. Keep the 403 as a **live assertion**: the day it flips is the day
 the lane can be upgraded, and that is news you want.
+
+**Keyless is not unmetered — and the only request shape a browser can make may cost several times
+the quota of the shape `curl` uses.** `[data]` *(2026-09-03, tenant mix & catchment)* The BLS Consumer
+Expenditure API v2 needs no key, and a probe found it healthy: a batch `POST` of eight series answered
+`HTTP 200` with `Access-Control-Allow-Origin: *`. Both halves of that were misleading.
+
+- **A browser cannot make that call at all.** The batch form is a `POST` with
+  `Content-Type: application/json`, which is not a CORS *simple request*, so a browser sends an `OPTIONS`
+  preflight first — and the preflight answers **`HTTP 405` with no CORS headers of any kind**, while the
+  `POST` it is asking about answers `200` with `ACAO: *`. `curl`, which sends no preflight, sees a
+  perfectly healthy endpoint. The failure appears only in a real browser, as
+  `blocked by CORS policy: Response to preflight request doesn't pass access control check`.
+- **The shape that avoids the preflight is metered.** The per-series `GET` is a simple request and works
+  from a browser — at **one request per series**. Eight series is eight requests per page load against an
+  unregistered daily threshold, and a few page loads of testing exhausted it. Once spent, the API answers
+  **`HTTP 200`** with `"status":"REQUEST_NOT_PROCESSED"` and empty results, so `response.ok` is `true`,
+  the status code is clean, and every series silently renders empty.
+
+**Guard:** probe the **preflight** (`OPTIONS` with `Access-Control-Request-Method` and
+`Access-Control-Request-Headers`), not only the request — a `curl` probe of a `POST` proves nothing about
+a browser. Count how many requests a page load costs before choosing a request shape. Read the body's own
+status field, never the HTTP status, on any API that reports application errors inside `200`. And prefer
+the programme's **flat file** where one exists: `download.bls.gov/pub/time.series/cx/cx.data.1.AllData`
+carries the same values with **no key and no quota** (120.8 MB — stream it and keep the rows you need),
+which makes the lane a build-time bake and removes both traps at once. A quota is invisible to a probe
+that runs once; it is discovered by exhausting it.
+
+**An ArcGIS cached `MapServer` serves its tiles row-before-column, and a layer-level `minScale` means it
+will not draw at all above that scale.** `[data]`
+*(2026-09-07, valuation & taxation base map)* Two facts about one service, and both change a design. The tile path is
+`/tile/{level}/{row}/{col}` — **row before column** — the reverse of the `{z}/{x}/{y}` order a raster
+template is rewritten into, so a template built by pattern-matching the URL fetches transposed tiles that
+are all healthy 200s carrying real PNG bytes. And `singleFusedMapCache: true` together with a layer-level
+`minScale` of **18,057** means the publisher will not draw that layer above roughly 1:18,000 **however you
+ask for it** — not a rendering preference to override but a fact to design around, here by carrying a
+second, coarser surface above that scale. **Guard:** read `singleFusedMapCache`, `tileInfo` and every
+layer's `minScale`/`maxScale` from the `MapServer` document before promising a picture at any zoom; and
+when binding a cached endpoint, fetch two tiles that should differ and confirm that they do.
+
+**A recipe's rejected-sources table is a claim with a date on it, and it decays as fast as the bound ones.**
+`[data]`
+*(2026-09-07, valuation & taxation base map)* Re-probing a verified §4 four days after it was written, **two of the services recorded there as
+verified-live had gone**: one county parcel service now answers HTTP 404 *"Service ... not found"*, and
+another answers HTTP 499 *"Token Required"* — so it is not merely unavailable, it is **no longer keyless**,
+and the sentence explaining why it had been rejected is now the second reason rather than the first.
+Neither was bound, so neither cost this build anything, and that is exactly why it is worth recording:
+nobody re-probes the sources they did not use, and the rejected table is where the next builder goes to
+avoid repeating a search. **Guard:** re-probe the **rejected** sources on every verification pass, not only
+the bound ones, and record the date and the response beside each rejection. A *"considered and rejected"*
+row without a fresh date is a rumour about a service — and it is the kind of rumour that sends someone to
+spend a day on an endpoint that has since been gated.
+
+**An agency's web estate can present three different failure modes in one day, one of which flips between
+consecutive reads — so a recorded `403` may be a burst response, not a policy.** `[data]`
+*(2026-09-07, property hazard exposure)* A research pass recorded CAL FIRE's and the Board of Forestry's entire web estate returning
+`403 Access Denied` to every non-browser client, including with a full desktop User-Agent, while the same
+agency's ArcGIS services answered `200`. Re-probed weeks later: `bof.fire.ca.gov` gave two
+`UND_ERR_CONNECT_TIMEOUT`s and then **HTTP 200 within the same minute**, on four different paths;
+`osfm.fire.ca.gov` did not connect at all under any User-Agent; `readyforwildfire.org` refused a request
+with no User-Agent and answered 200 with one. One estate, three mechanisms — a WAF rate limiter, a dead
+host, and a User-Agent filter — and only the middle one is stable. **And the cited deep link had become a
+soft 404**: `HTTP 200` carrying a "Page not found" page, which no status check sees. **Guard:** retry
+before recording any host as blocked, record *which* failure you saw rather than "403", re-probe on every
+build, and assert on the **body** of a page you cite, not its status. The design conclusion is usually the
+same either way — transcribe the text and link out rather than fetching at run time — but "this host is
+unreliable" is a stronger reason to do that than "this host refuses machines", and only one of them is
+true.
+
+**A public, keyless, freely downloadable document can still be unlicensed for your product, and no
+automated check can see it.** `[data]`
+*(2026-09-07, property hazard exposure)* A research report funded by two public agencies, served over plain HTTPS with no key, no paywall and
+no robots restriction, carries terms permitting reproduction on three conditions — the third being that
+*"the Materials are only for public policy and educational purposes."* Nothing in the HTTP response, the
+licence field of any catalogue, or the file itself expresses that. It is invisible to a CORS probe, a
+status check and a keyless-behaviour test alike, and it is a live constraint on a commercial deployment.
+**Guard:** read the publisher's terms page as a research step, not a formality — and note that the footer
+link may be the only correct path to it (`/terms-of-use/` and `/terms/` both 404'd where
+`/about/terms/` served). Then design around it rather than arguing with it: ship the **facts** (a unit
+price is a fact) and not the document's expression, print the required attribution beside every figure, and
+mount the source **swappably** so a deployment can substitute a licensed one — with the degradation path
+(source absent ⇒ that column renders empty with its citation) actually tested. Pairs with
+*answering an anonymous request is not a licence*, from the opposite direction.
+
+**A regular expression over a PDF table drops whole rows whose optional cell is empty — silent omission,
+not just the fragments you were watching for.** `[data]`
+*(2026-09-07, property hazard exposure)* A known trap said a report's cost appendix could not be scraped because measure names wrap across
+lines, so a regex returns fragments like `included` and `chimney, etc.)` as measure names with real
+prices attached. True, and incomplete: the same regex required a unit cell, and **two priced rows whose
+unit is blank in the source vanished entirely** — an omission that leaves a plausible, self-consistent
+table with no sign anything is missing. The count was reported as 50; it is **53**. **Extract
+positionally instead:** keep each drawn string's x/y from the content stream, group by baseline, read the
+column anchors out of the header row, and assign every cell — including tick marks in a scenario grid — to
+the column it is actually drawn in. That also recovers wrapped names correctly. Two encodings to expect:
+subset fonts emit f-ligatures and prime marks as **control bytes** (`0x1a`–`0x1f`, `0x94`), so
+`baffle` extracts as `ba<>e` and `soffit` as `so<>t`; and a body font may be **offset from ASCII**
+(here by 29, so `The` extracts as `7 K H`). **Guard:** assert the row count, and assert the *shape* of
+every name — a minimum length, an upper-case or digit first character, no leading bracket.
+
+**A PDF stream walker that accepts a bare `\r` after `stream` desynchronises the whole file.** `[app]`
+*(2026-09-07, property hazard exposure)* `/stream\r?\n/g` found 218 markers and inflated **150** streams. The apparently more permissive
+`/stream(\r\n|\r|\n)/g` found 219 — one spurious early match — and because the loop advances
+`lastIndex` from each match's `endstream`, every subsequent boundary was wrong: **150 inflatable streams
+became 1**, with no error, just an empty extraction. **Guard:** require the newline, and sanity-check the
+inflate success rate against the count of `/Filter /FlateDecode` occurrences in the file before trusting
+anything you extracted.
+
+**A "CORS error" in the browser that is really a bot challenge — and it comes and goes with how often
+you run your own suite.** A county ArcGIS service that had answered all day began failing in headless
+Chrome with *"No 'Access-Control-Allow-Origin' header is present"*, and only for the heavier query the
+app makes at zoom 13 and above. Two checks said the obvious diagnosis was wrong: the same host **did**
+return `Access-Control-Allow-Origin` for a light query, and the exact failing URL fetched from `curl`
+returned **HTTP 200** — with an **HTML bot-protection interstitial** in the body, carrying an injected
+`<script src="/pull-purger-…">`, and **no CORS headers on that response**. The browser sees a
+cross-origin response with no headers and reports the only thing it can, which points at the wrong
+cause entirely. It cleared on its own once the request rate dropped, so it was **rate-triggered
+protection reacting to a browser suite run eight times in twenty minutes**, not a policy change.
+
+**Three things follow.** *(a)* This is the **HTTP 200 with a placeholder body** family from §5 wearing a
+different hat — assert the **shape of the body**, never the status. *(b)* Before believing a CORS
+diagnosis, fetch the **exact failing URL** server-side; if it returns 200 with HTML, the CORS message is
+a symptom and the cause is upstream. *(c)* **Your own test loop can be the trigger.** A browser suite
+that re-runs a live service a dozen times in an afternoon looks like a scraper, and the resulting red is
+about your rate, not your code — pause, re-run once, and see whether it clears before you go changing
+anything.
+
+**A dataset whose URL changes every school year.** `[data]`
+*(2026-10-21, impact zone build)* The California Department of Education publishes its public-school points as **`SchoolSites2526`** — next year's is a new service, and the older candidates still answering (2015, 2018 and 2022 subsets) carry administrator e-mails on every row. On 2026-10-21 the calendar school year was 2026-27 and **`SchoolSites2627` did not exist** (`{"error":{"code":400,"message":"Invalid URL"}}`). **Guard:** assert in the live suite that the bound service's `Year` is the newest the publisher lists and at most one year behind the calendar, so the suite goes red the day next year's service appears; never request the administrator fields.
 
 ## 6 · Publishing to Strata Serve
 
@@ -1945,6 +3647,370 @@ to a handful. It is **not** the popup field list (FeatureServer `/query` always 
 (`SELECT * EXCLUDE(__index_level_0__)`).
 
 ## 7 · Rendering and the map
+
+**An ungated `styledata` retry loop exhausts itself and reports a failure over a perfectly drawn map.**
+`[app]`
+*(2026-09-07, facilities & space utilisation)* The retry that correctly fixes the `setStyle` reinstall above was hooked to `styledata`
+with no gate. That event **also fires while tiles load**, so the reinstall ran continuously from first
+paint, burned through its own 60-attempt ceiling, and wrote *"the basemap changed but the estate could not
+be redrawn"* into the status line — over a map carrying 13,001 points. The fix for one defect produced a
+second one that was more alarming than the first, because it accused a working app. **Guard:** gate a
+restyle recovery on a flag set **only** by the code that calls `setStyle`, clear it on success, refuse to
+re-apply a style already in force, and make the give-up branch check whether the sources are actually
+missing before it says so. This is the *status-line-that-reports-intention* trap wearing a retry loop:
+report a **state**, never an attempt.
+
+**One dropped basemap request put a permanent "the map failed" on an unattended wall.** `[app]`
+*(2026-10-22, watch wall build)* The wall routed every MapLibre `error` event to its failure notice. A single
+`net::ERR_CONNECTION_RESET` on the keyless basemap host's **sprite** at first load wrote *"the map failed:
+Failed to fetch"* onto the notice bar of a display meant to run a whole shift. Nothing cleared it, and the map
+under it drew normally (a later fetch of the same sprite returned 200 three times out of three). It surfaced
+as two console failures in the browser suite, 30 minutes before the soak it was attached to. **Guard:** split
+map errors by source. An error on one of the app's **own** sources is a real failure and stays up. A basemap
+tile, sprite or glyph failure is a third-party blip: show a dated note that clears itself, log it as a
+warning, and never let it overwrite a real failure. In the browser suite, count connection-level failures
+at known basemap hosts separately and print them, but keep any **HTTP status** from those hosts failing,
+because a 403 is what a gated basemap looks like (§5). Same family as the *styledata* entry above: report a
+state, not an event.
+
+**A MapLibre canvas cannot be pixel-probed from the page, so the five-identical-thumbnails guard has to
+capture the composited frame.** `[browser]`
+*(2026-09-07, facilities & space utilisation)* This file already records that a failed basemap thumbnail leaves five identical grey boxes
+with every non-visual test green, so the obvious guard is to read each preview canvas back with
+`drawImage` and compare. **It cannot work.** MapLibre runs without `preserveDrawingBuffer`, so the drawing
+buffer is gone by the time any script reads it: `getImageData` over every preview returned **exactly one
+colour for all five**, on a screen where three of them were visibly different maps. A guard that reports
+the same answer for a working page and a broken one is worse than no guard. **Guard:** capture the
+**composited frame** through `Page.captureScreenshot` with a `clip` box per thumbnail and hash the PNGs —
+five identical boxes are then five identical hashes, and the check is decisive. The same applies to any
+assertion about what a WebGL map actually painted.
+
+**A preview zoomed too far in is as blank as one not zoomed at all.** `[app]`
+*(2026-09-07, facilities & space utilisation)* The recorded advice is to zoom a basemap thumbnail **in** past the parent map, because at the
+parent's zoom a 46 px box holds nothing but each style's background paint. Overshooting has the same
+result for the opposite reason: at the parent centre plus five zoom levels, a statewide California view
+lands in the empty Central Valley and every style is a flat rectangle again. **Guard:** `+3` is the useful
+band — far enough in that coastline, water and road colour are in frame, which is the thing that actually
+differs between two light styles, and not so far that the frame contains no features at all.
+
+
+**The largest class on the map can be its least visible mark, and the app then contradicts its own
+reading.** `[app]`
+*(2026-09-07, facilities & space utilisation)* The design's whole argument is that 54 % of the estate publishes no utilisation class, and
+the card said so: the grey band was the widest band on the bar. The **map** showed a green state. The
+silent class was drawn as a size-6 hollow ring, which at statewide zoom occupies about **three pixels** —
+and a thin ring at three pixels antialiases away to nothing, while a filled circle of the *same* size
+reads strongly. Every non-visual assertion was green; only a screenshot showed it. **Guard:** a hollow or
+outlined mark needs materially more size and stroke than a filled one to carry the same weight, and the
+class that is *most numerous* should be sized **at least** as large as the reported ones, not smallest by
+default. Assert the claim visually: this app's browser suite now measures the four bands and requires the
+grey one to be the widest at first paint — a rendered check for a statement the card makes in words.
+
+**Marks rasterised once, from one palette, disagree with a themed legend.** `[app]`
+*(2026-09-07, facilities & space utilisation)* MapLibre's `circle` layer draws only circles, so honouring an ESRI renderer's triangle and
+square means an icon per class — and those icons were generated once, at boot, from the light palette. In
+dark mode the legend swatches switched to the measured dark hues while the map still carried the light
+ones, so the two surfaces disagreed about what a class looked like. **Guard:** resolve a data colour
+through **one** function that takes the mode, use it for both the swatch and the raster, and
+**re-rasterise on every mode change** — including the case where the reader has pinned a basemap, which
+skips the `setStyle` that would otherwise have rebuilt the images as a side effect. Relying on the restyle
+to rebuild them is the bug: the restyle is not guaranteed to happen.
+
+**Reinstalling sources from `styledata` runs too early, and `setStyle` then leaves a correctly themed page
+over an EMPTY map.** `[app]`
+*(2026-09-07, facilities & space utilisation)* A second occurrence of the family already recorded here for `load`/`isStyleLoaded`, in the
+one place it is most likely to ship: the theme toggle. `setStyle` drops every source, layer and image; the
+app reinstalled them from `styledata`, which fires **while the new style is still loading**, so
+`installLayers` returned early on its own `isStyleLoaded()` guard and put nothing back. The canvas was the
+right size, the tokens were right, the reading was right, and there was nothing on the map. **Guard:**
+never treat `styledata` as "the style is ready". Reinstall through a small retry that re-checks
+`isStyleLoaded()` (and listen to `style.load` as well), and — for the harness — wait for a **positive
+feature count**, not for "a source exists": immediately after a restyle the old source is briefly still
+there, so an existence check returns instantly and asserts against a map that is about to be emptied.
+
+**A capped, scrollable popup paints a white slab below itself.** `[browser]`
+*(2026-09-07, facilities & space utilisation)* Giving `.maplibregl-popup-content` a `max-height` with `overflow-y: auto` produced a clipped
+scroll container whose backing store painted as a **white rectangle the width of the popup and roughly the
+height of its overflow**, below the popup, over the map. The DOM was correct — the content box measured
+exactly its `max-height` and nothing was positioned there — so no geometric assertion could see it; only a
+screenshot did. **Guard:** do not make a popup a scroll container. MapLibre re-anchors a tall popup to
+keep it in view, which is the mechanism that already solves this; a height cap solves a problem the
+library has already solved and introduces a paint artefact instead.
+
+**A solid-colour scroller over the map punches a blank box through it under software compositing.** `[browser]` — library surfaces `[core: fixed]` in `@strata/map-controls` 1.0.4
+*(2026-10-14, four vendored map-controls apps)* An opaque panel with a **plain colour** fill and
+`overflow:auto|scroll` that sits over the MapLibre canvas — the map-controls drawer, a legend, a floating
+card, a popup capped with `max-height` — is painted into Chrome's scrolling-contents layer and used as an
+**occluder**. Under **software compositing** (GPU off or blocklisted, RDP, many VMs, headless
+`--disable-gpu`) Chrome mis-places the occluded rect, typically **150–250 px** from the panel (often
+after the page scrolled and came back), so the map is not drawn there and a **blank page-background box**
+shows through it — nowhere near the panel that causes it. Real users on those machines see it; it is not
+only a harness artefact (the white-slab entry above and the `--disable-gpu` "unpainted rectangle" entries in
+§9 are very likely the same mechanism). The DOM is correct and `elementFromPoint` returns the canvas.
+**Fix:** give every opaque scroller over the map a **one-colour image fill** —
+`background: linear-gradient(C, C)` (e.g. `linear-gradient(var(--panel),var(--panel))`). An image fill
+is never an occluder and paints identically. Do **not** also set an opaque `background-color` under it —
+an opaque colour can make the box count as opaque again. Since map-controls **1.0.4** the drawer and the themed popup card
+(`popupStyles`) ship that fill; the app's own legend, cards and capped popups are the app's job. A
+`background-color`-only override of those two now paints under the gradient and does not show — use the
+tokens or the `background` shorthand; read the colour from `backgroundImage`, not `backgroundColor`.
+**Detect:** compare a **full-page** screenshot against the map's own pixels (`gl.readPixels`, or
+`drawImage` into a 2D canvas) at several points across the map — a blank in the screenshot where the GL
+buffer is painted is the box. A **1×1 clipped** screenshot at a probe point hides it;
+so does SwiftShader in-process (`--use-angle=swiftshader --in-process-gpu`), which may
+not reproduce it at all — run the probe with **`--disable-gpu`** on purpose, open the drawer / popup /
+legend, scroll the page away and back, and shoot the whole page. Then keep the normal screenshot harness
+off `--disable-gpu` as §9 says.
+
+
+**`map.on("load")` and `isStyleLoaded()` can BOTH stay false forever while the basemap paints
+perfectly — and every operational layer is then never installed, under a status line reporting a full
+count.** `[app]`
+@@STAMP@@ The app installed its GeoJSON sources and layers from `map.on("load")`, with a
+`styledata` handler gated on `map.isStyleLoaded()` as the re-install path after a style swap. In headless
+Chrome against an OpenFreeMap style — whose shaded-relief raster source keeps requesting tiles — **`load`
+never fired and `isStyleLoaded()` never became true**, so `getStyle().layers` held the basemap's 47 layers
+and none of ours. The basemap rendered normally. The canvas was the right size. The console was clean. All
+**115 browser assertions passed**, because every one of them checked *application state* — `visibleClasses()
+.length === 8` is true whether or not a single polygon exists. Only a screenshot showed an empty map.
+**Guard, three parts.** Gate hydration on the **style object existing** (`getStyle()?.layers?.length > 0`),
+not on a load event that may never arrive, and retry on `load`, `styledata` **and** `idle`. Assert
+`queryRenderedFeatures({layers:[...]}).length > 0` in the browser suite, never app state. And make the
+offline MapLibre stub report `isStyleLoaded()` **false on purpose**, so the regression cannot come back.
+
+**A `display` rule in your own stylesheet outranks the browser's `[hidden]{display:none}`, so setting
+`hidden` does nothing and a modal stays over the whole app.** `[browser]`
+@@STAMP@@ `#splash{position:fixed;inset:0;display:grid}` beats the user-agent stylesheet's
+`[hidden]{display:none}` on specificity, so `el.hidden = true` left the splash overlay covering the entire
+board. Every element underneath was present, measurable, clickable through `.click()` and assertable — the
+suite drove the whole signature loop through it and reported green. **Guard:** ship
+`[hidden]{{display:none!important}` in the app's own reset, and assert **`getComputedStyle(el).display ===
+"none"`** after dismissing anything dismissible, plus `document.elementFromPoint` over a region that matters
+to confirm what the reader is actually looking at. `el.hidden` is not a visibility assertion.
+
+**MapLibre sizes its canvas once, at construction, and a flex shell has not settled by then.** `[app]`
+@@STAMP@@ The map was constructed while its flex container was still resolving, so the canvas shipped
+**630 px tall inside a 495 px box** and stayed that way — MapLibre does not watch its container. The DOM
+width was right, the arithmetic was right, and both non-visual suites were green. **Guard:** attach a
+`ResizeObserver` to the map's container and call `map.resize()` from it, rather than only after a known
+gesture; a `resize` listener on the window is not enough, because a sibling panel changing width never
+resizes the window. Assert in the browser suite that the canvas rectangle **matches its container's**, not
+merely that it is non-zero.
+
+**A column-flex splitter inside a scrolling body computes to HEIGHT ZERO, and every band that
+follows it paints on top of the map.** `[browser]`
+*(2026-09-07, portfolio & asset register)* The desktop shell is `body → main → #split(flex) →
+[#stage, #rail]`, with the horizon bar, the filter row and the table as siblings of the splitter.
+The phone breakpoint did the usual thing — `#split{flex-direction:column}`, `body{overflow:auto}` —
+and `#split` then measured **390 x 0** while `#stage` (464 px) and `#rail` (2,593 px) overflowed
+it. Because the splitter had no height, the three bands after it all began at **the stage's own
+top**, so the table header and the horizon bar rendered over the map. Measured, at 390 x 844:
+
+```
+split      top 298  h    0        <- collapsed
+stage      top 298  h  464
+horizon    top 298  h  182        <- on top of the map
+filters    top 298  h  105        <- on top of the map
+tablewrap  top 298  h  320        <- on top of the map
+```
+
+Every box is individually correct, the CSS greps in the offline suite passed, and the page is
+unusable. **Guard:** at the phone breakpoint take the shell **out of flex sizing** — `body{display:
+block}`, `main{display:flex; flex:none}` — and give the splitter `display:contents` so its children
+become direct flex items that can be **ordered** against the bands outside it. Then assert the
+GEOMETRY in the browser suite: no band may start above the map's bottom edge. A CSS grep cannot see
+this, and it is the second time in this library that a phone layout has been green in two harnesses
+and broken on screen.
+
+**And in the same breakpoint: one `white-space:nowrap` title widened the LAYOUT VIEWPORT past the
+device.** `[browser]`
+*(2026-09-07, portfolio & asset register)* `#topbar h1{white-space:nowrap}` is right on a laptop and
+is a 458 px element on a 390 px phone. Chrome widened the layout viewport to **470 px** to contain
+it, so the whole page rendered inside a band with a dead margin beside it — which reads as a
+styling accident rather than as overflow, because nothing is clipped and nothing scrolls
+horizontally in an obvious way. A rail table with `white-space:nowrap` on its cells did the same
+thing at 793 px, and was merely clipped by the rail's `overflow-x:hidden`, so the source and
+vintage of every number on the page was unreadable on a phone with no sign that anything was
+missing. **Guard:** at the phone breakpoint let the title and any PROSE table wrap
+(`white-space:normal; overflow-wrap:anywhere`), keep `nowrap` only for the data table that scrolls
+in its own box, and assert **`document.documentElement.scrollWidth <= window.innerWidth`** and
+`window.innerWidth === <device width>` on a real emulated viewport.
+
+**A `moveend` handler that refetches context layers closes a loop through MapLibre's OWN
+ResizeObserver, and the application renders perfectly while its main thread is never clear.**
+`[browser]`
+*(2026-09-07, portfolio & asset register)* The cycle: `moveend` → refetch the context layers →
+`setData` on five GeoJSON sources → MapLibre recomputes its own chrome, because the attribution
+control's width changes with the sources in the style → **MapLibre's internal ResizeObserver on the
+map container** fires → `resize()` → `moveend`. Measured on a camera that was not moving at all:
+the stage stayed **1020x404** while the refresh counter climbed **3 → 14 → 30 → 46 → 61** in
+fifteen seconds, about six full refreshes a second, each one re-fetching a live county service.
+
+**The symptom is the nastiest kind.** Nothing crashes. The map renders, the counts are right, every
+screenshot is correct, and both non-visual suites are green. The main thread is simply never clear,
+so `isStyleLoaded()` is almost never true and a scripted `Runtime.evaluate` answers only
+intermittently — the browser suite reported *"the application boots and settles"* **red for three
+consecutive runs** while every assertion after it passed, which reads exactly like a dead
+application and is not one. Detaching the app's own ResizeObserver changed nothing, because the
+observer in the cycle belongs to MapLibre.
+
+**Chrome does say so** — `ResizeObserver loop completed with undelivered notifications` — and this
+suite's clean-console guard was **filtering that line out** as benign boilerplate. It was the only
+report of the defect. **A filter that excuses a warning excuses the defect behind it.**
+
+**Guard:** three things, and the first is the one that matters. (1) **Never let a viewport handler
+refetch unconditionally** — key the refresh on the rounded bbox, the zoom and the layer set, and
+return immediately when the key is unchanged; debounce on top. That breaks the cycle where it is
+yours, rather than chasing a library's internals. (2) In your own ResizeObserver, compare the
+`contentRect` against the last one and coalesce to a frame before calling `map.resize()`. (3) **Do
+not filter `ResizeObserver loop` out of a console assertion.** And when a readiness helper times
+out, make it report **which condition it is still waiting on** — a boolean that says only "not
+ready" sends the next reader hunting in the wrong place.
+
+**A keyless vector-tile host can answer HTTP 200, with the CORRECT content type, and ZERO BYTES — and the
+map renders as blank ground with nothing in the console.** `[data]`
+*(2026-09-07, portfolio & asset register)* This extends the existing *"keyless is a behaviour, not a URL"*
+rule with a failure mode none of its checks catch. OpenFreeMap's Positron style names its vector source as
+a **TileJSON endpoint** (`.../planet`), not as a tile template, and the real template inside carries a
+**build stamp**: `.../planet/20260830_080001_pt/{z}/{x}/{y}.pbf`. The obvious guess — take the source URL
+and append `{z}/{x}/{y}.pbf` — returns **200 · `application/vnd.mapbox-vector-tile` · 0 B**. A host check
+passes. A status check passes. A content-type check passes. A `!key=` check passes. And the two-tile
+*differ* test passes as well if it is run against the guessed path, because two zero-byte bodies compare
+equal only when something actually compares them. The stamp changes whenever the planet is rebuilt, so a
+hard-coded template also rots on a schedule nobody controls. Measured on the resolved path: **188,679 B**
+and **235,658 B**, different hashes, real map. **Guard:** resolve the TileJSON at load and read `tiles[0]`
+from it; never construct a tile path from a style's source URL; run the two-tile differ test against the
+**resolved** path and require both bodies over a size floor; and look at one tile before shipping.
+
+**A basemap preview pointed at an endpoint that does not exist leaves every row an identical box, and
+every non-visual assertion passes.** `[app]`
+*(2026-09-03, parcel record coverage)* The basemap drawer built a thumbnail URL by pattern —
+`https://<style host>/styles/<name>/{z}/{x}/{y}.png` — on the assumption that a vector-style host also
+serves matching raster tiles. It does not. Chrome blocked every request (`ERR_BLOCKED_BY_ORB`), all five
+rows showed the same empty box, and the offline suite reported the drawer perfect because the markup was
+perfect. This is distinct from the lazy-loading entry in this section: there the tiles were merely late,
+here the endpoint never existed. The fix was to stop guessing at a picture of a style and **render the
+style** — a small `maplibregl.Map` per row, mounted when the drawer opens and destroyed when it closes.
+**Guard:** never synthesise a tile URL from a style URL by pattern. And assert the preview from a
+**clipped screenshot** rather than from the canvas: a screenshot is what the reader gets, it does not
+depend on the page setting `preserveDrawingBuffer`, and a flat box compresses to a few hundred bytes while
+a rendered map does not — so *"all five differ and none is tiny"* is a check that actually bites.
+
+> **Second occurrence, 2026-09-07, portfolio & asset register — and with a sharper edge.** The same
+> mistake was made in a new shape: rather than guessing a raster path on the *style's own* host, the
+> drawer built a `tile.openstreetmap.org` URL for the ground in view and showed it in an `<img>`. That
+> host is one the same application **explicitly refuses as a basemap**, in a comment two hundred lines
+> above, because it answers HTTP 200 with an *"Access blocked"* image — so the app ruled the host out
+> for the map and then leaned on it for the picture of the map. It was also an external call to a host
+> outside the three services the app binds, which a deployment behind a customer's perimeter cannot
+> make. Headless Chrome returned `naturalWidth: 0` on all six rows: identical grey boxes, with every
+> non-visual assertion green. **The rule is not "do not guess a path on the style's host" — it is
+> RENDER THE STYLE**, mounted when the drawer opens and destroyed when it closes. And the assertion is
+> on pixels: each preview must paint more than a handful of colours, and the set of them must not all
+> be identical.
+
+**A preview rendered at the parent map's zoom shows one flat block of background colour, which is exactly
+the swatch it was meant to replace.** `[app]`
+*(2026-09-03, parcel record coverage)* With the previews rendering correctly, a 76-pixel box at a
+state-wide zoom held nothing but each style's background paint. Two light styles were then
+indistinguishable, which defeats the whole reason a preview exists rather than a colour chip. **Guard:**
+zoom a style preview **in** past the main map, not out. Coastline, water and road colour are what differ
+between styles; background alone is not.
+
+**`styledata` fires ONCE after `setStyle`, while `isStyleLoaded()` is still false, and never fires again —
+so a handler gated on `isStyleLoaded()` loses every operational layer permanently.** `[browser]`
+*(2026-09-02, site selection - the swing slate)* `setStyle` drops every source and layer, so an app must
+re-add its own. The documented hook is `styledata`, and the obvious guard is
+`if (map.isStyleLoaded()) { hydrate(); }`, because `addSource` throws while a style is loading. Measured in
+headless Chrome across a light-dark swap, polled every few hundred ms for nine seconds: `styledata` fired
+**exactly once**, at `isStyleLoaded() === false`; the style reported loaded about a second later;
+**`styledata` never fired again**. The guard therefore skipped the only event it would ever receive, and the
+app's operational layers were gone for the rest of the session. Both non-visual suites reported it green —
+the sources were correct in application state and the canvas was the right size. **Guard:** hydrate on
+`styledata` **and** on `idle`, which cannot fire before the style is usable, with an idempotent re-add that
+returns immediately once the sources are back, so the repeated `idle` costs nothing. Assert the recovery by
+**polling for the layers to come back**, never by sleeping a fixed interval — a fixed sleep turns a
+permanent loss into a flaky test.
+
+**A symbol layer needs a `text-font` the CURRENT basemap's glyph host serves, and the name differs between
+providers.** `[browser]`
+*(2026-09-02, site selection - the swing slate)* A `symbol` layer with `text-field` and no `text-font` gets
+MapLibre's default `["Open Sans Regular", "Arial Unicode MS Regular"]`. OpenFreeMap's glyph endpoint does
+not serve it: the request 404s, the labels silently do not draw, and only a console line says so.
+Hard-coding the fix does not work either — OpenFreeMap publishes `Noto Sans Regular` while Versatiles
+publishes `noto_sans_regular`, so one stack breaks half a keyless gallery. **Guard:** read the font out of
+the loaded style's own layers (the first `layout["text-font"]` it declares is by definition one its glyph
+host serves), re-read it after every basemap change, and assert both that the font is one the style
+declares **and** that `queryRenderedFeatures` on the symbol layer returns features. This is the label
+sibling of the existing `glyphs: undefined` entry: there the whole style is invalidated, here only your own
+labels vanish.
+
+**MapLibre's `AttributionControl` renders EXPANDED on load even with `compact: true`, and prints itself
+across the map.** `[browser]`
+*(2026-09-02, site selection - the swing slate)* Mounted bottom-right with a multi-agency
+`customAttribution`, the control's text ran the full width of the map — underneath the bottom-left legend
+and over the coordinate readout, clipping both. This is the map-corner collision already in this file,
+arriving from a control the app did not lay out. **Guard:** for anything longer than a short credit, do not
+mount the control: render your own single line in the corner stack (short credit visible, full source list
+and the no-warranty note in its `title`), and keep the full attribution in a provenance surface and in every
+export. Assert that the corners do not overlap — legend against readout against attribution — as geometry,
+because a collision is invisible to every DOM assertion.
+*(2026-10-21, incident situation map build)* The mechanism, and a lighter guard where the control must stay:
+the compact control starts with class **`maplibregl-compact-show`** on its container, and only the user's
+first drag removes it; with a long multi-agency credit it spread across the whole bottom of the map,
+covering the scale bar, legend rows and the readouts. On the map's `load` event, remove
+`maplibregl-compact-show` from `.maplibregl-ctrl-attrib` — exactly what a drag does, and MapLibre does not
+re-add it — so the control opens collapsed to its ⓘ button; keep the full credit in every export.
+
+**Each page must reframe the map on its own subject, or it inherits the previous page's view.** `[app]`
+*(2026-09-02, site selection - the swing slate)* A three-page app moved one map element between per-page
+slots and called `resize()`. The dossier — a page about **one** candidate — opened on wherever the previous
+page had last flown, a stretch of map holding no candidate, no trade-area band and no competitor, with every
+non-visual assertion green. **Guard:** compute the frame **per page** and fit it whenever the page changes,
+then assert per page that the page's own subject is inside `getBounds()` and that its own layers return
+features from `queryRenderedFeatures`. Note that `queryRenderedFeatures` reports nothing while a camera
+animation is still in flight, so wait for `!isMoving() && areTilesLoaded() && loaded()` before judging — the
+same assertion is otherwise flaky for a reason that has nothing to do with the defect.
+*(2026-10-22, live-position build)* The same is true one call later: `queryRenderedFeatures` immediately
+after a `setFilter` reads the **previous** frame — wait for `idle` before counting.
+
+**MapLibre rejects a data-driven `line-dasharray`, and it tells you through the map's own `error` event,
+not the console.** `[browser]`
+*(2026-09-02, land bank & acquisition screening)* A single outline layer styled with
+
+```js
+"line-dasharray": ["case", ["==", ["get", "verdict"], "unknowable"], ["literal", [4,3]], ["literal", [1,0]]]
+```
+
+produces `layers.constraints-outline.paint.line-dasharray: data expressions not supported`. MapLibre
+discards the **whole paint property** and draws every outline solid. Nothing throws, nothing reaches
+`console.error`, and every DOM and arithmetic assertion stays green — while the dashed-versus-solid
+distinction, which was the entire signal separating *a statement about data* from *data*, silently never
+rendered. It was found by reading the app's own status line in a screenshot.
+
+**Guard: split into two layers with static dasharrays and a feature `filter` on each.** And accumulate
+`map.on("error")` into app state so a harness can assert the list is empty — a defect reported only
+through a framework's own event channel is invisible to a console check.
+
+**MapLibre's popup is a white bubble regardless of your theme.** `[browser]`
+*(2026-09-02, land bank & acquisition screening)* `.maplibregl-popup-content` ships an unconditional white
+background. An app whose dark-mode body colour is near-white inherits into it, and the popup renders
+near-white on white — completely unreadable, while passing every structural assertion about its content.
+
+**Guard: style `.maplibregl-popup-content`, `.maplibregl-popup-tip` (per anchor direction) and
+`.maplibregl-popup-close-button` from the same tokens as the rest of the shell.** Never rely on inherited
+colour inside third-party chrome, and look at the popup in both themes.
+
+**A repeating timer that styles a layer outlives the style that contains it.** `[app]`
+*(2026-09-02, land bank & acquisition screening)* A "flash the selected feature" interval checked
+`getLayer()` once before starting. A theme change mid-flash calls `setStyle`, which drops every layer, and
+the next tick styles a layer that no longer exists — `Cannot style non-existing layer "highlight-line"`.
+A `try/catch` does not suppress it, because MapLibre reports it on the map's error event rather than by
+throwing.
+
+**Guard: re-check the layer on EVERY tick, not once at the start, and clear the interval when it goes
+away.** Anything that repeats across a possible `setStyle` has to re-establish its assumptions each time.
+
 
 **An invalid style key gives you a Map, a canvas, WebGL — and nothing painted, with an empty console.**
 `[app]`
@@ -2215,6 +4281,9 @@ followed by anything that is not CSS.
 mode — so the drawer ticked OpenStreetMap while the app applied OpenFreeMap Liberty. Ticking one basemap
 and drawing another is worse than either choice. **Guard:** one resolver, `basemapForThemeFrom(library,
 mode)`, used by the swap and by both drawers; the tick and the applied basemap are the same lookup.
+*(2026-10-08: the theme pair now lives in the catalog — `THEME_BASEMAP` / `basemapForTheme`, `osm` /
+`osm-dark` — and every id, including a `theme.basemap` id, resolves through `BASEMAP_ALIASES`, so a retired
+id ticks and draws the same survivor.)*
 
 **A theme flip that the undo stack remembers.** `[core: fixed]`
 The theme-driven basemap swap went through the undoable `setBaseMap`, so toggling light/dark three times
@@ -2233,6 +4302,15 @@ A second drawer request must *switch* mode, not stack, and the panel opens **bes
 (`right:47px` against a 32px cluster at `right:9px`) — a drawer covering the buttons that opened it
 strands the user. **Guard:** one `drawer` element with a `which` attribute, and a browser assertion that
 the drawer's box does not intersect the cluster's.
+
+**An app-owned drawer container must be authored `hidden`, or the first Esc closes an empty drawer.** `[app]`
+*(2026-10-21, incident situation map build)* When an app passes its own element to `@strata/map-controls`
+as the drawer (`drawer: HTMLElement`), the package uses it as found — it hides only a drawer it creates
+itself. Authored visible, the empty container counts as an open drawer, so the reader's **first Esc** is
+spent "closing" it and does nothing they can see; the popup or tool they meant to dismiss stays. **Guard:**
+author the container with the `hidden` attribute (and keep the global `[hidden]{display:none !important}`
+rule above so an author `display` cannot defeat it); assert in the browser suite that the first Esc after
+opening a popup closes the popup.
 
 **A row that selects but cannot deselect.** `[app]`
 Whatever adopts must also release, by the same gesture — otherwise a user who clicked by accident has no
@@ -2322,6 +4400,21 @@ Circled numerals (①②③) become boxes. Plain digits in a CSS circle look bet
 **Heatmap floods the canvas.** Ensure a ratio-0 transparent colour stop (the style compiler adds one if
 missing).
 
+**`TimeSlider` and `TimeSeries` ship in `@strata/core-map` but are NOT registered as `AppLayout` widget
+types, so a declarative time-player application cannot be authored from the registry alone.** `[core: open]`
+*(2026-09-07, portfolio & asset register)* Both components are complete: `TimeSlider` is a range slider with
+play/pause, `instant` and `window` modes, and it builds the time predicate and calls back per layer;
+`TimeSeries` is an inline-SVG series chart. Neither has a `defaultWidgetRegistry` key. The registry's
+nearest offering, `date-filter`, is a **calendar picker** — it emits `filterChange` and drives a bound
+source correctly, but it has no play, no step, no window handles and no clock selector, and it is
+chrome-sized rather than a page's protagonist. So this is a **registration and wiring gap, not a missing
+capability**. **Guard:** close it app-locally under the freestyle charter — a thin wrapper registered with
+`mergeRegistry` / `<StrataApp registry={{ "horizon-bar": HorizonBar }}>` — and name `date-filter` as the
+shipped fallback so the design ships either way, recording that the reading survives and the **motion**
+is what is lost. **If a second recipe registers the same wrapper, promote it into the registry** and follow
+the reference-docs update matrix: code first, then the component manifest row, then the three reference
+docs, then a Vitest case, keeping the docs-reconcile suite green.
+
 **A `filter` action replaces the layer's filter — cross-widget filters do not stack.** `[core: open]`
 `whereFromTrigger` derives **one** clause from the trigger and the dispatcher writes it straight through
 `store.setDefinition`, and `CartoPanel` holds exactly one active filter (a second click toggles it off).
@@ -2375,6 +4468,12 @@ are `{viewId}` and `{pageId}` — a deep link that is present and blank is worse
 **Guard:** deep-link from a `button` with an explicit `props.value`; build an export in a widget.
 **Fix:** implement an `export` dispatcher routing to a host callback (matching `onNavigate`/`onRefresh`)
 or drop it from the type; extend `valueFromTrigger` to read `viewId`/`pageId`.
+*(2026-10-22, data compact build)* Two more gaps of this family, from a design that needed them (the house vanilla build worked around both;
+the React path was not exercised): `export` acts on a map or a table, so exporting **one drafted record** (a data
+request as XML) has no action target — candidate `export` with `{ recordId }`; and a three-phase `views`
+lifecycle over **one** mounted map needs the map outside the `views` node with the phase driving the map's mode,
+which no connection can express — candidate `viewChange` → `filter` honouring a per-view map state for GeoJSON
+sources.
 
 **A `type:"scroll"` page emits nothing on scroll, so the scroll-story loop cannot be wired.** `[core: open]`
 *(2026-08-17, climate-risk regulatory reporting)* `type:"scroll"` gives a scrolling body and
@@ -2403,6 +4502,10 @@ types with working dispatchers, but **no shipped widget emits them** — `ChartP
 `{from:"chart", trigger:"rangeSelect", …}`, which therefore never fires. **Guard:** before designing a
 control around a trigger, grep for a widget that emits it; the trigger union is the *bus* vocabulary, not
 the *emitter* roster.
+*(2026-10-21, impact zone build)* Still open for `buttonClick` (from `menu` / `button`) and `sketchComplete`, and `<StrataApp>` supplies no `onSelectByGeometry` host callback — so a select-by-zone app's four signature connections (draw → zone, buffer step, adopt a footprint, context switcher) run only in the house build, wired directly.
+*(2026-10-22, live-position build)* Still open for `mapClick` (from `map`), `buttonClick` (from `button` /
+`controller`) and the `timer` mount (§9 *`timer → refresh` is declared and never fires*): ten of a
+dock-and-cards app's connections ran only in the house build, wired directly.
 
 **`carto` and `chart` render a "no data source" note unless the app passes a query function.** `[core: open]`
 Both panels are deliberately data-source-agnostic: `CartoPanel` needs `onQuery(spec)` and `ChartPanel`
@@ -2417,6 +4520,110 @@ scope; and assert on a rendered category value, never on the widget being presen
 `ltv = '60–80'` — SQL no service will match, and the failure is silent (an empty map, not an error).
 **Guard:** pre-compute a **string band field** on the data (`ltv_band`, `exposure_band`) and render it as a
 `bar` chart. It reads identically and produces valid SQL.
+
+**No connection action adds a layer, so "pin this catalog row to the map" cannot be authored.** `[core: open]`
+*(2026-10-21, incident situation map build)* A catalog list whose row click should add that dataset to the
+map as an operational layer has no `connections` wire to do it: `StrataActionType` offers `filter`,
+`zoomTo`, `showHide` and the rest, but nothing that **adds** a layer — `showHide` only toggles a layer the
+spec already declares. **Current guard:** declare every pinnable layer in `layers.json` hidden and wire the
+row to `showHide`; or handle the row click in app code against the store, and say in the recipe why it is
+not declarative. **Fix:** a candidate `addLayer` action whose options carry an ESRI operational-layer
+object, dispatched through the store so the layer enters the Layer panel and the undo history.
+
+**The map-controls draw tool emits no "finished" event and exposes no last-sketch accessor.** `[core: open]`
+*(2026-10-21, impact zone build)* An app that uses the sketch as **input** (draw a zone, count what is inside) cannot be told when the operator finished. **Current guard:** pass `interaction.setMode` to `mountMapControls`; on the change back to `"identify"` read `controls.tools.toGeoJSON()` and take the newest polygon added since the tool opened — nothing added means nothing changes. **Fix:** `tools.draw.onFinish(feature)` (or a `draw:finish` event) in `@strata/map-controls`. The same tool also exposes **no public clear**: once the app has adopted the sketch as its zone, the operator's orange sketch (fill 0.16) stays drawn over the app's own zone until the operator presses *Clear* in the tool panel, so the zone reads orange, not in its own colour. Editing the vendored copy is not allowed, so the guard is copy that says so; the fix is `tools.draw.clear()` (or `onFinish` returning `false` to discard).
+
+**No connection action sets a layer group's visibility.** `[core: open]`
+*(2026-10-21, impact zone build)* A context switcher (*Flood* = two layers, *Seismic* = two, …) cannot be authored in `connections`: `showHide` targets a widget, not a set of map layers. **Current guard:** app code toggles each group through the layer descriptors' `setVisible`. **Fix:** a `setLayerVisibility { layerIds, visible }` action (also wanted by a lifeline board).
+*(2026-10-21, lifeline board build)* Confirmed a second time. "Select a lifeline row, show its evidence layers
+and dim the rest" could not be authored in `connections`. App code flashes the row's layers and dims the
+others through the descriptors, so the behaviour is not declarative and the recipe says so.
+
+**`showHide` cannot toggle.** `[core: open]`
+*(2026-10-22, live-position build)* The `showHide` dispatcher reads `to` plus `hidden`, so a dock button that
+opens **and** closes the same card cannot be authored as one connection — every press sets the same state.
+**Current guard:** app code toggles the card and reflects it in `aria-pressed`. **Fix:**
+`showHide { toggle: true }`, flipping the target's current state.
+
+**No nearest-of-a-type primitive.** `[core: open]`
+*(2026-10-22, live-position build)* "The closest available unit of this kind" — rank the features of a
+kind/type by great-circle distance from a target, with stale candidates kept and labelled rather than
+dropped — was hand-written (haversine, R = 6,371.0088 km). **Current guard:** keep it in the app's domain
+module, label every distance *straight-line* (a ridge, a river or a closed road is invisible to it), and
+assert the ranking on fixed fixtures. **Fix:** `nearest(points, target, { filter, keep })` in
+`@strata/processing` with that label contract; a `nearest-card` widget once a second app needs one.
+
+**Buffer, intersection and geodesic area are not available to a vanilla app.** `[core: open]`
+*(2026-10-21, impact zone build)* `@strata/processing` is Turf-backed but needs a build, so a house-pattern app that must buffer a zone and apportion tract populations vendors Turf's UMD build (`@turf/turf@7.2.0`, sha256 recorded in `vendor/VENDOR.json`) and loads the same bytes in the browser and in both node suites (`vm.runInNewContext`). **Fix:** a plain-ES geometry module (buffer · intersect · area · point-in-polygon) vendored beside the map controls, with its own drift check.
+*(2026-10-21, lifeline board build)* Confirmed a second time, by a different route. Instead of vendoring Turf,
+a house-pattern app that needed **area shares** (utility territory per county, outage area per water system)
+re-implemented grid-sampled `areaShare` and even-odd ray casting with holes in its own domain module. A build
+script imported the same module, so the browser and the coverage table share one implementation. Getting it
+right cost three refinements: a finer step to meet the check, a minimum sample count, and a fine re-measure
+near the floor (§4, *"intersects" is not "served by"*). Every app that hand-writes it will pay that cost
+again. The fix above should include `areaShare` (with the sampling rules) and ray casting.
+
+**Freshness — time of record, time of fetch, cadence, last good read — is re-implemented in every app.**
+`[core: open]`
+*(2026-10-21, incident situation map build)* Every live app in this file's recent builds hand-wrote the same
+machinery: the record's own newest time (§3 *the feed is up but the number is old*), the last successful
+fetch against a stated cadence, the last good set held through a blank reload (§2), a body hash to detect
+change, and a strip that prints all of it. Each copy differs slightly, which is how a freshness dot comes to
+mean different things on two screens. **Current guard:** keep the two clocks separate and assert both in the
+live suite. **Fix:** a candidate `freshness` block on `@strata/data-source` sources (record-time field,
+expected cadence, last-good retention) and a registry `freshness-strip` widget that renders it.
+*(2026-10-21, lifeline board build)* A third hand-written copy, with **16 feeds**. It added three things the
+block should carry:
+- the time of record taken from the **`Last-Modified` of the response that carried the rows** (§5, *metadata
+  and rows come from different CDN cache fills*);
+- a **measured** cadence beside the claimed one, and the CDN cache age, both folded into the stale threshold;
+- **a parse failure treated as a failed refresh** that keeps last-good (§5, *truncated JSON*).
+
+The feed bar also had to grow to its content: a fixed-height strip clipped its last row until the copy
+*"16 of 16 feeds listed"* made the omission countable.
+*(2026-10-22, data compact build)* A fourth copy, judging each package against the **cadence its provider agreed to** rather than one the
+publisher claims: a per-package `staleAfter` from a register, *delivery stamp* (the query's `Last-Modified`) and
+*time of record* (a max statistic) printed apart, an `evidence: none` class that can never be judged on time, and a
+per-poll observation log (capped at 5,000 per declaration, the dropped count recorded) feeding an after-action
+annex. The block should carry an "on change — not verifiable" state, not only fresh / stale.
+*(2026-10-22, live-position build)* A fifth copy, per **feature** rather than per feed: each unit's fix age
+from its own fix-time field (§3 *the feed is up but the number is old*), banded against a stated cadence and
+re-rendered every second from a clock, without a poll. The block should come with a `fixAge` helper and a
+`freshness` visual variable in `@strata/core-map` (opacity plus a ring by band), so a stale unit looks stale
+on the map without app code.
+
+**Three widgets keep shipping app-local: a fixed-category status ledger, a cascade lens, and a feed bar.**
+`[core: open]`
+*(2026-10-21, lifeline board build)*
+- *Symptom:* a status board built against FEMA's Community Lifelines needed three widgets the registry does
+  not have:
+  - a **ledger**: a fixed, never-re-sorted category list whose chips are *suggested* (hollow) by a feed
+    and *recommended* (solid) by a person, with an agreement line;
+  - a **cascade lens**: a typed, tiered list of what a selected feature touches next, labelled heuristic;
+  - a **feed bar**: every source's time of record, fetch, cadence and gap citation.
+
+  All three shipped app-local, each with a named fallback.
+- *Cause:* `defaultWidgetRegistry` has no status-ledger, dependency-list or freshness widget. The feed bar
+  overlaps the `freshness-strip` candidate above.
+- *Guard:* ship them app-local under the freestyle charter (`recipes/COMPONENT-MANIFEST.md` §10) with a
+  day-1 fallback.
+- *Fix:* promote under §10.2 when a second app needs one. The silhouette is a template candidate,
+  **"lifeline-board"**: a fixed-category status ledger with suggested-then-recommended chips, which also
+  fits grid operations, ports and campuses.
+**Five more widgets shipped app-local: grant matrix, package cards, agreement grid, request queue, withdrawal checklist.** `[core: open]`
+*(2026-10-22, data compact build)* A data-sharing compact board (who may use whose data, when a declaration puts it in force) needed a
+providers × subscribers **grant-matrix** with glyph states, **package-cards** carrying DCAT-style terms and a
+drill, an **agreement-grid** of needs with one headline number and classified gaps, a **request-queue** in
+ICS 213RR discipline, and a **withdrawal-checklist** grouped by provider. All five shipped app-local with
+named fallbacks (recipe §2.10). Promote under `COMPONENT-MANIFEST.md` §10.2 when a second recipe needs one; the
+silhouette is a template candidate, **"data-compact"** (utility mutual aid, health-information exchanges, port
+consortia).
+
+**Four more widgets shipped app-local: unit fleet, unit vitals, nearest card, follow card.** `[core: open]`
+*(2026-10-22, live-position build)* A live resource-tracking board needed a **unit-fleet** list (units by
+kind, with state and fix age), a pinned **unit-vitals** card of counts, a **nearest-card** ranking (§7 *no
+nearest-of-a-type primitive*) and a **follow-card** of watched units. All four shipped app-local with named
+fallbacks. Promote under `COMPONENT-MANIFEST.md` §10.2 when a second recipe needs one.
 
 **MapLibre's GeoJSON tiler DROPS sub-pixel features, so a choropleth can draw the wrong half of a state.** `[browser]` `[app]`
 *(2026-08-17, climate-risk regulatory reporting)* A `geojson` source's default `tolerance` (0.375)
@@ -2524,6 +4731,9 @@ generated hue — so the layer the measured figures are actually about was the h
 Every assertion was green; only the screenshot showed it. **Guard:** where a generated lane is permitted
 at all, draw it **recessive** — smaller, softer, thinner-ringed — while keeping its own hue and its
 legend row, so provenance stays a real channel and the measured layer still leads.
+*(2026-10-22, live-position build)* Applied again to a generated fleet beside an empty measured lane (no
+open feed publishes the unit positions): the generated lane is drawn recessive, and when a measured lane is
+connected it should also default to **off**. Nothing new found.
 
 **An early return in a paint function leaves the previous population's number on screen.** `[app]`
 *(2026-08-20, fraud / AML geo-dashboard)* A console whose primary control **swaps the population** — not
@@ -2760,7 +4970,24 @@ the trouble: a panel whose width is set by two *resizable* siblings cannot be la
 at all, because its width has nothing to do with the viewport's.
 
 **A raster-only style has no `glyphs`, so a `text-field` symbol layer renders NOTHING -- silently.**
-`[browser]` `[app]`
+`[core: fixed]` `[browser]` `[app]`
+
+> **Fixed in `@strata/map-controls` 1.0.1 (2026-10-12) — do not apply the old workaround.** Every
+> raster (and `"none"`) style `basemapStyle()` / `controls.initialStyle()` builds now carries
+> `glyphs: DEFAULT_GLYPHS` — the keyless VersaTiles endpoint
+> `https://tiles.versatiles.org/assets/glyphs/{fontstack}/{range}.pbf`, the same one the catalog's
+> VersaTiles GL styles use (a GL basemap keeps its own glyphs). Delete an app-side `LABEL_GLYPHS` /
+> `map.setGlyphs()` workaround; it is dropped by every `setStyle` anyway. **Use a matching
+> `text-font`:** the endpoint serves **one font per request**, so name exactly one stack it has —
+> `DEFAULT_TEXT_FONT` (`["noto_sans_regular"]`) or `DEFAULT_TEXT_FONT_BOLD` (`["noto_sans_bold"]`).
+> MapLibre's default `["Open Sans Regular", "Arial Unicode MS Regular"]` and any comma-joined stack
+> **404**, and the labels vanish exactly as before. An app with its own font server passes
+> `mountMapControls({ glyphs })` and it is kept on every raster style. Still assert the **count of
+> rendered symbols** in the browser suite. The React path (`MapController`) always created its map with
+> glyphs and never `setStyle`s, so it was never affected. `verify:basemaps` probes the glyph URL as
+> keyless weekly.
+
+
 *(2026-08-26, hospital network planning)* The house basemap style is `{version: 8, sources: {base: raster}, layers: [raster]}` -- correct, and
 with **no `glyphs` key at all**, which is also correct for a raster style. A symbol layer added over it
 with `layout: {"text-field": ["get","RANK"], "text-font": [...]}` validates, adds cleanly, throws nothing
@@ -2841,6 +5068,9 @@ the style when it lands, dropping the layers a *second* time. **Guard:** make th
 `styledata`, *then* drop the sources, *then* fire `styledata` again — a stub that keeps them cannot
 reproduce a switch that forgets to re-hydrate. Assert the sources, the layers **and** a non-zero rendered
 feature count after the swap, in that order.
+*(2026-10-22, live-position build)* Make the idempotency check `getSource(id)` / `getLayer(id)` per compiled
+id — **not** `map.getStyle()`, which serialises the whole basemap style (hundreds of layers) and, called from
+an `idle` handler, pays that serialisation on every frame.
 
 **A full-bleed map flies records underneath its own floating panels.** `[app]`
 *(2026-08-30, ATM cash & service routing)* In a hero-map silhouette the docked panel and the floating
@@ -2860,6 +5090,261 @@ grew to the full height. Each surface was individually correct and inside the vi
 positional assertion passed. **Guard:** assert **pairwise non-overlap** across every floating surface as
 one rectangle predicate, not just that each is on screen, and include the control cluster and the
 readout in the set. Then look at the screenshot anyway.
+
+**An inline width written by a drag outranks BOTH the collapse rule and the responsive breakpoint.**
+`[browser]` `[app]`
+*(2026-09-03, transaction evidence)* A resizable rail sets `style.width` on every pointer move, which is
+correct. Two rules then stopped working, and only in the order a real reader hits them. Collapsing the rail
+(`#rail[data-collapsed="1"]{flex-basis:0}`) did nothing at all once it had been dragged, because an inline
+declaration beats any stylesheet rule of any specificity. And at the phone breakpoint, where the rail stacks
+**above** the map and a horizontal width is meaningless, the 444 px it had been dragged to survived into a
+420 px viewport and pushed the whole page sideways. Both passed every DOM assertion: the collapse attribute
+flipped, the media query matched, the canvas matched its container.
+**Cause:** a dragged size is *session state*, and the stylesheet is the *spec*; nothing reconciles them.
+**Guard:** park the dragged width when you collapse and give it back when you expand, so the reader's choice
+survives the round trip; and in the small-breakpoint block override it outright — `width:auto!important` —
+because below that width the drag axis does not exist. Assert **both**: that a collapse after a drag really
+reaches zero, and that at phone width `scrollWidth <= clientWidth`, **naming the widest element** in the
+failure message so the next occurrence is one line of output rather than an investigation.
+
+**A coverage state authored at low alpha reads as EMPTY GROUND, which is the one thing it exists to
+prevent.** `[app]`
+*(2026-09-03, transaction evidence)* This app covers one county of California's 58 and renders the other 57
+`NOT COVERED` — never as zero, never as blank — using the house convention that a **dashed** outline says
+"a statement about data" where a solid fill says "data". Authored at fill alpha **26/255** with a 1.0 px
+dash, the layer was invisible on a light basemap: 57 counties looked exactly like the ocean. Every assertion
+passed — the source held 57 features, the dash array was `[3,2]`, the fill colour was the authored one.
+**Cause:** an alpha chosen so a wash cannot be mistaken for a measurement can also be an alpha at which
+nothing is communicated, and no DOM assertion distinguishes the two.
+**Guard:** raise the fill until it reads while keeping it **below the deepest data class** (46/255 here
+against a deepest band of 110/255) and let the **dash** carry the semantics, since the dash is what
+separates the two meanings rather than the alpha. Then assert it in pixels: `map.project()` a coordinate
+inside a not-covered polygon, decode the screenshot, and require the sampled luminance to be measurably
+below bare ground. A coverage layer nobody can see is a coverage claim nobody made.
+
+**Three declarative wires that read as obvious and do not work.** `[core: open]`
+*(2026-09-07, valuation & taxation base map)* Read out of the shipped dispatchers rather than guessed, and all three would have shipped silently
+in a connections table that reads as complete:
+
+- **`extentChange → panTo` between two maps does not sync extents.** `extentChange` carries a `bbox` and
+  no `oids`, and `panTo` re-emits it as a `featureSelect`. The receiving map sees an **empty `oids`**,
+  which the shipped contract defines as a **release** — so it clears its selection, closes its popup and
+  stops flying. The authored wire actively breaks the far pane.
+- **`featureSelect → filter` clears a filter rather than scoping it.** `whereFromTrigger` has no
+  `featureSelect` branch and falls through to `undefined`; the dispatcher then calls
+  `setDefinition(layer, undefined)`, which removes the definition expression.
+- **`buttonClick` has no shipped widget emitter.** It is a declared trigger type with its emitters listed
+  as pending, so any connection wired to it never fires.
+
+**Guard:** verify that every `from` in a `connections` table is a **shipped emitter** and every `action`
+a **shipped dispatcher** before authoring it — a connection that never fires is worse than no connection,
+because the design reads as finished. Camera lockstep between two maps needs a small map-tool widget
+reaching both through the MapRegistry; a selection-derived filter needs a widget that re-emits a real
+`filterChange`. Both are app-local until the core ships them, and both need a named day-1 fallback so the
+application is whole either way.
+
+**A state-to-colour lookup keyed on strings that are not keys of the palette throws only when the rare row
+appears — and takes the whole pipeline with it.** `[app]`
+*(2026-09-07, valuation & taxation base map)* The map from four record states to their hues used the keys `notroll` and `atfloor`. The
+palette's keys are `notOnRoll` and `atFloor`. `PALETTE[key][theme]` therefore threw
+`Cannot read properties of undefined` the moment **one** gated parcel entered the viewport, and the app's
+own `try/catch` around the scope pipeline turned that into *"could not read the parcels in view"* — no
+surface, no readout, and nothing in the console a reader would ever see. County-wide the trigger population
+is **60,785 off-roll rows, 1,181 lots at or under 100 square feet and 124 sentinels**: not a corner case.
+**A live suite of 415 assertions, a browser suite of 144 and a screenshot pass had all reported green**,
+because every viewport any of them happened to open on contained only clean parcels. **Guard, two parts.**
+Resolve such a lookup through a helper with an **explicit fallback**, so a missing key is a wrong colour and
+never an exception — the states are the point of the surface, and losing the surface to protect a hue is
+the wrong trade. And make the harness **fly to a named row of each rare state** rather than trusting the
+viewport it happens to open on: a fixture carrying one row of every state offline, and a navigation to a
+specific record by id in the browser.
+
+**Second occurrence — the pointer path and the keyboard path of the same resize grip disagreed about
+direction, and a suite that drove both still missed it.** `[app]`
+*(2026-09-07, valuation & taxation base map; first recorded 2026-09-07, development pipeline tracker)*
+Recorded again because the mechanism is identical and it was rediscovered independently in the same week,
+which says the guard belongs in the harness template rather than in one build's notes. A shared
+`apply(start, dx)` resolves which edge a panel's grip faces; the keydown handler applied that sign
+**again** before calling it, so the right-hand rail's `ArrowLeft` **narrowed** the panel that dragging its
+grip left **widened**. What differs from the first recording is what let it through: this build's suite
+*did* drive both the pointer and the keyboard path — but only on the **left** rail, where the double
+negation cancels and both paths are correct. **Guard:** drive both gestures on **every** rail, not on a
+representative one, and assert the **direction** rather than that the size changed. A sign that appears in
+two places is a sign that will be applied twice: resolve it once, inside the helper, and pass that helper a
+raw pointer delta.
+
+**Seven per-style basemap previews were one raster tile repeated, from a host the application's own text
+calls a placeholder — and not one of them loaded.** `[app]` `[browser]`
+*(2026-09-07, valuation & taxation base map)* The basemap drawer's rows each carried an `<img>` whose `src` was built from the current view's
+tile coordinates: **the same URL on all seven rows**, in none of the seven styles, pointing at the very
+raster host this application's own comments name as answering HTTP 200 with an *"Access blocked"* image. In
+a browser the number that actually rendered was **zero**. Three faults in one element, and every non-visual
+assertion was green — the row count was seven, the markup was right, the arithmetic was right, and the
+drawer cleared the control cluster. The whole reason the house default asks for a live tile per row is that
+*a colour swatch cannot tell Positron from Voyager* — and neither can seven copies of one picture.
+**Guard:** assert a preview as a **picture** — a canvas per row, sized on screen, its bytes read back and
+compared against its siblings, so *"seven previews"* and *"seven **different** previews"* are separate
+assertions. Three mechanical notes, each of which cost a run: `toDataURL` on a GL canvas returns an empty
+buffer unless the map was created with `preserveDrawingBuffer`, which is how this very assertion first
+reported *"1 distinct of 7"* on seven previews that really were seven different styles; a GL map paints its
+style's background colour before its tiles arrive, so poll each preview's own
+`loaded() && areTilesLoaded()` rather than sleeping a fixed delay; and **mounting one live GL map per row
+is not free**. That last one is measured rather than asserted: two probes back to back on a quiet machine,
+and the same tier-B jump completes in **2.2 s** without the previews while the page **stops answering CDP
+entirely** with seven of them mounted. Nine simultaneous WebGL contexts — two main maps and seven previews
+— is more than a heavy page can carry.
+
+**What shipped in the end was neither shape, and it is the cheaper answer.** Each row's swatch is drawn
+from **that style's own declared ground, land-cover and water colours**, read once out of the style JSON
+through the application's network seam, warmed at boot so opening the drawer never races the page, and
+rendered as a small inline SVG with **no GL context at all**. It tells Positron from Dark from Liberty from
+Colorful — which is the job the house default actually asks of a preview — and it says on screen that it is
+the style's own colours rather than a picture of the reader's ground. One trap inside it: a style's colour
+may be a **data-driven expression**, which is an array and not a string, and passing that through to a
+`fill` renders the literal text `[object Object]`. Take flat colours only and skip the rest.
+
+⚠ **A correction to an earlier reading of this same episode, kept because the wrong answer is instructive.**
+The repeated browser-suite aborts around this drawer were **not** caused by the previews, and **not** by the
+screenshots either. A clean run of the shipped design, with screenshots, passes **175/175** with no retries
+and no missed captures, and a capture measures **0.0–0.1 s** with the evaluate behind it at 0.0 s. The
+aborts came from two Chrome instances driving the same 22 MB application at once. The full account is in
+§9, *a harness that spawns browsers is a load generator*.
+
+**A GL → GL basemap swap with MapLibre's default style diff requests glyphs from the OLD style's host --
+labels 404 and `style.load` may never fire.** `[core: fixed]` `[browser]`
+
+> **Fixed in `@strata/map-controls` 1.0.2 (2026-10-13) — do not apply the old workaround.** Every basemap
+> change is now `map.setStyle(style, { diff: false })` — a full swap that rebuilds the style and always
+> fires `style.load` — once per map (the primary and each of `maps`). Delete app-side wrappers that patched
+> `setStyle` to force `{ diff: false }` (or re-`setGlyphs` after a swap).
+
+*(2026-10, map-controls migration)* `map.setStyle(url)` defaults to `diff: true`: MapLibre tries to
+patch the old style into the new one. Between two **GL** styles from different hosts (VersaTiles ↔
+CARTO, or a raster style carrying `DEFAULT_GLYPHS` ↔ a GL style with its own font server) the diff kept
+the previous `glyphs` URL, so the new style's label layers asked the wrong host for their fontstacks and
+**404'd** — the basemap drew, its labels did not, and the console showed only a run of glyph 404s. In some
+swaps the diff succeeded "in place" and **`style.load` never fired**, so an app that re-added its layers
+on `style.load` lost them. **Guard:** for a basemap change always `setStyle(style, { diff: false })` and
+re-add app layers on `styledata` (the package's `onRestyle`), not on `style.load` alone; assert in the
+browser suite that a label layer has rendered symbols **after** a GL → GL swap.
+
+**An unset `*-opacity` (`setPaintProperty(id, prop, undefined)`) left a MapLibre 4.7.1 LINE layer drawing
+nothing.** `[core: fixed]` `[browser]`
+
+> **Fixed in `@strata/map-controls` 1.0.2 (2026-10-13) — do not apply the old workaround.**
+> `applyLayerState()` never writes `undefined` any more: at 0 % transparency it writes the **authored**
+> value back (a number, or the authored expression), and an expression opacity is faded as
+> `["*", expr, k]` — or, for a zoom `interpolate` / `step`, by multiplying its output stops (`["zoom"]`
+> may only be the input of a top-level interpolate / step, so it cannot be wrapped). Remove the
+> `0.999` "never quite opaque" opacity workaround from the descriptors.
+
+*(2026-10, map-controls migration)* The layer list used to "reset" a fully opaque sublayer by unsetting
+the paint property — 1 is MapLibre's default for every `*-opacity`, so it looked like a no-op. On a line
+layer in MapLibre 4.7.1 it was not: after `setPaintProperty(id, "line-opacity", undefined)` the layer kept
+its features (`queryRenderedFeatures` found them) and drew **no pixels** until any other paint change.
+Apps worked around it by authoring `0.999` so the module never reached 1. Separately, an authored
+**expression** opacity (`["interpolate", …, ["zoom"], …]`, `["get", "alpha"]`) was multiplied as if it were
+a number, producing `NaN`. **Guard:** never unset a paint property to restore a default — write the
+value; and treat an authored paint value as possibly an expression everywhere you scale it.
+
+**An open drawer hid the map's popup; in dark mode the popup was white-on-white (or bare text with no
+`maplibre-gl.css`).** `[core: fixed]` `[browser]`
+
+> **Fixed in `@strata/map-controls` 1.0.3 (2026-10-13) — do not apply the old workaround.** The package
+> injects one popup stylesheet: a MapLibre popup inside the container stacks at `--smc-popup-z` (default
+> `calc(var(--smc-z,40) + 2)` = 42), above the drawer (40); the cluster and the drawer grip sit at 43, so
+> neither a control nor the grip is ever under a popup. With `popupStyles` (default on) the card is themed
+> from the `--smc-*` tokens in light and dark. Delete app popup z-index overrides (`calc(var(--smc-z,40) +
+> 2)`) and app dark-popup CSS. App modals go at **z-index ≥ 50**.
+
+*(2026-10, thirty vendored apps)* The drawer and the cluster shared `--smc-z` (40); a MapLibre popup has
+no z-index of its own, so a popup that opened beside a wide drawer slid under it (seen in about eight
+apps). The vanilla package also had nothing like React's `ensurePopupStyles`: `maplibre-gl.css` paints
+the card white and sets no `color`, so in a dark app the card inherited near-white text — or, on a page
+without `maplibre-gl.css`, the popup was unstyled text at the top-left of the map. **Guard:** a popup is
+UI and needs a stacking tier *above* the panels; check `document.elementFromPoint` over a popup that
+overlaps an open drawer in the browser suite. Do not give the map element its own `z-index` — that makes
+a stacking context that traps the popup below the drawer. A fixed `color` on `.maplibregl-popup-content`
+written for light mode outranks the themed card and makes dark popups unreadable again.
+
+**One Esc closed the app's modal AND the map's popup together.** `[core: fixed]` `[app]`
+
+> **Fixed in `@strata/map-controls` 1.0.3 (2026-10-13).** `escape()` closes one layer per press: the
+> app's `closePopup()` first — `true` stops there — then MapLibre popups on the next press, then the tool,
+> then the drawer. `closePopups()` still closes all. A MapLibre popup *may* be registered as
+> `closePopup`; one opened with `closeButton: false` *should* be (the package can only remove its element
+> without telling MapLibre). An app modal that must outrank the chrome is checked **before**
+> `controls.escape()`. The full-screen Esc guard (`escapeGuardMs`, 300 ms) is time-based: any Esc in that
+> window is swallowed.
+
+*(2026-10, thirty vendored apps)* 1.0.2 closed the app's popup and every MapLibre popup in one call, so a
+reader who pressed Esc to dismiss a confirmation card also lost the feature popup they were reading.
+MapLibre 4.7.1 also has no `map._popups`, so the package finds popups in the map container's DOM and
+presses their close button. **Guard:** in an offline suite, stub a popup the 4.7.1 way — a
+`.maplibregl-popup` with a `.maplibregl-popup-close-button` inside `map.getContainer()` — not only on
+`map._popups`.
+
+**A GL basemap's style, sources and tile hosts are not where a synchronous check looks.** `[browser]`
+`[core: fixed in part]`
+
+> **1.0.3:** `BASEMAP_HOSTS` now admits every host / path the catalog's own GL styles delegate to
+> (VersaTiles `assets/sprites/` + `tiles/osm/`, CARTO's `tiles.basemaps.cartocdn.com` and
+> `tiles-{a-d}.basemaps.cartocdn.com/vectortiles/`), checked offline against a recorded copy of each style
+> and live by `verify:basemaps`; `styleDelegateUrls(style)` lists what a style delegates to. A GL style
+> that fails to load falls back once to `osm` / `osm-dark` (`basemapFallback`, `basemapTimeoutMs`,
+> `onBasemapFallback`). Delete app allow-list extensions and app GL fallbacks.
+
+*(2026-10, thirty vendored apps)* Three traps around a `vt-*` basemap. (1) After a swap,
+`map.getStyle()` and the sources an app adds are **not** there synchronously — the style is fetched and
+parsed first; read it after `styledata` / `style.load` (the package's `onRestyle`), never on the line
+after `setBasemap()`. (2) In headless Chrome a vector style can take **more than 6 s** to paint; a fixed
+3 s sleep before a screenshot shows an empty ground — wait for `idle` with a generous timeout. (3) A GL
+basemap's tile, glyph and sprite requests run in MapLibre's **worker**, so they never appear in the
+page's resource timing; a host check that reads the page's network log sees only the style JSON and
+passes anything. **Guard:** read the active style's URLs (`styleDelegateUrls(map.getStyle())` plus each
+source's TileJSON `tiles`) and test them against `BASEMAP_HOSTS`.
+
+**An app that called `refreshLayers()` on every `idle` lost clicks in the layer list.** `[core: fixed]` `[app]`
+
+> **Fixed in `@strata/map-controls` 1.0.3.** `refreshLayers()` re-renders only when the list's HTML
+> changes, so a call that changes nothing leaves the buttons (and a slider drag) under the pointer.
+> Still call it when data changes, not on every `styledata` / `idle`.
+
+*(2026-10, thirty vendored apps)* Each re-render replaced the row buttons; a click whose `pointerdown`
+landed on the old button and `pointerup` on the new one never fired. **Guard:** re-render a list on a
+data change, not on a map event; and `drawerWidth()` is `0` without layout (jsdom) — assert widths in a
+browser, or after `setDrawerWidth()`.
+*(2026-10-22, live-position build)* **The same failure from an app's own one-second tick.** A card that
+rebuilt its `innerHTML` every second to update fix ages swapped the button under the pointer between
+`mousedown` and `click`, and dropped focus from a `<select>` the reader was using. **Guard:** a clock tick
+patches text in place (per-node `textContent`, or a small morph); rebuild markup only on a structural
+change, and assert in the browser that a click and an open select survive a tick.
+
+**An app's click delegate catches the vendored map controls' own buttons.** `[app]`
+*(2026-10-22, live-position build)* The vendored `@strata/map-controls` cluster marks its buttons `data-act`
+— the same attribute the app's single document-level click delegate dispatched on. Pressing the cluster's
+**Legend** button reached the app's *legend row* case with no dimension: it hid `"undefined:undefined"`,
+every legend row read *0 of N*, and MapLibre was handed a filter with an `undefined` value (one console
+error per unit layer) — the map emptied. **Guard:** the delegate returns early for any target inside the
+vendored chrome (`closest('[class^="smc-"]')`, or the controls' container), or the app namespaces its own
+attribute; assert in the browser suite that pressing each cluster button leaves the app's layers drawn, and
+negative-test the guard (remove it, watch the assertion fail).
+
+**A submit button that is also a click action fires the action twice.** `[app]`
+*(2026-10-22, live-position build)* A *Connect* button was both a case in the app's click delegate and the
+form's submit button, so one press ran the click case and then the form's `submit` handler — two reads and
+two self-re-arming poll chains. **Guard:** an action belongs to exactly one event: let `submit` own anything
+inside a `<form>` (it covers Enter too), make the click case a no-op for it, and assert in the browser that
+one press produces exactly one request. Same hazard as §9 *a `keydown` dispatched on both `document` and
+`window`*.
+
+**A quick theme switch during a style load surfaces MapLibre's `AbortError` as an uncaught rejection.**
+`[browser]`
+*(2026-10-22, live-position build)* Flipping light ↔ dark while the previous basemap style was still loading
+left MapLibre's superseded style request rejecting with `AbortError` — an `Uncaught (in promise)` in the
+console that fails a clean-console assertion although nothing is wrong. **Guard:** in the app's
+`unhandledrejection` handler ignore `reason.name === "AbortError"` (a superseded request, not an error) and
+let every other rejection through; test with two theme flips inside one style load.
 
 ## 8 · Colour, theme and contrast
 
@@ -3005,7 +5490,267 @@ selection, focus and hover affordances that sit over the basemap take a **per-mo
 recomputes both ratios from the theme file. Assert the negative too -- that a single hex could *not* have
 cleared both -- so the pair is not "simplified" away later.
 
+**A label drawn over a bar has a ground that is another token, not a surface — so a
+token-against-surface contrast table cannot see it.** `[app]` *(2026-09-03, tenant mix & catchment)*
+Forty measurements of every informational token against both surfaces in both modes passed at a floor of
+6.07:1, and the app still shipped dark-on-dark text: the chart's category labels were drawn *inside* the
+bars, so each label crossed **two** grounds — the pale track behind the bar and the saturated fill of the
+bar itself. No surface measurement covers that, and no non-visual assertion sees it. A phone-width
+screenshot made it obvious.
+
+**Guard:** enumerate every *ground* a token is drawn on, not every surface. Where a label crosses a
+boundary, **draw it twice**: one copy on the track and a second copy inside the fill element, whose own
+`overflow: hidden` clips it exactly at the bar's end at any width. Give the clipped copy its own token
+(white in light mode, the app background in dark) and **measure that token against each fill** — four
+more measurements, which took this build's set from 40 to 44. In the browser suite, assert that the two
+copies share a left edge, that the inner one is clipped to the fill, and that their computed colours
+differ; a single-copy label passes all three trivially only if you forget the third.
+
 ## 9 · Suites and verification
+
+**An unencoded `/../` is not a traversal test — the browser resolves it before the request is sent.**
+`[app]`
+*(2026-09-07, facilities & space utilisation)* A browser-driven traversal probe fired `fetch("/../../server.mjs")` and got **200**, which
+looks like a failed guard. It is not: the URL is resolved against the origin **in the page**, so the
+server receives `/server.mjs`, a file that is legitimately inside the served folder. Only
+**percent-encoded** segments (`%2e%2e%2f`, `%2e%2e%5c`) survive to reach the handler — which is exactly
+why the guard must decode **before** it normalises. Worth knowing alongside it: `node:path` collapses a
+leading `..` past the root, so `/%2e%2e%2f%2e%2e%2fpackage.json` normalises to `/package.json` and 404s
+inside the folder rather than escaping. **Guard:** test with encoded payloads only, assert the refusal
+**and** that a legitimate file is still served, and clear the suite's failed-request tally afterwards —
+those deliberate 404s otherwise poison the clean-console assertion.
+
+**A resize helper shared by a left-docked and a right-docked panel needs a direction, or one of them
+shrinks when you drag it bigger.** `[app]`
+*(2026-09-07, facilities & space utilisation)* Generalising one `resizable()` across the result card, the map drawer (both right-docked) and
+the legend (left-docked) inverted the card: the same drag that had widened it now narrowed it, and the
+arrow keys went with it. This file already records *pointer-and-keyboard-disagree-about-direction* twice;
+this is the sibling — **panel-and-panel disagree about direction**, from one helper with one hard-coded
+sign. **Guard:** take the dock edge as a parameter, apply it to the pointer delta **and** to the key step
+in the same expression, and assert in the suite that the *same intent* — "make this bigger" — grows every
+panel, whichever edge it is docked to.
+
+
+**A DOM stub's `dataset` must WRITE THROUGH to the attribute, or the harness quietly tests nothing.**
+`[app]`
+*(2026-09-07, facilities & space utilisation)* The app builds its control cluster with `b.dataset.ctl = key` and the suite reads
+`[data-ctl]` — which in a real DOM is the same storage. The stub modelled `dataset` as a plain object, so
+the attribute stayed empty and an assertion on the six glyphs' order compared `",,,,,"` against the
+expected string. It failed loudly here; the same gap on an assertion phrased as "no row is missing its id"
+would have passed for the wrong reason. **Guard:** model `dataset` as a proxy that mirrors into the
+attribute map (and have `setAttribute` mirror back). The house rule stands — **the harness accommodates
+the app, not the reverse** — and the corollary is that a stub which silently drops a write is worse than
+one that throws.
+
+**A deliberate `Page.navigate` aborts every request in flight, and the clean-console guard reads that as a
+failed request.** `[app]`
+*(2026-09-07, facilities & space utilisation)* A browser suite that navigates more than once — to test a deep link, or to load the page at
+phone width — collects two `net::ERR_ABORTED` entries from `Network.loadingFailed` that are entirely its
+own doing, and the "no failed network request" assertion goes red on a healthy app. **Guard:** clear the
+failure tally **at each navigation** rather than filtering `ERR_ABORTED` out by error text. Filtering by
+text would also hide a real abort from the app; clearing at a known, deliberate boundary does not.
+
+
+**A guard can match the app's own sentence FORBIDDING the thing it guards — and stripping comments does
+not help, because the sentence is user-facing prose the app needs.** `[app]`
+*(2026-09-07, development pipeline tracker)* Fourth and fifth occurrences of a trap this file already
+records twice for `proxy` and once for `createConnection`, and the first where comment-stripping is no
+defence. A check that the app builds no committee-style export document grepped the shipped source for
+`committee` and matched its own empty-lane statement — *"a generated project cost is the one number an
+investment committee would act on."* A check that no geocoder is called grepped for `geocode` and matched
+the coverage table's *"six statewide rows geocode into Puerto Rico"*, a line that exists **because** the app
+geocodes nothing and reports the publisher's six bad matches instead. Both guards were "passing" only in
+the sense that they were failing loudly for the wrong reason. **Guard:** an honesty check that scans text
+is testing vocabulary, not behaviour. Assert the behaviour — that the only export entry points are the two
+named functions and the only modal is the dismissible splash; that no URL matches a real geocoder API shape
+(`findAddressCandidates`, `GeocodeServer`, `nominatim`, `photon`) rather than the English word. Where a
+textual scan is genuinely the only option, scan for **API shapes and identifiers**, never for the domain
+noun the app is obliged to discuss.
+
+**A status line that reports the app's INTENTION rather than the map's state will confidently describe
+an empty map.** `[app]`
+@@STAMP@@ The readout said **`540 of 540 jurisdictions drawn`** while not one polygon was installed, because
+it counted the jurisdictions whose class passed the legend filter — a fact about application state that
+stays true when the map layer does not exist. This is the readout that `building-apps.md` §4 asks for
+precisely so that a support question becomes a glance, and it was the thing most confidently lying.
+**Guard:** derive the readout from the **map** (`map.getLayer(id)` present, features rendered), and give it
+an explicit `MAP LAYER NOT INSTALLED` state distinct from a count. Refresh it on every render, not only on
+the events that happen to call it, or it describes a previous state. Then assert in the browser suite that
+the status text does **not** report a count while the layer is missing.
+
+**The pointer path and the keyboard path of the same control can disagree about direction, and only a
+harness that drives both will notice.** `[app]`
+@@STAMP@@ A resize helper resolved which edge a panel's grip faces **inside** `apply()`. The pointer handler
+passed a raw delta and was correct; the keyboard handler applied the same sign itself before calling
+`apply()`, so the right-hand rail's `ArrowLeft` **narrowed** the panel that dragging left widened. Both
+paths "worked"; they simply did opposite things. **Guard:** drive every affordance through **both** its
+pointer and its keyboard path in the offline suite, against the same element, and assert the direction
+rather than only that the size changed. Resolve a sign in exactly one place.
+
+**A spreadsheet is a service with worse manners — probe it the same way.** `[data]`
+*(2026-09-07, portfolio & asset register)* One published inventory carried **148 completely blank trailing
+rows** inside its row count (a 2.0 % overstatement of the population), **one String among 7,367 Integers**
+in a numeric column, and **235 rows already past the date the column is used to filter on**. None of that
+is visible from a header, a column count or a type declaration, and a bulk file invites more trust than a
+service because it arrives as one artefact with a name and a date. **Guard:** apply the full seven-step
+probe to a bulk file exactly as to a service — count the **real** rows rather than the sheet's, check types
+**row by row** rather than from the header, look for duplicates and sentinels, and give every date
+predicate a **lower** bound as well as an upper one.
+
+**A regex over XML whose attribute group is GREEDY eats the slash of a self-closing tag, falls through to
+the open-tag branch, and swallows the next element whole.** `[app]`
+*(2026-09-07, portfolio & asset register)* A zero-dependency `.xlsx` reader matched cells with
+`/<c([^>]*)(?:\/>|>([\s\S]*?)<\/c>)/g`. On `<c r="U2" s="5"/>` the greedy `[^>]*` consumed
+` r="U2" s="5"/`, the `>` branch then matched, and the lazy body ran forward to the **next** `</c>` —
+consuming the neighbouring cell and its value. Every empty cell therefore deleted the cell after it. The
+file still parsed, every row still had the right column count, the date columns were right, the
+square-foot total was right **to the byte**, and the annual-rent total came out at **$5,548,683,056**
+against a true **$5,838,396,051**: a 5 % error, entirely plausible, with no error anywhere. **Guard:** make
+the attribute group **lazy** — `[^>]*?` — so the engine tries `/>` at the earliest position, and apply the
+same fix to every self-closing tag in the format (`<row/>`, `<xf/>`). Then assert a **total you already
+know from another tool** before trusting the reader; a shape check would not have caught this.
+
+**A guard can match the sentence saying the thing is absent — three times in one build.** `[app]`
+*(2026-09-07, portfolio & asset register)* Already recorded in this file for `proxy` and for
+`createConnection`. It happened three more times in a single app, and the pattern is worth stating as a
+rule rather than as a list of victims. A money guard `/rent|value|price|cost/i` matched **`rentable_sf`**,
+an area column, and reported a clean estate as carrying money. An identity guard `/owner|lessor/i` matched
+the tenure label *"1000 — no constraints, private ownership"*, which is a **published classification code**
+the application is required to print. And a popup guard on `lessor` matched the popup's own disclosure that
+the asset *"carries no lease number and no lessor."* **Guard:** scan **field names and data**, never prose.
+Anchor name-level guards on whole words (`/^(.*_)?(rent|value|cost)(_.*)?$/`), collect the bound field list
+and test that, and where a claim really is about text, strip the explanatory block first — or assert the
+behaviour instead. And **negative-test every guard**: each of these three was written to fail closed and
+each passed the thing it was meant to catch.
+
+**A read date compiled into the source is a lie with a delay, and a suite that freezes a live count goes
+red on a Tuesday for no reason.** `[app]`
+*(2026-09-07, transaction evidence build, re-run four days after it was verified)* An app over a file that
+gains rows daily exported `READ_DATE = "2026-09-03"` from its domain module and printed it beside every
+figure — the status line, the rail, the exported note. Four days later the app fetched **57,524** rows at
+boot and labelled them *read 2026-09-03*. Nothing failed: the constant was correct on the day it was
+written, and the whole product rested on carrying an honest vintage. Its three suites had the mirror of the
+same defect. Five browser assertions were frozen to counts from that day — `1,237` parcel rows,
+`1,060` instruments, `239.2 %`, `2,000 of 4,726 rows listed` — so the suite reported **five failures on an
+app that was behaving correctly**, and the reader's next move is to stop believing the suite. The live
+suite, whose header already said counts must be asserted as shape, was the only one of the three that
+survived the file moving.
+**Guard, both halves.** A provenance date is a **fact about the read**, so stamp it when the read happens
+(`S.readDate = opts.readDate ?? isoDate()`) and let a suite pin it for determinism; keep the date the
+layer's *shape* was verified as a separate constant and say which is which on the face of the app. And
+assert a moving file **relationally**: ask the service for the count at run time and require the screen to
+agree with it, derive a percentage from the two numbers printed beside it, and match `n of N` against the
+panel's own uncapped N rather than a literal. Both are stronger checks than the frozen ones — they prove
+the number on screen came from the file rather than from the page.
+
+**A `getBoundingClientRect` check cannot see clipping by an ancestor with `overflow`, so "is it on
+screen?" passes on a layout where it is not.** `[app]`
+*(2026-09-03, parcel record coverage)* A browser assertion guarded the rule that an app must open on a
+view where its own signature is visible: it compared each panel block's rect against `window.innerHeight`.
+The rect reports where an element **would** be; an ancestor with `overflow:auto` clips it without changing
+that rect by a pixel. So a table scrolled out of its own container reported as on-screen and the assertion
+passed on the very defect it existed to catch — which the screenshot then showed plainly.
+**Guard:** test visibility against the **scroll container's** box, not the viewport's, and take the
+screenshot anyway. Rects describe geometry; only pixels describe visibility.
+
+**A rule that says "always visible" cannot be delegated to scroll position.** `[app]`
+*(2026-09-03, parcel record coverage)* A privacy banner was specified as *always visible, never a
+disclosure behind a click*. It was placed at the foot of a scrolling panel body, where at the app's own
+opening size it sat 910 px down an 845 px viewport — visible only after a gesture, which is what the rule
+forbids. **Guard:** a block the design calls permanent belongs **outside** the scrolling region — pinned
+to the panel, in its own flex child — and the browser suite asserts its rect is inside the viewport at the
+default window size, not merely that it is present in the DOM.
+
+**A privacy scanner that greps raw response text fires on the protocol's own vocabulary.** `[app]`
+*(2026-09-03, parcel record coverage)* A suite recorded every network response and grepped it
+case-insensitively for twelve excluded owner-identity field names, one of which is `NAME`. It reported a
+disclosure. There was none: ArcGIS names its own schema key `"name"`, so `{"name":"APN_DASH"}` appears in
+every query response, and one county's `displayFieldName` is literally `SUB_NAME`. A suite that cries wolf
+here is worse than none, because the next real hit gets waved through. **Guard:** scan what a response
+**carries**, not how its text reads — the keys of each feature's `attributes`, the `fields[].name` list
+and `fieldAliases` — and pair it with a **negative control**: a deliberate request for the excluded fields
+that must come back carrying them. A green privacy assertion with no negative control cannot distinguish
+*nothing leaked* from *the scanner is broken*.
+
+**A live suite that lets one slow service reject kills the run and reports nothing.** `[app]`
+*(2026-09-03, parcel record coverage)* An `outStatistics` count over 2.4 million rows exceeded a
+60-second deadline once in five runs. The rejection propagated out of an unguarded `await`, Node exited on
+the unhandled error, and ninety assertions that had already passed were never summarised — the operator
+saw a stack trace where a report should have been. **Guard:** a live harness catches its own transport
+errors, retries a timeout once or twice with a backoff, and converts a persistent one into a **red
+assertion**. A suite exists to report; a suite that dies has not reported.
+
+**A spec that states its own threshold twice will state it differently.** `[app]`
+*(2026-09-03, parcel record coverage)* A design document defined a class as *"= 95 % populated"* in its
+state table and, two paragraphs later, *"It is 50 %."* The two are not interchangeable: at 95 % three
+cells measured at 90.91 % change class, and the resulting matrix contradicts the same document's own
+per-county table. Arithmetic settled it — only 50 % reproduces the recorded matrix.
+**Guard:** put an authored threshold in **one** place, in code, and make the suite prove the claim made
+about it. Here the claim was that the choice is inert because no measured rate falls between 13.86 % and
+90.91 %, so the suite rebuilds the whole matrix at 20 %, 80 % and 95 % and asserts that only the last one
+differs. That is a test of the argument, not of the number.
+
+**`--use-gl=swiftshader` leaves part of the map viewport UNPAINTED — a false visual that looks exactly like
+a real defect.** `[browser]`
+*(2026-09-02, site selection - the swing slate)* A headless screenshot showed a clean rectangle of bare
+container background inside the map — 16-17 % of the viewport, hard-edged, present in both themes. It
+survived a forced `resize()` and `triggerRepaint()`; `areTilesLoaded()`, `loaded()` and `isMoving()` all
+reported healthy; `elementFromPoint` returned the canvas at its full correct size; and the style declared a
+`background` layer that should have painted everywhere. It is the software rasteriser. Measured across three
+renderers on the same page: `--use-gl=swiftshader` **17.2 %** bare, `--use-angle=swiftshader` **1.3 %**, real
+GPU **1.3 %**. Note that `--disable-gpu` **overrides** `--use-angle` and puts you back on the bad path.
+**Guard:** drive with `--use-angle=swiftshader --enable-unsafe-swiftshader` and **no** `--disable-gpu`, so
+that a screenshot you judge is worth judging. And because a genuine version of this symptom is invisible to
+every DOM assertion, decode the screenshot inside the harness and assert that the map paints its viewport:
+sample the map's box and require that almost none of it equals the container's own background colour. A PNG
+reader is about forty lines against `node:zlib`.
+
+**Assert the product's CLAIM, not the code's behaviour — a solver can satisfy its own predicate and still be
+wrong.** `[app]`
+*(2026-09-02, site selection - the swing slate)* A sensitivity solver searched for the smallest weight change
+making `score_b >= score_a`, which is the published form of the method, and its own unit tests passed. The
+live suite instead asserted the *claim the app prints* — "applying this change reverses this pair" — and
+caught it at **3 of 4**: two candidates sharing a nearest measurement carry identical normalised inputs, so
+driving that weight to its limit makes the two scores **exactly equal**. The pair ties; it does not reverse,
+and the chip promised a reversal the user would never observe. **Guard:** where a tool prints a promise about
+what will happen, the suite must **apply the change and check the promise**, not check that the solver
+satisfied its inequality. Pair it with the negative: assert that **half** the predicted change does *not*
+produce the effect, which is what makes the reported margin a threshold rather than a label. Use a strict
+`>` with a tolerance where a boundary case means equality, and report "no change achieves it" rather than
+reporting the boundary.
+
+**`@strata/export` composes a map, a single feature report and an atlas — but not a multi-row register.** `[core: open]`
+*(2026-09-02, land bank & acquisition screening)* `composePrintHtml` takes a map image plus pre-built
+legend HTML; `featureReportHtml` handles **one** feature; `composeAtlasHtml` gives one page per feature.
+A "tray of findings" document — a screening memo, a disclosure sheet, an evidence list — is none of those,
+so it is app-local and reuses `legendHtml` / `scalebarSvg` / `printLayoutCss`.
+
+**A candidate for core:** a `composeRegisterHtml(rows, scope)` primitive. Those three documents are the
+same shape — an unordered list of rows, each with a verdict, a source and a vintage, under a scope block —
+and three separate builds have now written it by hand.
+
+**A browser harness that queries a layer before it exists manufactures the very errors it is about to
+assert are absent.** `[app]`
+*(2026-09-02, land bank & acquisition screening)* Once the app accumulated `map.on("error")` into state so
+the suite could assert it empty, the assertion failed — with five copies of *"The layer 'counties-fill'
+does not exist in the map's style and cannot be queried for features."* The app had not erred. The
+**harness** had: its boot-poll and its paint-settle loop both called `queryRenderedFeatures` on the app's
+layers during boot and during a `setStyle`, when those layers are legitimately absent.
+
+**Guard: `if (!map.getLayer(id)) continue;` in every polling helper.** A harness that reads state has to
+be at least as careful as the app it is judging, or its own noise becomes the finding.
+
+**Comparing `queryRenderedFeatures` counts across an interaction requires the camera to be identical.** `[app]`
+*(2026-09-02, land bank & acquisition screening)* An assertion that a legend click removes features from
+the map compared 237 before with 288 after, and then 8 after clearing the filter — all while the filter was
+working perfectly. `queryRenderedFeatures` reports what is on **screen**, and the previous section had left
+the map mid-flight from a `fitBounds`; a "wait until the count is stable" loop happily locks onto a plateau
+during an animation.
+
+**Guard: `jumpTo` a fixed camera before each reading, then wait on `!isMoving() && !isZooming() &&
+areTilesLoaded()` before counting.** And assert the source data changed as well as the render — the source
+proves the filter is a real definition change, the render proves it reached the screen.
+
 
 **A guard can match the hostname of the thing it is guarding.** `[app]`
 *(2026-08-24, health equity overlay)* An assertion enforcing "no bound service is on the 2020 tract
@@ -3275,6 +6020,12 @@ ship, but `<StrataApp>` does not mount a `TimerSource` from a `timer` connection
 know that it is honoured only for `arcgis-feature` and `strata` sources, not for `geojson`**, so a
 template whose data is a build-time GeoJSON has no auto-refresh at all and must say so rather than
 implying a live feed. A visible as-of stamp is the honest companion either way.
+*(2026-10-21, lifeline board build)* **An interval is not a clock boundary.** Even a working `timer` fires
+every *n* seconds from mount. Operational periods (12 h from 07:00 and 19:00 America/Los_Angeles) need a
+trigger anchored to the **wall clock in a named time zone**, across DST: 2026-11-01 has a 25-hour day. No
+trigger expresses that. *Current guard:* app code computes the next boundary from an injected clock and
+re-arms after each one; the suites cross the DST change on a fixed clock. *Fix:* a `TimerSource` option
+`{ at: "07:00", timeZone }` (or `every: "12h", anchor: "07:00"`).
 
 **A declared action type does not mean there is a dispatcher — and `export` is the one with none.** `[core: open]`
 *(2026-08-18, branch & ATM network operations)* An `[Export …]` button wired as
@@ -3454,6 +6205,12 @@ never ran. A suite that asserts "traversal is refused" from those 404s is assert
 exercise the containment check **as a function** — feed it a target that genuinely resolves outside the
 root and assert it is refused, plus one inside that is accepted — and keep the HTTP probes as a separate,
 weaker check that no payload returns 200 with foreign content.
+*(2026-10-22, live-position build)* **And the opposite failure: a decoded backslash opened a real
+traversal.** On Windows `\` is a path separator, so a decoded `..%5c..` path normalised past the root while
+a naive `startsWith(ROOT)` containment check still passed (a sibling folder such as `ROOT-old` passes that
+check too). **Guard:** after decoding, refuse any request with a `..` segment on **either** separator before
+normalising, and check containment against `ROOT + path.sep`; exercise it as a function with backslash and
+forward-slash payloads, as above.
 
 **It happened again, mirrored: the retry was in the BUILD script and not in the shared domain module.**
 `[app]` *(2026-08-25, public health preparedness)* The *a retry added to the app does not cover the
@@ -3626,6 +6383,148 @@ reached. The assertion read as a failure of the server and was a failure of the 
 one nested under a real subdirectory), assert each is 403 or 404, **and** assert an ordinary in-root file
 still serves — otherwise a server that 403s everything passes.
 
+**`@strata/export` composes a map, a single-feature report and an atlas — but not a one-subject evidence
+note.** `[core: open]`
+*(2026-09-03, transaction evidence)* The exportable object here is *one geography's evidence base*: a
+subject line, a handful of measured figures, a variable-length row register, a provenance block and a scope
+block. `composeFeatureReportHtml` handles one feature's attributes and the atlas handles many pages of the
+same layout; neither shape fits, so the note is app-local HTML reusing `legendHtml`, `scalebarSvg` and
+`printLayoutCss`. **This is the second recipe to hand-roll the same document.**
+
+**Guard, and a candidate for core:** `composeEvidenceHtml(subject, rows, provenance)` — a screening memo, a
+statutory disclosure sheet and an evidence note are one document shape with three sets of words, and each
+one currently re-implements pagination, the register table and the scope block from scratch.
+
+**Second occurrence — `areTilesLoaded()` answers about the OLD style, so a theme screenshot shows the
+previous basemap and the suite calls it a pass.** `[browser]`
+*(2026-09-03, transaction evidence; first recorded 2026-08-26, humanitarian response map)* Recorded again
+because every assertion around it was green and the picture was still wrong. After a theme flip the suite
+waited on `!isMoving() && areTilesLoaded() && loaded()`, slept 2.5 s, and shot a **light** Positron map
+underneath a fully dark interface. The mode was `dark`, the effective basemap resolved to
+`openfreemap-dark`, `setStyle` had been called, every layer had survived the swap, and the page background
+measured `rgb(15,20,24)`. The map simply had not repainted yet.
+**Guard, sharper than waiting for steadiness:** wait for the **new style's own background layer** to arrive
+— poll `map.getStyle().layers.find(l => l.type === "background").paint["background-color"]` until it is the
+colour the new style declares — and then assert the **mean luminance of the map's pixels**, not of the page.
+Here: 33 of 255 in dark, against a light-mode map that is nearly white. A light basemap under a dark
+interface is the mismatch a reader notices before anything else, and it is invisible to every DOM check.
+
+**Second occurrence — a floating overlay covers the map at the phone breakpoint, and the numbers on it are
+all correct.** `[app]` `[browser]`
+*(2026-09-03, transaction evidence; first recorded 2026-08-26, humanitarian response map)* Different shape,
+same failure. Here it was the bottom-left legend: 250 px of it over a map about 400 px wide, hiding roughly
+four fifths of the surface the app exists to show — while the rail, stacked directly above, carried an
+**identical and interactive** copy of the same legend. Every assertion passed, including the ones written
+after the first occurrence: the map kept a usable height, the canvas matched its container, the row
+collapsed to a column, the page did not scroll sideways.
+**Guard:** below the breakpoint, hide the floating copy of anything the flow layout already carries — one
+legend on a phone, not two — and make the assertion **general** rather than about the element that failed
+last time: compute the intersection of **every** floating element's box with the map viewport and require
+the covered fraction under 20 %. An overlay assertion that names one element keeps finding the next one by
+hand.
+
+**A map paint requested before the map has its sources is silently dropped — and the opening
+view is the thing that gets lost.** `[app]` *(2026-09-03, tenant mix & catchment)* The boot sequence
+created the map, resolved the subject, then called `paintMap({ fly: true })` to frame the catchment. The
+paint function begins `if (!map.getSource('centres')) return;` — a correct guard, because MapLibre adds
+sources on its own `load` event — so at boot it returned immediately and **the fit never happened**. The
+app opened on the authored county extent instead, where its 64 peer centres are one blob and its argument
+is not legible. Every non-visual assertion passed: the sources were right, the arithmetic was right, the
+extent was inside the county, and the rail was fully populated.
+
+**Guard:** make a dropped paint **pending** rather than lost — set a flag when the guard fires with a fly
+requested, and have the same idempotent `ensure()` that re-hydrates on `load`, `styledata` **and** `idle`
+turn that flag back into the fit. Then assert the opening view **tightly**: not "inside the county" but
+"at least this zoom, with the whole signature geometry inside the viewport", and wait for the map to be
+still (`!map.isMoving() && map.loaded()`) before sampling it — a single sample races the opening
+animation and fails intermittently on a map that is correct a moment later.
+
+**A transcribed count goes stale in days, and an exact assertion against one fails a healthy build.**
+`[app]`
+*(2026-09-07, valuation & taxation base map)* Between **2026-09-03 and 2026-09-07** this register moved by **58 rows on the layer, 50 on the
+current roll and 108 off it**, and its land-value sum fell by **$86 million**. Nothing was wrong: a county
+assessment roll is edited continuously. But the bake asserted its walk against a row count transcribed from
+the probe four days earlier, so a walk that had read every row it was offered **failed the build**; and the
+browser suite asserted a histogram total against the same constant and went red against an application that
+was correct. An assertion that fails on healthy behaviour teaches its reader to ignore it, which is worse
+than not having written it. **Guard, three parts.** Assert a walk against the count the service gives **at
+the moment the walk starts**, because the thing the assertion exists to catch is a *silent truncation*, not
+a week of edits. For figures a suite must watch across runs, state a **drift tolerance once** in the domain
+— 0.2 % here — assert against that, and **print the actual figure beside the verified one and its date**, so
+the drift is visible rather than merely tolerated. And derive every on-screen count from state: a persistent
+notice quoting a constant beside a KPI reading the live register is an application contradicting itself in
+one screen.
+
+**A worked example computed with per-scope quantiles is not the shipped application's answer when the
+application uses fixed class breaks.** `[app]`
+*(2026-09-07, valuation & taxation base map)* The research pass scored a 27-parcel block against **that block's own quintiles** and found **one**
+divergent parcel — and the design's headline sentence was built on it: *that parcel is the only one on the
+block for which "my assessment looks high" has a cause other than the statute*. The shipped application
+scores the same block against **county-wide edges cut once at bake time**, which is the entire point of a
+fixed edge set, and finds **two** — and both of them read **LOW** rather than HIGH, so on that block
+**nobody reads high at all**. The example did not become wrong; it was answering a different question, and
+the sentence quoting it inverted. **Guard:** where a design fixes its class breaks, **recompute every worked
+example in its research against those fixed breaks** before quoting it as a claim about the product, and
+say in the recipe which edge set each published figure was computed against. Two numbers derived from the
+same rows by two defensible methods will be read as the same number by everyone except their author.
+
+**A harness that spawns browsers is a load generator, and two of them against one heavy page produce
+timeouts that look exactly like a defect in the page.** `[app]` `[browser]`
+*(2026-09-07, valuation & taxation base map)* Five browser-suite runs aborted with `Runtime.evaluate timed out` in a **different section each time** —
+6, 8, 12, 6, 8. That is the signature of an intermittent hang under load, and it was read as one. Three
+causes were proposed and **two of them were wrong**. First the drawer's live map previews, which were a
+genuine cost but not this one. Then the screenshots, on the strength of a `--no-shots` run passing
+**172/172** while runs with them aborted — which reads like a controlled comparison and was nothing of the
+sort: it was simply the run that happened to have the machine to itself. The actual cause was a **diagnostic
+probe running alongside the suite**, each instance loading 22 MB of geometry and rasterising 87,633 points
+twice on the CPU. The fifth abort had a third cause entirely — the static server had died, so `window.__app`
+was never defined and the failure was reported against boot. With the machine to itself the same suite
+passes **175/175**, a screenshot costs **0.0–0.1 s**, and every heavy gesture completes: legend filter
+18.9 s, `Esc` 7.8 s, theme swap 9.5 s, tier-B jump 2.1 s. **The tell was in the probe's own output and went
+unread for three runs: the boot that takes 11–18 s alone took 148.8 s beside a running suite.**
+**Guard:** before attributing a timeout to a component, **check what else is running**, and take the
+baseline measurement twice — once with the machine busy and once with it quiet. **A moved baseline is the
+finding**, and it is cheaper to read than any of the theories it displaces. Make the harness *print what it
+measured* — a boot time, a settle time — so the baseline is on screen to be compared rather than buried in
+a pass. And when a suite needs the machine, give it the machine: a probe and a suite driving the same page
+are not two experiments, they are one confounded one.
+
+**Derive a population bound during research, and make the application assert it can never exceed it.**
+`[app]`
+*(2026-09-07, property hazard exposure)* Two arithmetic defects in a spatial membership test — one accepting the class that means "no
+hazard", one ignoring polygon holes — both produced counts that were internally consistent, smaller than
+the total in view, and wrong. Neither was caught by any assertion about the app's own state, because every
+such assertion compares the app to itself. What caught them was a number computed **once, in research,
+over the complete downloaded geometry**: the whole population is 710, so an in-view count of 726 is
+impossible. **Guard:** whenever research computes a total the running app will later compute subsets of,
+ship that total as a cited constant with its method and date, print it where the reader can see it, and
+assert in the browser suite that the live figure never exceeds it. A bound the app can contradict is worth
+more than a dozen assertions it cannot.
+
+**Second occurrence — `load-and-isStyleLoaded-never-fire`, in its other form: `styledata` fires while
+the style is NOT loaded and does not fire again once it settles.** `[app]`
+*(2026-09-07, property hazard exposure)* With hydration gated on `map.isStyleLoaded()` inside a `styledata` handler, a theme switch left
+the map holding **two sources and none of the app's layers** — a basemap with no data on it, after every
+source and layer had been correctly re-added on the first paint. The catalogued guard (retry on `load`,
+`styledata` **and** `idle`) is the fix, and this is the second build to need it. The new half is why the
+offline suite missed it: **the MapLibre stub fired a loaded `styledata` synchronously from `setStyle`**,
+which no real map does, so the stub asserted the re-hydrate green while the browser showed an empty map.
+**Guard:** the stub must reproduce the sequence, not a convenient version of it — drop the sources, leave
+`isStyleLoaded()` **false**, and only then fire `style.load` and `idle` on a later tick. And assert
+`queryRenderedFeatures({layers:[...]}).length > 0` **after** a theme switch, not only on first paint.
+
+**Second occurrence — `flex-basis`-beats-`width`, reached through a shared generic class name.**
+`[app]`
+*(2026-09-07, property hazard exposure)* A splash card rendered **14 px wide** with its text spilling down the page. `#splash .box`
+out-specifies `.box` on `width` (1,1,0 against 0,1,0), so specificity was not the problem: the drawer's
+checkbox rule `.box{flex:0 0 14px}` sets `flex-basis`, and **flex-basis beats width on a flex item**.
+Under the earlier `display:grid; place-items:center` the same collision collapsed the card to min-content
+instead — one class name, two layout modes, two different broken results, and every non-visual suite green
+both times. **Guard:** the fix is the collision, not the specificity — never share a generic class name
+(`box`, `card`, `panel`, `row`) between two unrelated components. And assert **geometry**, not
+presence: a browser-suite check that a dialog's body text sits inside its own card's rectangle catches this
+class of defect regardless of which CSS mechanism caused it.
+
 ## 10 · Environment
 
 **A stale sibling dev server serves *its* app while looking like yours.** `[app]`
@@ -3639,7 +6538,7 @@ The give-away is that your domain module 404s while `layers.mjs` 200s — becaus
 Workspace packages resolve from `dist/`, which does not exist until `pnpm -r build` runs — so the first
 `pnpm test` dies with *"Failed to resolve entry for package `@strata/state`"*, which reads like a broken
 package rather than a missing build step. **Order:** `pnpm install` → `pnpm -r build` → `pnpm test`.
-Verified 2026-09-02: 835 tests, 0 failures, across the 18 of 20 packages that carry suites.
+Verified 2026-10-08: 1,280 tests, 0 failures, across the 19 of 21 packages that carry suites.
 
 **A fresh `pnpm install` needs `.npmrc`.** `[core: fixed]`
 The Esri libraries behind `@strata/feature-arcgis` are optional lazily-loaded peers, not published for
@@ -3656,6 +6555,9 @@ reporting a blank notice bar and a missing control as defects in this one. **Gua
 launch the server and read the port from its stdout (`server.address().port`, not the requested one),
 and make the **first browser assertion page identity** — `document.title` and the app's own export
 hook — aborting rather than reporting assertions about somebody else's page.
+*(2026-10-22, live-position build)* The same wrong-page failure one layer up: two headless Chrome runs must
+not share a DevTools (`--remote-debugging-port`) port, or each drives the other's page. Give every run its
+own port and its own `--user-data-dir`.
 
 ---
 
@@ -3666,7 +6568,8 @@ wrong.
 
 | Trap | Old workaround, now obsolete | Fix in core |
 |---|---|---|
-| `layerList` / `basemapSwitcher` flags ignored | hand-mount the panels | `react/StrataMap.tsx` renders them store-driven |
+| `layerList` / `basemapSwitcher` flags ignored | hand-mount the panels | every `<StrataMap>` mounts the standard map controls (`MapChrome` over `@strata/map-controls`), store-driven; the flags are deprecated and ignored |
+| Hand-written six-glyph chrome in vanilla apps drifted from the React one | copy the chrome code between apps | vendor `@strata/map-controls` `dist/` and call `mountMapControls` — one implementation for both paths |
 | ArcGIS `{error}` blanked the layer | app-level re-check | `engine/arcgisSource.ts` throws |
 | Popups showed labels with blank values on MapServer | lower-case the `popupInfo` | `engine/popups.ts` `propValue()` |
 | Renderers matched nothing on MapServer fields | author against lower-cased keys | `engine/styleCompiler.ts` `getField()` coalesce |
@@ -3679,6 +6582,16 @@ wrong.
 | Legend frozen at the authored layer list | re-author `props.layers` on every change | omit `layers` — `react/useStoreLayers.ts` subscribes to the store |
 | Legend omitted service-styled layers | author a dummy `drawingInfo` to force a row | `controls/Legend.tsx` names every visible layer |
 | Layer rows showed a generic `▤` | read the legend to identify a layer | `panels/LayerPanel.tsx` renders `legendRows()` swatches |
+| Labels (`text-field`) never drew on a raster basemap in a vanilla app (no `glyphs` in the style) | app-side `LABEL_GLYPHS` + `map.setGlyphs()`, or rasterised numerals via `addImage` | `@strata/map-controls` 1.0.1 `basemapStyle()` adds `DEFAULT_GLYPHS`; use `DEFAULT_TEXT_FONT` as the `text-font` (§7) |
+| A GL → GL basemap swap 404'd its labels' glyphs / never fired `style.load` | wrap `setStyle` to force `{ diff: false }`; re-`setGlyphs` after a swap | `@strata/map-controls` 1.0.2 calls `setStyle(style, { diff: false })` on every map (§7) |
+| A line layer drew nothing after the layer list "reset" its opacity; expression opacities became `NaN` | author `0.999` instead of 1; avoid expression opacities on listed layers | `@strata/map-controls` 1.0.2 writes the authored value back and fades expressions (`scaleOpacity`) (§7) |
+| Esc closed the drawer while a popup stayed open | app-side Esc handler that closes the popup before calling `controls.escape()` | `@strata/map-controls` 1.0.2 `escape()` closes popups first (MapLibre popups + `closePopup`) |
+| App `button {}` rules restyled the cluster / drawer; the drawer slid under app overlays and over the attribution | app CSS resets scoped to `.smc button`; z-index hacks on `.smc-ctl` / `.smc-drawer`; a hand-set drawer `max-height` | `@strata/map-controls` 1.0.2: a `(0,2,1)` button reset, `--smc-z` (40) and `--smc-drawer-bottom` (44px) tokens |
+| An open drawer hid a map popup; dark-mode popups were white-on-white in vanilla apps | `.maplibregl-popup{z-index:calc(var(--smc-z,40) + 2)}` and per-app dark popup CSS | `@strata/map-controls` 1.0.3: `--smc-popup-z` (42, cluster + grip 43) and the themed card (`popupStyles`) (§7) |
+| `vt-gray-dark` missing from Recommended in a faint-shading app | `recommendedExtras: ["vt-gray-dark"]` | `@strata/map-controls` 1.0.3 lists both halves of the theme pair under Recommended |
+| VersaTiles / CARTO GL internals failed the host allow-list | app-side allow-list extensions | `@strata/map-controls` 1.0.3 `BASEMAP_HOSTS` covers every host the catalog's GL styles delegate to (§7) |
+| A GL basemap that never loaded left a blank ground | app-side "switch to OSM after N s" | `@strata/map-controls` 1.0.3 `basemapFallback` (once, to `osm` / `osm-dark`) |
+| One Esc closed the app's card and the map popup together | — | `@strata/map-controls` 1.0.3: one layer per Esc, `closePopup` first (§7) |
 
 ---
 

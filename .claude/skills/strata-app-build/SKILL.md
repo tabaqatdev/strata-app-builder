@@ -13,7 +13,9 @@ app/
   index.html          the app — theme tokens, the shell, ONE inline module ending in
                       globalThis.__app = api; if (!globalThis.__NO_AUTOBOOT) boot();
   <domain>.mjs        the domain. DOM-free. Every fetch through an injectable seam.
-  layers.mjs          basemaps, colour system, the map spec as genuine ESRI Web Map JSON
+  layers.mjs          colour system, the map spec as genuine ESRI Web Map JSON (no basemap
+                      list — the catalog owns basemaps; at most APP_RECOMMENDED_EXTRAS, ≤ 3 ids)
+  map-controls/       VENDORED @strata/map-controls dist + VENDOR.json — never hand-edited
   server.mjs          zero-dep static server
   test-<domain>.mjs   LIVE      — arithmetic, service contracts, traps inverted
   test-render.mjs     OFFLINE   — node --check, then boot the shipped module against stubs
@@ -21,7 +23,9 @@ app/
   README.md           the record (building-apps.md §5)
 ```
 
-`node server.mjs [port]` · `node test-<domain>.mjs` · `node test-render.mjs` · `node drive.mjs <port>`
+`node strata/packages/map-controls/scripts/vendor.mjs <appDir>` (once, and after any library change) ·
+`node server.mjs [port]` · `node test-<domain>.mjs` · `node test-render.mjs` · `node drive.mjs <port>` ·
+`node strata/packages/map-controls/scripts/check-drift.mjs <appDir>`
 
 ## 2. Recipes — write these
 
@@ -87,41 +91,82 @@ container is the visible symptom, and only the browser harness sees it.
 Set `min` at the width the panel is still *readable* at. A floor is the honest version of truncating a
 label to fit a size the user could have fixed themselves.
 
-### The map chrome — one cluster, one drawer (the six glyphs, verbatim)
-The React path ships this as `MapChrome`; here you write it. Keep the class vocabulary so the two look
-identical: `.mapctl` (32px column, `top:9px right:9px`) · `.drawer` (`right:47px`, width 270) · `.opt`
-rows · `.box` square (layers, multi-select) vs `.box.round` radio (basemap, one in force) · `.thumb`.
+### The map chrome — vendor `@strata/map-controls` and mount it (never hand-build it)
+Every app gets the same fixed cluster — **zoom in · zoom out · home | layers · basemap · legend · full
+screen**, top-right, never reordered or removed — plus one drawer (layer list or basemap gallery) and
+`L`/`B`/`G`/`F`/`Esc`. The React path mounts it on every `<StrataMap>` (`props.mapControls`); here you
+**vendor the package and mount it**. Do not write glyphs, `.mapctl` CSS, drawer logic or a basemap list —
+that is the package's job, and a hand-built copy is what drifts. API + contract:
+`strata/packages/map-controls/README.md`; what the reader sees: `strata/docs/guide/map-controls.md`.
+
+**1 · Vendor.** `pnpm --filter @strata/map-controls build`, then
+`node strata/packages/map-controls/scripts/vendor.mjs <appDir>` (or `pnpm --filter @strata/map-controls
+vendor`) — copies `dist/` into `<app>/map-controls/` and writes `VENDOR.json`. Never edit those files; fix
+the library and re-vendor. At that path the gallery thumbnails resolve by default — call
+`catalog.setThumbBase("<path>/thumbs/")` only if you relocate them. A tile proxy or mirror is one hook,
+`catalog.setUrlRewrite({ host: mirror })`.
+
+**2 · Mount.**
 ```js
-const ICON = {
-  plus:   '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
-  minus:  '<svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>',
-  home:   '<svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg>',
-  layers: '<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>',
-  base:   '<svg viewBox="0 0 24 24"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7z"/><path d="M9 4v13M15 7v13"/></svg>',
-  legend: '<svg viewBox="0 0 24 24"><path d="M4 6h4M4 12h4M4 18h4M12 6h8M12 12h8M12 18h8"/></svg>',
-};
-// .mapctl svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;
-//   stroke-linecap:round;stroke-linejoin:round}   ← inherits the theme for free
-// .maplibregl-ctrl-top-right{display:none}        ← exactly one set of zoom buttons
-function openDrawer(which) {                       // ONE drawer: the same button closes it
-  const d = $("drawer");
-  if (d.dataset.which === which && !d.hidden) { d.hidden = true; d.dataset.which = ""; }
-  else { d.dataset.which = which; d.hidden = false; renderDrawer(); }
-  syncChromeState();
-}
+import * as catalog from "./map-controls/basemaps.js";
+import { mountMapControls, basemapTransformRequest } from "./map-controls/map-controls.js";
+// <link rel="stylesheet" href="map-controls/map-controls.css">
+const controls = mountMapControls(null, {
+  container: $("mapwrap"),                       // a positioned box around the map
+  catalog,
+  recommendedExtras: APP_RECOMMENDED_EXTRAS,     // optional, ≤ 3 catalog ids
+  theme: { mode: S.mode },                       // later: controls.setTheme(mode) — Follow does the rest
+  layers: layerDescriptors,                      // () => LayerDescriptor[], top first
+  onRestyle: () => hydrate(),                    // setStyle dropped every source and layer
+  onFit: () => fit(),                            // Home / F
+  onToggleLegend: () => { $("legend").hidden = !$("legend").hidden; },
+  legendOpen: () => !$("legend").hidden,
+  fetch: (...a) => S.net.fetch(...a),            // Technical details go through THE seam too
+  // tools: { measure: true },                   // ONLY if the recipe needs it — none by default
+  // scale: true,                                // optional bottom-left scale bar ({ units: "imperial"|"both" }) — off by default
+});
+S.map = new maplibregl.Map({ container: "map", style: controls.initialStyle(),
+  transformRequest: basemapTransformRequest(catalog) });   // lets a URL rewrite reach GL-style internals
+controls.setMap(S.map);
 ```
-**Basemap rows are radios, and the tick names the EFFECTIVE basemap.** `b.id === chosen && !auto` ticks
-nothing while "Follow the theme" is on — which is the default — so the drawer shows five options and none
-selected, and the reader cannot tell which basemap they are looking at. Both rows tick.
+Default basemap is `osm` (light) / `osm-dark` (dark), following the theme; pass `initialBasemap` or
+`themeBasemaps` only when the recipe names others. **Tools (`search` · `locate` · `measure` · `draw` ·
+`print`) are OFF unless the recipe's job needs one** — never enable them by default. If the app has its own
+key handler, pass `keyboard:false` and delegate to `controls.handleKey(e)` / `controls.escape()`.
 
-**Each basemap row carries a live tile of the current view** in that style (`previewTile()` → z/x/y →
-the row's own template URL). A colour swatch cannot tell Positron from Voyager.
+**3 · One `LayerDescriptor` per operational layer, top first.** Required: `id` (stable) · `title` (as the
+reader knows it) · `sublayers: [{ id, opacity? }]` (the MapLibre layer ids it draws, bottom → top, with
+their **authored** paint opacity — transparency multiplies it) · `visible` + `setVisible(on)` (the app owns
+visibility; the list only asks). Optional: `sub` (one line of live state) · `swatch` / `legend` HTML
+(`.ll-dots` / `.ll-sq` / `.ll-ramp`) · `zoomTo()` · `about` · `services` · `technical()`.
+- **`about` = `{ what, publisher, current, coverage, inView, note }`, plain sentences for a non-GIS
+  reader, taken only from the app's own recipe, README and the services it reads.** If the recipe does not
+  say how current a layer is, **omit `current`** — an absent field is honest, an invented one is not. A
+  layer with no single date is *said* to have none.
+- **`services: [{ title, url, filter? }]`** feeds "Technical details", read live from `${url}?f=json`
+  (one simple GET per URL per session — no custom headers). The object-id field shown is the service's
+  own. For local files, `technical()` returns the same blocks derived from data the app already holds.
 
-**"Follow the theme" must actually follow it.** On the React path this is automatic — switching light↔dark
-swaps the basemap to its pair. On the house (vanilla) path you owe the same behavior: resolve the mode in
-**one** place, use **one** resolver for "which basemap for this mode" (so the tick and the applied basemap
-cannot disagree), leave the authored basemap alone until the mode actually changes, and stop following as
-soon as the reader picks a basemap themselves.
+**4 · Re-add data after every restyle.** A basemap change is `map.setStyle()`, which drops **every**
+source and layer. `onRestyle` must re-add each one **with its current data and filter** — not an empty
+source, and not only the layers that exist at boot (a conditional underlay, a raster added later) — then
+call `controls.applyLayerState()` so the reader's order, visibility and transparency survive. Also call
+`applyLayerState()` after anything else (re-)adds a layer. The reference build lost its hazard polygons
+this way: `hydrate()` re-created the hazard source empty, so after a basemap switch the polygons vanished
+until the next pan while the status line still reported them drawn. Keep the last data in state
+(`S.hazardFeats`) and `setData` it back on restyle. Guard `hydrate()` so it
+does nothing when the style is intact (`setPaintProperty`/`setFilter` also fire `styledata`; an
+unconditional repaint loops). **Overlays the list does not know (selection highlight, sketch, labels,
+halo) go under the data after `applyLayerState()` — pass their ids as `topLayers: [...]` (bottom → top)
+at mount; never hand-roll a "raise overlays" in `onRestyle`.**
+
+**5 · `isBusy()` guards your clicks.** While Measure or Draw is open it owns map clicks: every identify,
+selection and hover-cursor handler returns early when `controls?.isBusy?.()` is true. (Always false with
+no tools — write the guard anyway, so turning a tool on later cannot break selection.)
+
+**"Follow the theme" is the package's.** Resolve the mode in one place and tell it `controls.setTheme(mode)`;
+the package keeps the authored basemap until the mode changes, swaps `osm` ↔ `osm-dark` (or the app's
+pair), stops following on an explicit pick, and ticks the effective basemap. Don't keep a second resolver.
 
 ### The legend as a control surface
 ```js
@@ -211,6 +256,8 @@ class MapStub {
   fitBounds(b, o) { this.calls.push(["fitBounds", b, o]); }                   // record, don't emulate
 }
 ```
+The vendored controls also call `getLayer` · `moveLayer` · `get/setLayoutProperty` · `get/setPaintProperty`
+· `getCanvas` · `getContainer` · `zoomIn/Out` · `resize` — answer them (record, don't emulate).
 A stub that fires `idle` once from a timer reproduces neither the `idle → hydrate → paint → idle` loop nor
 the source-drop on restyle.
 
@@ -237,8 +284,8 @@ Collect `Log.entryAdded` (level `error`) and `Runtime.exceptionThrown` for the c
 | Harness | Must cover |
 |---|---|
 | **live** | the arithmetic · every trap **inverted** (a numeric id *must* throw) · service contracts (count agrees with ids, CORS posture) · the server opens no sockets · presentation contracts (keyless basemaps, no `esriSMSPath`, 4326) |
-| **offline** | `node --check` + its negative test · the signature loop · scope change recomputes the **reading** before repainting · selection survives its own click and releases · isolate changes the map, not the reading · caps stated · deep link round-trips · `Esc` unwinds one thing · **every panel has a grip, the drag clamps to its floor and ceiling, and the arrow keys size it** · **a row click adopts (flies + popup) and the same row clicked again releases (selection cleared, popup gone)** · **a legend click filters the layer rather than fading it, shift-click isolates, `Esc` clears** · **exactly one basemap row is ticked, including under Follow-the-theme** |
-| **browser** | canvas non-zero **and** matching its container · exactly one control cluster (six glyphs, MapLibre's own zoom gone) · the drawer clears the cluster geometrically and **only one is open** · legend bottom-left · the app opens on a view where its signature is visible · both themes · console clean · **after dragging a panel the canvas still matches its container** (the `map.resize()` proof) · **basemap thumbnails actually load a tile** (a 404 leaves five identical grey boxes and every non-visual test green) |
+| **offline** | `node --check` + its negative test · the signature loop · scope change recomputes the **reading** before repainting · selection survives its own click and releases · isolate changes the map, not the reading · caps stated · deep link round-trips · `Esc` unwinds one thing · **every panel has a grip, the drag clamps to its floor and ceiling, and the arrow keys size it** · **a row click adopts (flies + popup) and the same row clicked again releases (selection cleared, popup gone)** · **a legend click filters the layer rather than fading it, shift-click isolates, `Esc` clears** · **the vendored map controls boot against the stub, and after a `setStyle` every data layer is back with its data** (the `onRestyle` proof) · **identify/selection clicks are ignored while `isBusy()`** |
+| **browser** | canvas non-zero **and** matching its container · **`runMapControlsConformance({ evaluate, tools, expect, log })`** from `strata/packages/map-controls/scripts/conformance.mjs` — the standard cluster in order, one drawer open at a time, the layer list and basemap gallery, exactly the recipe's `tools` and no others · a scale bar (`.smc-scale`) only when the recipe enables one (`expect: { scale: true }`), else none · **`check-drift.mjs <appDir>` passes** (the vendored copy is the library's) · a basemap switch keeps every data layer drawn · legend bottom-left · the app opens on a view where its signature is visible · both themes · console clean · **after dragging a panel the canvas still matches its container** (the `map.resize()` proof) · **basemap thumbnails actually load** (a 404 leaves identical grey boxes and every non-visual test green) |
 
 ## 3. Reference
 
@@ -293,7 +340,9 @@ const api = globalThis.__app;            // set globalThis.__NO_AUTOBOOT = true 
 - "it works in the test but not the browser" → §2 The CDP driver · deadlines
 - "the map is empty / wrong size" → browser harness · `troubleshooting.md` §7
 - "make the panels resizable" → §2 The resizable panel (React path: it already is — `strata-panels`)
-- "the map controls / legend / basemap panel" → §2 The map chrome · The legend as a control surface
+- "the map controls / layer list / basemap gallery" → §2 The map chrome (vendor + mount); legend → The legend as a control surface
 - "click a row to zoom to it" → §2 The row gesture (React path: shipped — `strata-panels`)
-- "the basemap drawer shows nothing selected" → §2, the effective-basemap tick
+- "the data vanished after a basemap/theme switch" → §2 The map chrome, step 4 (`onRestyle` + `applyLayerState`)
+- "clicking the map selects while measuring" → §2 The map chrome, step 5 (`isBusy()`)
+- "the vendored controls look different / are stale" → re-vendor (`vendor.mjs`), then `check-drift.mjs`
 - "how do I know it's done" → `strata/docs/guide/building-apps.md` §7

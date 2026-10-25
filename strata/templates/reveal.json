@@ -43,10 +43,8 @@
                             "dc-wards",
                             "dc-crashes"
                           ],
-                          "controls": {
-                            "navigation": true,
-                            "scale": true,
-                            "position": "top-right"
+                          "mapControls": {
+                            "scale": true
                           }
                         }
                       }
@@ -132,10 +130,8 @@
                           "layerIds": [
                             "dc-wards"
                           ],
-                          "controls": {
-                            "navigation": true,
-                            "scale": true,
-                            "position": "top-right"
+                          "mapControls": {
+                            "scale": true
                           }
                         }
                       }
@@ -222,10 +218,8 @@
                           "layerIds": [
                             "dc-crashes"
                           ],
-                          "controls": {
-                            "navigation": true,
-                            "scale": true,
-                            "position": "top-right"
+                          "mapControls": {
+                            "scale": true
                           }
                         }
                       }

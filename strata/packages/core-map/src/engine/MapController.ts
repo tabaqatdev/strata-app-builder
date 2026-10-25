@@ -10,6 +10,8 @@
  */
 
 import type { LayersJson } from "@strata/schema";
+import { basemapTransformRequest } from "@strata/map-controls";
+import * as basemapCatalog from "@strata/map-controls/basemaps";
 
 export interface MapControllerOptions {
   container: HTMLElement;
@@ -48,6 +50,9 @@ export class MapController {
       pitchWithRotate: false,
       // Required so @strata/export exportImage() can capture the canvas to a data URL.
       preserveDrawingBuffer: true,
+      // The basemap catalog's URL-rewrite hook (a tile proxy / mirror) also reaches the tiles,
+      // glyphs and sprite INSIDE a GL style. Identity until `setUrlRewrite()` installs a rule.
+      transformRequest: basemapTransformRequest(basemapCatalog),
     });
     this.ready = new Promise((resolve) => this.map.on("load", () => resolve()));
   }

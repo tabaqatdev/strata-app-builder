@@ -90,6 +90,8 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
 <a class="nav-link active" data-title="application design" href="guide-app-design.html">Application design</a>
 <a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
+<a class="nav-link" data-title="map controls" href="guide-map-controls.html">Map controls</a>
+<a class="nav-link" data-title="writes &amp; editing" href="guide-writes-and-editing.html">Writes &amp; editing</a>
 <div class="grp">How-to</div>
 <a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
 <a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
@@ -103,9 +105,9 @@ footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;pa
 <a class="nav-link" data-title="human language reference" href="reference-human-language.html">Human Language Reference</a>
 <a class="nav-link" data-title="command reference" href="reference-commands.html">Command reference</a>
 <a class="nav-link" data-title="troubleshooting" href="troubleshooting.html">Troubleshooting</a>
-</nav><main><div class="crumb">Guide</div><h1>Application design</h1><p class="lede">Silhouette, layout, wiring, theme — how to design a distinct, alive app.</p><p>How to design a strata-app-builder application — an <a href="..\..\packages\schema\src\types.ts"><code>AppLayout</code></a> rendered by
+</nav><main><div class="crumb">Guide</div><h1>Application design</h1><p class="lede">Silhouette, layout, wiring, theme — how to design a distinct, alive app.</p><p>How to design a strata-app-builder application — an <a href="../../packages/schema/src/types.ts"><code>AppLayout</code></a> rendered by
 <code>&lt;StrataApp&gt;</code> — so that it is <strong>visually distinct, immediately interactive, and honest about its data</strong>.
-This is the guideline the app templates in <a href="..\..\templates\README.md"><code>strata/templates/</code></a> follow; use it
+This is the guideline the app templates in <a href="../../templates/README.md"><code>strata/templates/</code></a> follow; use it
 whether you start from one of those templates or design from a blank page.</p>
 <h2 id="the-design-process">The design process</h2>
 <p>Design in this order, and resist skipping ahead to widgets:</p>
@@ -129,14 +131,18 @@ tell which it was.</p>
 <p><strong>Shell.</strong> A header carrying the title and the controls that change the <em>reading</em>; a <strong>persistent notice
 bar</strong> for anything true as long as the data is on screen; a <strong>status line</strong> for transient progress. Never
 put a lasting caveat in the status line — load progress overwrites it and it never reaches anyone.</p>
-<p><strong>Map chrome.</strong> One inline-SVG control cluster, top-right, 32 px buttons on <code>currentColor</code> — <strong>zoom in ·
-zoom out · fit · layers · basemap · legend</strong>. MapLibre's own zoom control suppressed so there is exactly
-one set. Drawers (layers · basemap) open <strong>beside</strong> the cluster, never over it, and <strong>one at a time</strong>.
-Layer rows are checkboxes; <strong>basemap rows are radios</strong> carrying a live tile of the current area in that
-style, and the tick names the <strong>effective</strong> basemap even when the theme is choosing it. Legend
-bottom-left as its own control surface with live counts; coordinate/zoom/CRS readout bottom-right. Layers
-and basemap belong <strong>on the map</strong> — a reader looking at the map should not travel to a page header to
-change what it shows. On the React path this is <code>MapChrome</code>, on by default.</p>
+<p><strong>Map chrome — the standard map controls (<code>@strata/map-controls</code>).</strong> One cluster, top-right — <strong>zoom in ·
+zoom out · home | layers · basemap · legend · full screen</strong> — and the one exception to "defaults, not
+laws": it is <strong>fixed</strong> in every app (no reorder, no move, no removal), so a reader never relearns the map.
+One drawer opens <strong>beside</strong> the cluster, never over it: a Map Viewer-style layer list (eye, inline legend,
+drag, a "…" with Zoom to layer · Layer information · Move up/down · Transparency · Reset) or the basemap
+gallery (Follow the theme, Recommended, More basemaps), whose tick names the <strong>effective</strong> basemap even
+when the theme is choosing it. <strong>Optional tools — search · locate · measure · draw · print — are off by
+default</strong>; turn on only what the app's job needs, via <code>mapControls.tools</code>. Legend as its own control
+surface with live counts; coordinate/zoom/CRS readout opposite it. Layers and basemap belong <strong>on the
+map</strong> — a reader looking at the map should not travel to a page header to change what it shows. React
+mounts it on every <code>&lt;StrataMap&gt;</code>; the house pattern vendors the package and mounts it. Details:
+<a href="guide-map-controls.html"><code>map-controls.md</code></a>.</p>
 <p><strong>The legend filters; it does not fade.</strong> Click a class to hide it, shift-click to isolate, <code>Esc</code> clears
 — applied as a real <code>definitionExpression</code>, because a faded class is still clickable and a "hidden"
 feature can be selected through it. Every count keeps its denominator, and the panel says in words that
@@ -145,7 +151,7 @@ isolating changes the map, not the reading.</p>
 facing the content — draggable and arrow-key operable — bounded by a floor at which the panel is still
 readable. The authored width is where it <em>opens</em>, not where it must stay: the same rail is generous on a
 laptop, truncated on a projector, and eats the map on a tablet, and only the reader knows which they have.</p>
-<p><strong>Keyboard.</strong> <code>L</code> layers · <code>B</code> basemap · <code>G</code> legend · <code>F</code> fit · <code>←</code>/<code>→</code> step the signature dimension ·
+<p><strong>Keyboard.</strong> <code>L</code> layers · <code>B</code> basemap · <code>G</code> legend · <code>F</code> home · <code>←</code>/<code>→</code> step the signature dimension ·
 <code>Esc</code> unwinds <strong>one thing at a time</strong> (clear the filter first, only then climb a level). A focused resize
 grip takes <code>←</code>/<code>→</code> (or <code>↑</code>/<code>↓</code>) to size the panel, <code>Shift</code> for a bigger step.</p>
 <p><strong>Interaction floor.</strong> ≥3 live <code>connections</code> on first render. The signature loop works end-to-end and
@@ -212,7 +218,7 @@ defaults; they are the contract.</p>
 <h3 id="named-archetypes-and-their-signature-loops">Named archetypes and their signature loops</h3>
 <p>A silhouette is a shape; an archetype is a shape <strong>plus the one interaction that justifies it</strong>. Pick the
 loop first — it is what a client recognises in ten seconds — then the shape follows. Templates marked with
-a file are already serialized in <a href="..\..\templates\README.md"><code>templates/</code></a>; the rest you compose.</p>
+a file are already serialized in <a href="../../templates/README.md"><code>templates/</code></a>; the rest you compose.</p>
 <table>
 <thead>
 <tr>
@@ -407,9 +413,11 @@ power is the wiring matrix, not the vocabulary. Rules:</p>
 <li>Differentiate sibling apps with the <em>secondary levers</em>: dark vs light, header vs headerless, floating
   rounded cards vs flush docked panels, boxed vs full-bleed map — not by inventing new component styles.</li>
 <li>Numbers use tabular numerals; KPIs get big and few (3–5, not 9).</li>
-<li>Basemaps are the keyless open set — <strong>vector first</strong>: OpenFreeMap Positron/Dark/Liberty · Versatiles
-  Colorful/Eclipse · CARTO GL, then raster OSM · OpenTopoMap. Never default to a
-  keyed provider.</li>
+<li>Basemaps come from the one keyless catalog (<code>@strata/map-controls</code>): default <strong>OpenStreetMap
+  (<code>osm</code>)</strong>, theme pair <code>osm</code> / <code>osm-dark</code>, up to 3 app-specific extras in Recommended
+  (<code>mapControls.basemap.recommendedExtras</code>). Read each basemap's licence tag before a business app
+  ships — Esri and CARTO are <code>non-commercial</code>. Never default to a keyed provider.
+  <a href="guide-map-controls.html"><code>map-controls.md</code></a>.</li>
 </ul>
 <h2 id="6-complexity-tiers">6 · Complexity tiers</h2>
 <p>Match ambition to need — an app should be as simple as its sentence allows:</p>
@@ -458,8 +466,9 @@ power is the wiring matrix, not the vocabulary. Rules:</p>
 <li>[ ] <code>responsive.small</code> collapses every side-by-side row; tested at phone width.</li>
 <li>[ ] Every panel resizes, from the pointer <strong>and</strong> the keyboard, within a floor that keeps it readable;
       each <code>resizable:false</code> has its reason in the recipe.</li>
-<li>[ ] One control cluster on the map (zoom · fit · layers · basemap · legend), one drawer at a time, and
-      MapLibre's own zoom suppressed. The basemap drawer ticks the basemap actually in force.</li>
+<li>[ ] The standard map controls on the map (zoom · home | layers · basemap · legend · full screen), one
+      drawer at a time, only the tools the app needs turned on. The basemap gallery ticks the basemap
+      actually in force.</li>
 <li>[ ] The legend filters rather than fades, isolates on shift-click, clears on <code>Esc</code>, and keeps every
       denominator.</li>
 <li>[ ] A table row adopts its record (fly + popup) and <strong>releases it on a second click</strong> — nothing is left
@@ -479,7 +488,7 @@ power is the wiring matrix, not the vocabulary. Rules:</p>
       screen (<code>+N more</code>, <code>Capped, not complete</code>).</li>
 </ul>
 <p><em>Building the app, rather than designing it, has its own gate — the data-honesty, suite and runtime
-checks in <a href="..\guide\building-apps.md"><code>building-apps.md</code></a> §7, which starts from this checklist.</em></p>
+checks in <a href="guide-building-apps.html"><code>building-apps.md</code></a> §7, which starts from this checklist.</em></p>
 <h2 id="8-harvest-what-works">8 · Harvest what works</h2>
 <p>A good layout is an asset. When an open-design app earns reuse, serialize it, add a <code>strata:template</code>
 metadata block, and drop it into <code>strata/templates/</code> — the galleries pick it up automatically and the

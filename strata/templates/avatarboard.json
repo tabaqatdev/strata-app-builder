@@ -36,10 +36,8 @@
                       "dc-affordable-housing",
                       "dc-wards"
                     ],
-                    "controls": {
-                      "navigation": true,
-                      "scale": true,
-                      "position": "top-right"
+                    "mapControls": {
+                      "scale": true
                     }
                   }
                 }

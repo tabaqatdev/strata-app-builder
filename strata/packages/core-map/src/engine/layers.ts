@@ -440,8 +440,8 @@ export class LayerRegistry {
   }
 }
 
-/** The namespaced sub-layer kinds a logical layer is split into. */
-const SUBLAYER_KINDS = [
+/** The namespaced sub-layer kinds a logical layer is split into (`lyr:{id}:{kind}`). */
+export const SUBLAYER_KINDS = [
   "fill",
   "outline",
   "line",

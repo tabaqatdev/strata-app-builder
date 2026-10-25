@@ -9,6 +9,7 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { validateAppLayout } from "../src/mapControls.js";
 
 const templatesDir = fileURLToPath(new URL("../../../templates/", import.meta.url));
 const files = readdirSync(templatesDir).filter((f) => f.endsWith(".json"));
@@ -147,6 +148,12 @@ describe("strata/templates", () => {
         }
       });
 
+      it("authors map controls as mapControls — validateAppLayout: no errors, no deprecation warnings", () => {
+        const r = validateAppLayout(app);
+        expect(r.errors).toEqual([]);
+        expect(r.warnings).toEqual([]);
+      });
+
       it("is interactive (≥1 connection) unless tiered trivial", () => {
         const n = (app.connections ?? []).length;
         if (meta.tier === "trivial") expect(n).toBeGreaterThanOrEqual(1);
@@ -154,4 +161,10 @@ describe("strata/templates", () => {
       });
     });
   }
+
+  it("recipes/showcase/app.json authors map controls as mapControls (no legacy flags)", () => {
+    const r = validateAppLayout(read("../../../../recipes/showcase/app.json"));
+    expect(r.errors).toEqual([]);
+    expect(r.warnings).toEqual([]);
+  });
 });

@@ -34,10 +34,8 @@
                   "md-hospitals",
                   "md-fire-stations"
                 ],
-                "controls": {
-                  "navigation": true,
-                  "scale": true,
-                  "position": "top-right"
+                "mapControls": {
+                  "scale": true
                 }
               }
             }

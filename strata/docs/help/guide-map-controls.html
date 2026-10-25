@@ -1,0 +1,378 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Map controls · strata-app-builder help</title><style>
+:root{--navy:#0c2b38;--navy2:#123c4d;--teal:#1ba7a6;--teal600:#178f8e;--teal50:#e9f7f7;
+--ink:#12303c;--slate:#5b6b76;--slate400:#94a3b8;--line:#e4ebee;--panel:#f6f9fa;--white:#fff;
+--code-bg:#f4f7f8;--font:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+--mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--white);line-height:1.6}
+a{color:var(--teal600);text-decoration:none}
+a:hover{text-decoration:underline}
+/* top bar */
+.top{position:sticky;top:0;z-index:20;height:58px;display:flex;align-items:center;gap:14px;
+padding:0 20px;background:var(--navy);color:#fff}
+.top .mk{width:26px;height:26px}
+.top .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.01em}
+.top .brand b{color:#fff}.top .brand span{color:var(--teal);font-weight:700}
+.top .brand small{color:#9fc7cd;font-weight:600;margin-left:6px;font-size:.8rem;letter-spacing:.04em}
+.top .spacer{flex:1}
+.top .home{color:#cfe6e6;font-size:.9rem}
+.filter{display:flex;align-items:center}
+.filter input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;
+border-radius:8px;padding:.4rem .7rem;font-size:.85rem;width:190px;outline:none}
+.filter input::placeholder{color:#9fc7cd}
+/* layout */
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1200px;margin:0 auto}
+nav.side{border-right:1px solid var(--line);padding:22px 14px 60px;height:calc(100vh - 58px);
+position:sticky;top:58px;overflow:auto}
+nav.side .grp{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+color:var(--slate400);margin:18px 10px 6px}
+nav.side a{display:block;padding:.4rem .7rem;border-radius:8px;color:var(--ink);font-size:.92rem;font-weight:500}
+nav.side a:hover{background:var(--panel);text-decoration:none}
+nav.side a.active{background:var(--teal50);color:var(--teal600);font-weight:700}
+/* content */
+main{padding:34px 44px 80px;min-width:0;max-width:860px}
+main .crumb{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal600);font-weight:800}
+main h1{font-size:2.15rem;line-height:1.15;color:var(--navy);letter-spacing:-.02em;margin:.2rem 0 .2rem}
+main .lede{color:var(--slate);font-size:1.05rem;margin:0 0 1.4rem}
+main h2{font-size:1.5rem;color:var(--navy);margin:2rem 0 .6rem;padding-top:.4rem;border-top:1px solid var(--line)}
+main h3{font-size:1.16rem;color:var(--navy2);margin:1.4rem 0 .4rem}
+main h4{font-size:1rem;color:var(--navy2);margin:1.1rem 0 .3rem}
+main p,main li{color:#243b45}
+main code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);color:#0a3a44;
+padding:.12em .38em;border-radius:5px}
+main pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+overflow:auto}
+main pre code{background:none;padding:0;color:#123}
+main table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem;display:block;overflow:auto}
+main th,main td{border:1px solid var(--line);padding:.5rem .7rem;text-align:left;vertical-align:top}
+main thead th{background:var(--panel);color:var(--navy);font-size:.82rem;letter-spacing:.02em}
+main blockquote{margin:1.1rem 0;padding:.7rem 1rem;background:var(--teal50);border-radius:0 10px 10px 0;
+border-left:4px solid var(--teal);color:#134}
+main blockquote p{margin:.3rem 0}
+main hr{border:none;border-top:1px solid var(--line);margin:2rem 0}
+main ul,main ol{padding-left:1.3rem}main li{margin:.25rem 0}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:3rem;border-top:1px solid var(--line);padding-top:1.2rem}
+.pager a{flex:1;padding:.8rem 1rem;border:1px solid var(--line);border-radius:12px;font-weight:600}
+.pager a:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.pager a.next{text-align:right}
+.pager small{display:block;color:var(--slate400);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+footer{border-top:1px solid var(--line);color:var(--slate400);font-size:.8rem;padding:22px 44px;max-width:860px}
+/* landing */
+.hero{background:linear-gradient(135deg,var(--navy),#164a5c);color:#fff;border-radius:18px;padding:40px 40px}
+.hero h1{color:#fff;font-size:2.4rem;margin:.4rem 0 .5rem;letter-spacing:-.02em}
+.hero p{color:#cfe6e6;font-size:1.1rem;max-width:44ch;margin:0}
+.hero .mk{width:34px;height:34px;vertical-align:middle}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:block;color:inherit}
+.card:hover{border-color:var(--teal);background:var(--teal50);text-decoration:none}
+.card b{color:var(--navy);font-size:1.02rem}
+.card p{color:var(--slate);font-size:.9rem;margin:.3rem 0 0}
+.sec-h{font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal600);margin:26px 0 4px}
+.menu-btn{display:none}
+@media(max-width:860px){
+ .wrap{grid-template-columns:1fr}
+ nav.side{position:fixed;left:0;top:58px;bottom:0;width:280px;background:#fff;transform:translateX(-100%);
+ transition:.2s;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+ nav.side.open{transform:none}
+ .menu-btn{display:inline-flex}.filter{display:none}
+ main{padding:24px 20px 60px}.cards{grid-template-columns:1fr}.hero{padding:28px 22px}
+}
+</style></head><body><header class="top"><button class="menu-btn" onclick="document.getElementById('side').classList.toggle('open')" aria-label="Menu" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer">☰</button><a class="brand" href="index.html"><svg class="mk" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="6" y="7" width="20" height="4.2" rx="2.1" fill="#0c2b38"/><rect x="4" y="14" width="24" height="4.2" rx="2.1" fill="#1ba7a6"/><rect x="8" y="21" width="16" height="4.2" rx="2.1" fill="#5cc7c5"/></svg><b>tabaqat</b><span>· Strata</span><small>HELP &amp; DOCS</small></a><div class="spacer"></div><div class="filter"><input id="q" type="search" placeholder="Filter topics…" oninput="filterNav(this.value)"></div><a class="home" href="index.html">Home</a></header><div class="wrap"><nav class="side" id="side">
+<div class="grp">Start here</div>
+<a class="nav-link" data-title="overview" href="README.html">Overview</a>
+<a class="nav-link" data-title="getting started" href="getting-started.html">Getting started</a>
+<a class="nav-link" data-title="faq" href="faq.html">FAQ</a>
+<div class="grp">Guide</div>
+<a class="nav-link" data-title="repository anatomy" href="guide-anatomy.html">Repository anatomy</a>
+<a class="nav-link" data-title="sample map templates" href="guide-map-templates.html">Sample map templates</a>
+<a class="nav-link" data-title="the style compiler" href="guide-style-compiler.html">The style compiler</a>
+<a class="nav-link" data-title="creating components" href="guide-creating-components.html">Creating components</a>
+<a class="nav-link" data-title="application design" href="guide-app-design.html">Application design</a>
+<a class="nav-link" data-title="building an app" href="guide-building-apps.html">Building an app</a>
+<a class="nav-link active" data-title="map controls" href="guide-map-controls.html">Map controls</a>
+<a class="nav-link" data-title="writes &amp; editing" href="guide-writes-and-editing.html">Writes &amp; editing</a>
+<div class="grp">How-to</div>
+<a class="nav-link" data-title="create an app layout" href="how-to-create-app-layouts.html">Create an app layout</a>
+<a class="nav-link" data-title="symbology" href="how-to-symbology.html">Symbology</a>
+<a class="nav-link" data-title="find &amp; verify data" href="how-to-find-and-verify-data.html">Find &amp; verify data</a>
+<a class="nav-link" data-title="publish data" href="how-to-publish-data.html">Publish data</a>
+<a class="nav-link" data-title="export maps" href="how-to-export-maps.html">Export maps</a>
+<a class="nav-link" data-title="cors &amp; proxy" href="how-to-cors-and-proxy.html">CORS &amp; proxy</a>
+<a class="nav-link" data-title="using recipes" href="how-to-using-recipes.html">Using recipes</a>
+<div class="grp">Reference</div>
+<a class="nav-link" data-title="components &amp; widgets" href="reference-components.html">Components &amp; widgets</a>
+<a class="nav-link" data-title="human language reference" href="reference-human-language.html">Human Language Reference</a>
+<a class="nav-link" data-title="command reference" href="reference-commands.html">Command reference</a>
+<a class="nav-link" data-title="troubleshooting" href="troubleshooting.html">Troubleshooting</a>
+</nav><main><div class="crumb">Guide</div><h1>Map controls</h1><p class="lede">The standard cluster, the layer list, the basemap gallery, optional tools and basemap licences.</p><p>Every Strata map carries the same controls, in the same place, with the same behaviour — in a React
+<code>&lt;StrataApp&gt;</code> and in a vanilla app alike. They come from one framework-free package,
+<strong><code>@strata/map-controls</code></strong>; <code>@strata/core-map</code>'s <code>MapChrome</code> is a thin, store-driven wrapper over it.
+This page is the user-facing view: what a reader sees, what an app may configure, and the rules around
+basemaps. The full API — every option, return member and the <code>LayerDescriptor</code> contract — is the
+package README, <a href="../../packages/map-controls/README.md"><code>strata/packages/map-controls/README.md</code></a>.</p>
+<h2 id="what-a-reader-sees">What a reader sees</h2>
+<p><strong>One cluster, top-right, always:</strong></p>
+<pre><code>zoom in · zoom out · home  |  layers · basemap · legend · full screen
+</code></pre>
+<p>It cannot be reordered, moved or removed — a map that looks the same in every app is a map nobody has to
+learn twice. One <strong>drawer</strong> opens beside the cluster (never over it, one at a time) holding either the
+layer list or the basemap gallery. Keyboard: <code>L</code> layers · <code>B</code> basemap · <code>G</code> legend · <code>F</code> home · <code>Esc</code>
+closes (in a fixed order — below). Icons are Lucide (ISC licence); Esri's Calcite icons are
+Esri-licensed and are not redistributed.</p>
+<p><strong>Esc closes one thing at a time, topmost first (1.0.2; refined in 1.0.3).</strong> One press closes, in this
+order: the app's own popup, card or modal if it registered one (<code>closePopup</code>) → the map's popups (on the
+next press, if the first closed the app's) → the active <strong>tool</strong> → the <strong>drawer</strong> → then whatever the
+app adds after that (a filter sheet, a selection). The press that exits browser full screen does nothing
+else — a short, <strong>time-based</strong> guard (<code>escapeGuardMs</code>, 300 ms) swallows any Esc in that window. An app
+with Esc steps of its own calls <code>controls.escape()</code> first and runs its steps only when that returns
+<code>false</code>; an app modal that must outrank the chrome is checked <strong>before</strong> <code>controls.escape()</code> (or
+registered as <code>closePopup</code> — a MapLibre popup may be registered there too).</p>
+<p><strong>Popups sit above the drawer (1.0.3).</strong> A map popup is never hidden under an open drawer: it stacks at
+<code>--smc-popup-z</code> (default 42), the cluster and the drawer grip one above it (43), so the controls stay
+usable. In a vanilla app the popup card is themed to match the controls in light and dark
+(<code>popupStyles</code>, on by default; an app's own popup CSS still wins). The stacking order, bottom → top:
+map &lt; app overlays (&lt; 40) &lt; drawer 40 &lt; toast 41 &lt; popup 42 &lt; cluster + grip 43 &lt; <strong>app modals ≥ 50</strong>.</p>
+<p><strong>The drawer is resizable (1.0.2).</strong> Like every Strata panel, the drawer has an edge grip on its outer
+edge: drag it, or focus it and use ← / → (Shift for bigger steps, Home / End for the limits). The width
+an app authors is where the drawer <strong>opens</strong>; the dragged width lasts for the session and is never saved
+into the spec. Default limits 260–520 px; an app may lock it (<code>resizable: false</code>) only with a reason.
+The grip announces the <strong>real</strong> limit (never wider than the map allows, 1.0.3), and ↑ / ↓ on it do
+nothing (they no longer leak into the app's own key handling).</p>
+<p><strong>Right-to-left pages (1.0.2).</strong> On a <code>dir="rtl"</code> page the chrome mirrors itself: the cluster sits
+top-<strong>left</strong>, the drawer opens to its right with the grip on the right edge, and chevrons point left.</p>
+<p><strong>It stays on top and off the credits (1.0.2).</strong> The cluster and drawer stack above typical app overlays
+(<code>--smc-z</code>, default 40), the drawer stops short of the bottom so it never covers the map attribution
+(<code>--smc-drawer-bottom</code>, default 44px), and an app's own global <code>button</code> styles no longer leak into it.</p>
+<p><strong>The layer list</strong> (Map Viewer style). Each row has an <strong>eye</strong> (visibility), a <strong>legend chevron</strong> (the
+layer's own classes inline), a drag handle (order), and a <strong>"…"</strong> that opens inline actions:</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Zoom to layer</strong></td>
+<td>Fits the map to the layer (disabled when the app gives the layer no zoom target).</td>
+</tr>
+<tr>
+<td><strong>Layer information</strong></td>
+<td>A plain-language <strong>About</strong> (what it is, who publishes it, how current, coverage) and <strong>Technical details</strong> read live from the service's own <code>?f=json</code> — fields, spatial reference, the object-id field <em>as the service declares it</em>, the active filter.</td>
+</tr>
+<tr>
+<td><strong>Move up / Move down</strong></td>
+<td>Keyboard-reachable reorder.</td>
+</tr>
+<tr>
+<td><strong>Show / Hide legend</strong></td>
+<td>The inline legend for that row.</td>
+</tr>
+<tr>
+<td><strong>Transparency</strong></td>
+<td>A slider; it multiplies the authored opacity, so a layer only ever gets fainter. The authored opacity may be a number or an expression (data-driven, or zoom-interpolated — 1.0.2); at 0 % the authored value is restored exactly.</td>
+</tr>
+<tr>
+<td><strong>Reset</strong></td>
+<td>Restores the authored transparency and order.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The basemap gallery.</strong> A <strong>Follow the theme</strong> switch (on by default), a <strong>Recommended</strong> section — the
+universal 8 plus up to 3 per-app extras, plus both halves of the app's theme pair when one is not among
+them (1.0.3: a <code>vt-gray</code> / <code>vt-gray-dark</code> app sees both) — and a collapsible <strong>More basemaps</strong> grouped by provider
+(OpenStreetMap · Esri · USGS · CARTO). Every card has a thumbnail and an info tooltip with a plain
+description; the card in force is always ticked, even while the theme is choosing.</p>
+<p><strong>The legend</strong> — on <code>&lt;StrataMap&gt;</code> it sits bottom-right, open by default, and the cluster's legend button
+(<code>G</code>) hides it. It is the interactive legend described in
+<a href="reference-components.html">Components &amp; widgets</a>. (A vanilla app wires the button to its own legend
+through <code>onToggleLegend</code>.)</p>
+<h2 id="optional-tools-all-off-by-default">Optional tools — all OFF by default</h2>
+<p><code>search</code> · <code>locate</code> · <code>measure</code> · <code>draw</code> · <code>print</code>. An app that enables none gets no tool buttons, no
+listeners, no map sources and no network calls. Turn on only what the app's job needs; they form a second
+cluster group, always in that order. While Measure or Draw is open it owns map clicks (identify pauses),
+and every tool reverts to <em>identify</em> when it closes. The default geocoder is keyless Photon
+(OpenStreetMap data).</p>
+<h2 id="optional-scale-bar-off-by-default">Optional scale bar — OFF by default</h2>
+<p>A <strong>scale bar</strong> is available on any map, fixed <strong>bottom-left</strong>, but no map gets one unless its app asks:
+enable it only when readers need to judge distances off the map (field maps, site plans, survey and
+planning views). Units: <code>metric</code> (the default, and what <code>true</code> means), <code>imperial</code>, or <code>both</code> (two stacked
+bars). It is plain DOM (<code>.smc-scale</code>), follows the theme, and updates as the map zooms and pans.</p>
+<h2 id="configuring-it-mapcontrols">Configuring it — <code>mapControls</code></h2>
+<p>An app configures the controls on its map widget as <strong><code>props.mapControls</code></strong> (<code>MapControlsConfig</code> in
+<code>@strata/schema</code>, validated by <code>validateMapControls</code> / <code>validateAppLayout</code>). Four keys, nothing else:</p>
+<pre><code class="language-json">{ &quot;type&quot;: &quot;map&quot;, &quot;props&quot;: { &quot;mapControls&quot;: {
+  &quot;tools&quot;:   { &quot;search&quot;: true, &quot;measure&quot;: { &quot;units&quot;: &quot;imperial&quot; } },
+  &quot;basemap&quot;: { &quot;initial&quot;: &quot;osm&quot;, &quot;recommendedExtras&quot;: [&quot;esri-imagery&quot;],
+               &quot;theme&quot;: { &quot;follow&quot;: true, &quot;light&quot;: &quot;osm&quot;, &quot;dark&quot;: &quot;osm-dark&quot; } },
+  &quot;scale&quot;:   { &quot;units&quot;: &quot;both&quot; },
+  &quot;title&quot;:   &quot;Parcel Viewer&quot;
+} } }
+</code></pre>
+<ul>
+<li><code>tools</code> — opt in per tool (<code>true</code> or an options object). Unknown keys are rejected.</li>
+<li><code>basemap.initial</code> — the basemap on first load (else the <code>layers.json</code> basemap, else the theme's).
+  <code>basemap.recommendedExtras</code> — at most 3 ids added to Recommended. <code>basemap.theme</code> — the light/dark pair
+  for this map; it overrides the app-level <code>theme.basemap</code>.</li>
+<li><code>scale</code> — the optional scale bar: <code>true</code> (metric) or <code>{ "units": "metric" | "imperial" | "both" }</code>.
+  Default <code>false</code>.</li>
+<li><code>title</code> — the print title.</li>
+</ul>
+<p>Exact keys and precedence: <a href="../../../recipes/COMPONENT-MANIFEST.md"><code>recipes/COMPONENT-MANIFEST.md</code></a> §3b
+and §6c.</p>
+<p><strong>The legacy <code>controls</code> flags still work but are deprecated</strong> (<code>legacyControlsToMapControls</code>): <code>navigation</code>,
+<code>basemapSwitcher</code>, <code>layerList</code>, <code>legend</code>, <code>fullscreen</code> are always on (ignored) · <code>measure</code> → <code>tools.measure</code>
+· <code>sketch</code> → <code>tools.draw</code> · <code>geolocate</code> → <code>tools.locate</code> · <code>scale: true</code> → <code>mapControls.scale: true</code> (metric,
+bottom-left) · <code>cluster</code> / <code>position</code> are ignored. When both are present, <code>mapControls</code>
+wins.</p>
+<h2 id="basemaps-one-catalog">Basemaps — one catalog</h2>
+<p>The catalog (<code>@strata/map-controls/basemaps</code>, DOM-free) holds <strong>33 keyless basemaps</strong> in four groups. The
+default is <strong>OpenStreetMap (<code>osm</code>)</strong>; the theme pair is <strong><code>osm</code> / <code>osm-dark</code></strong> (the same tiles, inverted
+for dark). The authored basemap wins on mount, an explicit pick outranks the theme, and a theme swap is
+never an undoable edit — see <a href="guide-app-design.html">Application design</a> for the theme rules.</p>
+<p><strong>Licences.</strong> Every entry carries <code>license</code> (<code>commercial-ok</code> | <code>non-commercial</code>), a one-sentence
+<code>licenseNote</code> and the provider's <code>licenseUrl</code>. Check the tag before shipping a business app:</p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Tag</th>
+<th>The catch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenStreetMap, OpenTopoMap, VersaTiles</td>
+<td>commercial-ok</td>
+<td>Credit + fair use; the public servers are volunteer-run and rate-limited — heavy traffic needs its own tile server.</td>
+</tr>
+<tr>
+<td>USGS The National Map</td>
+<td>commercial-ok</td>
+<td>Public domain; crediting USGS is requested.</td>
+</tr>
+<tr>
+<td>Esri (public tiled MapServers)</td>
+<td>non-commercial</td>
+<td>Free only for public, non-commercial apps that credit Esri.</td>
+</tr>
+<tr>
+<td>CARTO (GL styles only)</td>
+<td>non-commercial</td>
+<td>CARTO's terms require an API key for licensed use — so CARTO lives in <em>More</em>, never in Recommended, and no legacy id aliases to it.</td>
+</tr>
+<tr>
+<td>OSM France (HOT, CyclOSM)</td>
+<td>non-commercial</td>
+<td>Community servers; a business app needs permission.</td>
+</tr>
+</tbody>
+</table>
+<p>OpenFreeMap is <strong>not</strong> offered and is on the deny-list. Never add a keyed or proprietary provider as a
+default; offer one only when a user asks.</p>
+<p><strong>The pair for faint shading — <code>vt-gray</code> / <code>vt-gray-dark</code>.</strong> When an app's content is faint — a
+choropleth, low-alpha (~40/255) fills, thin outlines — OpenStreetMap's colourful ground competes with it.
+Set the theme pair to the quiet VersaTiles grays: <code>basemap.theme: { "light": "vt-gray", "dark":
+"vt-gray-dark" }</code> in <code>mapControls</code> (or <code>themeBasemaps: { light: "vt-gray", dark: "vt-gray-dark" }</code> in a
+vanilla app). Both are keyless, <code>commercial-ok</code>, and paired with each other, so Follow the theme swaps
+them on a mode change; they are GL styles with their own fonts, so labels draw as usual. This is the
+recommended pair for faint-shading apps.</p>
+<p><strong>Retired ids keep working.</strong> <code>BASEMAP_ALIASES</code> maps every retired or legacy id to its survivor —
+<code>openfreemap-*</code> / <code>ofm-*</code> → <code>vt-gray</code> / <code>osm-dark</code> / <code>osm</code>, <code>versatiles-*</code> → <code>vt-colorful*</code>,
+<code>carto-*-gl</code> → the VersaTiles styles, <code>opentopo</code> → <code>opentopomap</code>. A saved <code>layers.json</code> or
+<code>theme.basemap</code> that names one still renders. <code>"none"</code> means a blank ground.</p>
+<p><strong>Keyless is asserted as a behaviour</strong> — offline host/deny-list guards in <code>pnpm test</code>, and a live two-tile
+check (<code>pnpm --filter @strata/map-controls verify:basemaps</code>) that CI runs weekly
+(<code>.github/workflows/basemaps-keyless.yml</code>). Why a URL check is not enough:
+<a href="troubleshooting.html">Troubleshooting</a> §5.</p>
+<p><strong>A tile proxy or self-hosted mirror</strong> is one hook: <code>setUrlRewrite({ "tile.openstreetmap.org":
+"https://tiles.example.com/osm" })</code> (or a function). Every URL the gallery loads goes through it; give
+the map <code>transformRequest: basemapTransformRequest(catalog)</code> so it also reaches a GL style's tiles,
+glyphs and sprite.</p>
+<p><strong>Labels draw on every basemap (1.0.1).</strong> A raster style has no fonts of its own, so before 1.0.1 an
+app's <code>text-field</code> layers silently drew nothing on <code>osm</code>, Esri or USGS. Every raster (and <code>"none"</code>)
+style the package builds now carries <code>glyphs: DEFAULT_GLYPHS</code> — the keyless VersaTiles endpoint the
+VersaTiles GL styles already use; a GL basemap keeps its own. Give label layers
+<code>"text-font": DEFAULT_TEXT_FONT</code> (<code>["noto_sans_regular"]</code>, or <code>DEFAULT_TEXT_FONT_BOLD</code>): the endpoint
+serves one font per request, and MapLibre's default Open Sans stack 404s. An app with its own font server
+passes <code>mountMapControls({ glyphs })</code>. Delete any app-side <code>map.setGlyphs()</code> workaround —
+<a href="troubleshooting.html">Troubleshooting</a> §7.</p>
+<p><strong>A basemap change is a full style swap (1.0.2).</strong> The package calls <code>setStyle(style, { diff: false })</code>:
+MapLibre's default diff could keep the previous style's font URL across a GL → GL swap (labels 404'd)
+and sometimes skipped <code>style.load</code>. Remove any app wrapper that forced this —
+<a href="troubleshooting.html">Troubleshooting</a> §7.</p>
+<h2 id="theming">Theming</h2>
+<p>Everything is scoped under <code>.smc</code>. Colours are <code>--smc-*</code> custom properties that fall back to the house
+tokens of the same role (<code>--bg</code>, <code>--panel</code>, <code>--fg</code>, <code>--muted</code>, <code>--border</code>, <code>--accent</code>, <code>--shadow</code>,
+<code>--motion</code>), so an app themed with the house tokens needs nothing extra. To map your own:</p>
+<pre><code class="language-css">.smc { --smc-bg: var(--my-surface); --smc-accent: var(--my-brand); }
+</code></pre>
+<p>Layout tokens, settable on <code>.smc</code> or any ancestor: <strong><code>--smc-z</code></strong> (default <code>40</code>, 1.0.2) — the
+drawer's stacking order, above legends and status chips, below modals; <strong><code>--smc-popup-z</code></strong> (default
+<code>--smc-z + 2</code>, 1.0.3) — map popups, with the cluster and grip one above; and
+<strong><code>--smc-drawer-bottom</code></strong> (default <code>44px</code>) — the room kept under the drawer for the attribution and any
+bottom-corner controls. Raise the second if the app has a taller bottom bar; the browser conformance
+fails when the attribution is covered.</p>
+<p><strong>Scrollers over the map paint an image fill (1.0.4).</strong> The drawer and the themed popup card fill with a
+one-colour gradient of their token — <code>linear-gradient(var(--smc-panel),var(--smc-panel))</code> — instead of a
+plain colour. It looks identical; it stops Chrome's software compositor (GPU off, RDP, VMs, headless
+<code>--disable-gpu</code>) from punching a blank box through the map, which it does for an opaque solid-colour
+scroller over the canvas. Restyle those two through the tokens (<code>--smc-panel</code>, <code>--smc-popup-bg</code>) or the
+<code>background</code> shorthand — a <code>background-color</code>-only override paints <em>under</em> the gradient and does not
+show. Give the app's <strong>own</strong> scrollers over the map (legend, floating card, a popup capped with
+<code>max-height</code> + <code>overflow:auto</code>) the same <code>linear-gradient(C, C)</code> fill. Symptom, cause and how to detect
+it: <a href="troubleshooting.html">Troubleshooting §7</a>.</p>
+<h2 id="vanilla-apps-vendor-the-package">Vanilla apps — vendor the package</h2>
+<p>A no-build app <strong>mounts</strong> the package instead of hand-writing chrome: build it, copy <code>dist/</code> to
+<code>&lt;app&gt;/map-controls/</code>, import <code>./map-controls/map-controls.js</code> and <code>./map-controls/basemaps.js</code>, and call
+<code>mountMapControls</code> (pass <code>scale: true</code> or <code>scale: { units }</code> for the optional scale bar). Copied to that path the gallery thumbnails already resolve; anywhere else, call
+<code>setThumbBase()</code> once. The app hands the module one <code>LayerDescriptor</code> per layer — how in
+<a href="guide-building-apps.html">Building an app</a> and the package README.</p>
+<p><strong>Overlays stay on top — <code>topLayers</code>.</strong> The layer list re-stacks every layer it lists on top of the map,
+so anything the app draws but does not list — a selection highlight, a sketch in progress, labels, a
+halo — would sink beneath the data. Name those MapLibre layer ids (bottom → top) in the <code>topLayers</code>
+option (<code>string[]</code> or a function re-read each time) and the package keeps them above every listed layer
+after every reorder and every basemap change. It only moves them when they are actually out of order, so
+it never sets off a redraw loop; the package's own measure / draw / locate / search graphics stay above
+even these. In React, <code>MapChrome</code> takes the same <code>topLayers</code> prop. Details: the package README.</p>
+<p><strong>Popups and Esc — <code>closePopup</code> (1.0.2).</strong> MapLibre popups are closed by the package's Esc on its own.
+If the app shows its own HTML popup or card, register it: <code>closePopup: () =&gt; { if (card.hidden) return
+false; card.hidden = true; return true; }</code>. Then one Esc chain serves the whole app:
+<code>if (controls.escape()) return;</code> followed by the app's own steps (mount with <code>keyboard: false</code> and route
+keys through <code>controls.handleKey(e)</code> when the app has Esc steps of its own).</p>
+<p><strong>Two maps — <code>maps</code> (1.0.2).</strong> A side-by-side, inset or swipe layout passes its other map(s) as
+<code>maps: [secondMap]</code> (or <code>controls.setSecondaryMaps()</code> later). A basemap change then restyles every map
+(one <code>setStyle</code> each, <code>onRestyle(map)</code> called with the map that was restyled — re-add layers to that
+map), and the layer list's order, visibility and transparency reach every map.
+<code>onLayerStateChange({ order, opacity, visible })</code> reports each change made in the list. Drop any
+hand-rolled two-map mirroring.</p>
+<p><strong>Other 1.0.2 additions.</strong> <code>controls.getOpenDrawer()</code>, <code>controls.getTheme()</code> (<code>getMode()</code> is the <em>tool</em>
+mode), <code>controls.syncChrome()</code> to re-sync the Legend button after the app hides its legend itself (no
+<code>renderChrome()</code> rebuild), and <code>onFit(event)</code> — Home receives the click, so shift-click can fit a wider
+view. <code>runMapControlsConformance</code> now resets the chrome itself (drawers, <em>More basemaps</em>, popups) and
+checks the drawer grip and that the attribution is uncovered.</p>
+<p><strong>What 1.0.3 changes for a vanilla app.</strong></p>
+<ul>
+<li><em>Esc is one layer per press:</em> when <code>closePopup</code> closes something, that press stops — the MapLibre popup
+  closes on the next one. <code>controls.closePopups()</code> still closes everything at once. A popup opened with
+  <code>closeButton: false</code> should be closed through <code>closePopup</code> (the package can only remove its element).</li>
+<li><em>Popups:</em> themed and above the drawer with no app CSS; delete app dark-popup CSS and popup z-index
+  overrides. Modals go at z-index 50 or more.</li>
+<li><em>GL basemaps are asynchronous:</em> after a swap to a <code>vt-*</code> style, <code>map.getStyle()</code> and the sources you add
+  are not there until the style has loaded — wait for <code>styledata</code> / <code>style.load</code> (your <code>onRestyle</code> already
+  runs then). Headless Chrome can take more than 6 s to paint one; wait for <code>idle</code> before a screenshot.
+  If the style never loads, the package falls back once to <code>osm</code> / <code>osm-dark</code> (<code>basemapFallback</code>,
+  <code>basemapTimeoutMs</code>, <code>onBasemapFallback</code>) — delete app-side GL fallbacks.</li>
+<li><em>Host checks:</em> a GL basemap's tiles, fonts and sprite are fetched in MapLibre's worker, so they never
+  show in the page's network log — check <code>styleDelegateUrls(map.getStyle())</code> against <code>BASEMAP_HOSTS</code>,
+  which now covers every host the catalog's GL styles use. Delete app allow-list extensions.</li>
+<li><em>Drawer width:</em> <code>setDrawerWidth(px, "layers" | "base")</code> targets one drawer; without a drawer open and
+  without <code>which</code>, it presets the next one to open. <code>drawerWidth()</code> is 0 without layout (jsdom).</li>
+<li><em><code>refreshLayers()</code></em> re-renders only when the list changed — but call it when data changes, not on every
+  <code>styledata</code> / <code>idle</code>.</li>
+</ul>
+<hr />
+<p><em>Esri, ArcGIS and CARTO are used nominatively to identify their services; strata-app-builder is not
+affiliated with or endorsed by them.</em></p><div class="pager"><a class="prev" href="guide-building-apps.html"><small>Previous</small>Building an app</a><a class="next" href="guide-writes-and-editing.html"><small>Next</small>Writes &amp; editing</a></div><footer>Generated from the Markdown in <code>strata/docs/</code> — edit the Markdown and re-run <code>build_site.py</code>. Strata is an independent, unaffiliated interoperability product; ArcGIS®, Esri® are trademarks of Esri, used nominatively.</footer></main></div><script>function filterNav(v){v=v.toLowerCase();document.querySelectorAll('.nav-link').forEach(a=>{a.style.display=a.dataset.title.includes(v)?'block':'none'})}</script></body></html>

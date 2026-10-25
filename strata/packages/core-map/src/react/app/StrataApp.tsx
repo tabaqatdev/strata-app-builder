@@ -43,7 +43,13 @@ import {
 import { DataSourceManager, type DataSource } from "@strata/data-source";
 import { compileTheme, resolveThemeMode, type Theme } from "@strata/theme";
 import type { StrataStore } from "@strata/state";
-import { OPEN_BASEMAPS, baseMapFromPreset, basemapForThemeFrom } from "../../engine/basemaps.js";
+import {
+  OPEN_BASEMAPS,
+  baseMapFromPreset,
+  basemapForThemeFrom,
+  basemapPresetById,
+  baseMapCatalogId,
+} from "../../engine/basemaps.js";
 import { defaultWidgetRegistry, type WidgetComponent } from "./registry.js";
 import { StrataAppProvider, useStrataAppEnv, MapRegistry, type StrataAppEnv } from "./interactivity.js";
 import { registerAppDataSources } from "./dataSources.js";
@@ -251,8 +257,9 @@ export function StrataApp(props: StrataAppProps): React.ReactElement {
       maps,
       themeMode,
       setThemeMode: setSwitchedMode,
+      themeBasemap: themeSpec?.basemap,
     }),
-    [bus, outputs, dataSources, setHidden, hidden, pages, active?.id, selectPage, props.page, maps, themeMode],
+    [bus, outputs, dataSources, setHidden, hidden, pages, active?.id, selectPage, props.page, maps, themeMode, themeSpec?.basemap],
   );
 
   /**
@@ -280,10 +287,14 @@ export function StrataApp(props: StrataAppProps): React.ReactElement {
     const state = dsStore.getState();
     if (state.baseMapFollowsTheme === false) return;
     const wanted = themeMode === "dark" ? themeBasemap?.dark : themeBasemap?.light;
-    const preset =
-      (wanted ? OPEN_BASEMAPS.find((p) => p.id === wanted) : undefined) ??
-      basemapForThemeFrom(OPEN_BASEMAPS, themeMode);
+    // Ids resolve through the basemap catalog's aliases (a retired id still names its survivor).
+    const preset = (wanted ? basemapPresetById(wanted) : undefined) ?? basemapForThemeFrom(OPEN_BASEMAPS, themeMode);
     if (!preset) return;
+    // Already there — e.g. the map's own controls (which may carry a per-map pair) swapped it first
+    // in this same commit, or the basemap in force is already of this mode. Nothing to do.
+    const currentId = baseMapCatalogId(state.baseMap);
+    if (currentId === preset.id) return;
+    if (currentId && OPEN_BASEMAPS.find((p) => p.id === currentId)?.mode === themeMode) return;
     state.setBaseMap?.(baseMapFromPreset(preset), { transient: true });
   }, [themeMode, themeBasemap, dsStore]);
 
